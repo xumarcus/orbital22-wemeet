@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -33,6 +34,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -57,8 +59,9 @@ public class Main {
     }
 
     @RequestMapping("/api/hello")
-    String hello() {
-        return "hello";
+    @ResponseBody
+    Map<String, String> hello() {
+        return Collections.singletonMap("hello", "world");
     }
 
     @RequestMapping("/db")
