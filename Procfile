@@ -1,1 +1,1 @@
-web: java -jar target/orbital22-wemeet-1.0.jar
+web: java -jar target/orbital22-wemeet-0.1.jar
