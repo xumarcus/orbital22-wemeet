@@ -1,40 +1,32 @@
-# java-getting-started
+# orbital22-wemeet
 
-A barebones Java app, which can easily be deployed to Heroku.
+# Setup
 
-This application supports the [Getting Started with Java on Heroku](https://devcenter.heroku.com/articles/getting-started-with-java) article - check it out.
+- Clone [me](https://github.com/xumarcus/orbital22-wemeet)
+- View &rarr; Maven &rarr; Lifecycle &rarr; Install
+- `Main` Configuration:
+  - `com.orbital22.Main`
+  - Environmental variables: `JDBC_DATABASE_URL={copy-from-command-below}`
+  - TODO: Automate
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Running Locally
-
-Make sure you have Java and Maven installed.  Also, install the [Heroku CLI](https://cli.heroku.com/).
-
+## Database
+- [PostgresSQL 14](https://www.postgresql.org/download/)
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli)
+- Outgoing connection to port 5432 should be open (blocked by NUS, use VPN or external)
+- Heroku dyno should be up (Open app to confirm)
+- Register at Heroku and ping me to add you to team
 ```sh
-$ git clone https://github.com/heroku/java-getting-started.git
-$ cd java-getting-started
-$ mvn install
-$ heroku local:start
+heroku login
+heroku ps:psql
+heroku local env
 ```
+- Copy `JDBC_DATABASE_URL` above
+- Can connect through `heroku ps:psql` or `pgAdmin4` or Heroku Dataclip
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+## IDE
+- [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/) 
+- JDK 1.8
+- TODO: bump to the latest JDK
+- Settings &rarr; Editor &rarr; Code Style &rarr; Wrapping and braces &rarr; Chained method calls &rarr; Wrap always
 
-If you're going to use a database, ensure you have a local `.env` file that reads something like this:
-
-```
-JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/java_database_name
-```
-
-## Deploying to Heroku
-
-```sh
-$ heroku create
-$ git push heroku main
-$ heroku open
-```
-
-## Documentation
-
-For more information about using Java on Heroku, see these Dev Center articles:
-
-- [Java on Heroku](https://devcenter.heroku.com/categories/java)
+- Add `Main` Configuration
