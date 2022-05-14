@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -42,6 +43,7 @@ public class Main {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
+    @Lazy
     @Autowired
     private DataSource dataSource;
 
@@ -52,6 +54,11 @@ public class Main {
     @RequestMapping("/")
     String index() {
         return "index";
+    }
+
+    @RequestMapping("/api/hello")
+    String hello() {
+        return "hello";
     }
 
     @RequestMapping("/db")
