@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example;
+package com.orbital22;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -61,7 +61,7 @@ public class Main {
       stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
       ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
-      ArrayList<String> output = new ArrayList<String>();
+      ArrayList<String> output = new ArrayList<>();
       while (rs.next()) {
         output.add("Read from DB: " + rs.getTimestamp("tick"));
       }
