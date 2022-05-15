@@ -53,17 +53,13 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @RequestMapping("/")
-    String index() {
-        return "index";
-    }
-
     @RequestMapping("/api/hello")
     @ResponseBody
     Map<String, String> hello() {
         return Collections.singletonMap("hello", "world");
     }
 
+    /*
     @RequestMapping("/db")
     String db(Map<String, Object> model) {
         try (Connection connection = dataSource.getConnection()) {
@@ -84,6 +80,7 @@ public class Main {
             return "error";
         }
     }
+     */
 
     @Bean
     public DataSource dataSource() throws SQLException {
