@@ -1,12 +1,17 @@
 package com.orbital22.wemeet.dto;
 
 import lombok.Data;
-import lombok.NonNull;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class UserRegisterRequest {
-    @NonNull
+    @NotNull
+    @Email
     private String username;
-    @NonNull
+    @NotNull
+    @Min(8)
     private String password;
 }

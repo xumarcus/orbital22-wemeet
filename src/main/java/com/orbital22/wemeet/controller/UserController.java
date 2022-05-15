@@ -1,29 +1,43 @@
 package com.orbital22.wemeet.controller;
 
-import com.orbital22.wemeet.dto.HelloResponse;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.orbital22.wemeet.dto.UserRegisterRequest;
+import com.orbital22.wemeet.exception.UserAlreadyExistsException;
+import com.orbital22.wemeet.model.Authority;
+import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
+import javax.validation.Valid;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/user")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserController {
-    @NonNull DataSource dataSource;
+    private PasswordEncoder passwordEncoder;
+    private UserService userService;
 
-    @GetMapping("/register") // TODO dto?
-    public void register(
-            @RequestParam(required = true) String username,
-            @RequestParam(required = true) String password
-    ) {
-
+    @PostMapping("/register")
+    public void register(@Valid @RequestBody UserRegisterRequest userRegisterRequest) {
+        User user = User.builder()
+                .username(userRegisterRequest.getUsername())
+                .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
+                .enabled(true)
+                .build();
+        Authority authority = Authority.builder()
+                .authority("USER")
+                .users(Collections.singleton(user))
+                .build();
+        user.setAuthorities(Collections.singleton(authority));
+        try {
+            userService.register(user);
+        } catch (UserAlreadyExistsException e) {
+            // TODO
+        }
     }
 }

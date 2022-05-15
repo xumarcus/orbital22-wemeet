@@ -24,7 +24,7 @@ heroku local env
 
 ## IDE
 - [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/) 
-- OpenJDK 18.0.1
+- OpenJDK 11
 - Settings &rarr; Editor &rarr; Code Style &rarr; Wrapping and braces &rarr; Chained method calls &rarr; Wrap always
 
 ## Deployment

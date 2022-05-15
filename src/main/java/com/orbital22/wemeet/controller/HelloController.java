@@ -1,9 +1,7 @@
 package com.orbital22.wemeet.controller;
 
 import com.orbital22.wemeet.dto.HelloResponse;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +12,8 @@ import java.sql.Connection;
 
 @RestController
 @RequestMapping("/api/hello")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class HelloController {
-    @NonNull
     DataSource dataSource;
 
     @GetMapping()
