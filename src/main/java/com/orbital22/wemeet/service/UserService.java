@@ -12,7 +12,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public void register(User user) throws UserAlreadyExistsException {
-        if (userRepository.exists(user)) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistsException(user);
         }
         userRepository.save(user);

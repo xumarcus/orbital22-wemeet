@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserRegisterRequest {
     @NotNull
-    @Email
+    @Email(message = "Valid email address required")
     private String username;
     @NotNull
-    @Min(8)
+    @Min(value = 8, message = "Password length is at least 8 characters")
     private String password;
 }

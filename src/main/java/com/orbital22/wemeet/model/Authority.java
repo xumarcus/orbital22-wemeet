@@ -1,27 +1,23 @@
 package com.orbital22.wemeet.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 
-@Builder
 @Data
 @Entity
 @Table(name="authorities")
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Authority implements GrantedAuthority {
     @Id
+    @NonNull
     private String authority;
 
-    @ManyToMany(mappedBy = "authorities")
-    private Collection<User> users;
+    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")   // See User.java
+    private Collection<User> users = Collections.emptyList();
 }

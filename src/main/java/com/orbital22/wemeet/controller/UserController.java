@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.Collections;
 
 @RestController
@@ -23,21 +22,19 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody UserRegisterRequest userRegisterRequest) {
+    public String register(@RequestBody UserRegisterRequest userRegisterRequest) {
+        Authority authority = new Authority("ROLE_USER");
         User user = User.builder()
                 .username(userRegisterRequest.getUsername())
                 .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
                 .enabled(true)
+                .authorities(Collections.singleton(authority))
                 .build();
-        Authority authority = Authority.builder()
-                .authority("USER")
-                .users(Collections.singleton(user))
-                .build();
-        user.setAuthorities(Collections.singleton(authority));
         try {
             userService.register(user);
+            return "OK";    // TODO
         } catch (UserAlreadyExistsException e) {
-            // TODO
+            return e.getMessage();
         }
     }
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 @Data
-public class HelloResponse {
+public class AdminResponse {
     @NotNull String hello;
 }

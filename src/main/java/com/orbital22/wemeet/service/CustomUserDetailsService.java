@@ -1,5 +1,6 @@
 package com.orbital22.wemeet.service;
 
+import com.orbital22.wemeet.model.Authority;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
 import lombok.AllArgsConstructor;
