@@ -23,6 +23,6 @@ public class DataSourceConfig {
                     config.setJdbcUrl(url);
                     return new HikariDataSource(config);
                 })
-                .orElseThrow();
+                .orElseGet(HikariDataSource::new);
     }
 }

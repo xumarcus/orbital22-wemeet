@@ -18,10 +18,14 @@ package com.orbital22.wemeet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 @SpringBootApplication
+@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableJpaRepositories("com.orbital22.wemeet.repository")
 public class Main {
-    public static void main(String[] args) /* throws Exception */ {
+    public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 }
