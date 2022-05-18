@@ -34,7 +34,7 @@ databaseChangeLog:
       author: xumarcus
       changes:
         - createTable:
-            tableName: roles
+            tableName: authorities
             columns:
               - column:
                   name: id
@@ -44,7 +44,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: role
+                  name: authority
                   type: varchar(50)
                   constraints:
                     unique: true
@@ -71,9 +71,19 @@ databaseChangeLog:
                     foreignKeyName: fk_authorizations_user
                     references: users(id)
               - column:
-                  name: role_id
+                  name: authority_id
                   type: int
                   constraints:
                     nullable: false
                     foreignKeyName: fk_authorizations_role
-                    references: roles(id)
+                    references: authorities(id)
+  - changeSet:
+      id: 4
+      author: xumarcus
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: authority
+                  value: ROLE_ADMIN
+            tableName: authorities

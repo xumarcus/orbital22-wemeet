@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 
 import javax.sql.DataSource;
 import java.util.Optional;
@@ -23,6 +24,6 @@ public class DataSourceConfig {
                     config.setJdbcUrl(url);
                     return new HikariDataSource(config);
                 })
-                .orElseGet(HikariDataSource::new);
+                .orElseThrow(() -> new CannotGetJdbcConnectionException(dbUrl));
     }
 }

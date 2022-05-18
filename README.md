@@ -7,8 +7,9 @@
 ```shell
 heroku login
 heroku pg:psql -a orbital22-wemeet-dev # Check connection
-# Replace `findstr` with respective UNIX commands on Mac/Linux
-heroku run env -a orbital22-wemeet-dev | findstr /b JDBC_DATABASE_URL > .env
+heroku run env -a orbital22-wemeet-dev
+# Pipe to findstr /b JDBC_DATABASE_URL > .env and set encoding to UTF-8
+# Or copy JDBC=... from terminal 
 ```
 
 ## IDE and Code Style

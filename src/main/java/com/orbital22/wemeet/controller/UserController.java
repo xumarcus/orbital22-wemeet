@@ -1,11 +1,11 @@
 package com.orbital22.wemeet.controller;
 
 import com.orbital22.wemeet.dto.UserRegisterRequest;
-import com.orbital22.wemeet.exception.UserAlreadyExistsException;
-import com.orbital22.wemeet.model.Authority;
+import com.orbital22.wemeet.dto.GenericAPIResponse;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 @AllArgsConstructor
@@ -21,20 +22,18 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     private UserService userService;
 
+
     @PostMapping("/register")
-    public String register(@RequestBody UserRegisterRequest userRegisterRequest) {
-        Authority authority = new Authority("ROLE_USER");
+    public GenericAPIResponse<String> register(@RequestBody UserRegisterRequest userRegisterRequest) {
         User user = User.builder()
-                .username(userRegisterRequest.getUsername())
+                .email(userRegisterRequest.getEmail())
                 .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
                 .enabled(true)
-                .authorities(Collections.singleton(authority))
+                .authorities(Collections.emptyList())
                 .build();
-        try {
-            userService.register(user);
-            return "OK";    // TODO
-        } catch (UserAlreadyExistsException e) {
-            return e.getMessage();
-        }
+        userService.register(user);
+        String data = String.format("Email [%s] is registered successfully.", user.getEmail());
+        log.info(data);
+        return new GenericAPIResponse<>(data);
     }
 }

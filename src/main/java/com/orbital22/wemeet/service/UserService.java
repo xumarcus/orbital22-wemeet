@@ -1,20 +1,21 @@
 package com.orbital22.wemeet.service;
 
-import com.orbital22.wemeet.exception.UserAlreadyExistsException;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
 
-    public void register(User user) throws UserAlreadyExistsException {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserAlreadyExistsException(user);
-        }
+    @Transactional
+    public void register(User user) {
+        Assert.isTrue(!userRepository.existsByEmail(user.getEmail()), "Email already exists?");
         userRepository.save(user);
     }
 }

@@ -1,6 +1,5 @@
 package com.orbital22.wemeet.service;
 
-import com.orbital22.wemeet.model.Authority;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * @author xumarcus
@@ -26,10 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        return Optional.ofNullable(userRepository.findByUsername(username))
+    public UserDetails loadUserByUsername(String email) {
+        return userRepository
+                .findByEmail(email)
                 .map(CustomUserPrincipal::new)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+                .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
     @AllArgsConstructor
@@ -48,27 +47,27 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         @Override
         public String getUsername() {
-            return user.getUsername();
+            return user.getEmail();
         }
 
         @Override
         public boolean isAccountNonExpired() {
-            return user.getEnabled();
+            return user.isEnabled();
         }
 
         @Override
         public boolean isAccountNonLocked() {
-            return user.getEnabled();
+            return user.isEnabled();
         }
 
         @Override
         public boolean isCredentialsNonExpired() {
-            return user.getEnabled();
+            return user.isEnabled();
         }
 
         @Override
         public boolean isEnabled() {
-            return user.getEnabled();
+            return user.isEnabled();
         }
     }
 }

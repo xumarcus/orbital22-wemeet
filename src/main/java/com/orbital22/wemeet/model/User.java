@@ -1,31 +1,45 @@
 package com.orbital22.wemeet.model;
 
-import com.orbital22.wemeet.dto.UserRegisterRequest;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Builder
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
-    private String username;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
+
+    @NaturalId
+    @NonNull
+    @Column(unique=true)
+    private String email;
+
+    @JsonIgnore
+    @NonNull
+    @Column
     private String password;
-    private Boolean enabled;
+
+    @Column
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "authorizations",
-            joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "authority")
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
     private Collection<Authority> authorities;
 }
