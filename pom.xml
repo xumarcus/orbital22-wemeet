@@ -197,7 +197,6 @@
           <execution>
             <phase>process-resources</phase>
             <configuration>
-              <propertyFile>target/classes/liquibase.properties</propertyFile>
               <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
             </configuration>
             <goals>
