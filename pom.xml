@@ -190,21 +190,11 @@
         <artifactId>liquibase-maven-plugin</artifactId>
         <configuration>
           <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+          <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+          <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
           <!--suppress UnresolvedMavenProperty -->
           <url>${env.JDBC_DATABASE_URL}</url>
         </configuration>
-        <executions>
-          <execution>
-            <phase>process-resources</phase>
-            <configuration>
-              <propertyFile>src/main/resources/liquibase.properties</propertyFile>
-              <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-            </configuration>
-            <goals>
-              <goal>update</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
