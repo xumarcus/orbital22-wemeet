@@ -2,6 +2,10 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: xumarcus
+      preConditions:
+        - onFail: HALT
+        - tableExists:
+            tableName: users
       changes:
         - createTable:
             tableName: users
@@ -32,6 +36,10 @@ databaseChangeLog:
   - changeSet:
       id: 2
       author: xumarcus
+      preConditions:
+        - onFail: HALT
+        - tableExists:
+            tableName: authorities
       changes:
         - createTable:
             tableName: authorities
@@ -52,6 +60,10 @@ databaseChangeLog:
   - changeSet:
       id: 3
       author: xumarcus
+      preConditions:
+        - onFail: HALT
+        - tableExists:
+            tableName: authorizations
       changes:
         - createTable:
             tableName: authorizations
