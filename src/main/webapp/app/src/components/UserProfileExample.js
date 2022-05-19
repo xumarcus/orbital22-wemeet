@@ -5,8 +5,8 @@ const UserProfileExample = () => {
     const { data, error } = useSWR('/api/hello', ajax('GET'))
     console.log(data);
 
-    if (error) return <div>failed to load</div>
-    if (!data) return <div>loading...</div>
+    if (error) return <div>Who are you?</div>
+    if (!data) return <div>Loading...</div>
 
     // render data
     return <div>{data.data}</div>
