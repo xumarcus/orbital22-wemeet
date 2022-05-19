@@ -4,8 +4,9 @@ databaseChangeLog:
       author: xumarcus
       preConditions:
         - onFail: HALT
-        - tableExists:
-            tableName: users
+        - not:
+            - tableExists:
+                tableName: users
       changes:
         - createTable:
             tableName: users
@@ -38,8 +39,9 @@ databaseChangeLog:
       author: xumarcus
       preConditions:
         - onFail: HALT
-        - tableExists:
-            tableName: authorities
+        - not:
+            - tableExists:
+                tableName: authorities
       changes:
         - createTable:
             tableName: authorities
@@ -62,8 +64,9 @@ databaseChangeLog:
       author: xumarcus
       preConditions:
         - onFail: HALT
-        - tableExists:
-            tableName: authorizations
+        - not:
+            - tableExists:
+                tableName: authorizations
       changes:
         - createTable:
             tableName: authorizations
@@ -89,13 +92,3 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_authorizations_role
                     references: authorities(id)
-  - changeSet:
-      id: 4
-      author: xumarcus
-      changes:
-        - insert:
-            columns:
-              - column:
-                  name: authority
-                  value: ROLE_ADMIN
-            tableName: authorities
