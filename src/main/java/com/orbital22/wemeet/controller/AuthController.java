@@ -1,6 +1,6 @@
 package com.orbital22.wemeet.controller;
 
-import com.orbital22.wemeet.dto.UserRegisterRequest;
+import com.orbital22.wemeet.dto.AuthRegisterRequest;
 import com.orbital22.wemeet.dto.GenericAPIResponse;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.UserService;
@@ -16,18 +16,17 @@ import java.util.Collections;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
 @AllArgsConstructor
-public class UserController {
+@RequestMapping("/api/auth")
+public class AuthController {
     private PasswordEncoder passwordEncoder;
     private UserService userService;
 
-
     @PostMapping("/register")
-    public GenericAPIResponse<String> register(@RequestBody UserRegisterRequest userRegisterRequest) {
+    public GenericAPIResponse<String> register(@RequestBody AuthRegisterRequest authRegisterRequest) {
         User user = User.builder()
-                .email(userRegisterRequest.getEmail())
-                .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
+                .email(authRegisterRequest.getEmail())
+                .password(passwordEncoder.encode(authRegisterRequest.getPassword()))
                 .enabled(true)
                 .authorities(Collections.emptyList())
                 .build();

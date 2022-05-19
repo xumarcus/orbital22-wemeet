@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserRegisterRequest {
+public class AuthRegisterRequest {
     @NotNull
     @Email(message = "Valid email address required")
     @NewEmailConstraint

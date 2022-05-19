@@ -17,6 +17,6 @@ import java.security.Principal;
 public class HelloController {
     @GetMapping()
     public GenericAPIResponse<String> hello(Principal principal) {
-        return new GenericAPIResponse<>("Hello" + principal.getName());
+        return new GenericAPIResponse<>(String.format("Hello %s", principal.getName()));
     }
 }
