@@ -193,6 +193,18 @@
           <!--suppress UnresolvedMavenProperty -->
           <url>${env.JDBC_DATABASE_URL}</url>
         </configuration>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <configuration>
+              <propertyFile>target/classes/liquibase.properties</propertyFile>
+              <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+            </configuration>
+            <goals>
+              <goal>update</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
