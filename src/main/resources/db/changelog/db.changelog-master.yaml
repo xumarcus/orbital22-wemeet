@@ -3,7 +3,7 @@ databaseChangeLog:
       id: 1
       author: xumarcus
       preConditions:
-        - onFail: HALT
+        - onFail: MARK_RAN
         - not:
             - tableExists:
                 tableName: users
@@ -38,7 +38,7 @@ databaseChangeLog:
       id: 2
       author: xumarcus
       preConditions:
-        - onFail: HALT
+        - onFail: MARK_RAN
         - not:
             - tableExists:
                 tableName: authorities
@@ -63,7 +63,7 @@ databaseChangeLog:
       id: 3
       author: xumarcus
       preConditions:
-        - onFail: HALT
+        - onFail: MARK_RAN
         - not:
             - tableExists:
                 tableName: authorizations
