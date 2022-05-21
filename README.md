@@ -30,10 +30,20 @@ heroku git:remote -a orbital22-wemeet-staging -r heroku
   - Enable `EnvFile` and add local `.env`
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
 - Run &rarr; Check `localhost:5000`
+- Front-end debugging: `cd src/main/webapp/app` then `npm start`
 
 ## Deployment
-Heroku's Github integration is currently broken. Please deploy manually.
+Heroku's Github integration is currently broken.
+
+To dev server,
 ```shell
-git push heroku-dev main # to dev
-git push heroku main # to staging
+git checkout dev
+git push heroku-dev dev
 ```
+To staging server,
+```
+git checkout main
+git merge dev
+git push heroku main
+```
+To test out database changes, create another app in Heroku.
