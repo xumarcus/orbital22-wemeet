@@ -35,6 +35,9 @@ public class User {
     @Column
     private boolean enabled;
 
+    @Column
+    private boolean registered;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "authorizations",

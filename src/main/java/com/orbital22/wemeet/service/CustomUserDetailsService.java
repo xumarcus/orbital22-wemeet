@@ -52,17 +52,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         @Override
         public boolean isAccountNonExpired() {
-            return user.isEnabled();
+            return user.isRegistered();
         }
 
         @Override
         public boolean isAccountNonLocked() {
-            return user.isEnabled();
+            return true;
         }
 
         @Override
         public boolean isCredentialsNonExpired() {
-            return user.isEnabled();
+            return true;
         }
 
         @Override

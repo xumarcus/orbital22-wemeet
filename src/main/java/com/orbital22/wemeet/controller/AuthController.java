@@ -28,6 +28,7 @@ public class AuthController {
                 .email(authRegisterRequest.getEmail())
                 .password(passwordEncoder.encode(authRegisterRequest.getPassword()))
                 .enabled(true)
+                .registered(true)
                 .authorities(Collections.emptyList())
                 .build();
         userService.register(user);

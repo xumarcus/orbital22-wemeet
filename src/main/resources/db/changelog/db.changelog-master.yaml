@@ -92,3 +92,22 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_authorizations_role
                     references: authorities(id)
+  - changeSet:
+      id: 4
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: users
+                columnName: registered
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: registered
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
