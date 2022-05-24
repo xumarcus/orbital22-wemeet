@@ -6,10 +6,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: users
+                tableName: user
       changes:
         - createTable:
-            tableName: users
+            tableName: user
             columns:
               - column:
                   name: id
@@ -41,10 +41,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: authorities
+                tableName: authority
       changes:
         - createTable:
-            tableName: authorities
+            tableName: authority
             columns:
               - column:
                   name: id
@@ -66,10 +66,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: authorizations
+                tableName: user_authority
       changes:
         - createTable:
-            tableName: authorizations
+            tableName: user_authority
             columns:
               - column:
                   name: id
@@ -83,15 +83,15 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_authorizations_user
-                    references: users(id)
+                    foreignKeyName: fk_user_authority_user
+                    references: user(id)
               - column:
                   name: authority_id
                   type: int
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_authorizations_role
-                    references: authorities(id)
+                    foreignKeyName: fk_user_authority_authority
+                    references: authority(id)
   - changeSet:
       id: 4
       author: xumarcus
@@ -99,11 +99,11 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - columnExists:
-                tableName: users
+                tableName: user
                 columnName: registered
       changes:
         - addColumn:
-            tableName: users
+            tableName: user
             columns:
               - column:
                   name: registered

@@ -12,7 +12,6 @@ import java.util.Collections;
 @Setter
 @ToString
 @Entity
-@Table(name="authorities")
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Authority implements GrantedAuthority {

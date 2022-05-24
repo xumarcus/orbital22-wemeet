@@ -11,11 +11,11 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-@Entity
-@Table(name = "users")
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name="\"user\"") // user is reserved keyword in Postgres
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "authorizations",
+            name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id")
     )

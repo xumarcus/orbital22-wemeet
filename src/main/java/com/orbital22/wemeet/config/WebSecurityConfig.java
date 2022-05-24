@@ -20,8 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable() // dev
                 .authorizeHttpRequests()
                 .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
+                .anyRequest().permitAll() // dev
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/", true);
