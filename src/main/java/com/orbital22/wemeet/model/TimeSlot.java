@@ -1,42 +1,51 @@
 package com.orbital22.wemeet.model;
 
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
+@Builder
 @Getter
 @Setter
 @ToString
-@Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "authority")
-public class Authority implements GrantedAuthority {
+@AllArgsConstructor
+@Entity
+@Table(name = "time_slot")
+public class TimeSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 
-    @NaturalId
-    @NonNull
-    @Column(unique=true)
-    private String authority;
+    @ManyToOne
+    @JoinColumn(name = "roster_plan_id")
+    private RosterPlan rosterPlan;
 
-    @ToString.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")   // See User.java
-    private Collection<User> users = Collections.emptyList();
+    @NonNull
+    @Column
+    private LocalDateTime startDateTime;
+
+    @NonNull
+    @Column
+    private LocalDateTime endDateTime;
+
+    @Column
+    private int capacity;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Collection<TimeSlotUserInfo> timeSlotUserInfos;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Authority authority = (Authority) o;
-        return id == authority.id;
+        TimeSlot timeSlot = (TimeSlot) o;
+        return id == timeSlot.id;
     }
 
     @Override

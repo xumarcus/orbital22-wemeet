@@ -1,42 +1,44 @@
 package com.orbital22.wemeet.model;
 
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
+@Builder
 @Getter
 @Setter
 @ToString
-@Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "authority")
-public class Authority implements GrantedAuthority {
+@AllArgsConstructor
+@Entity
+@Table(name = "roster_plan")
+public class RosterPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 
-    @NaturalId
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     @NonNull
-    @Column(unique=true)
-    private String authority;
+    private User owner;
 
-    @ToString.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")   // See User.java
-    private Collection<User> users = Collections.emptyList();
+    @Column
+    @NonNull
+    private String title;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Collection<RosterPlanUserInfo> rosterPlanUserInfos;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Authority authority = (Authority) o;
-        return id == authority.id;
+        RosterPlan that = (RosterPlan) o;
+        return id == that.id;
     }
 
     @Override

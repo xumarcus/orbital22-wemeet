@@ -7,15 +7,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
 
-    @Transactional
     public void register(User user) {
         Assert.isTrue(!userRepository.existsByEmail(user.getEmail()), "Email already exists?");
         userRepository.save(user);
+    }
+
+    User anonymous(String email) {
+        return User.builder()
+                .email(email)
+                .password(null) // FIXME
+                .enabled(true)
+                .registered(false)
+                .authorities(Collections.emptyList())
+                .build();
     }
 }

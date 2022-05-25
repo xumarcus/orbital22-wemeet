@@ -13,9 +13,9 @@ heroku run env -a orbital22-wemeet-dev
 ```
 
 ## IDE and Code Style
-- [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 
+- [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 - OpenJDK 11
-- Settings &rarr; Editor &rarr; Code Style &rarr; Java &rarr; Wrapping and braces &rarr; Chained method calls &rarr; Wrap always
+- SQL naming is `snake_case`. While Spring magic automatically transforms entity names to snake case, indicate `@Table(name)` to avoid confusion and more importantly, help the IDE.
 
 # Setup
 ```shell
@@ -25,9 +25,9 @@ heroku git:remote -a orbital22-wemeet-staging -r heroku
 ```
 - Settings &rarr; Plugins &rarr; `EnvFile 3.2` &rarr; Install
 - `Main` Configuration:
-  - Application
-  - `com.orbital22.wemeet.Main`
-  - Enable `EnvFile` and add local `.env`
+    - Application
+    - `com.orbital22.wemeet.Main`
+    - Enable `EnvFile` and add local `.env`
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
 - Run &rarr; Check `localhost:5000`
 - Front-end debugging: `cd src/main/webapp/app` then `npm start`
@@ -41,9 +41,22 @@ git checkout dev
 git push heroku-dev dev
 ```
 To staging server,
-```
+```shell
 git checkout main
 git merge dev
 git push heroku main
 ```
 To test out database changes, create another app in Heroku.
+
+To run migrations,
+```shell
+liquibase update --changelog-file
+  .\src\main\resources\db\changelog\db.changelog-master.yaml
+  --username {REDACTED}
+  --password {REDACTED}
+  --url jdbc:postgresql://{DATABASE_URL}:5432/{DATABASE_NAME}
+```
+
+## Remarks
+- No idea what magic `src/main/resources/liquibase.properties` is doing, but doing without somehow breaks deployment.
+- No idea why validation fails to autoconfigure in Spring Boot `2.6.7` but works in `2.6.3`.

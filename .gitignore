@@ -9,3 +9,4 @@ src/main/webapp/app/node_modules
 .project
 .mvn/wrapper/maven-wrapper.jar
 *.iml
+src/main/resources/application.properties
