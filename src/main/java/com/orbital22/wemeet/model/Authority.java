@@ -5,16 +5,17 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @ToString
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "authority")
 public class Authority implements GrantedAuthority {
     @Id
@@ -24,12 +25,14 @@ public class Authority implements GrantedAuthority {
 
     @NaturalId
     @NonNull
-    @Column(unique=true)
+    @Column(unique = true)
     private String authority;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")
     @ToString.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")   // See User.java
-    private Collection<User> users = Collections.emptyList();
+    @Builder.Default
+    @NonNull
+    private Set<User> users = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {

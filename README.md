@@ -29,6 +29,7 @@ heroku git:remote -a orbital22-wemeet-staging -r heroku
     - `com.orbital22.wemeet.Main`
     - Enable `EnvFile` and add local `.env`
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
+- Edit `src/main/application.properties` &rarr; `spring.profiles.active=development`
 - Run &rarr; Check `localhost:5000`
 - Front-end debugging: `cd src/main/webapp/app` then `npm start`
 

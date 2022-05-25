@@ -32,7 +32,6 @@ public class AuthController {
                 .password(passwordEncoder.encode(authRegisterRequest.getPassword()))
                 .enabled(true)
                 .registered(true)
-                .authorities(Collections.emptyList())
                 .build();
         userService.register(user);
         String data = String.format("Email [%s] is registered successfully.", user.getEmail());

@@ -4,14 +4,15 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "roster_plan")
@@ -30,8 +31,11 @@ public class RosterPlan {
     @NonNull
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Collection<RosterPlanUserInfo> rosterPlanUserInfos;
+    @OneToMany
+    @ToString.Exclude
+    @Builder.Default
+    @NonNull
+    private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {

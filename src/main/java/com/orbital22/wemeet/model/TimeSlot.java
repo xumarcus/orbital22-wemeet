@@ -5,14 +5,15 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "time_slot")
@@ -37,8 +38,11 @@ public class TimeSlot {
     @Column
     private int capacity;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Collection<TimeSlotUserInfo> timeSlotUserInfos;
+    @OneToMany
+    @ToString.Exclude
+    @Builder.Default
+    @NonNull
+    private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {

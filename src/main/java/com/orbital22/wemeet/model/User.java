@@ -3,20 +3,21 @@ package com.orbital22.wemeet.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="\"user\"") // user is reserved keyword in Postgres
+@Table(name = "\"user\"") // user is reserved keyword in Postgres
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +26,11 @@ public class User {
 
     @NaturalId
     @NonNull
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
     @JsonIgnore
+    @RestResource(exported = false)
     @NonNull
     @Column
     private String password;
@@ -45,7 +47,16 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
-    private Collection<Authority> authorities;
+    @ToString.Include
+    @Builder.Default
+    @NonNull
+    private Set<Authority> authorities = Collections.emptySet();
+
+    @OneToMany(mappedBy = "owner")
+    @ToString.Exclude
+    @Builder.Default
+    @NonNull
+    private Set<RosterPlan> ownedRosterPlans = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {

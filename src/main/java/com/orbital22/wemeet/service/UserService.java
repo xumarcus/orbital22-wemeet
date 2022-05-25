@@ -20,13 +20,14 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /*
     User anonymous(String email) {
         return User.builder()
                 .email(email)
                 .password(null) // FIXME
                 .enabled(true)
                 .registered(false)
-                .authorities(Collections.emptyList())
                 .build();
     }
+     */
 }
