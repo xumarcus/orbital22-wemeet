@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -28,4 +29,17 @@ public class Authority implements GrantedAuthority {
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")   // See User.java
     private Collection<User> users = Collections.emptyList();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Authority authority = (Authority) o;
+        return id == authority.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
