@@ -61,3 +61,4 @@ liquibase update --changelog-file
 ## Remarks
 - No idea what magic `src/main/resources/liquibase.properties` is doing, but doing without somehow breaks deployment.
 - No idea why validation fails to autoconfigure in Spring Boot `2.6.7` but works in `2.6.3`.
+- Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`

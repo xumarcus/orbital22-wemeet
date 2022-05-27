@@ -58,6 +58,24 @@ public class User {
     @NonNull
     private Set<RosterPlan> ownedRosterPlans = Collections.emptySet();
 
+    public static User ofRegistered(String email, String encodedPassword) {
+        return User.builder()
+                   .email(email)
+                   .password(encodedPassword)
+                   .enabled(true)
+                   .registered(true)
+                   .build();
+    }
+
+    public static User ofUnregistered(String email) {
+        return User.builder()
+                   .email(email)
+                   .password("")   // Fails authentication
+                   .enabled(true)
+                   .registered(false)
+                   .build();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -4,10 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 @Builder
 @Getter
@@ -42,7 +41,7 @@ public class TimeSlot {
     @ToString.Exclude
     @Builder.Default
     @NonNull
-    private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
+    private Map<User, TimeSlotUserInfo> timeSlotUserInfos = Collections.emptyMap();
 
     @Override
     public boolean equals(Object o) {

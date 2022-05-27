@@ -3,8 +3,8 @@ package com.orbital22.wemeet.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,7 +35,13 @@ public class RosterPlan {
     @ToString.Exclude
     @Builder.Default
     @NonNull
-    private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
+    private Set<TimeSlot> timeSlots = Collections.emptySet();
+
+    @OneToMany
+    @ToString.Exclude
+    @Builder.Default
+    @NonNull
+    private Map<User, RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptyMap();
 
     @Override
     public boolean equals(Object o) {

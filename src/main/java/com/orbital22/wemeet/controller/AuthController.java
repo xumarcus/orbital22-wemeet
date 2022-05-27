@@ -17,25 +17,19 @@ import javax.validation.Valid;
 import java.util.Collections;
 
 @Slf4j
-@RestController
 @AllArgsConstructor
+@RestController
 @RequestMapping("/api/auth")
-@Validated
 public class AuthController {
-    private PasswordEncoder passwordEncoder;
+
     private UserService userService;
 
     @PostMapping("/register")
     public GenericAPIResponse<String> register(@Valid @RequestBody AuthRegisterRequest authRegisterRequest) {
-        User user = User.builder()
-                .email(authRegisterRequest.getEmail())
-                .password(passwordEncoder.encode(authRegisterRequest.getPassword()))
-                .enabled(true)
-                .registered(true)
-                .build();
-        userService.register(user);
-        String data = String.format("Email [%s] is registered successfully.", user.getEmail());
-        log.info(data);
-        return new GenericAPIResponse<>(data);
+        String email = authRegisterRequest.getEmail();
+        String password = authRegisterRequest.getPassword();
+        userService.register(email, password);
+        log.info(String.format("Email [%s] registered", email));
+        return new GenericAPIResponse<>(email);
     }
 }
