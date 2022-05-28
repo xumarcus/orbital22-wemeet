@@ -6,10 +6,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: users
+                tableName: user
       changes:
         - createTable:
-            tableName: users
+            tableName: user
             columns:
               - column:
                   name: id
@@ -41,10 +41,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: authorities
+                tableName: authority
       changes:
         - createTable:
-            tableName: authorities
+            tableName: authority
             columns:
               - column:
                   name: id
@@ -66,10 +66,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: authorizations
+                tableName: user_authority
       changes:
         - createTable:
-            tableName: authorizations
+            tableName: user_authority
             columns:
               - column:
                   name: id
@@ -83,12 +83,179 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_authorizations_user
-                    references: users(id)
+                    foreignKeyName: fk_user_authority_user
+                    references: user(id)
               - column:
                   name: authority_id
                   type: int
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_authorizations_role
-                    references: authorities(id)
+                    foreignKeyName: fk_user_authority_authority
+                    references: authority(id)
+  - changeSet:
+      id: 4
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: user
+                columnName: registered
+      changes:
+        - addColumn:
+            tableName: user
+            columns:
+              - column:
+                  name: registered
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 5
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: roster_plan
+      changes:
+        - createTable:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_roster_plan_user
+                    references: user(id)
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 6
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: roster_plan_user_info
+      changes:
+        - createTable:
+            tableName: roster_plan_user_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: roster_plan_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_roster_plan_user_info_roster_plan
+                    references: roster_plan(id)
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_roster_plan_user_info_user
+                    references: user(id)
+              - column:
+                  name: has_responded
+                  type: boolean
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 7
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: time_slot
+      changes:
+        - createTable:
+            tableName: time_slot
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: roster_plan_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_time_slot_roster_plan
+                    references: roster_plan(id)
+              - column:
+                  name: start_date_time
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date_time
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: capacity
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 8
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: time_slot_user_info
+      changes:
+        - createTable:
+            tableName: time_slot_user_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: time_slot_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_time_slot_user_info_time_slot
+                    references: time_slot(id)
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_time_slot_user_info_user
+                    references: user(id)
+              - column:
+                  name: rank
+                  type: int
+                  constraints:
+                    nullable: false
