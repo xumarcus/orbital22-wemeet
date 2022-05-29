@@ -15,7 +15,7 @@ import logo from "./logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import LogInModal from "./LogInModal";
 import ForgetPasswordModel from "./ForgetPasswordModal";
-import SignUpModel from "./SignUpModal";
+import SignUpModal from "./SignUpModal";
 import { useState } from "react";
 
 const pages = [
@@ -61,7 +61,7 @@ const ResponsiveAppBar = () => {
         visible={ModalVisible}
         setVisible={setModalVisible}
       />
-      <SignUpModel visible={ModalVisible} setVisible={setModalVisible} />
+      <SignUpModal visible={ModalVisible} setVisible={setModalVisible} />
       <AppBar position="static" sx={{ bgcolor: "white", boxShadow: "0" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>

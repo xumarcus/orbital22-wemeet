@@ -27,7 +27,6 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .formLogin()
             .usernameParameter("email")
-            .passwordParameter("password")
-            .defaultSuccessUrl("/api/auth/id");
+            .passwordParameter("password");
     }
 }
