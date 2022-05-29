@@ -43,11 +43,11 @@ const LogInModal = (prop) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password")
-    });
+    fetch("/login", {
+      method: "POST",
+      body: new FormData(event.currentTarget),
+      redirect: "manual", // use api/auth/id / error to discern?
+    })
   };
 
   return (
