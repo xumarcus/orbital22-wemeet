@@ -20,12 +20,14 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/**").authenticated()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/", true);
+            .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
+            .antMatchers("/api/auth/**").permitAll()
+            .antMatchers("/api/**").authenticated()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/api/auth/id");
     }
 }

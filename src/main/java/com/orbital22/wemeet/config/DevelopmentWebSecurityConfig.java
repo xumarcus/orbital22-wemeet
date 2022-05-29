@@ -20,13 +20,15 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll() // TODO how about actuators?
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/", true);
+            .authorizeHttpRequests()
+            .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
+            .antMatchers("/api/auth/**").permitAll()
+            .antMatchers("/api/**").authenticated()
+            .anyRequest().permitAll()
+            .and()
+            .formLogin()
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/api/auth/id");
     }
 }
