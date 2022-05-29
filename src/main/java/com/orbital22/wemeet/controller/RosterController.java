@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/roster")
+@RequestMapping("/api/roster")
 public class RosterController {
     private SolverManager<RosterPlanningSolution, ?> solverManager;
 
     /*
     @PostMapping("/solve")
-    public RosterPlanningSolution solve(?) {
+    public RosterPlanningSolution solve() {
         SolverJob<RosterPlanningSolution, ?> solverJob = solverManager.solve(?, ?);
     }
     */

@@ -16,6 +16,6 @@ public class RosterPlanUserPlanningEntity {
 
     private RosterPlan rosterPlan;
 
-    @PlanningVariable
+    @PlanningVariable(valueRangeProviderRefs = "timeSlots")
     private TimeSlot timeSlot;
 }
