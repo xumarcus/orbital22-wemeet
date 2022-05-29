@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
@@ -37,6 +38,7 @@ public class AuthController {
         return new GenericAPIResponse<>(email);
     }
 
+    @Transactional
     @GetMapping("/id")
     public User id(Principal principal) {
         return Optional
