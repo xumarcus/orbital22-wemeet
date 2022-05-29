@@ -46,8 +46,9 @@ const LogInModal = (prop) => {
     fetch("/login", {
       method: "POST",
       body: new FormData(event.currentTarget),
-      redirect: "manual", // use api/auth/id / error to discern?
+      redirect: "manual",
     })
+    // FIXME check error (from response?) and/or call api/users/search/findByEmail
   };
 
   return (

@@ -11,10 +11,6 @@ import java.util.Collection;
 public class CustomUserPrincipal implements UserDetails {
     private User user;
 
-    public int getUserId() {
-        return user.getId();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getAuthorities();

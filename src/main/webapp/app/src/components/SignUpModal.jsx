@@ -28,7 +28,7 @@ const style = {
     p: 4
 };
 
-const SignUpModel = (prop) => {
+const SignUpModal = (prop) => {
     const { visible, setVisible } = prop;
     const handleClose = () => setVisible("");
 
@@ -159,4 +159,4 @@ const SignUpModel = (prop) => {
     );
 };
 
-export default SignUpModel;
+export default SignUpModal;
