@@ -36,19 +36,21 @@ const SignUpModal = (prop) => {
     const [successAlert, setSuccessAlert] = React.useState(false);
     const [retryAlert, setRetryAlert] = React.useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const fields = ["email", "password"];
-        const data = Object.fromEntries(fields.map(k => [k, formData.get(k)]));
-        ajax('POST', data)("/api/auth/register");
-
-        // if (response.status === 200) {
-        //     setRetryAlert(false);
-        //     setSuccessAlert(true);
-        // } else {
-        //     setRetryAlert(true);
-        // }});
+        const request = Object.fromEntries(fields.map(k => [k, formData.get(k)]));
+        try {
+            const { data } = await ajax('POST', request)("/api/auth/register");
+            // console.log(data); e.g. test@test.com
+            setRetryAlert(false);
+            setSuccessAlert(true);
+        } catch (e) {
+            // console.log(e.cause); e.g. {errors: [{defaultMessage}], ...}
+            setRetryAlert(true);
+            setSuccessAlert(false);
+        }
     };
 
     const handleSwitchtoSignIn = () => {
