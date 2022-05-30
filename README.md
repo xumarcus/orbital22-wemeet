@@ -1,4 +1,4 @@
-# orbital22-wemeet
+# orbital22-wemeet (0.2.0)
 
 ## Database
 - [PostgresSQL 14](https://www.postgresql.org/download/) (Comes with `pgAdmin4`)
@@ -39,7 +39,7 @@ Heroku's Github integration is currently broken.
 To dev server,
 ```shell
 git checkout dev
-git push heroku-dev dev
+git push heroku-dev dev:main
 ```
 To staging server,
 ```shell
@@ -49,7 +49,7 @@ git push heroku main
 ```
 To test out database changes, create another app in Heroku.
 
-To run migrations,
+To run migrations, (run automatically during deployment using `release`)
 ```shell
 liquibase update --changelog-file
   .\src\main\resources\db\changelog\db.changelog-master.yaml
