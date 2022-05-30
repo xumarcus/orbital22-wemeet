@@ -21,9 +21,7 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
     // Redundant check that limits API to authenticated users.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
-            .csrf().disable()
-            .authorizeHttpRequests()
+        http.authorizeHttpRequests()
             .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
             .antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/**").authenticated()
@@ -31,6 +29,9 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .formLogin()
             .usernameParameter("email")
-            .passwordParameter("password");
+            .passwordParameter("password")
+            .and()
+            .csrf().disable()
+            .cors(); //.disable();
     }
 }

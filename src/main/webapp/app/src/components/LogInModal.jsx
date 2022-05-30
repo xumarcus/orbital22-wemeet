@@ -60,7 +60,7 @@ const LogInModal = (prop) => {
 
         // In development, resp.type === 'cors'
         // In production, resp.type is per normal
-        if (loginResponse.url.endsWith("error")) {
+        if (loginResponse.url.endsWith("error") || !loginResponse.ok) {
             setRetryAlert(true);
             setSuccessAlert(false);
             return;

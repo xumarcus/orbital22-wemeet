@@ -21,16 +21,16 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
     // Redundant check that limits API to authenticated users.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
-            .csrf().and()
-            .authorizeHttpRequests()
+        http.authorizeHttpRequests()
             .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
             .antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/**").authenticated()
-            .anyRequest().authenticated()
+            .anyRequest().permitAll() // FIXME
             .and()
             .formLogin()
             .usernameParameter("email")
-            .passwordParameter("password");
+            .passwordParameter("password")
+            .and()
+            .csrf().disable(); // FIXME csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 }
