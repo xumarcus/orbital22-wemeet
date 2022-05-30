@@ -14,6 +14,10 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
+import { useNavigate } from "react-router-dom";
+import SuccessAlert from "./SuccessAlert";
+import RetryAlert from "./RetryAlert";
+
 
 const style = {
   position: "absolute",
@@ -29,7 +33,15 @@ const style = {
 
 const LogInModal = (prop) => {
   const { visible, setVisible } = prop;
-  const handleClose = () => setVisible("");
+  const navigate = useNavigate();
+  const handleClose = () => {
+    setSuccessAlert(false);
+    setRetryAlert(false);
+    setVisible("");
+  }
+  const [successAlert, setSuccessAlert] = React.useState(false);
+  const [retryAlert, setRetryAlert] = React.useState(false);
+
 
   const handleSwitchtoForgetPassword = () => {
     console.log("forgetpw");
@@ -47,7 +59,15 @@ const LogInModal = (prop) => {
       method: "POST",
       body: new FormData(event.currentTarget),
       redirect: "manual",
-    })
+    }).then(response => response.json())
+        .then(data => {console.log(data);
+    if (data.status === 200) {
+      setRetryAlert(false);
+      setSuccessAlert(true);
+    } else {
+      setRetryAlert(true);
+    }});
+
     // FIXME check error (from response?) and/or call api/users/search/findByEmail
   };
 
@@ -66,6 +86,8 @@ const LogInModal = (prop) => {
       <Fade in={visible === "signin"}>
         <Box sx={style}>
           {/* white box to hold form */}
+          {successAlert && <SuccessAlert />}
+          {retryAlert && <RetryAlert />}
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box

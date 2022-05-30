@@ -24,12 +24,18 @@ const pages = [
   ["Guide", "guide"],
   ["About Us", "about"]
 ];
-const settings = ["Dashboard", "Profile", "Logout"];
+
+const settings = [
+  ["Dashboard", "dashboard"],
+  ["Profile", "profile"],
+];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [ModalVisible, setModalVisible] = useState("");
+
+  let navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,15 +44,15 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  let navigate = useNavigate();
   const handleCloseNavMenu = (newPage) => {
     setAnchorElNav(null);
     // console.log(e.currentTarget.outerText);
     navigate(`/${newPage}`);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (newPage) => {
     setAnchorElUser(null);
+    navigate(`/${newPage}`);
   };
 
   const handleStartNowClick = () => {
@@ -161,8 +167,8 @@ const ResponsiveAppBar = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                  <MenuItem key={setting[0]} onClick={handleCloseUserMenu.bind(this, setting[1])}>
+                    <Typography textAlign="center">{setting[0]}</Typography>
                   </MenuItem>
                 ))}
               </Menu>

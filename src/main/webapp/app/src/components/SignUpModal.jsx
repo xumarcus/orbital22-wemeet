@@ -15,6 +15,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import ajax from "../util";
+import SuccessAlert from "./SuccessAlert";
+import RetryAlert from "./RetryAlert";
 
 const style = {
     position: "absolute",
@@ -31,6 +33,8 @@ const style = {
 const SignUpModal = (prop) => {
     const { visible, setVisible } = prop;
     const handleClose = () => setVisible("");
+    const [successAlert, setSuccessAlert] = React.useState(false);
+    const [retryAlert, setRetryAlert] = React.useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -38,6 +42,13 @@ const SignUpModal = (prop) => {
         const fields = ["email", "password"];
         const data = Object.fromEntries(fields.map(k => [k, formData.get(k)]));
         ajax('POST', data)("/api/auth/register");
+
+        // if (response.status === 200) {
+        //     setRetryAlert(false);
+        //     setSuccessAlert(true);
+        // } else {
+        //     setRetryAlert(true);
+        // }});
     };
 
     const handleSwitchtoSignIn = () => {
@@ -59,6 +70,8 @@ const SignUpModal = (prop) => {
             <Fade in={visible === "signup"}>
                 <Box sx={style}>
                     {/* white box to hold form */}
+                    {successAlert && <SuccessAlert />}
+                    {retryAlert && <RetryAlert />}
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
                         <Box

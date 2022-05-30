@@ -4,6 +4,6 @@ const ajax = (method, data /* optional parameter */) => (uri) => {
         body: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'},
         redirect: 'error' }
-    ).then(resp => resp.json());
+    ).then(resp => console.log(resp.json()));
 }
 export default ajax;

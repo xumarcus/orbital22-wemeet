@@ -7,6 +7,8 @@ import Features from "./pages/Features";
 import Guide from "./pages/Guide";
 import About from "./pages/About";
 import Wizard from "./pages/Wizard";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +20,8 @@ root.render(
                 <Route path={"/guide"} element={<Guide />} />
                 <Route path={"/about"} element={<About />} />
                 <Route path={"/wizard"} element={<Wizard />} />
+                <Route path={"/dashboard"} element={<Dashboard />} />
+                <Route path={"/profile"} element={<Profile />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>
