@@ -58,7 +58,14 @@ liquibase update --changelog-file
   --url jdbc:postgresql://{DATABASE_URL}:5432/{DATABASE_NAME}
 ```
 
-## Remarks
+## Debugging
 - No idea what magic `src/main/resources/liquibase.properties` is doing, but doing without somehow breaks deployment.
 - No idea why validation fails to autoconfigure in Spring Boot `2.6.7` but works in `2.6.3`.
 - Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`
+- Insert/replace these in `src/main/resources/application.properties` for `npm run start`. This disables CSRF and firewall.
+```properties
+logging.level.org.springframework=DEBUG
+spring.profiles.active=development
+server.servlet.session.cookie.http-only=false
+server.servlet.session.cookie.secure=false
+```

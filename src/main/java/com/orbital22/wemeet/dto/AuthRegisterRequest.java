@@ -4,8 +4,8 @@ import com.orbital22.wemeet.annotation.NewEmailConstraint;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 public class AuthRegisterRequest {
@@ -15,6 +15,6 @@ public class AuthRegisterRequest {
     private String email;
 
     @NotNull
-    @Min(value = 8, message = "Password should have at least 8 characters")
+    @Size(min = 8, message = "Password should have at least 8 characters")
     private String password;
 }
