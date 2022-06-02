@@ -14,7 +14,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
-import ajax from "../util";
+import { ajax } from "../util";
 import SuccessAlert from "./SuccessAlert";
 import RetryAlert from "./RetryAlert";
 
@@ -47,6 +47,7 @@ const SignUpModal = (prop) => {
             setRetryAlert(false);
             setSuccessAlert(true);
         } catch (e) {
+            console.log(e);
             // console.log(e.cause); e.g. {errors: [{defaultMessage}], ...}
             setRetryAlert(true);
             setSuccessAlert(false);
@@ -60,31 +61,31 @@ const SignUpModal = (prop) => {
     return (
         <Modal
             aria-labelledby="transition-modal-title"
-            open={visible === "signup"}
-            onClose={handleClose}
+            open={ visible === "signup" }
+            onClose={ handleClose }
             // closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
+            BackdropComponent={ Backdrop }
+            BackdropProps={ {
                 timeout: 500
-            }}
-            sx={{ width: "70%", left: "15%" }}
+            } }
+            sx={ { width: "70%", left: "15%" } }
         >
-            <Fade in={visible === "signup"}>
-                <Box sx={style}>
-                    {/* white box to hold form */}
-                    {successAlert && <SuccessAlert />}
-                    {retryAlert && <RetryAlert />}
+            <Fade in={ visible === "signup" }>
+                <Box sx={ style }>
+                    {/* white box to hold form */ }
+                    { successAlert && <SuccessAlert/> }
+                    { retryAlert && <RetryAlert/> }
                     <Container component="main" maxWidth="xs">
-                        <CssBaseline />
+                        <CssBaseline/>
                         <Box
-                            sx={{
+                            sx={ {
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center"
-                            }}
+                            } }
                         >
-                            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                                <LockOutlinedIcon />
+                            <Avatar sx={ { m: 1, bgcolor: "secondary.main" } }>
+                                <LockOutlinedIcon/>
                             </Avatar>
                             <Typography component="h1" variant="h5">
                                 Sign up
@@ -92,11 +93,11 @@ const SignUpModal = (prop) => {
                             <Box
                                 component="form"
                                 noValidate
-                                onSubmit={handleSubmit}
-                                sx={{ mt: 3 }}
+                                onSubmit={ handleSubmit }
+                                sx={ { mt: 3 } }
                             >
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6}>
+                                <Grid container spacing={ 2 }>
+                                    <Grid item xs={ 12 } sm={ 6 }>
                                         <TextField
                                             autoComplete="given-name"
                                             name="firstName"
@@ -107,7 +108,7 @@ const SignUpModal = (prop) => {
                                             autoFocus
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={ 12 } sm={ 6 }>
                                         <TextField
                                             required
                                             fullWidth
@@ -117,7 +118,7 @@ const SignUpModal = (prop) => {
                                             autoComplete="family-name"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={ 12 }>
                                         <TextField
                                             required
                                             fullWidth
@@ -127,7 +128,7 @@ const SignUpModal = (prop) => {
                                             autoComplete="email"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={ 12 }>
                                         <TextField
                                             required
                                             fullWidth
@@ -138,10 +139,10 @@ const SignUpModal = (prop) => {
                                             autoComplete="new-password"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={ 12 }>
                                         <FormControlLabel
                                             control={
-                                                <Checkbox value="allowExtraEmails" color="primary" />
+                                                <Checkbox value="allowExtraEmails" color="primary"/>
                                             }
                                             label="I want to receive inspiration, marketing promotions and updates via email."
                                         />
@@ -151,7 +152,7 @@ const SignUpModal = (prop) => {
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
+                                    sx={ { mt: 3, mb: 2 } }
                                 >
                                     Sign Up
                                 </Button>
@@ -159,7 +160,7 @@ const SignUpModal = (prop) => {
                                     <Grid item>
                                         <Link
                                             variant="body2"
-                                            onClick={() => handleSwitchtoSignIn()}
+                                            onClick={ () => handleSwitchtoSignIn() }
                                         >
                                             Already have an account? Sign in
                                         </Link>

@@ -16,7 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import SuccessAlert from "./SuccessAlert";
 import RetryAlert from "./RetryAlert";
-import ajax from "../util";
+import { ajax, login } from "../util";
 
 
 const style = {
@@ -54,57 +54,54 @@ const LogInModal = (prop) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const body = new FormData(event.currentTarget);
-        const loginResponse = await fetch("/login",
-            { method: "POST", body });
+        const formData = new FormData(event.currentTarget);
+        try {
+            await login(formData);
+            const params = new URLSearchParams({ email: String(formData.get("email")) });
+            const user = await ajax("GET")("/api/users/search/findByEmail?" + params);
 
-        // In development, resp.type === 'cors'
-        // In production, resp.type is per normal
-        if (loginResponse.url.endsWith("error") || !loginResponse.ok) {
+            // TODO preserve user in context
+            // TODO combine two API calls into one in BE
+            console.log(user);
+
+            setRetryAlert(false);
+            setSuccessAlert(true);
+        } catch (e) {
+            console.log(e);
+
             setRetryAlert(true);
             setSuccessAlert(false);
-            return;
         }
-        setRetryAlert(false);
-        setSuccessAlert(true);
-
-        const params = new URLSearchParams({
-            email: body.get("email")
-        });
-        const user = await ajax("GET")("/api/users/search/findByEmail?" + params);
-
-        // TODO preserve user in context
-        console.log(user);
     };
 
     return (
         <Modal
             aria-labelledby="transition-modal-title"
-            open={visible === "signin"}
-            onClose={handleClose}
+            open={ visible === "signin" }
+            onClose={ handleClose }
             // closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
+            BackdropComponent={ Backdrop }
+            BackdropProps={ {
                 timeout: 500
-            }}
-            sx={{ width: "70%", left: "15%" }}
+            } }
+            sx={ { width: "70%", left: "15%" } }
         >
-            <Fade in={visible === "signin"}>
-                <Box sx={style}>
-                    {/* white box to hold form */}
-                    {successAlert && <SuccessAlert />}
-                    {retryAlert && <RetryAlert />}
+            <Fade in={ visible === "signin" }>
+                <Box sx={ style }>
+                    {/* white box to hold form */ }
+                    { successAlert && <SuccessAlert/> }
+                    { retryAlert && <RetryAlert/> }
                     <Container component="main" maxWidth="xs">
-                        <CssBaseline />
+                        <CssBaseline/>
                         <Box
-                            sx={{
+                            sx={ {
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center"
-                            }}
+                            } }
                         >
-                            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                                <LockOutlinedIcon />
+                            <Avatar sx={ { m: 1, bgcolor: "secondary.main" } }>
+                                <LockOutlinedIcon/>
                             </Avatar>
                             <Typography
                                 id="transition-modal-title"
@@ -115,9 +112,9 @@ const LogInModal = (prop) => {
                             </Typography>
                             <Box
                                 component="form"
-                                onSubmit={handleSubmit}
+                                onSubmit={ handleSubmit }
                                 noValidate
-                                sx={{ mt: 1 }}
+                                sx={ { mt: 1 } }
                             >
                                 <TextField
                                     margin="normal"
@@ -140,14 +137,14 @@ const LogInModal = (prop) => {
                                     autoComplete="current-password"
                                 />
                                 <FormControlLabel
-                                    control={<Checkbox value="remember" color="primary" />}
+                                    control={ <Checkbox value="remember" color="primary"/> }
                                     label="Remember me"
                                 />
                                 <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    sx={{ mt: 2, mb: 2 }}
+                                    sx={ { mt: 2, mb: 2 } }
                                 >
                                     Sign In
                                 </Button>
@@ -155,7 +152,7 @@ const LogInModal = (prop) => {
                                     <Grid item xs>
                                         <Link
                                             variant="body2"
-                                            onClick={() => handleSwitchtoForgetPassword()}
+                                            onClick={ () => handleSwitchtoForgetPassword() }
                                         >
                                             Forgot password?
                                         </Link>
@@ -163,9 +160,9 @@ const LogInModal = (prop) => {
                                     <Grid item>
                                         <Link
                                             variant="body2"
-                                            onClick={() => handleSwitchtoSignUp()}
+                                            onClick={ () => handleSwitchtoSignUp() }
                                         >
-                                            {"Don't have an account? Sign Up"}
+                                            { "Don't have an account? Sign Up" }
                                         </Link>
                                     </Grid>
                                 </Grid>
