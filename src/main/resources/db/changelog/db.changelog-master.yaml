@@ -259,57 +259,11 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
+  # Both YAML like above or SQL work
   - changeSet:
-      id: 9
+      id: spring-acl-schema
       author: xumarcus
-      preConditions:
-        - onFail: MARK_RAN
-        - not:
-            - tableExists:
-                tableName: acl_sid
       changes:
-        - createTable:
-            tableName: acl_sid
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: principal
-                  type: boolean
-                  constraints:
-                    nullable: false
-              - column:
-                  name: sid
-                  type: varchar(100)
-                  constraints:
-                    nullable: false
-  - changeSet:
-      id: 10
-      author: xumarcus
-      preConditions:
-        - onFail: MARK_RAN
-        - not:
-            - tableExists:
-                tableName: acl_class
-      changes:
-        - createTable:
-            tableName: acl_class
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: class
-                  type: varchar(100)
-                  constraints:
-                    unique: true
-                    nullable: false
+        - sqlFile:
+            dbms: all
+            path: spring-acl-schema.sql
