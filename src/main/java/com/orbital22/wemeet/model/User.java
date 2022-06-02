@@ -58,6 +58,18 @@ public class User {
     @NonNull
     private Set<RosterPlan> ownedRosterPlans = Collections.emptySet();
 
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    @Builder.Default
+    @NonNull
+    private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    @Builder.Default
+    @NonNull
+    private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
+
     public static User ofRegistered(String email, String encodedPassword) {
         return User.builder()
                    .email(email)

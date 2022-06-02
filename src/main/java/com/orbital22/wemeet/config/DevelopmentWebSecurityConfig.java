@@ -24,7 +24,7 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll() // TODO how about actuators?
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/", true);

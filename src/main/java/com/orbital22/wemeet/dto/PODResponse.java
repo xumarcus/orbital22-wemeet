@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GenericAPIResponse<T extends Serializable> {
+public class PODResponse<T extends Serializable> {
     @NonNull
     private T data;
 }
