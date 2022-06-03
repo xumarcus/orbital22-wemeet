@@ -5,6 +5,7 @@ import com.orbital22.wemeet.repository.UserRepository;
 import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.CumulativePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
@@ -35,13 +36,12 @@ public class UserService {
     MutableAcl acl =
         Try.of(() -> (MutableAcl) aclService.readAclById(oi))
             .getOrElse(() -> aclService.createAcl(oi));
-    Permission permission = BasePermission.READ; /*
+    Permission permission =
         new CumulativePermission()
             .set(BasePermission.READ)
             .set(BasePermission.WRITE)
-            .set(BasePermission.DELETE); */
+            .set(BasePermission.DELETE);
     Sid sid = new PrincipalSid(email);
-    // acl.setOwner(sid);
     acl.insertAce(acl.getEntries().size(), permission, sid, true);
     aclService.updateAcl(acl);
   }
