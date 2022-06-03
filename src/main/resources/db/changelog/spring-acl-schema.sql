@@ -1,6 +1,6 @@
 --changeset author:xumarcus
 --https://docs.spring.io/spring-security/site/docs/5.1.5.RELEASE/reference/html/appendix.html#postgresql
-CREATE TABLE acl_sid
+CREATE TABLE IF NOT EXISTS acl_sid
 (
     id        bigserial    NOT NULL PRIMARY KEY,
     principal boolean      NOT NULL,
@@ -8,14 +8,14 @@ CREATE TABLE acl_sid
     CONSTRAINT unique_uk_1 UNIQUE (sid, principal)
 );
 
-CREATE TABLE acl_class
+CREATE TABLE IF NOT EXISTS acl_class
 (
     id    bigserial    NOT NULL PRIMARY KEY,
     class varchar(100) NOT NULL,
     CONSTRAINT unique_uk_2 UNIQUE (class)
 );
 
-CREATE TABLE acl_object_identity
+CREATE TABLE IF NOT EXISTS acl_object_identity
 (
     id                 bigserial PRIMARY KEY,
     object_id_class    bigint      NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE acl_object_identity
     CONSTRAINT foreign_fk_3 FOREIGN KEY (owner_sid) REFERENCES acl_sid (id)
 );
 
-CREATE TABLE acl_entry
+CREATE TABLE IF NOT EXISTS acl_entry
 (
     id                  bigserial PRIMARY KEY,
     acl_object_identity bigint  NOT NULL,

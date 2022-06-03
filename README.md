@@ -89,3 +89,4 @@ liquibase update --changelog-file
 - No idea why validation fails to autoconfigure in Spring Boot `2.6.7` but works in `2.6.3`.
 - Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`
 - `user` is a keyword in Postgres. Breaking change in migration changelog is needed to rectify.
+- Even without `release` migrations are run when the application boots. Just for the UI/UX.
