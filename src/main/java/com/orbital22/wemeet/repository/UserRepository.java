@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   boolean existsByEmail(String email);
 
   @RestResource
-  Optional<User> findByEmail(String email);
+  Optional<User> findByEmail(String email); // TODO refactor into login
 
   @RestResource
   @Override
