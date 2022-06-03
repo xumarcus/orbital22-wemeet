@@ -44,5 +44,7 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf()
         .disable()
         .cors();
-    }
+
+    // TODO add success handler
+  }
 }
