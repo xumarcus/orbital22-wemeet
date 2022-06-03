@@ -84,7 +84,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_user_authority_user
-                    references: \"user\"(id)
+                    references: users(id)
               - column:
                   name: authority_id
                   type: int
