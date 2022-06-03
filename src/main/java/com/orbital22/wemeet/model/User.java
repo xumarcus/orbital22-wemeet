@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "\"user\"") // user is reserved keyword in Postgres
+@Table(name = "users") // user is reserved keyword in Postgres
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
