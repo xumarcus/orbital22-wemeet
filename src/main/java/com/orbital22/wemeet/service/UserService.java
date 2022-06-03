@@ -5,7 +5,6 @@ import com.orbital22.wemeet.repository.UserRepository;
 import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.CumulativePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
@@ -31,18 +30,20 @@ public class UserService {
     Assert.isTrue(!userRepository.existsByEmail(email), "Email exists");
     User user = User.ofRegistered(email, passwordEncoder.encode(password));
     userRepository.save(user);
+
     // Allow user to access oneself
     ObjectIdentity oi = new ObjectIdentityImpl(user);
     MutableAcl acl =
         Try.of(() -> (MutableAcl) aclService.readAclById(oi))
             .getOrElse(() -> aclService.createAcl(oi));
-    Permission permission =
-        new CumulativePermission()
-            .set(BasePermission.READ)
-            .set(BasePermission.WRITE)
-            .set(BasePermission.DELETE);
     Sid sid = new PrincipalSid(email);
-    acl.insertAce(acl.getEntries().size(), permission, sid, true);
+
+    // Do not use CumulativePermission!
+    Permission[] permissions =
+        new Permission[] {BasePermission.READ, BasePermission.WRITE, BasePermission.DELETE};
+    for (Permission permission : permissions) {
+      acl.insertAce(acl.getEntries().size(), permission, sid, true);
+    }
     aclService.updateAcl(acl);
   }
 }
