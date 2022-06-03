@@ -266,4 +266,4 @@ databaseChangeLog:
       changes:
         - sqlFile:
             dbms: all
-            path: spring-acl-schema.sql
+            path: db/changelog/spring-acl-schema.sql

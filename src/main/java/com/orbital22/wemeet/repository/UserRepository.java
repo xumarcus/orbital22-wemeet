@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @RepositoryRestResource(collectionResourceRel = "users", path = "users")
 public interface UserRepository extends JpaRepository<User, Integer> {
-    boolean existsByEmail(String email);
+  boolean existsByEmail(String email);
 
   @RestResource
   Optional<User> findByEmail(String email);
 
-    @RestResource
-    @Override
-    @NotNull
-    @PostAuthorize("hasPermission(returnObject, 'READ')")
-    Optional<User> findById(@NotNull Integer id);
+  @RestResource
+  @Override
+  @NotNull
+  @PostAuthorize("returnObject.isEmpty() or hasPermission(returnObject.get(), 'READ')")
+  Optional<User> findById(@NotNull Integer id);
 }

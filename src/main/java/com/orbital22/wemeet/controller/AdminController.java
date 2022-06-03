@@ -21,9 +21,9 @@ import java.sql.Connection;
 public class AdminController {
     DataSource dataSource;
 
-    @GetMapping()
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public PODResponse<String> admin() {
+  @GetMapping()
+  @PreAuthorize("hasRole('ADMIN')")
+  public PODResponse<String> admin() {
         try (Connection connection = dataSource.getConnection()) {
             String data = connection.getMetaData().getDatabaseProductVersion();
             return new PODResponse<>(data);
