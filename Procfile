@@ -1,2 +1,2 @@
-web: java -jar target/wemeet-0.1.jar
+web: java -jar target/wemeet-0.2.0.jar
 release: ./mvnw liquibase:update

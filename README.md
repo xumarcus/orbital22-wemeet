@@ -26,33 +26,56 @@ git clone https://github.com/xumarcus/orbital22-wemeet
 heroku git:remote -a orbital22-wemeet-dev -r heroku-dev
 heroku git:remote -a orbital22-wemeet-staging -r heroku
 ```
+
 - Settings &rarr; Plugins &rarr; `EnvFile 3.2` &rarr; Install
 - `Main` Configuration:
-    - Application
-    - `com.orbital22.wemeet.Main`
-    - Enable `EnvFile` and add local `.env`
+  - Application
+  - `com.orbital22.wemeet.Main`
+  - Enable `EnvFile` and add local `.env`
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
-- Edit `src/main/application.properties` &rarr; `spring.profiles.active=development`
-- Run &rarr; Check `localhost:5000`
-- Front-end debugging: `cd src/main/webapp/app` then `npm start`
+- Build &rarr; Check `localhost:5000`
+
+## Debugging
+
+- `cd src/main/webapp/app`
+- `npm start`
+- Insert/replace these in `src/main/resources/application.properties`.
+
+```properties
+# More messages
+logging.level.org.springframework=DEBUG
+# Disable CORS, CSRF and firewall
+spring.profiles.active=development
+# Expose cookie to client
+server.servlet.session.cookie.http-only=false
+server.servlet.session.cookie.secure=false
+# Actuator
+management.endpoints.web.exposure.include=*
+management.endpoint.shutdown.enabled=true
+endpoints.shutdown.enabled=true
+```
 
 ## Deployment
-Heroku's Github integration is currently broken.
 
-To dev server,
+Profile is always `production`.
+
+To dev server
+
 ```shell
 git checkout dev
-git push heroku-dev dev
+git push heroku-dev dev:main
 ```
-To staging server,
+
+To staging server
 ```shell
 git checkout main
 git merge dev
 git push heroku main
 ```
+
 To test out database changes, create another app in Heroku.
 
-To run migrations,
+To run migrations, (run automatically during deployment using `release`)
 ```shell
 liquibase update --changelog-file
   .\src\main\resources\db\changelog\db.changelog-master.yaml
@@ -61,7 +84,7 @@ liquibase update --changelog-file
   --url jdbc:postgresql://{DATABASE_URL}:5432/{DATABASE_NAME}
 ```
 
-## Remarks
+## Notes
 - No idea what magic `src/main/resources/liquibase.properties` is doing, but doing without somehow breaks deployment.
 - No idea why validation fails to autoconfigure in Spring Boot `2.6.7` but works in `2.6.3`.
 - Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`

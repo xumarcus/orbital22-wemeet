@@ -2,11 +2,13 @@ target/
 .idea/
 .settings/
 docs/tmp/
-src/main/webapp/app/build
-src/main/webapp/app/node_modules
 .env
 .classpath
 .project
 .mvn/wrapper/maven-wrapper.jar
 *.iml
 src/main/resources/application.properties
+
+src/main/webapp/app/build
+src/main/webapp/app/node_modules
+src/main/webapp/app/package-lock.json
