@@ -16,6 +16,8 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Integer> {
   boolean existsByEmail(String email);
 
+  Optional<User> findByEmail(String mail);
+
   @RestResource
   @NonNull
   Set<User> findByEmailIn(Collection<String> emails);
