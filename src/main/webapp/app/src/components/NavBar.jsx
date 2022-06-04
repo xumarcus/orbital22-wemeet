@@ -11,12 +11,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { useState } from "react";
 import logo from "./logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import LogInModal from "./LogInModal";
 import ForgetPasswordModel from "./ForgetPasswordModal";
 import SignUpModal from "./SignUpModal";
-import { useState } from "react";
 
 const pages = [
   // ["Display Name", "url"]
@@ -52,7 +52,7 @@ const ResponsiveAppBar = () => {
 
   const handleCloseUserMenu = (newPage) => {
     setAnchorElUser(null);
-    navigate(`/${newPage}`);
+    navigate(`/${ newPage }`);
   };
 
   const handleStartNowClick = () => {
@@ -64,20 +64,20 @@ const ResponsiveAppBar = () => {
     <>
       <LogInModal visible={ModalVisible} setVisible={setModalVisible} />
       <ForgetPasswordModel
-        visible={ModalVisible}
-        setVisible={setModalVisible}
+          visible={ ModalVisible }
+          setVisible={ setModalVisible }
       />
-      <SignUpModal visible={ModalVisible} setVisible={setModalVisible} />
-      <AppBar position="static" sx={{ bgcolor: "white", boxShadow: "0" }}>
+      <SignUpModal visible={ ModalVisible } setVisible={ setModalVisible }/>
+      <AppBar position="static" sx={ { bgcolor: "white", boxShadow: "0" } }>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Link to={"/"}>
+            <Link to={ "/" }>
               <Box
-                component="img"
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  my: 3,
-                  mx: 2,
+                  component="img"
+                  sx={ {
+                    display: { xs: "none", md: "flex" },
+                    my: 3,
+                    mx: 2,
                   maxHeight: { xs: 320, md: 250 },
                   maxWidth: { xs: 350, md: 300 }
                 }}
@@ -167,9 +167,9 @@ const ResponsiveAppBar = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting[0]} onClick={handleCloseUserMenu.bind(this, setting[1])}>
-                    <Typography textAlign="center">{setting[0]}</Typography>
-                  </MenuItem>
+                    <MenuItem key={ setting[0] } onClick={ handleCloseUserMenu.bind(this, setting[1]) }>
+                      <Typography textAlign="center">{ setting[0] }</Typography>
+                    </MenuItem>
                 ))}
               </Menu>
             </Box>

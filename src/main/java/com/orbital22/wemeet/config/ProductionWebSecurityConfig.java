@@ -9,12 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
- * Enables firewall
- * Server should send XSRF-TOKEN cookie and client should reply with X-XSRF-TOKEN cookie.
+ * Enables firewall Server should send XSRF-TOKEN cookie and client should reply with X-XSRF-TOKEN
+ * cookie.
+ *
  * @author xumarcus
  * @version 0.2.1
  */
@@ -29,17 +29,22 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-            .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
-            .antMatchers("/api/auth/**", "/public/**", "/static/**", "/*").permitAll()
-            .antMatchers("/api/**").authenticated()
-            .anyRequest().permitAll()
-            .and()
-            .formLogin()
-            .usernameParameter("email")
-            .passwordParameter("password")
-            .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-            .and()
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    http.authorizeHttpRequests()
+        .antMatchers("/api/admin/**", "/actuator/**")
+        .hasRole("ADMIN")
+        .antMatchers("/api/auth/**", "/public/**", "/static/**", "/*")
+        .permitAll()
+        .antMatchers("/api/**")
+        .authenticated()
+        .anyRequest()
+        .permitAll()
+        .and()
+        .formLogin()
+        .usernameParameter("email")
+        .passwordParameter("password")
+        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+        .and()
+        .csrf()
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 }

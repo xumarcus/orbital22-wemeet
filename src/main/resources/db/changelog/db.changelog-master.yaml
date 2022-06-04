@@ -6,10 +6,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: user
+                tableName: users
       changes:
         - createTable:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: id
@@ -84,7 +84,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_user_authority_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: authority_id
                   type: int
@@ -99,11 +99,11 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - columnExists:
-                tableName: user
+                tableName: users
                 columnName: registered
       changes:
         - addColumn:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: registered
@@ -136,7 +136,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_roster_plan_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: title
                   type: varchar(255)
@@ -174,7 +174,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_roster_plan_user_info_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: has_responded
                   type: boolean
@@ -253,9 +253,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_time_slot_user_info_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: rank
                   type: int
                   constraints:
                     nullable: false
+  # Both YAML like above or SQL work
+  - changeSet:
+      id: spring-acl-schema
+      author: xumarcus
+      changes:
+        - sqlFile:
+            dbms: all
+            path: db/changelog/spring-acl-schema.sql

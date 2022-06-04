@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 
 /**
  * Disables firewall
+ *
  * @author xumarcus
  * @version 0.2.1
  * @see DevelopmentCORSConfig
@@ -25,20 +26,25 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    // Redundant check that limits API to authenticated users.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-            // .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
-            // .antMatchers("/api/auth/**", "/public/**", "/static/**", "/*").permitAll()
-            // .antMatchers("/api/**").authenticated()
-            .anyRequest().permitAll()
-            .and()
-            .formLogin()
-            .usernameParameter("email")
-            .passwordParameter("password")
-            .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-            .and()
-            .csrf().disable()
-            .cors();
-    }
+    http.authorizeHttpRequests()
+        // .antMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
+        // .antMatchers("/api/auth/**", "/public/**", "/static/**", "/*").permitAll()
+        // .antMatchers("/api/**").authenticated()
+        .anyRequest()
+        .permitAll()
+        .and()
+        .formLogin()
+        .usernameParameter("email")
+        .passwordParameter("password")
+        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+        .and()
+        .csrf()
+        .disable()
+        .cors();
+
+    // TODO add success handler
+  }
 }

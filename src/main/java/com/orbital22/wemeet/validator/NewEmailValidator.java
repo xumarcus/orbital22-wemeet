@@ -15,6 +15,6 @@ public class NewEmailValidator implements ConstraintValidator<NewEmailConstraint
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext ctx) {
-        return !userRepository.existsByEmail(email);
+    return !userRepository.existsByEmail(email);
     }
 }

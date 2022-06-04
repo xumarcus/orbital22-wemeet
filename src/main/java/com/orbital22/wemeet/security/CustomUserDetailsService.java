@@ -1,4 +1,4 @@
-package com.orbital22.wemeet.service;
+package com.orbital22.wemeet.security;
 
 import com.orbital22.wemeet.repository.UserRepository;
 import lombok.AllArgsConstructor;

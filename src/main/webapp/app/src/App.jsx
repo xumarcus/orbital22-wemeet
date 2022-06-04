@@ -8,11 +8,11 @@ import NavigationBar from "./components/NavBar";
 const App = () => {
     return (
         <React.Fragment>
-            <CssBaseline />
-            <NavigationBar />
-            <Home />
-            <Footer />
-            <Outlet />
+            <CssBaseline/>
+            <NavigationBar/>
+            <Home/>
+            <Footer/>
+            <Outlet/>
         </React.Fragment>
     );
 };

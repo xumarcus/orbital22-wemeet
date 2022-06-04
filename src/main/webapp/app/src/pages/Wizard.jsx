@@ -1,8 +1,6 @@
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useState } from "react";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
 import Header from "../components/NavBar";
 import Footer from "../components/Footer";
 import Grid from "@mui/material/Grid";
@@ -19,15 +17,15 @@ const Wizard = () => {
 
     return (
         <>
-            <Header />
-            <Footer />
+            <Header/>
+            <Footer/>
             <Grid
                 container
                 direction="column"
                 justifyContent="flex-start"
                 alignItems="center"
                 border="1px dashed"
-                sx={{
+                sx={ {
                     bgcolor: "#E3FFFC",
                     boxShadow: "4",
                     mt: "20px",
@@ -35,24 +33,24 @@ const Wizard = () => {
                     ml: "5%",
                     alignSelf: "center",
                     pt: 5
-                }}
+                } }
             >
                 <Grid item>
                     <Typography
                         variant="h4"
                         component="div"
-                        sx={{ border: "1px dashed", bm: 2 }}
+                        sx={ { border: "1px dashed", bm: 2 } }
                     >
                         I would like to:
                     </Typography>
                 </Grid>
-                <Grid item sx={{ border: "1px dashed", my: 5, width: "85%" }}>
-                    <Stack spacing={3} sx={{ border: "5px dashed" }}>
+                <Grid item sx={ { border: "1px dashed", my: 5, width: "85%" } }>
+                    <Stack spacing={ 3 } sx={ { border: "5px dashed" } }>
                         <LoadingButton
                             variant="contained"
                             size="large"
-                            loading={rosterBtnLoading}
-                            onClick={handleClick}
+                            loading={ rosterBtnLoading }
+                            onClick={ handleClick }
                         >
                             Generate a Roster
                         </LoadingButton>
@@ -60,7 +58,7 @@ const Wizard = () => {
                             Upcoming Features
                         </Typography>
                         <Button variant="contained" size="large" disabled>
-                            Schedule a One-on-One Meetup{" "}
+                            Schedule a One-on-One Meetup{ " " }
                         </Button>
                         <Button variant="contained" size="large" disabled>
                             Schedule a Group Meetup

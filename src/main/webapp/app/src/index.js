@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Features from "./pages/Features";
@@ -15,13 +15,13 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path={"/"} element={<App />} />
-                <Route path={"/features"} element={<Features />} />
-                <Route path={"/guide"} element={<Guide />} />
-                <Route path={"/about"} element={<About />} />
-                <Route path={"/wizard"} element={<Wizard />} />
-                <Route path={"/dashboard"} element={<Dashboard />} />
-                <Route path={"/profile"} element={<Profile />} />
+                <Route path={ "/" } element={ <App/> }/>
+                <Route path={ "/features" } element={ <Features/> }/>
+                <Route path={ "/guide" } element={ <Guide/> }/>
+                <Route path={ "/about" } element={ <About/> }/>
+                <Route path={ "/wizard" } element={ <Wizard/> }/>
+                <Route path={ "/dashboard" } element={ <Dashboard/> }/>
+                <Route path={ "/profile" } element={ <Profile/> }/>
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

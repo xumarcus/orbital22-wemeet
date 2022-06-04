@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Alert from '@mui/material/Alert';
 
-const SuccessAlert =() => {
+const SuccessAlert = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
