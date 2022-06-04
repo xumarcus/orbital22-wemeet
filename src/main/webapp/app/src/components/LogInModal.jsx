@@ -16,7 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import SuccessAlert from "./SuccessAlert";
 import RetryAlert from "./RetryAlert";
-import { ajax, login } from "../util";
+import { login } from "../util";
 
 
 const style = {
@@ -56,9 +56,7 @@ const LogInModal = (prop) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         try {
-            await login(formData);
-            const params = new URLSearchParams({ email: String(formData.get("email")) });
-            const user = await ajax("GET")("/api/users/search/findByEmail?" + params);
+            const user = await login(formData);
 
             // TODO preserve user in context
             // TODO combine two API calls into one in BE

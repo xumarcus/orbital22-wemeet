@@ -39,12 +39,11 @@ public class DevelopmentWebSecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin()
         .usernameParameter("email")
         .passwordParameter("password")
+        .successHandler(new LoginSuccessHandler())
         .failureHandler(new SimpleUrlAuthenticationFailureHandler())
         .and()
         .csrf()
         .disable()
         .cors();
-
-    // TODO add success handler
   }
 }

@@ -22,13 +22,13 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Profile("production")
 @EnableWebSecurity
 public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests()
         .antMatchers("/api/admin/**", "/actuator/**")
         .hasRole("ADMIN")
@@ -42,9 +42,10 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin()
         .usernameParameter("email")
         .passwordParameter("password")
+        .successHandler(new LoginSuccessHandler())
         .failureHandler(new SimpleUrlAuthenticationFailureHandler())
         .and()
         .csrf()
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-    }
+  }
 }
