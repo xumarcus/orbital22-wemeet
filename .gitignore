@@ -3,6 +3,7 @@ target/
 .settings/
 docs/tmp/
 .env
+.local
 .classpath
 .project
 .mvn/wrapper/maven-wrapper.jar

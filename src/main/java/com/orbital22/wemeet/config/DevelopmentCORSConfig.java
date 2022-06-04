@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@Profile("development")
+@Profile({"development", "test"})
 public class DevelopmentCORSConfig {
   @Bean
   public WebMvcConfigurer corsConfigurer() {
