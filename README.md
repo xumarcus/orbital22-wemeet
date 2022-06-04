@@ -32,6 +32,7 @@ heroku git:remote -a orbital22-wemeet-staging -r heroku
   - Application
   - `com.orbital22.wemeet.Main`
   - Enable `EnvFile` and add local `.env`
+  - Or you can modify `application.properties` is possible, but do not commit it!
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
 - Build &rarr; Check `localhost:5000`
 
