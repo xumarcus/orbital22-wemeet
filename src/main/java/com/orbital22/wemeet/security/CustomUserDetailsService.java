@@ -21,9 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        return userRepository
-                .findByEmail(email)
-                .map(CustomUserPrincipal::new)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+    return userRepository
+        .findByEmail(email)
+        .map(CustomUser::new)
+        .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }

@@ -1,12 +1,12 @@
-export const ajax = (method, data /* optional parameter */) => async (uri) => {
+export const ajax = (method, data = {}, isFormData = false) => async (uri) => {
     const resp = await fetch(uri, {
-        body: JSON.stringify(data),
+        body: isFormData ? data : JSON.stringify(data),
         headers: {
-            "Content-Type": "application/json",
-            "X-XSRF-TOKEN": csrfToken()
+            "X-XSRF-TOKEN": csrfToken(),
+            ...(isFormData ? undefined : { "Content-Type": "application/json" })
         },
         method,
-        redirect: "error",
+        redirect: "follow",
     });
     if (resp.ok) {
         return resp.json();
@@ -18,24 +18,7 @@ export const ajax = (method, data /* optional parameter */) => async (uri) => {
 // In development, resp.type === 'cors'
 // In production, resp.type is per normal
 export const login = async (formData) => {
-    console.assert(formData !== undefined);
-
-    // Success: 302 -> GET / -> 200
-    // Failure: 401
-    // Redirect path could be useful in the future
-    const resp = await fetch("/login", {
-        body: formData,
-        headers: {
-            "X-XSRF-TOKEN": csrfToken()
-        },
-        method: "POST",
-        redirect: "follow",
-    });
-
-    // GET / -> html is ignored for now
-    if (!resp.ok) {
-        throw new Error(resp.statusText);
-    }
+    return ajax("POST", formData, true)("/login");
 };
 
 const csrfToken = () => document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
