@@ -3,7 +3,8 @@ package com.orbital22.wemeet.service;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -17,9 +18,9 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
-  private PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
   private UserRepository userRepository;
   private AclRegisterService aclRegisterService;
 
