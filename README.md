@@ -15,7 +15,7 @@ heroku run env -a orbital22-wemeet-dev
 ## IDE and Code Style
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 - Plugins &rarr; google-java-format &rarr; Enable
-- Git &rarr; Before Commit &rarr; Reformat, Rearrange, Optimize
+- Git &rarr; Before Commit &rarr; Reformat, Rearrange, Optimize, Analyze, Check TODO, Run `SpringBootInitTest`
 - OpenJDK 11
 - SQL naming is `snake_case`. While Spring magic automatically transforms entity names to snake case,
   indicate `@Table(name)` to avoid confusion and more importantly, help the IDE.
