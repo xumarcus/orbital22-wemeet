@@ -4,6 +4,9 @@ import com.orbital22.wemeet.dto.AuthRegisterRequest;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +19,16 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
   private UserService userService;
+  private AuthenticationManager authenticationManager;
 
+  // TODO HATEOAS?
   @PostMapping("/register")
-  public User register(@Valid @RequestBody AuthRegisterRequest authRegisterRequest) {
-    String email = authRegisterRequest.getEmail();
-    String password = authRegisterRequest.getPassword();
-    return userService.register(email, password);
+  public User register(@Valid @RequestBody AuthRegisterRequest request) {
+    User user = userService.register(request.getEmail(), request.getPassword());
+    UsernamePasswordAuthenticationToken authReq =
+        new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+    SecurityContextHolder.getContext()
+        .setAuthentication(authenticationManager.authenticate(authReq));
+    return user;
   }
 }
