@@ -1,13 +1,17 @@
 package com.orbital22.wemeet.dto;
 
 import com.orbital22.wemeet.annotation.NewEmailConstraint;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthRegisterRequest {
   @NotNull
   @Email(message = "Valid email address required")

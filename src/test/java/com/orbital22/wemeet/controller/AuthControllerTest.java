@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,12 +33,25 @@ class AuthControllerTest {
 
   @Test
   public void givenEmptyRequest_whenRegister_thenBadRequest() throws Exception {
-    doNothing().when(userService).register(anyString(), anyString());
+    when(userService.register(anyString(), anyString())).thenReturn(null);
     RequestBuilder request =
         post("/api/auth/register")
             .accept(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(new AuthRegisterRequest()))
             .contentType(MediaType.APPLICATION_JSON);
     this.mockMvc.perform(request).andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenValidRequest_whenRegister_thenOk() throws Exception {
+    when(userService.register(anyString(), anyString())).thenReturn(null);
+    RequestBuilder request =
+        post("/api/auth/register")
+            .accept(MediaType.APPLICATION_JSON)
+            .content(
+                objectMapper.writeValueAsString(
+                    new AuthRegisterRequest("user@wemeet.com", "password")))
+            .contentType(MediaType.APPLICATION_JSON);
+    this.mockMvc.perform(request).andExpect(status().isOk());
   }
 }

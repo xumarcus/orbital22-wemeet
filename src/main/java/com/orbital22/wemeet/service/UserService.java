@@ -4,6 +4,7 @@ import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.security.acls.domain.BasePermission.*;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,11 +26,12 @@ public class UserService {
   private UserRepository userRepository;
   private AclRegisterService aclRegisterService;
 
-  public void register(String email, String password) {
+  public User register(String email, String password) {
     Assert.isTrue(!userRepository.existsByEmail(email), "Email exists");
-    User user = User.ofRegistered(email, passwordEncoder.encode(password));
-    userRepository.save(user);
+    User user = userRepository.save(User.ofRegistered(email, passwordEncoder.encode(password)));
     aclRegisterService.register(user, email, READ, WRITE, DELETE);
+    log.info("Email " + email + " registered.");
+    return user;
   }
 
   public Set<User> makeFromEmails(Collection<String> emails) {
