@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -36,7 +37,7 @@ class RegisterControllerTest {
     when(userService.register(anyString(), anyString())).thenReturn(null);
     RequestBuilder request =
         post("/api/users/register")
-            .accept(MediaType.APPLICATION_JSON)
+            .accept(MediaTypes.HAL_JSON_VALUE)
             .content(objectMapper.writeValueAsString(new AuthRegisterRequest()))
             .contentType(MediaType.APPLICATION_JSON);
     this.mockMvc.perform(request).andExpect(status().isBadRequest());
@@ -50,16 +51,20 @@ class RegisterControllerTest {
     when(userService.register(anyString(), anyString())).thenReturn(user);
     when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
     RequestBuilder request =
-        post("/api/auth/register")
-            .accept(MediaType.APPLICATION_JSON)
+        post("/api/users/register")
+            .accept(MediaTypes.HAL_JSON_VALUE)
             .content(
                 objectMapper.writeValueAsString(
                     new AuthRegisterRequest("user@wemeet.com", "password")))
             .contentType(MediaType.APPLICATION_JSON);
+    String expectedBody =
+        "{ \"email\" : \"user@wemeet.com\", \"enabled\" : true, \"registered\" : true,"
+            + "\"authorities\" : [ ], \"rosterPlanUserInfos\" : [ ], \"timeSlotUserInfos\" : [ ], \"_links\" : { \"self\" :"
+            + "[ { \"href\" : \"http://localhost/api/users/register\" },{ \"href\" : \"/api/users/1\" } ] } }";
     this.mockMvc
         .perform(request)
         .andExpect(status().isOk())
-        .andExpect(content().json(objectMapper.writeValueAsString(user)));
+        .andExpect(content().json(expectedBody));
     Mockito.verify(authenticationManager).authenticate(any(Authentication.class));
   }
 }
