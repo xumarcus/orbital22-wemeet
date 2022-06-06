@@ -11,24 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-/**
- * Example
- */
+/** Example */
 @Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
-    DataSource dataSource;
+  DataSource dataSource;
 
   @GetMapping()
   @PreAuthorize("hasRole('ADMIN')")
   public PODResponse<String> admin() {
-        try (Connection connection = dataSource.getConnection()) {
-            String data = connection.getMetaData().getDatabaseProductVersion();
-            return new PODResponse<>(data);
-        } catch (Exception e) {
-            return new PODResponse<>(e.getMessage());
-        }
+    try (Connection connection = dataSource.getConnection()) {
+      String data = connection.getMetaData().getDatabaseProductVersion();
+      return new PODResponse<>(data);
+    } catch (Exception e) {
+      return new PODResponse<>(e.getMessage());
     }
+  }
 }

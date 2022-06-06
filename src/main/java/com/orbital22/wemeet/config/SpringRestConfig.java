@@ -7,10 +7,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class SpringRestConfig implements RepositoryRestConfigurer {
-    @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config,
-                                                     CorsRegistry cors) {
-        config.setExposeRepositoryMethodsByDefault(false);
-        RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
-    }
+  @Override
+  public void configureRepositoryRestConfiguration(
+      RepositoryRestConfiguration config, CorsRegistry cors) {
+    config.setExposeRepositoryMethodsByDefault(false);
+    RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
+  }
 }
