@@ -60,7 +60,7 @@ class RegisterControllerTest {
     String expectedBody =
         "{ \"email\" : \"user@wemeet.com\", \"enabled\" : true, \"registered\" : true,"
             + "\"authorities\" : [ ], \"rosterPlanUserInfos\" : [ ], \"timeSlotUserInfos\" : [ ], \"_links\" : { \"self\" :"
-            + "[ { \"href\" : \"http://localhost/api/users/register\" },{ \"href\" : \"/api/users/1\" } ] } }";
+            + "[ { \"href\" : \"http://localhost/api/users/register\" },{ \"href\" : \"http://localhost/api/users/1\" } ] } }";
     this.mockMvc
         .perform(request)
         .andExpect(status().isOk())
