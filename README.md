@@ -1,4 +1,4 @@
-# orbital22-wemeet
+# orbital22-wemeet (0.2.0)
 
 ## Database
 - [PostgresSQL 14](https://www.postgresql.org/download/) (Comes with `pgAdmin4`)
