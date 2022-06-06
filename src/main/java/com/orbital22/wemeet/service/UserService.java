@@ -5,10 +5,8 @@ import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
@@ -22,12 +20,14 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
-  private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-  private UserRepository userRepository;
-  private AclRegisterService aclRegisterService;
+  private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final AclRegisterService aclRegisterService;
 
   public User register(String email, String password) {
-    Assert.isTrue(!userRepository.existsByEmail(email), "Email exists");
+    if (userRepository.existsByEmail(email)) {
+      throw new RuntimeException();
+    }
     User user = userRepository.save(User.ofRegistered(email, passwordEncoder.encode(password)));
     aclRegisterService.register(user, email, READ, WRITE, DELETE);
     log.info("Email " + email + " registered.");

@@ -23,9 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthController.class)
+@WebMvcTest(RegisterController.class)
 @OverrideAutoConfiguration(enabled = true)
-class AuthControllerTest {
+class RegisterControllerTest {
   @Autowired private ObjectMapper objectMapper;
   @Autowired private MockMvc mockMvc;
   @MockBean private UserService userService;
@@ -35,7 +35,7 @@ class AuthControllerTest {
   public void givenEmptyRequest_whenRegister_thenBadRequest() throws Exception {
     when(userService.register(anyString(), anyString())).thenReturn(null);
     RequestBuilder request =
-        post("/api/auth/register")
+        post("/api/users/register")
             .accept(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(new AuthRegisterRequest()))
             .contentType(MediaType.APPLICATION_JSON);

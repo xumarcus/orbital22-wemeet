@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
@@ -32,7 +34,7 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeHttpRequests()
         .antMatchers("/api/admin/**", "/actuator/**")
         .hasRole("ADMIN")
-        .antMatchers("/api/auth/**", "/public/**", "/static/**", "/*")
+        .antMatchers("/api/users/register", "/public/**", "/static/**", "/*")
         .permitAll()
         .antMatchers("/api/**")
         .authenticated()
@@ -47,5 +49,10 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .csrf()
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }
