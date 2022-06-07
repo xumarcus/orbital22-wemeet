@@ -34,11 +34,7 @@ public class RosterPlan {
   @NonNull
   private Set<TimeSlot> timeSlots = Collections.emptySet();
 
-  @OneToMany(mappedBy = "rosterPlan")
-  @MapKeyJoinColumn(name = "user_id")
-  @ToString.Exclude
-  @Builder.Default
-  @NonNull
+  @OneToMany @ToString.Exclude @Builder.Default @NonNull
   private Map<User, RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptyMap();
 
   @Override

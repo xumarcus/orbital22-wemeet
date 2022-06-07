@@ -5,6 +5,7 @@ import com.orbital22.wemeet.dto.AuthRegisterRequest;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
@@ -29,8 +31,6 @@ class AuthControllerTest {
   @Autowired private ObjectMapper objectMapper;
   @Autowired private MockMvc mockMvc;
   @MockBean private UserService userService;
-
-  // Remove this unused mock break tests
   @MockBean private AuthenticationManager authenticationManager;
 
   @Test
@@ -42,6 +42,7 @@ class AuthControllerTest {
             .content(objectMapper.writeValueAsString(new AuthRegisterRequest()))
             .contentType(MediaType.APPLICATION_JSON);
     this.mockMvc.perform(request).andExpect(status().isBadRequest());
+    Mockito.verifyNoInteractions(authenticationManager);
   }
 
   @Test
@@ -49,6 +50,7 @@ class AuthControllerTest {
     User user = User.ofRegistered("user@wemeet.com", "encodedPassword");
     user.setId(1);
     when(userService.register(any())).thenReturn(Optional.of(user));
+    when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
     AuthRegisterRequest authRegisterRequest =
         AuthRegisterRequest.builder().email("user@wemeet.com").password("password").build();
 
@@ -59,12 +61,12 @@ class AuthControllerTest {
             .contentType(MediaType.APPLICATION_JSON);
     String expectedBody =
         "{ \"email\" : \"user@wemeet.com\", \"enabled\" : true, \"registered\" : true,"
-            + "\"authorities\" : [ ], \"timeSlotUserInfos\" : [ ], \"_links\" : { \"self\" :"
-            + "{ \"href\" : \"http://localhost/api/auth/register\" }, \"user\" : { \"href\" : "
-            + "\"http://localhost/api/users/1\" } } }";
+            + "\"authorities\" : [ ], \"rosterPlanUserInfos\" : [ ], \"timeSlotUserInfos\" : [ ], \"_links\" : { \"self\" :"
+            + "[ { \"href\" : \"http://localhost/api/auth/register\" },{ \"href\" : \"http://localhost/api/users/1\" } ] } }";
     this.mockMvc
         .perform(request)
         .andExpect(status().isOk())
         .andExpect(content().json(expectedBody));
+    Mockito.verify(authenticationManager).authenticate(any());
   }
 }

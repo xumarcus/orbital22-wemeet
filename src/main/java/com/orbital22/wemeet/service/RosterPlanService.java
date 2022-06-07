@@ -13,9 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.springframework.security.acls.domain.BasePermission.*;
 
@@ -35,38 +32,30 @@ public class RosterPlanService {
             RosterPlan.builder().owner(owner).title(request.getTitle()).build());
     aclRegisterService.register(rosterPlan, owner.getEmail(), READ, WRITE, DELETE);
 
-    rosterPlan.setRosterPlanUserInfos(
-        rosterPlanUserInfoRepository
-            .saveAll(
-                () ->
-                    userService.fromEmails(request.getEmails()).stream()
-                        .peek(
-                            user -> aclRegisterService.register(rosterPlan, user.getEmail(), READ))
-                        .map(
-                            user ->
-                                RosterPlanUserInfo.builder()
-                                    .rosterPlan(rosterPlan)
-                                    .user(user)
-                                    .hasResponded(false)
-                                    .build())
-                        .peek(
-                            info ->
-                                aclRegisterService.register(
-                                    info, info.getUser().getEmail(), READ, WRITE))
-                        .iterator())
-            .stream()
-            .collect(Collectors.toMap(RosterPlanUserInfo::getUser, Function.identity())));
+    rosterPlanUserInfoRepository.saveAll(
+        () ->
+            userService.fromEmails(request.getEmails()).stream()
+                .peek(user -> aclRegisterService.register(rosterPlan, user.getEmail(), READ))
+                .map(
+                    user ->
+                        RosterPlanUserInfo.builder()
+                            .rosterPlan(rosterPlan)
+                            .user(user)
+                            .hasResponded(false)
+                            .build())
+                .peek(
+                    info ->
+                        aclRegisterService.register(info, info.getUser().getEmail(), READ, WRITE))
+                .iterator());
 
     // No ACL
-    rosterPlan.setTimeSlots(
-        new HashSet<>(
-            timeSlotRepository.saveAll(
-                () ->
-                    request.getTimeSlotDtos().stream()
-                        .map(TimeSlotMapper.INSTANCE::timeSlotDtoToTimeSlot)
-                        .peek(timeSlot -> timeSlot.setRosterPlan(rosterPlan))
-                        .iterator())));
+    timeSlotRepository.saveAll(
+        () ->
+            request.getTimeSlotDtos().stream()
+                .map(TimeSlotMapper.INSTANCE::timeSlotDtoToTimeSlot)
+                .peek(timeSlot -> timeSlot.setRosterPlan(rosterPlan))
+                .iterator());
 
-    return rosterPlanRepository.saveAndFlush(rosterPlan);
+    return rosterPlan;
   }
 }
