@@ -4,6 +4,7 @@ import com.orbital22.wemeet.dto.AuthRegisterRequest;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,16 +21,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+  private final RepositoryEntityLinks links;
   private final UserService userService;
 
   @PostMapping("/register")
-  public ResponseEntity<EntityModel<User>> register(
-      @Valid @RequestBody AuthRegisterRequest request) {
+  public ResponseEntity<?> register(@Valid @RequestBody AuthRegisterRequest request) {
     User user = userService.register(request).orElseThrow();
     EntityModel<User> resources = EntityModel.of(user);
     resources.add(
         linkTo(methodOn(AuthController.class).register(request)).withSelfRel(),
-        linkTo(AuthController.class).slash(user.getId()).withSelfRel());
+        links.linkToItemResource(user, User::getId));
     return ResponseEntity.ok(resources);
   }
 }
