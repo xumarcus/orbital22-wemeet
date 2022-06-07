@@ -34,7 +34,7 @@ public class ProductionWebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeHttpRequests()
         .antMatchers("/api/admin/**", "/actuator/**")
         .hasRole("ADMIN")
-        .antMatchers("/api/users/register", "/public/**", "/static/**", "/*")
+        .antMatchers("/api/auth/register", "/public/**", "/static/**", "/*")
         .permitAll()
         .antMatchers("/api/**")
         .authenticated()

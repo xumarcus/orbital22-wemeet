@@ -17,16 +17,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RegisterController.class)
+@WebMvcTest(AuthController.class)
 @OverrideAutoConfiguration(enabled = true)
-class RegisterControllerTest {
+class AuthControllerTest {
   @Autowired private ObjectMapper objectMapper;
   @Autowired private MockMvc mockMvc;
   @MockBean private UserService userService;
@@ -34,9 +35,9 @@ class RegisterControllerTest {
 
   @Test
   public void givenEmptyRequest_whenRegister_thenBadRequest() throws Exception {
-    when(userService.register(anyString(), anyString())).thenReturn(null);
+    when(userService.register(any())).thenReturn(Optional.empty());
     RequestBuilder request =
-        post("/api/users/register")
+        post("/api/auth/register")
             .accept(MediaTypes.HAL_JSON_VALUE)
             .content(objectMapper.writeValueAsString(new AuthRegisterRequest()))
             .contentType(MediaType.APPLICATION_JSON);
@@ -48,23 +49,24 @@ class RegisterControllerTest {
   public void givenValidRequest_whenRegister_thenOk() throws Exception {
     User user = User.ofRegistered("user@wemeet.com", "encodedPassword");
     user.setId(1);
-    when(userService.register(anyString(), anyString())).thenReturn(user);
+    when(userService.register(any())).thenReturn(Optional.of(user));
     when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
+    AuthRegisterRequest authRegisterRequest =
+        AuthRegisterRequest.builder().email("user@wemeet.com").password("password").build();
+
     RequestBuilder request =
-        post("/api/users/register")
+        post("/api/auth/register")
             .accept(MediaTypes.HAL_JSON_VALUE)
-            .content(
-                objectMapper.writeValueAsString(
-                    new AuthRegisterRequest("user@wemeet.com", "password")))
+            .content(objectMapper.writeValueAsString(authRegisterRequest))
             .contentType(MediaType.APPLICATION_JSON);
     String expectedBody =
         "{ \"email\" : \"user@wemeet.com\", \"enabled\" : true, \"registered\" : true,"
             + "\"authorities\" : [ ], \"rosterPlanUserInfos\" : [ ], \"timeSlotUserInfos\" : [ ], \"_links\" : { \"self\" :"
-            + "[ { \"href\" : \"http://localhost/api/users/register\" },{ \"href\" : \"http://localhost/api/users/1\" } ] } }";
+            + "[ { \"href\" : \"http://localhost/api/auth/register\" },{ \"href\" : \"http://localhost/api/users/1\" } ] } }";
     this.mockMvc
         .perform(request)
         .andExpect(status().isOk())
         .andExpect(content().json(expectedBody));
-    Mockito.verify(authenticationManager).authenticate(any(Authentication.class));
+    Mockito.verify(authenticationManager).authenticate(any());
   }
 }

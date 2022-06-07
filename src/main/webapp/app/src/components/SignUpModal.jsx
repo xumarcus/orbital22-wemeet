@@ -42,7 +42,7 @@ const SignUpModal = (prop) => {
         const fields = ["email", "password"];
         const request = Object.fromEntries(fields.map(k => [k, formData.get(k)]));
         try {
-            const { data } = await ajax('POST', request)("/api/users/register");
+            const { data } = await ajax('POST', request)("/api/auth/register");
             // console.log(data); e.g. test@test.com
             setRetryAlert(false);
             setSuccessAlert(true);
