@@ -8,13 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -29,12 +29,13 @@ public class RosterPlanController {
 
   @PostMapping
   public ResponseEntity<?> create(
-      @Valid @RequestBody RosterPlanCreateRequest request, Principal principal) {
+      @Valid @RequestBody RosterPlanCreateRequest request, Authentication authentication) {
     RosterPlan rosterPlan =
-        rosterPlanService.create(request, userService.fromPrincipal(principal).orElseThrow());
+        rosterPlanService.create(
+            request, userService.fromAuthentication(authentication).orElseThrow());
     EntityModel<RosterPlan> resources = EntityModel.of(rosterPlan);
     resources.add(
-        linkTo(methodOn(RosterPlanController.class).create(request, principal)).withSelfRel());
+        linkTo(methodOn(RosterPlanController.class).create(request, authentication)).withSelfRel());
     return ResponseEntity.ok(resources);
   }
 

@@ -8,7 +8,6 @@ import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.service.RosterPlanService;
 import com.orbital22.wemeet.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,8 +26,8 @@ public class RosterPlanCreateTest {
   @Autowired private UserService userService;
   @Autowired private RosterPlanRepository rosterPlanRepository;
 
-  @BeforeEach
-  public void init() {
+  @Test
+  public void givenValidRequests_whenCreate_thenCascade() {
     AuthRegisterRequest authRegisterRequest =
         AuthRegisterRequest.builder().email("user@wemeet.com").password("password").build();
     User owner = userService.register(authRegisterRequest).orElseThrow();
@@ -51,13 +50,11 @@ public class RosterPlanCreateTest {
             .title("Demilitarization")
             .build();
 
-    rosterPlanService.create(rosterPlanCreateRequest, owner);
+    testTransaction(rosterPlanService.create(rosterPlanCreateRequest, owner));
   }
 
   @Transactional
-  @Test
-  public void givenValidRequests_whenCreate_thenCascade() {
-    RosterPlan rosterPlan = rosterPlanRepository.findById(1).orElseThrow();
+  void testTransaction(RosterPlan rosterPlan) {
     assertAll(
         () -> assertEquals("user@wemeet.com", rosterPlan.getOwner().getEmail()),
         () -> assertEquals("Demilitarization", rosterPlan.getTitle()),

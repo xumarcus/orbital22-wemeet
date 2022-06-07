@@ -28,13 +28,13 @@ public class RosterPlan {
 
   @Column @NonNull private String title;
 
-  @OneToMany(mappedBy = "rosterPlan")
+  @OneToMany(mappedBy = "rosterPlan", fetch = FetchType.EAGER)
   @ToString.Exclude
   @Builder.Default
   @NonNull
   private Set<TimeSlot> timeSlots = Collections.emptySet();
 
-  @OneToMany(mappedBy = "rosterPlan")
+  @OneToMany(mappedBy = "rosterPlan", fetch = FetchType.EAGER)
   @MapKeyJoinColumn(name = "user_id")
   @ToString.Exclude
   @Builder.Default
