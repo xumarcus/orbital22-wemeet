@@ -42,14 +42,20 @@ public class AclServiceConfig {
 
   @Bean
   public LookupStrategy lookupStrategy() {
-    return new BasicLookupStrategy(
-        dataSource, aclCache(), aclAuthorizationStrategy(), new ConsoleAuditLogger());
+    BasicLookupStrategy lookupStrategy =
+        new BasicLookupStrategy(
+            dataSource, aclCache(), aclAuthorizationStrategy(), new ConsoleAuditLogger());
+    lookupStrategy.setAclClassIdSupported(true);
+    return lookupStrategy;
   }
 
   @Profile("test")
   @Bean
   public JdbcMutableAclService testAclService() {
-    return new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+    JdbcMutableAclService aclService =
+        new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+    aclService.setAclClassIdSupported(true);
+    return aclService;
   }
 
   @Profile("!test") // PostgresQL
@@ -57,6 +63,7 @@ public class AclServiceConfig {
   public JdbcMutableAclService aclService() {
     JdbcMutableAclService aclService =
         new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+    aclService.setAclClassIdSupported(true);
     aclService.setClassIdentityQuery("select currval(pg_get_serial_sequence('acl_class', 'id'))");
     aclService.setSidIdentityQuery("select currval(pg_get_serial_sequence('acl_sid', 'id'))");
     return aclService;
