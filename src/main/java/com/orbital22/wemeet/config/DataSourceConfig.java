@@ -5,11 +5,13 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 
 import javax.sql.DataSource;
 import java.util.Optional;
 
+@Profile("!test")
 @Configuration
 public class DataSourceConfig {
     @Value("${spring.datasource.url}")
