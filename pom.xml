@@ -180,6 +180,13 @@
             <artifactId>optaplanner-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- To be disabled in production -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-hal-explorer</artifactId>
+            <version>3.7.0</version>
+        </dependency>
     </dependencies>
 
     <build>
