@@ -60,7 +60,7 @@ public class UserService {
                         .map(User::ofUnregistered)
                         .iterator())
             .stream()
-            .peek(user -> aclRegisterService.register(user, user.getEmail(), READ))
+            .peek(user -> aclRegisterService.register(user, user.getEmail(), READ, WRITE, DELETE))
             .collect(Collectors.toSet()));
     return users;
   }
