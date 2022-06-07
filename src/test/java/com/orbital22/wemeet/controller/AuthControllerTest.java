@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
@@ -54,17 +54,11 @@ class AuthControllerTest {
 
     RequestBuilder request =
         post("/api/auth/register")
-            .accept(MediaTypes.HAL_JSON_VALUE)
             .content(objectMapper.writeValueAsString(authRegisterRequest))
             .contentType(MediaType.APPLICATION_JSON);
-    String expectedBody =
-        "{ \"email\" : \"user@wemeet.com\", \"enabled\" : true, \"registered\" : true,"
-            + "\"authorities\" : [ ], \"timeSlotUserInfos\" : [ ], \"_links\" : { \"self\" :"
-            + "{ \"href\" : \"http://localhost/api/auth/register\" }, \"user\" : { \"href\" : "
-            + "\"http://localhost/api/users/1\" } } }";
     this.mockMvc
         .perform(request)
-        .andExpect(status().isOk())
-        .andExpect(content().json(expectedBody));
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl("http://localhost/api/users/1"));
   }
 }

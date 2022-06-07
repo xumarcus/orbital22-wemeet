@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class RosterPlanCreateTest {
+public class RosterPlanCreateIntegrationTest {
   @Autowired private RosterPlanService rosterPlanService;
 
   @Autowired private UserService userService;

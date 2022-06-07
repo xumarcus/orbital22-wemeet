@@ -6,7 +6,7 @@ import com.orbital22.wemeet.service.RosterPlanService;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,16 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/roster-plan")
 public class RosterPlanController {
-  private RosterPlanService rosterPlanService;
-  private UserService userService;
+  private final RepositoryEntityLinks links;
+  private final RosterPlanService rosterPlanService;
+  private final UserService userService;
 
   @PostMapping
   public ResponseEntity<?> create(
@@ -33,10 +31,8 @@ public class RosterPlanController {
     RosterPlan rosterPlan =
         rosterPlanService.create(
             request, userService.fromAuthentication(authentication).orElseThrow());
-    EntityModel<RosterPlan> resources = EntityModel.of(rosterPlan);
-    resources.add(
-        linkTo(methodOn(RosterPlanController.class).create(request, authentication)).withSelfRel());
-    return ResponseEntity.ok(resources);
+    return ResponseEntity.created(links.linkToItemResource(rosterPlan, RosterPlan::getId).toUri())
+        .build();
   }
 
   // private SolverManager<RosterPlanningSolution, ?> solverManager;
