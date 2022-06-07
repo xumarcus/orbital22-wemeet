@@ -1,8 +1,8 @@
 package com.orbital22.wemeet.integration;
 
+import com.orbital22.wemeet.dto.AuthRegisterRequest;
 import com.orbital22.wemeet.dto.RosterPlanCreateRequest;
 import com.orbital22.wemeet.dto.TimeSlotDto;
-import com.orbital22.wemeet.dto.UsersRegisterRequest;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.RosterPlanService;
@@ -25,9 +25,9 @@ public class RosterPlanCreateTest {
 
   @Test
   public void givenValidRequests_whenCreate_thenCascade() {
-    UsersRegisterRequest usersRegisterRequest =
-        UsersRegisterRequest.builder().email("user@wemeet.com").password("password").build();
-    User owner = userService.register(usersRegisterRequest).orElseThrow();
+    AuthRegisterRequest authRegisterRequest =
+        AuthRegisterRequest.builder().email("user@wemeet.com").password("password").build();
+    User owner = userService.register(authRegisterRequest).orElseThrow();
 
     RosterPlanCreateRequest rosterPlanCreateRequest =
         RosterPlanCreateRequest.builder()

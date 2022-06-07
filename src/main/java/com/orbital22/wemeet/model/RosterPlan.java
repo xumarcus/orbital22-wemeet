@@ -24,12 +24,14 @@ public class RosterPlan {
 
   @ManyToOne
   @JoinColumn(name = "owner_id")
-  @NonNull
   private User owner;
 
   @Column @NonNull private String title;
 
-  @OneToMany @ToString.Exclude @Builder.Default @NonNull
+  @OneToMany(mappedBy = "rosterPlan")
+  @ToString.Exclude
+  @Builder.Default
+  @NonNull
   private Set<TimeSlot> timeSlots = Collections.emptySet();
 
   @OneToMany @ToString.Exclude @Builder.Default @NonNull

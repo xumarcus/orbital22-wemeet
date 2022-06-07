@@ -2,8 +2,8 @@ package com.orbital22.wemeet.controller;
 
 import com.orbital22.wemeet.dto.RosterPlanCreateRequest;
 import com.orbital22.wemeet.model.RosterPlan;
-import com.orbital22.wemeet.security.CustomUser;
 import com.orbital22.wemeet.service.RosterPlanService;
+import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +20,12 @@ import java.security.Principal;
 @RequestMapping("/api/roster-plan")
 public class RosterPlanController {
   private RosterPlanService rosterPlanService;
+  private UserService userService;
 
   @PostMapping
   public RosterPlan create(
       @Valid @RequestBody RosterPlanCreateRequest request, Principal principal) {
-    return rosterPlanService.create(request, ((CustomUser) principal).getId());
+    return rosterPlanService.create(request, userService.fromPrincipal(principal).orElseThrow());
   }
 
   // private SolverManager<RosterPlanningSolution, ?> solverManager;

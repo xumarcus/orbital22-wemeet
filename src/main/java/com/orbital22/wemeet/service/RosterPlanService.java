@@ -3,17 +3,18 @@ package com.orbital22.wemeet.service;
 import com.orbital22.wemeet.dto.RosterPlanCreateRequest;
 import com.orbital22.wemeet.mapper.TimeSlotMapper;
 import com.orbital22.wemeet.model.RosterPlan;
-import com.orbital22.wemeet.model.TimeSlot;
+import com.orbital22.wemeet.model.RosterPlanUserInfo;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
+import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
 import com.orbital22.wemeet.repository.TimeSlotRepository;
-import com.orbital22.wemeet.repository.UserRepository;
+import com.orbital22.wemeet.security.AclRegisterService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.TreeSet;
+
+import static org.springframework.security.acls.domain.BasePermission.*;
 
 @Service
 @Transactional
@@ -21,21 +22,40 @@ import java.util.TreeSet;
 public class RosterPlanService {
   private RosterPlanRepository rosterPlanRepository;
   private TimeSlotRepository timeSlotRepository;
-  private UserRepository userRepository;
+  private RosterPlanUserInfoRepository rosterPlanUserInfoRepository;
+  private UserService userService;
+  private AclRegisterService aclRegisterService;
 
-  public RosterPlan create(RosterPlanCreateRequest request, int id) {
-    User owner = userRepository.findById(id).orElseThrow();
+  public RosterPlan create(RosterPlanCreateRequest request, User owner) {
     RosterPlan rosterPlan =
         rosterPlanRepository.save(
             RosterPlan.builder().owner(owner).title(request.getTitle()).build());
-    List<TimeSlot> timeSlots =
-        timeSlotRepository.saveAll(
-            () ->
-                request.getTimeSlotDtos().stream()
-                    .map(TimeSlotMapper.INSTANCE::timeSlotDtoToTimeSlot)
-                    .peek(timeSlot -> timeSlot.setRosterPlan(rosterPlan))
-                    .iterator());
-    rosterPlan.setTimeSlots(new TreeSet<>(timeSlots));
+    aclRegisterService.register(rosterPlan, owner.getEmail(), READ, WRITE, DELETE);
+
+    rosterPlanUserInfoRepository.saveAll(
+        () ->
+            userService.fromEmails(request.getEmails()).stream()
+                .peek(user -> aclRegisterService.register(rosterPlan, user.getEmail(), READ))
+                .map(
+                    user ->
+                        RosterPlanUserInfo.builder()
+                            .rosterPlan(rosterPlan)
+                            .user(user)
+                            .hasResponded(false)
+                            .build())
+                .peek(
+                    info ->
+                        aclRegisterService.register(info, info.getUser().getEmail(), READ, WRITE))
+                .iterator());
+
+    // No ACL
+    timeSlotRepository.saveAll(
+        () ->
+            request.getTimeSlotDtos().stream()
+                .map(TimeSlotMapper.INSTANCE::timeSlotDtoToTimeSlot)
+                .peek(timeSlot -> timeSlot.setRosterPlan(rosterPlan))
+                .iterator());
+
     return rosterPlan;
   }
 }
