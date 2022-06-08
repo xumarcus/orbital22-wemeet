@@ -17,34 +17,42 @@ import java.util.Objects;
 @Entity
 @Table(name = "time_slot")
 public class TimeSlot {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
 
-  @ManyToOne
-  @JoinColumn(name = "roster_plan_id")
-  private RosterPlan rosterPlan;
+    @ManyToOne
+    @JoinColumn(name = "roster_plan_id")
+    private RosterPlan rosterPlan;
 
-  @NonNull @Column private LocalDateTime startDateTime;
+    @NonNull
+    @Column
+    private LocalDateTime startDateTime;
 
-  @NonNull @Column private LocalDateTime endDateTime;
+    @NonNull
+    @Column
+    private LocalDateTime endDateTime;
 
-  @Column private int capacity;
+    @Column
+    private int capacity;
 
-  @OneToMany @ToString.Exclude @Builder.Default @NonNull
-  private Map<User, TimeSlotUserInfo> timeSlotUserInfos = Collections.emptyMap();
+    @OneToMany(mappedBy = "timeSlot")
+    @MapKeyJoinColumn(name = "user_id")
+    @Builder.Default
+    @NonNull
+    private Map<User, TimeSlotUserInfo> timeSlotUserInfos = Collections.emptyMap();
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    TimeSlot timeSlot = (TimeSlot) o;
-    return id == timeSlot.id;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeSlot timeSlot = (TimeSlot) o;
+        return id == timeSlot.id;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

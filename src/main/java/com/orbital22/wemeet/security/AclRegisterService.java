@@ -27,7 +27,9 @@ public class AclRegisterService {
     Sid sid = new PrincipalSid(email);
 
     // Do not use CumulativePermission!
-    for (Permission permission : permissions)
+    for (Permission permission : permissions) {
       acl.insertAce(acl.getEntries().size(), permission, sid, true);
+    }
+    aclService.updateAcl(acl);
   }
 }

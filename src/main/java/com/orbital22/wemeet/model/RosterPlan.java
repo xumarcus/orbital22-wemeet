@@ -17,36 +17,40 @@ import java.util.Set;
 @Entity
 @Table(name = "roster_plan")
 public class RosterPlan {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
 
-  @ManyToOne
-  @JoinColumn(name = "owner_id")
-  private User owner;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
-  @Column @NonNull private String title;
+    @Column
+    @NonNull
+    private String title;
 
-  @OneToMany(mappedBy = "rosterPlan")
-  @ToString.Exclude
-  @Builder.Default
-  @NonNull
-  private Set<TimeSlot> timeSlots = Collections.emptySet();
+    @OneToMany(mappedBy = "rosterPlan")
+    @Builder.Default
+    @NonNull
+    private Set<TimeSlot> timeSlots = Collections.emptySet();
 
-  @OneToMany @ToString.Exclude @Builder.Default @NonNull
-  private Map<User, RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptyMap();
+    @OneToMany(mappedBy = "rosterPlan")
+    @MapKeyJoinColumn(name = "user_id")
+    @Builder.Default
+    @NonNull
+    private Map<User, RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptyMap();
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    RosterPlan that = (RosterPlan) o;
-    return id == that.id;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RosterPlan that = (RosterPlan) o;
+        return id == that.id;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -18,6 +18,8 @@ import SuccessAlert from "./SuccessAlert";
 import RetryAlert from "./RetryAlert";
 import { login } from "../util";
 import {UserContext} from "../UserContext";
+import ajax from "../util";
+
 
 const style = {
     position: "absolute",

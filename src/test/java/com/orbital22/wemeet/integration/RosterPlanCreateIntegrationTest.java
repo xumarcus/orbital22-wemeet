@@ -5,12 +5,14 @@ import com.orbital22.wemeet.dto.RosterPlanCreateRequest;
 import com.orbital22.wemeet.dto.TimeSlotDto;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.service.RosterPlanService;
 import com.orbital22.wemeet.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -18,9 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class RosterPlanCreateTest {
+public class RosterPlanCreateIntegrationTest {
   @Autowired private RosterPlanService rosterPlanService;
-
   @Autowired private UserService userService;
 
   @Test
@@ -46,12 +47,16 @@ public class RosterPlanCreateTest {
                         .build()))
             .title("Demilitarization")
             .build();
-    RosterPlan rosterPlan = rosterPlanService.create(rosterPlanCreateRequest, owner);
 
+    testTransaction(rosterPlanService.create(rosterPlanCreateRequest, owner));
+  }
+
+  @Transactional
+  void testTransaction(RosterPlan rosterPlan) {
     assertAll(
-        () -> assertEquals(rosterPlan.getOwner().getEmail(), "user@wemeet.com"),
-            () -> assertEquals(rosterPlan.getTitle(), "Demilitarization"),
-        () -> assertEquals(rosterPlan.getTimeSlots().size(), 2),
-            () -> assertEquals(rosterPlan.getRosterPlanUserInfos().size(), 3));
+        () -> assertEquals("user@wemeet.com", rosterPlan.getOwner().getEmail()),
+        () -> assertEquals("Demilitarization", rosterPlan.getTitle()),
+        () -> assertEquals(2, rosterPlan.getTimeSlots().size()),
+        () -> assertEquals(3, rosterPlan.getRosterPlanUserInfos().size()));
   }
 }

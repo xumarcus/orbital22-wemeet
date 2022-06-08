@@ -8,12 +8,12 @@ import com.orbital22.wemeet.security.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -65,7 +65,7 @@ public class UserService {
     return users;
   }
 
-  public Optional<User> fromPrincipal(Principal principal) {
-    return userRepository.findById(((CustomUser) principal).getId());
+  public Optional<User> fromAuthentication(Authentication authentication) {
+    return userRepository.findById(((CustomUser) authentication.getPrincipal()).getId());
   }
 }
