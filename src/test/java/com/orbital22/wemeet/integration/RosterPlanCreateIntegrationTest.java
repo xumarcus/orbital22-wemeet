@@ -22,9 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class RosterPlanCreateIntegrationTest {
   @Autowired private RosterPlanService rosterPlanService;
-
   @Autowired private UserService userService;
-  @Autowired private RosterPlanRepository rosterPlanRepository;
 
   @Test
   public void givenValidRequests_whenCreate_thenCascade() {
