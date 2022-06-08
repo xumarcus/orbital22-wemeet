@@ -25,6 +25,7 @@ public class RosterPlanController {
   private final RosterPlanService rosterPlanService;
   private final UserService userService;
 
+  // Consider refactoring to POST /api/users/:id/ownedRosterPlans
   @PostMapping
   public ResponseEntity<?> create(
       @Valid @RequestBody RosterPlanCreateRequest request, Authentication authentication) {

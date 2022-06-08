@@ -2,6 +2,7 @@ package com.orbital22.wemeet.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,21 +12,30 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import javax.sql.DataSource;
 import java.util.Optional;
 
-@Profile("!test")
 @Configuration
 public class DataSourceConfig {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
+    @Profile({"development", "production"})
     @Bean
     public DataSource dataSource() {
-        return Optional.ofNullable(dbUrl)
-                .filter(url -> !url.isEmpty())
-                .map(url -> {
-                    HikariConfig config = new HikariConfig();
-                    config.setJdbcUrl(url);
-                    return new HikariDataSource(config);
-                })
-                .orElseThrow(() -> new CannotGetJdbcConnectionException(dbUrl));
+        assert (dbUrl != null);
+        assert (StringUtils.isNotBlank(dbUrl));
+
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(dbUrl);
+        return new HikariDataSource(config);
+    }
+
+    // Same as src/test/application.properties
+    @Profile("test")
+    @Bean
+    public DataSource testDataSource() {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
+        config.setUsername("sa");
+        config.setPassword("sa");
+        return new HikariDataSource(config);
     }
 }

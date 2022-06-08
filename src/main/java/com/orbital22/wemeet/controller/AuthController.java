@@ -20,6 +20,7 @@ public class AuthController {
   private final RepositoryEntityLinks links;
   private final UserService userService;
 
+  // Consider refactoring this to POST /api/users
   @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody AuthRegisterRequest request) {
     User user = userService.register(request).orElseThrow();
