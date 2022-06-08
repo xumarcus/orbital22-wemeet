@@ -17,9 +17,6 @@ public class DataSourceConfig {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Value("${my.datasource.local-password}")
-    private String localPassword;
-
     @Profile({"development", "production"})
     @Bean
     public DataSource dataSource() {
@@ -29,7 +26,7 @@ public class DataSourceConfig {
         } else {
             config.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
             config.setUsername("postgres");
-            config.setPassword(localPassword);
+            config.setPassword("password");
         }
         return new HikariDataSource(config);
     }
