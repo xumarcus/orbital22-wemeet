@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Link } from 'react-router-dom';
 
 const Wizard = () => {
     const [rosterBtnLoading, setRosterBtnLoading] = useState(false);
@@ -50,16 +51,19 @@ const Wizard = () => {
                             variant="contained"
                             size="large"
                             loading={ rosterBtnLoading }
-                            onClick={ handleClick }
+                            component = { Link }
+                            to ='/roster'
                         >
                             Generate a Roster
                         </LoadingButton>
+                        <Button variant="contained" size="large" component = { Link }
+                                to ='/meeting'>
+                            Schedule a One-on-One Meetup{ " " }
+                        </Button>
                         <Typography variant="body1" align="center" fontWeight="bold">
                             Upcoming Features
                         </Typography>
-                        <Button variant="contained" size="large" disabled>
-                            Schedule a One-on-One Meetup{ " " }
-                        </Button>
+
                         <Button variant="contained" size="large" disabled>
                             Schedule a Group Meetup
                         </Button>

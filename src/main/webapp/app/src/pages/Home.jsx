@@ -8,6 +8,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
+import Header from "../components/NavBar";
+import Footer from "../components/Footer";
+
 const Home = () => {
   const handleSignUpButton = () => {
     console.log(textFieldRef.current.value || "no value");
@@ -18,6 +21,8 @@ const Home = () => {
 
   return (
     <>
+      <Header />
+      <Footer />
       <Stack
         direction="row"
         justifyContent="center"
