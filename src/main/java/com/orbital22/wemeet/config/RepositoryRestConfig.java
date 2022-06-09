@@ -11,19 +11,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 @Configuration
 @AllArgsConstructor
 public class RepositoryRestConfig implements RepositoryRestConfigurer {
-  private final LocalValidatorFactoryBean validator;
-
   @Override
   public void configureRepositoryRestConfiguration(
       RepositoryRestConfiguration config, CorsRegistry cors) {
     config.setExposeRepositoryMethodsByDefault(false);
     RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
-  }
-
-  @Override
-  public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener v) {
-    v.addValidator("beforeCreate", validator);
-    v.addValidator("beforeSave", validator);
-    RepositoryRestConfigurer.super.configureValidatingRepositoryEventListener(v);
   }
 }
