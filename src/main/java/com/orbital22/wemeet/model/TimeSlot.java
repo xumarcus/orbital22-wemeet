@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -38,10 +39,9 @@ public class TimeSlot {
     private int capacity;
 
     @OneToMany(mappedBy = "timeSlot")
-    @MapKeyJoinColumn(name = "user_id")
     @Builder.Default
     @NonNull
-    private Map<User, TimeSlotUserInfo> timeSlotUserInfos = Collections.emptyMap();
+    private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {
