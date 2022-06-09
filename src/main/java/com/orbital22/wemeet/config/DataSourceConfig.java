@@ -14,20 +14,14 @@ import java.util.Optional;
 
 @Configuration
 public class DataSourceConfig {
-    @Value("${spring.datasource.url}")
+    @Value("${spring.datasource.url:jdbc:postgresql://localhost:5432/postgres?username=postgres&password=password}")
     private String dbUrl;
 
     @Profile({"development", "production"})
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-        if (StringUtils.isNotBlank(dbUrl)) {
-            config.setJdbcUrl(dbUrl);
-        } else {
-            config.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-            config.setUsername("postgres");
-            config.setPassword("password");
-        }
+        config.setJdbcUrl(dbUrl);
         return new HikariDataSource(config);
     }
 

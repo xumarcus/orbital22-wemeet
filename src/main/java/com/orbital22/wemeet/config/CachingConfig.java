@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.acls.model.MutableAcl;
 
+import javax.cache.CacheException;
 import javax.cache.Caching;
 import javax.cache.configuration.MutableConfiguration;
 
@@ -18,8 +19,10 @@ public class CachingConfig extends CachingConfigurerSupport {
   @Override
   public CacheManager cacheManager() {
     javax.cache.CacheManager ehCacheManager = Caching.getCachingProvider().getCacheManager();
-    MutableConfiguration<Integer, MutableAcl> aclCacheConfig = new MutableConfiguration<>();
-    ehCacheManager.createCache("aclCache", aclCacheConfig);
+    if (ehCacheManager.getCache("aclCache") == null) {
+      MutableConfiguration<Integer, MutableAcl> aclCacheConfig = new MutableConfiguration<>();
+      ehCacheManager.createCache("aclCache", aclCacheConfig);
+    }
     return new JCacheCacheManager(ehCacheManager);
   }
 }
