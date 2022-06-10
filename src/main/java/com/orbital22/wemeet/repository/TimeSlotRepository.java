@@ -17,7 +17,9 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Integer> {
   @Override
   @NonNull
   @PostAuthorize(
-      "returnObject.isEmpty() or hasPermission(returnObject.get().getRosterPlan(), 'READ')")
+      "returnObject.isEmpty()"
+          + "or hasPermission(returnObject.get(), 'READ')"
+          + "or hasPermission(returnObject.get().getRosterPlan(), 'READ')")
   Optional<TimeSlot> findById(@NotNull Integer id);
 
   @RestResource

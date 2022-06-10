@@ -39,7 +39,7 @@ public class RosterPlanCreateIntegrationTest {
   @BeforeEach
   public void setUp(@Autowired UserRepository userRepository) {
     userRepository.saveAll(
-        () -> Stream.of("mary@wemeet.com", "sue@wemeet.com").map(User::ofUnregistered).iterator());
+        () -> Stream.of("talk@wemeet.com", "cock@wemeet.com").map(User::ofUnregistered).iterator());
   }
 
   @AfterEach
@@ -57,103 +57,23 @@ public class RosterPlanCreateIntegrationTest {
   @Test
   public void givenValidRequest_whenCreate_thenCreateEmptyRosterPlan() throws Exception {
     Map<String, Object> req0 = new HashMap<>();
-    req0.put("title", "Mary Sue");
+    req0.put("title", "Talk Cock");
 
     this.mockMvc
         .perform(
             post("/api/rosterPlan")
-                .with(user("mary@wemeet.com"))
+                .with(user("talk@wemeet.com"))
                 .content(objectMapper.writeValueAsString(req0))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost/api/rosterPlan/1"));
 
     this.mockMvc
-        .perform(get("/api/rosterPlan/1").with(user("mary@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .perform(get("/api/rosterPlan/1").with(user("talk@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
 
     this.mockMvc
-        .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
-        .andExpect(status().isForbidden());
-  }
-
-  @Test
-  public void givenNewUser_whenOwnerAddUserInfo_thenNewUserCanRead() throws Exception {
-    Map<String, Object> req0 = new HashMap<>();
-    req0.put("title", "Mary Sue");
-
-    this.mockMvc.perform(
-        post("/api/rosterPlan")
-            .with(user("mary@wemeet.com"))
-            .content(objectMapper.writeValueAsString(req0))
-            .contentType(MediaType.APPLICATION_JSON));
-
-    Map<String, Object> req1 = new HashMap<>();
-    req1.put("hasResponded", false);
-    req1.put("user", "/api/users/2");
-    req1.put("rosterPlan", "/api/rosterPlan/1");
-
-    this.mockMvc
-        .perform(
-            post("/api/rosterPlanUserInfo")
-                .with(user("mary@wemeet.com"))
-                .accept(MediaTypes.HAL_JSON)
-                .content(objectMapper.writeValueAsString(req1))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
-
-    this.mockMvc
-        .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
-  }
-
-  @Test
-  public void givenValidRequest_whenOwnerAddTimeSlot_thenCreateTimeSlotAttachedToRosterPlan()
-      throws Exception {
-    Map<String, Object> req0 = new HashMap<>();
-    req0.put("title", "Mary Sue");
-
-    this.mockMvc
-        .perform(
-            post("/api/rosterPlan")
-                .with(user("mary@wemeet.com"))
-                .content(objectMapper.writeValueAsString(req0))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost/api/rosterPlan/1"));
-
-    Map<String, Object> req1 = new HashMap<>();
-    req1.put("startDateTime", "2019-06-09T18:00:00");
-    req1.put("endDateTime", "2019-06-09T19:00:00");
-    req1.put("capacity", 2);
-    req1.put("rosterPlan", "/api/rosterPlan/1");
-
-    this.mockMvc
-        .perform(
-            post("/api/timeSlot")
-                .with(user("mary@wemeet.com"))
-                .content(objectMapper.writeValueAsString(req1))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost/api/timeSlot/1"));
-
-    // Serialization
-    req1.remove("rosterPlan");
-    this.mockMvc
-        .perform(get("/api/timeSlot/1").with(user("mary@wemeet.com")).accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(req1), false));
-
-    // Attached
-    this.mockMvc
-        .perform(
-            get("/api/timeSlot/1/rosterPlan")
-                .with(user("mary@wemeet.com"))
-                .accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
-
-    // Permission check
-    this.mockMvc
-        .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .perform(get("/api/rosterPlan/1").with(user("cock@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(status().isForbidden());
   }
 }
