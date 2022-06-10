@@ -10,6 +10,8 @@ docs/tmp/
 *.iml
 src/main/resources/application.properties
 
+src/main/asciidoc/index.html
+
 src/main/webapp/app/build
 src/main/webapp/app/node_modules
 src/main/webapp/app/package-lock.json

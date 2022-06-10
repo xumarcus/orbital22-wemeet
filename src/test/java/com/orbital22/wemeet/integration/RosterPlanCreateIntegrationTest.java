@@ -52,6 +52,9 @@ public class RosterPlanCreateIntegrationTest {
   }
 
   @Test
+  public void contextLoads() {}
+
+  @Test
   public void givenValidRequest_whenCreate_thenCreateEmptyRosterPlan() throws Exception {
     Map<String, Object> req0 = new HashMap<>();
     req0.put("title", "Mary Sue");

@@ -18,8 +18,10 @@ public class CachingConfig extends CachingConfigurerSupport {
   @Override
   public CacheManager cacheManager() {
     javax.cache.CacheManager ehCacheManager = Caching.getCachingProvider().getCacheManager();
-    MutableConfiguration<Integer, MutableAcl> aclCacheConfig = new MutableConfiguration<>();
-    ehCacheManager.createCache("aclCache", aclCacheConfig);
+    if (ehCacheManager.getCache("aclCache") == null) {
+      MutableConfiguration<Integer, MutableAcl> aclCacheConfig = new MutableConfiguration<>();
+      ehCacheManager.createCache("aclCache", aclCacheConfig);
+    }
     return new JCacheCacheManager(ehCacheManager);
   }
 }
