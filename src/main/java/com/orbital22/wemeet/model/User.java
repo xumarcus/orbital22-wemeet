@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NaturalId;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
@@ -36,7 +37,7 @@ public class User {
 
   @JsonProperty(access = WRITE_ONLY)
   @RestResource(exported = false)
-  @NonNull
+  @Nullable // Jackson
   @Column
   private String password;
 

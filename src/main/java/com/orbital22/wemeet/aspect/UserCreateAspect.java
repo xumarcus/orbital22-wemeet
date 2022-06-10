@@ -5,6 +5,7 @@ import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -35,6 +36,8 @@ public class UserCreateAspect {
 
     if (user.isRegistered()) {
       user.setPassword(passwordEncoder.encode(user.getPassword()));
+    } else {
+      user.setPassword(StringUtils.EMPTY);
     }
     User saved = (User) pjp.proceed();
     if (saved.isRegistered()) {

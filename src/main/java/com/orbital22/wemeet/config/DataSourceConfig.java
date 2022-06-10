@@ -17,22 +17,10 @@ public class DataSourceConfig {
     @Value("${spring.datasource.url:jdbc:postgresql://localhost:5432/postgres?username=postgres&password=password}")
     private String dbUrl;
 
-    @Profile({"development", "production"})
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(dbUrl);
-        return new HikariDataSource(config);
-    }
-
-    // Same as src/test/application.properties
-    @Profile("test")
-    @Bean
-    public DataSource testDataSource() {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
-        config.setUsername("sa");
-        config.setPassword("sa");
         return new HikariDataSource(config);
     }
 }

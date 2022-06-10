@@ -3,13 +3,19 @@ package com.orbital22.wemeet.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
+import de.cronn.testutils.h2.H2Util;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
@@ -23,17 +29,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase
+@Import(H2Util.class)
 public class RosterPlanCreateIntegrationTest {
-  @Autowired private ObjectMapper objectMapper;
-  @Autowired private MockMvc mockMvc;
-  @Autowired private UserRepository userRepository;
+  @Autowired ObjectMapper objectMapper;
+  @Autowired MockMvc mockMvc;
+  @Autowired CacheManager cacheManager;
+
+  @BeforeEach
+  public void setUp(@Autowired UserRepository userRepository) {
+    userRepository.saveAll(
+        () -> Stream.of("mary@wemeet.com", "sue@wemeet.com").map(User::ofUnregistered).iterator());
+  }
+
+  @AfterEach
+  public void tearDown(@Autowired H2Util h2Util) {
+    h2Util.resetDatabase();
+    Cache cache = cacheManager.getCache("aclCache");
+    if (cache != null) {
+      cache.clear();
+    }
+  }
 
   @Test
   public void givenValidRequest_whenCreate_thenCreateEmptyRosterPlan() throws Exception {
-    userRepository.saveAll(
-        () -> Stream.of("mary@wemeet.com", "sue@wemeet.com").map(User::ofUnregistered).iterator());
-
     Map<String, Object> req0 = new HashMap<>();
     req0.put("title", "Mary Sue");
 
@@ -47,27 +66,16 @@ public class RosterPlanCreateIntegrationTest {
         .andExpect(redirectedUrl("http://localhost/api/rosterPlan/1"));
 
     this.mockMvc
-        .perform(
-            get("/api/rosterPlan/1")
-                .with(user("mary@wemeet.com"))
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+        .perform(get("/api/rosterPlan/1").with(user("mary@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
 
     this.mockMvc
-        .perform(
-            get("/api/rosterPlan/1")
-                .with(user("sue@wemeet.com"))
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+        .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(status().isForbidden());
   }
 
   @Test
   public void givenNewUser_whenOwnerAddUserInfo_thenNewUserCanRead() throws Exception {
-    userRepository.saveAll(
-        () -> Stream.of("mary@wemeet.com", "sue@wemeet.com").map(User::ofUnregistered).iterator());
-
     Map<String, Object> req0 = new HashMap<>();
     req0.put("title", "Mary Sue");
 
@@ -92,11 +100,7 @@ public class RosterPlanCreateIntegrationTest {
         .andExpect(status().isCreated());
 
     this.mockMvc
-        .perform(
-            get("/api/rosterPlan/1")
-                .with(user("sue@wemeet.com"))
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+        .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
   }
 }
