@@ -106,4 +106,54 @@ public class RosterPlanCreateIntegrationTest {
         .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
   }
+
+  @Test
+  public void givenValidRequest_whenOwnerAddTimeSlot_thenCreateTimeSlotAttachedToRosterPlan()
+      throws Exception {
+    Map<String, Object> req0 = new HashMap<>();
+    req0.put("title", "Mary Sue");
+
+    this.mockMvc
+        .perform(
+            post("/api/rosterPlan")
+                .with(user("mary@wemeet.com"))
+                .content(objectMapper.writeValueAsString(req0))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl("http://localhost/api/rosterPlan/1"));
+
+    Map<String, Object> req1 = new HashMap<>();
+    req1.put("startDateTime", "2019-06-09T18:00:00");
+    req1.put("endDateTime", "2019-06-09T19:00:00");
+    req1.put("capacity", 2);
+    req1.put("rosterPlan", "/api/rosterPlan/1");
+
+    this.mockMvc
+        .perform(
+            post("/api/timeSlot")
+                .with(user("mary@wemeet.com"))
+                .content(objectMapper.writeValueAsString(req1))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl("http://localhost/api/timeSlot/1"));
+
+    // Serialization
+    req1.remove("rosterPlan");
+    this.mockMvc
+        .perform(get("/api/timeSlot/1").with(user("mary@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(req1), false));
+
+    // Attached
+    this.mockMvc
+        .perform(
+            get("/api/timeSlot/1/rosterPlan")
+                .with(user("mary@wemeet.com"))
+                .accept(MediaTypes.HAL_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
+
+    // Permission check
+    this.mockMvc
+        .perform(get("/api/rosterPlan/1").with(user("sue@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .andExpect(status().isForbidden());
+  }
 }

@@ -1,12 +1,12 @@
 package com.orbital22.wemeet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
@@ -15,6 +15,7 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 @Setter
 @ToString
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "roster_plan")

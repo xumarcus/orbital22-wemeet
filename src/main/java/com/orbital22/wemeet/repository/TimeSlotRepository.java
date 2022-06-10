@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Optional;
 
@@ -14,11 +16,13 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Integer> {
   @RestResource
   @Override
   @NonNull
-  // @PostAuthorize("returnObject.isEmpty() or hasPermission(returnObject.get(), 'READ')")
+  @PostAuthorize(
+      "returnObject.isEmpty() or hasPermission(returnObject.get().getRosterPlan(), 'READ')")
   Optional<TimeSlot> findById(@NotNull Integer id);
 
   @RestResource
   @Override
   @NonNull
-  <S extends TimeSlot> S save(@NonNull S TimeSlot);
+  @PreAuthorize("hasPermission(#timeSlot.getRosterPlan(), 'WRITE')")
+  <S extends TimeSlot> S save(@NonNull S timeSlot);
 }
