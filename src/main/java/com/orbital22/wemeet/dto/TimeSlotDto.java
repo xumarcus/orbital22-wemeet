@@ -1,5 +1,6 @@
 package com.orbital22.wemeet.dto;
 
+import com.orbital22.wemeet.annotation.DateTimeRangeConstraint;
 import com.orbital22.wemeet.util.DateTimeRange;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Data
+@DateTimeRangeConstraint
 public class TimeSlotDto implements DateTimeRange {
   @NotNull private LocalDateTime startDateTime;
   @NotNull private LocalDateTime endDateTime;

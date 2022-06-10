@@ -1,8 +1,24 @@
 package com.orbital22.wemeet.repository;
 
 import com.orbital22.wemeet.model.TimeSlot;
+import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import java.util.Optional;
 
 @RepositoryRestResource(collectionResourceRel = "timeSlot", path = "timeSlot")
-public interface TimeSlotRepository extends JpaRepository<TimeSlot, Integer> {}
+public interface TimeSlotRepository extends JpaRepository<TimeSlot, Integer> {
+  @RestResource
+  @Override
+  @NonNull
+  // @PostAuthorize("returnObject.isEmpty() or hasPermission(returnObject.get(), 'READ')")
+  Optional<TimeSlot> findById(@NotNull Integer id);
+
+  @RestResource
+  @Override
+  @NonNull
+  <S extends TimeSlot> S save(@NonNull S TimeSlot);
+}

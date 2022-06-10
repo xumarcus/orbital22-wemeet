@@ -1,22 +1,18 @@
-package com.orbital22.wemeet.service;
+package com.orbital22.wemeet.security;
 
-import com.orbital22.wemeet.dto.RosterPlanDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import javax.transaction.Transactional;
-
-@Service
-@Transactional
+@Component
 @AllArgsConstructor
-public class RosterPlanService {
+public class ValidationHelper<T> {
   private final LocalValidatorFactoryBean validator;
 
-  public void validate(RosterPlanDto e) {
+  public void validate(T e) {
     Errors errors = new BeanPropertyBindingResult(e, e.getClass().getName());
     validator.validate(e, errors);
     if (errors.hasErrors()) {

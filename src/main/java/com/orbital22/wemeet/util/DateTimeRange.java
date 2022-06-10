@@ -15,4 +15,8 @@ public interface DateTimeRange {
     return getStartDateTime().isBefore(other.getStartDateTime())
         && getEndDateTime().isAfter(other.getEndDateTime());
   }
+
+  static boolean isValid(DateTimeRange dateTimeRange) {
+    return dateTimeRange.getStartDateTime().isBefore(dateTimeRange.getEndDateTime());
+  }
 }
