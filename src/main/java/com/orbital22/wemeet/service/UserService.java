@@ -1,8 +1,13 @@
 package com.orbital22.wemeet.service;
 
 import com.orbital22.wemeet.dto.UserDto;
+import com.orbital22.wemeet.mapper.TimeSlotMapper;
+import com.orbital22.wemeet.model.RosterPlan;
+import com.orbital22.wemeet.model.TimeSlotUserInfo;
 import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import com.orbital22.wemeet.repository.UserRepository;
+import com.orbital22.wemeet.solver.RosterPlanUserPlanningEntity;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
@@ -15,12 +20,14 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
+  private final TimeSlotUserInfoRepository timeSlotUserInfoRepository;
   private final LocalValidatorFactoryBean validator;
 
   public void validate(UserDto e) {
@@ -45,5 +52,18 @@ public class UserService {
   public Optional<User> me() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return userRepository.findByEmail(authentication.getName());
+  }
+
+  @NonNull
+  public RosterPlanUserPlanningEntity from(RosterPlan rosterPlan, User user) {
+    return RosterPlanUserPlanningEntity.builder()
+        .id(user.getId())
+        .rankMap(
+            timeSlotUserInfoRepository.findByRosterPlanAndUser(rosterPlan, user).stream()
+                .collect(
+                    Collectors.toMap(
+                        info -> TimeSlotMapper.INSTANCE.timeSlotToTimeSlotDto(info.getTimeSlot()),
+                        TimeSlotUserInfo::getRank)))
+        .build();
   }
 }

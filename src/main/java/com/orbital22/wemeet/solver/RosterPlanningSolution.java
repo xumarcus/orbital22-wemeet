@@ -1,7 +1,8 @@
-package com.orbital22.wemeet.domain;
+package com.orbital22.wemeet.solver;
 
-import com.orbital22.wemeet.model.TimeSlot;
-import lombok.*;
+import com.orbital22.wemeet.dto.TimeSlotDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
@@ -13,18 +14,14 @@ import java.util.Set;
 
 @Getter
 // @Setter(AccessLevel.NONE): Generated from solver
-@RequiredArgsConstructor
+@AllArgsConstructor
 @PlanningSolution
 public class RosterPlanningSolution {
-    @NonNull
-    @ValueRangeProvider(id = "timeSlots")
-    @ProblemFactCollectionProperty
-    private Set<TimeSlot> timeSlots;
+  @ValueRangeProvider(id = "timeSlotDtos")
+  @ProblemFactCollectionProperty
+  private Set<TimeSlotDto> timeSlotDtos;
 
-    @NonNull
-    @PlanningEntityCollectionProperty
-    private Set<RosterPlanUserPlanningEntity> rosterPlanUsers;
+  @PlanningEntityCollectionProperty private Set<RosterPlanUserPlanningEntity> rosterPlanUsers;
 
-    @PlanningScore
-    private HardSoftScore score;
+  @PlanningScore private HardSoftScore score;
 }

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
+// TODO enforce uniqueness
 @Builder
 @Data
 @DateTimeRangeConstraint
