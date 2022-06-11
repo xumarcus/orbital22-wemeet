@@ -14,7 +14,7 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 @Aspect
 @Component
 @AllArgsConstructor
-public class RosterPlanUserInfoCreateAspect {
+public class RosterPlanUserInfoSaveAspect {
   private final UserService userService;
   private final AclRegisterService aclRegisterService;
 
@@ -23,7 +23,7 @@ public class RosterPlanUserInfoCreateAspect {
 
   // No fields to validate
   @AfterReturning(
-      pointcut = "com.orbital22.wemeet.aspect.RosterPlanUserInfoCreateAspect.save()",
+      pointcut = "com.orbital22.wemeet.aspect.RosterPlanUserInfoSaveAspect.save()",
       returning = "ret")
   private void afterSaving(RosterPlanUserInfo ret) {
     String email = ret.getUser().getEmail();

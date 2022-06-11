@@ -22,7 +22,7 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 @Aspect
 @Component
 @AllArgsConstructor
-public class UserCreateAspect {
+public class UserSaveAspect {
   private final PasswordEncoder passwordEncoder;
   private final UserService userService;
   private final AclRegisterService aclRegisterService;
@@ -30,7 +30,7 @@ public class UserCreateAspect {
   @Pointcut("execution(* com.orbital22.wemeet.repository.UserRepository.save(*))")
   public void save() {}
 
-  @Around("com.orbital22.wemeet.aspect.UserCreateAspect.save() && args(user)")
+  @Around("com.orbital22.wemeet.aspect.UserSaveAspect.save() && args(user)")
   private User handleSave(ProceedingJoinPoint pjp, User user) throws Throwable {
     userService.validate(UserMapper.INSTANCE.userToUserDto(user));
 

@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @AllArgsConstructor
-public class TimeSlotCreateAspect {
+public class TimeSlotSaveAspect {
   private final ValidationHelper<TimeSlotDto> validator;
 
   @Pointcut("execution(* com.orbital22.wemeet.repository.TimeSlotRepository.save(*))")
   public void save() {}
 
   // No ACL to register
-  @Before("com.orbital22.wemeet.aspect.TimeSlotCreateAspect.save() && args(timeSlot)")
+  @Before("com.orbital22.wemeet.aspect.TimeSlotSaveAspect.save() && args(timeSlot)")
   private void handleSave(TimeSlot timeSlot) {
     validator.validate(TimeSlotMapper.INSTANCE.timeSlotToTimeSlotDto(timeSlot));
   }

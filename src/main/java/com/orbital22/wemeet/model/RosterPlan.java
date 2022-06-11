@@ -1,14 +1,17 @@
 package com.orbital22.wemeet.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.orbital22.wemeet.enums.RosterPlanStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+import static com.orbital22.wemeet.enums.RosterPlanStatus.MODIFIED;
 
 @Builder
 @Getter
@@ -42,6 +45,12 @@ public class RosterPlan {
   @Builder.Default
   @NonNull
   private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
+
+  @Enumerated(EnumType.ORDINAL)
+  @Builder.Default
+  @NotNull
+  @Column // TODO
+  private RosterPlanStatus rosterPlanStatus = MODIFIED;
 
   @Override
   public boolean equals(Object o) {
