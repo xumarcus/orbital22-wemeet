@@ -3,6 +3,7 @@ package com.orbital22.wemeet.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.orbital22.wemeet.enums.RosterPlanStatus;
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -52,6 +53,12 @@ public class RosterPlan {
   @Column // TODO
   private RosterPlanStatus rosterPlanStatus = MODIFIED;
 
+  @ManyToOne
+  @JoinColumn(name = "snapshot_of_id")
+  @Nullable
+  @Column
+  private RosterPlan snapshotOf;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -63,5 +70,9 @@ public class RosterPlan {
   @Override
   public int hashCode() {
     return Objects.hash(id);
+  }
+
+  public boolean isSnapshot() {
+    return snapshotOf != null;
   }
 }

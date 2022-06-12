@@ -4,9 +4,9 @@ import com.orbital22.wemeet.dto.RosterPlanDto;
 import com.orbital22.wemeet.mapper.RosterPlanMapper;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.User;
-import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.security.ValidationHelper;
+import com.orbital22.wemeet.service.RosterPlanService;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,7 +24,7 @@ public class RosterPlanSaveAspect {
   private final ValidationHelper<RosterPlanDto> validator;
   private final UserService userService;
   private final AclRegisterService aclRegisterService;
-  private final RosterPlanRepository rosterPlanRepository;
+  private final RosterPlanService rosterPlanService;
 
   @Pointcut("execution(* com.orbital22.wemeet.repository.RosterPlanRepository.save(*))")
   public void save() {}
@@ -37,7 +37,6 @@ public class RosterPlanSaveAspect {
     rosterPlan.setOwner(owner);
 
     if (rosterPlan.getId() != 0) {
-      RosterPlan prev = rosterPlanRepository.findById(rosterPlan.getId()).orElseThrow();
       /*
       MODIFIED -> QUEUED: Fire solver job
       MODIFIED -> SOLVED: Forbidden
@@ -46,6 +45,7 @@ public class RosterPlanSaveAspect {
       SOLVED -> MODIFIED: Ok
       SOLVED -> QUEUED: Forbidden
        */
+      rosterPlanService.handleStatusChange(rosterPlan);
     }
 
     RosterPlan saved = (RosterPlan) pjp.proceed();
