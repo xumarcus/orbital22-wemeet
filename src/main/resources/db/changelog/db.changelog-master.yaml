@@ -301,7 +301,7 @@ databaseChangeLog:
               - column:
                   name: roster_plan_status
                   type: int
-                  defaultValueInt: 0  # MODIFIED
+                  defaultValueNumeric: 0  # MODIFIED
                   constraints:
                     nullable: false
   - changeSet:
