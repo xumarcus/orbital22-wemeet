@@ -1,6 +1,6 @@
 package com.orbital22.wemeet.solver;
 
-import com.orbital22.wemeet.dto.TimeSlotDto;
+import com.orbital22.wemeet.model.TimeSlot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
@@ -17,9 +17,9 @@ import java.util.Set;
 @AllArgsConstructor
 @PlanningSolution
 public class RosterPlanningSolution {
-  @ValueRangeProvider(id = "timeSlotDtos")
+  @ValueRangeProvider(id = "timeSlots")
   @ProblemFactCollectionProperty
-  private Set<TimeSlotDto> timeSlotDtos;
+  private Set<TimeSlot> timeSlots;
 
   @PlanningEntityCollectionProperty private Set<RosterPlanUserPlanningEntity> rosterPlanUsers;
 

@@ -1,6 +1,6 @@
 package com.orbital22.wemeet.solver;
 
-import com.orbital22.wemeet.dto.TimeSlotDto;
+import com.orbital22.wemeet.model.TimeSlot;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -17,13 +17,13 @@ import java.util.Map;
 public class RosterPlanUserPlanningEntity {
   @PlanningId private int id;
 
-  @PlanningVariable(valueRangeProviderRefs = "timeSlotDtos")
-  private TimeSlotDto timeSlotDto;
+  @PlanningVariable(valueRangeProviderRefs = "timeSlots")
+  private TimeSlot timeSlot;
 
-  @NonNull private Map<TimeSlotDto, Integer> rankMap;
+  @NonNull private Map<TimeSlot, Integer> rankMap;
 
   @Nullable
   public Integer penalty() {
-    return rankMap.get(timeSlotDto);
+    return rankMap.get(timeSlot);
   }
 }

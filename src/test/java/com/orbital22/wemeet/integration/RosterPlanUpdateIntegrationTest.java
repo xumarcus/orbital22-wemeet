@@ -1,8 +1,6 @@
 package com.orbital22.wemeet.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.orbital22.wemeet.dto.RosterPlanDto;
-import com.orbital22.wemeet.mapper.RosterPlanMapper;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
@@ -124,25 +122,13 @@ public class RosterPlanUpdateIntegrationTest {
 
   @Test
   public void givenNewUser_whenOwnerAddUserInfo_thenNewUserCanRead() throws Exception {
-    RosterPlanDto rosterPlanDto = RosterPlanMapper.INSTANCE.rosterPlanToRosterPlanDto(rosterPlan);
+    Map<String, Object> map = new HashMap<>();
+    map.put("title", "Talk Cock");
+
     addCock();
     this.mockMvc
         .perform(get("/api/rosterPlan/1").with(user(cock.getEmail())).accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(rosterPlanDto), false));
-  }
-
-  @Test
-  public void givenValidRequest_whenOwnerAddTimeSlot_thenCreateTimeSlotAttachedToRosterPlan()
-      throws Exception {
-    RosterPlanDto rosterPlanDto = RosterPlanMapper.INSTANCE.rosterPlanToRosterPlanDto(rosterPlan);
-    addTimeSlot();
-
-    this.mockMvc
-        .perform(
-            get("/api/timeSlot/1/rosterPlan")
-                .with(user(talk.getEmail()))
-                .accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(rosterPlanDto), false));
+        .andExpect(content().json(objectMapper.writeValueAsString(map), false));
   }
 
   @Test

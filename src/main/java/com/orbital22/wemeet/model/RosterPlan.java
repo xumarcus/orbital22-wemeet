@@ -6,6 +6,7 @@ import lombok.*;
 import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Objects;
@@ -19,7 +20,6 @@ import static com.orbital22.wemeet.enums.RosterPlanStatus.MODIFIED;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "roster_plan")
@@ -35,16 +35,16 @@ public class RosterPlan {
   @JoinColumn(name = "owner_id")
   private User owner;
 
-  @NonNull @Column private String title;
+  @NotBlank @Column private String title;
 
   @OneToMany(mappedBy = "rosterPlan")
   @Builder.Default
-  @NonNull
+  @NotNull
   private Set<TimeSlot> timeSlots = Collections.emptySet();
 
   @OneToMany(mappedBy = "rosterPlan")
   @Builder.Default
-  @NonNull
+  @NotNull
   private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
 
   @Enumerated(EnumType.ORDINAL)
@@ -56,7 +56,6 @@ public class RosterPlan {
   @ManyToOne
   @JoinColumn(name = "snapshot_of_id")
   @Nullable
-  @Column
   private RosterPlan snapshotOf;
 
   @Override

@@ -1,18 +1,17 @@
 package com.orbital22.wemeet.aspect;
 
-import com.orbital22.wemeet.dto.RosterPlanDto;
-import com.orbital22.wemeet.mapper.RosterPlanMapper;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
-import com.orbital22.wemeet.security.ValidationHelper;
 import com.orbital22.wemeet.service.RosterPlanService;
-import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.security.acls.domain.BasePermission.*;
@@ -21,19 +20,17 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 @Component
 @AllArgsConstructor
 public class RosterPlanSaveAspect {
-  private final ValidationHelper<RosterPlanDto> validator;
-  private final UserService userService;
+  private final UserRepository userRepository;
   private final AclRegisterService aclRegisterService;
   private final RosterPlanService rosterPlanService;
 
   @Pointcut("execution(* com.orbital22.wemeet.repository.RosterPlanRepository.save(*))")
   public void save() {}
 
-  @Around("com.orbital22.wemeet.aspect.RosterPlanSaveAspect.save() && args(rosterPlan)")
-  private RosterPlan handleSave(ProceedingJoinPoint pjp, RosterPlan rosterPlan) throws Throwable {
-    validator.validate(RosterPlanMapper.INSTANCE.rosterPlanToRosterPlanDto(rosterPlan));
-
-    User owner = userService.me().orElseThrow();
+  @Before("com.orbital22.wemeet.aspect.RosterPlanSaveAspect.save() && args(rosterPlan)")
+  private void handleBeforeSave(RosterPlan rosterPlan) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    User owner = userRepository.findByEmail(authentication.getName()).orElseThrow();
     rosterPlan.setOwner(owner);
 
     if (rosterPlan.getId() != 0) {
@@ -47,9 +44,12 @@ public class RosterPlanSaveAspect {
        */
       rosterPlanService.handleStatusChange(rosterPlan);
     }
+  }
 
-    RosterPlan saved = (RosterPlan) pjp.proceed();
-    aclRegisterService.register(saved, owner.getEmail(), READ, WRITE, DELETE);
-    return saved;
+  @AfterReturning(
+      pointcut = "com.orbital22.wemeet.aspect.RosterPlanSaveAspect.save()",
+      returning = "rosterPlan")
+  private void handleAfterSave(RosterPlan rosterPlan) {
+    aclRegisterService.register(rosterPlan, rosterPlan.getOwner().getEmail(), READ, WRITE, DELETE);
   }
 }

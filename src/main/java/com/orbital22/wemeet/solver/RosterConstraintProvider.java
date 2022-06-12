@@ -35,8 +35,8 @@ public class RosterConstraintProvider implements ConstraintProvider {
   private Constraint capacityConstraint(ConstraintFactory constraintFactory) {
     return constraintFactory
         .forEach(RosterPlanUserPlanningEntity.class)
-        .groupBy(RosterPlanUserPlanningEntity::getTimeSlotDto, ConstraintCollectors.count())
-        .groupBy(((timeSlotDto, count) -> count - timeSlotDto.getCapacity()))
+        .groupBy(RosterPlanUserPlanningEntity::getTimeSlot, ConstraintCollectors.count())
+        .groupBy(((timeSlot, count) -> count - timeSlot.getCapacity()))
         .filter(exceed -> exceed > 0)
         .groupBy(ConstraintCollectors.sum(exceed -> exceed))
         .penalize("Full timeSlot", HardSoftScore.ONE_HARD, exceed -> exceed);

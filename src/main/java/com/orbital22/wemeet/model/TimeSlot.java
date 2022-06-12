@@ -1,11 +1,14 @@
 package com.orbital22.wemeet.model;
 
+import com.orbital22.wemeet.annotation.DateTimeRangeConstraint;
+import com.orbital22.wemeet.util.HasDateTimeRange;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,31 +20,28 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "time_slot")
-public class TimeSlot {
+@DateTimeRangeConstraint
+public class TimeSlot implements HasDateTimeRange {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "roster_plan_id")
-    private RosterPlan rosterPlan;
+  @NotNull
+  @ManyToOne
+  @JoinColumn(name = "roster_plan_id")
+  private RosterPlan rosterPlan;
 
-    @NonNull
-    @Column
-    private LocalDateTime startDateTime;
+  @NotNull @Column private LocalDateTime startDateTime;
 
-    @NonNull
-    @Column
-    private LocalDateTime endDateTime;
+  @NotNull @Column private LocalDateTime endDateTime;
 
-    @Column
-    private int capacity;
+  @Positive @Column private int capacity;
 
-    @OneToMany(mappedBy = "timeSlot")
-    @Builder.Default
-    @NonNull
-    private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
+  @NotNull
+  @OneToMany(mappedBy = "timeSlot")
+  @Builder.Default
+  private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {
