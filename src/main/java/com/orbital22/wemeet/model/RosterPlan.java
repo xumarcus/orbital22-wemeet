@@ -1,6 +1,7 @@
 package com.orbital22.wemeet.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.orbital22.wemeet.annotation.RosterPlanStatusConstraint;
 import com.orbital22.wemeet.enums.RosterPlanStatus;
 import lombok.*;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,7 @@ import static com.orbital22.wemeet.enums.RosterPlanStatus.MODIFIED;
 @AllArgsConstructor
 @Entity
 @Table(name = "roster_plan")
+@RosterPlanStatusConstraint
 public class RosterPlan {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,9 +56,9 @@ public class RosterPlan {
   private RosterPlanStatus rosterPlanStatus = MODIFIED;
 
   @ManyToOne
-  @JoinColumn(name = "snapshot_of_id")
+  @JoinColumn(name = "parent_id")
   @Nullable
-  private RosterPlan snapshotOf;
+  private RosterPlan parent;
 
   @Override
   public boolean equals(Object o) {
@@ -72,6 +74,6 @@ public class RosterPlan {
   }
 
   public boolean isSnapshot() {
-    return snapshotOf != null;
+    return parent != null;
   }
 }

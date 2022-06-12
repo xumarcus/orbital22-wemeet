@@ -285,3 +285,40 @@ databaseChangeLog:
                   type: varchar(100)
                   constraints:
                     nullable: true
+  - changeSet:
+      id: roster_plan_add_roster_plan_status
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: roster_plan_status
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: roster_plan_status
+                  type: int
+                  defaultValueInt: 0  # MODIFIED
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: roster_plan_add_parent_id
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: parent_id
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: parent_id
+                  type: int
+                  constraints:
+                    nullable: true
