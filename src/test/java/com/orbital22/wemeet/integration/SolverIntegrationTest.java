@@ -7,12 +7,10 @@ import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.service.RosterPlanService;
 import com.orbital22.wemeet.service.UserService;
-import com.orbital22.wemeet.solver.RosterPlanningSolution;
 import de.cronn.testutils.h2.H2Util;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.solver.SolverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -157,8 +155,7 @@ public class SolverIntegrationTest {
   }
 
   @Test
-  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns(
-      @Autowired SolverManager<RosterPlanningSolution, Integer> solverManager) throws Exception {
+  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns() throws Exception {
     addUser(1);
     addUser(2);
     addUser(3);
