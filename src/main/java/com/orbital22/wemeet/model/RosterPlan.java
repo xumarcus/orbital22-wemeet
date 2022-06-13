@@ -1,8 +1,6 @@
 package com.orbital22.wemeet.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.orbital22.wemeet.annotation.RosterPlanStatusConstraint;
-import com.orbital22.wemeet.enums.RosterPlanStatus;
 import lombok.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
-import static com.orbital22.wemeet.enums.RosterPlanStatus.MODIFIED;
 
 @Builder
 @Getter
@@ -24,41 +21,43 @@ import static com.orbital22.wemeet.enums.RosterPlanStatus.MODIFIED;
 @AllArgsConstructor
 @Entity
 @Table(name = "roster_plan")
-@RosterPlanStatusConstraint
 public class RosterPlan {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
   private int id;
 
+  @NotBlank @Column private String title;
+
+  @ToString.Exclude
+  @ManyToOne
+  @JoinColumn(name = "parent_id")
+  @Nullable
+  private RosterPlan parent;
+
   // needed?
   @JsonProperty(access = READ_ONLY)
   @ManyToOne
   @JoinColumn(name = "owner_id")
+  // Nullable before aspect injects
   private User owner;
 
-  @NotBlank @Column private String title;
-
+  @JsonProperty(access = READ_ONLY)
   @OneToMany(mappedBy = "rosterPlan")
   @Builder.Default
   @NotNull
   private Set<TimeSlot> timeSlots = Collections.emptySet();
 
+  @JsonProperty(access = READ_ONLY)
   @OneToMany(mappedBy = "rosterPlan")
   @Builder.Default
   @NotNull
   private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
 
-  @Enumerated(EnumType.ORDINAL)
-  @Builder.Default
-  @NotNull
-  @Column // TODO
-  private RosterPlanStatus rosterPlanStatus = MODIFIED;
-
-  @ManyToOne
-  @JoinColumn(name = "parent_id")
-  @Nullable
-  private RosterPlan parent;
+  @JsonProperty(access = READ_ONLY)
+  @Nullable // not applicable to parent
+  @Column
+  private Boolean solved;
 
   @Override
   public boolean equals(Object o) {
@@ -71,9 +70,5 @@ public class RosterPlan {
   @Override
   public int hashCode() {
     return Objects.hash(id);
-  }
-
-  public boolean isSnapshot() {
-    return parent != null;
   }
 }

@@ -1,9 +1,7 @@
 package com.orbital22.wemeet.solver;
 
 import com.orbital22.wemeet.model.TimeSlot;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 import org.jetbrains.annotations.Nullable;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
@@ -13,6 +11,8 @@ import java.util.Map;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @PlanningEntity
 public class RosterPlanUserPlanningEntity {
   @PlanningId private int id;

@@ -62,7 +62,8 @@ Insert/replace these in `src/main/resources/application.properties`.
 # More messages
 logging.level.org.springframework={TRACE/DEBUG/INFO/ERROR}
 # Even more messages (optional)
-com.zaxxer.hikari.level={TRACE/DEBUG/INFO/ERROR}
+logging.level.com.zaxxer.hikari=
+{TRACE/DEBUG/INFO/ERROR}
 # Disable CORS, CSRF and firewall
 spring.profiles.active=development
 # Expose cookie to client

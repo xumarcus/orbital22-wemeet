@@ -22,11 +22,12 @@ import java.util.Set;
 @Table(name = "time_slot")
 @DateTimeRangeConstraint
 public class TimeSlot implements HasDateTimeRange {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
+  private int id;
 
+  @ToString.Exclude
   @NotNull
   @ManyToOne
   @JoinColumn(name = "roster_plan_id")
@@ -43,16 +44,16 @@ public class TimeSlot implements HasDateTimeRange {
   @Builder.Default
   private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TimeSlot timeSlot = (TimeSlot) o;
-        return id == timeSlot.id;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TimeSlot timeSlot = (TimeSlot) o;
+    return id == timeSlot.id;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }

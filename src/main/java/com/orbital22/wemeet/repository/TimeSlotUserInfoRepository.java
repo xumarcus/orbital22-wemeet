@@ -1,6 +1,7 @@
 package com.orbital22.wemeet.repository;
 
 import com.orbital22.wemeet.model.RosterPlan;
+import com.orbital22.wemeet.model.TimeSlot;
 import com.orbital22.wemeet.model.TimeSlotUserInfo;
 import com.orbital22.wemeet.model.User;
 import lombok.NonNull;
@@ -10,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -23,6 +23,8 @@ public interface TimeSlotUserInfoRepository extends JpaRepository<TimeSlotUserIn
           + " AND I.user = :user")
   Collection<TimeSlotUserInfo> findByRosterPlanAndUser(RosterPlan rosterPlan, User user);
 
+  Optional<TimeSlotUserInfo> findByTimeSlotAndUser(TimeSlot timeSlot, User user);
+
   @RestResource
   @Override
   @NonNull
@@ -32,6 +34,6 @@ public interface TimeSlotUserInfoRepository extends JpaRepository<TimeSlotUserIn
   @RestResource
   @Override
   @NonNull
-  @PreAuthorize("#timeSlotUserInfo.id == 0 or hasPermission(#timeSlotUserInfo, 'WRITE')")
+  // @PreAuthorize("#timeSlotUserInfo.id == 0 or hasPermission(#timeSlotUserInfo, 'WRITE')")
   <S extends TimeSlotUserInfo> S save(@NonNull S timeSlotUserInfo);
 }

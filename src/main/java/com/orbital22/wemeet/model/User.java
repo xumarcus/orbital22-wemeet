@@ -62,21 +62,23 @@ public class User {
       name = "user_authority",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "authority_id"))
-  @ToString.Include
   @Builder.Default
   @NotNull
   private Set<Authority> authorities = Collections.emptySet();
 
+  @ToString.Exclude
   @OneToMany(mappedBy = "owner")
   @Builder.Default
   @NotNull
   private Set<RosterPlan> ownedRosterPlans = Collections.emptySet();
 
+  @ToString.Exclude
   @OneToMany(mappedBy = "user")
   @Builder.Default
   @NotNull
   private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
 
+  @ToString.Exclude
   @OneToMany(mappedBy = "user")
   @Builder.Default
   @NotNull

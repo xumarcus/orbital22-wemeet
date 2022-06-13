@@ -19,16 +19,17 @@ public class RosterPlanUserInfo {
     @Column
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "roster_plan_id")
-    private RosterPlan rosterPlan;
+  @ToString.Exclude
+  @ManyToOne
+  @JoinColumn(name = "roster_plan_id")
+  private RosterPlan rosterPlan;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column
-    private boolean hasResponded;
+  @Column(name = "has_responded") // TODO
+  private boolean locked;
 
     @Override
     public boolean equals(Object o) {
