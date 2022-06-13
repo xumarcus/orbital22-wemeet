@@ -68,7 +68,7 @@ public class UserService {
   }
 
   @NotNull
-  public Optional<TimeSlotUserInfo> findTimeSlotUserInfoFrom(
+  private Optional<TimeSlotUserInfo> findTimeSlotUserInfoFrom(
       RosterPlanUserPlanningEntity rosterPlanUser) {
     return userRepository
         .findById(rosterPlanUser.getId())
@@ -79,10 +79,33 @@ public class UserService {
   }
 
   @NotNull
-  public Optional<RosterPlanUserInfo> findRosterPlanUserInfoFrom(
+  private Optional<RosterPlanUserInfo> findRosterPlanUserInfoFrom(
       RosterPlan rosterPlan, RosterPlanUserPlanningEntity rosterPlanUser) {
     return userRepository
         .findById(rosterPlanUser.getId())
         .flatMap(user -> rosterPlanUserInfoRepository.findByRosterPlanAndUser(rosterPlan, user));
+  }
+
+  public void updateTimeSlotUserInfosFromSolution(RosterPlanningSolution solution) {
+    timeSlotUserInfoRepository.saveAll(
+        () ->
+            solution.getRosterPlanUsers().stream()
+                .filter(rosterPlanUser -> rosterPlanUser.getTimeSlot() != null)
+                .map(rosterPlanUser -> findTimeSlotUserInfoFrom(rosterPlanUser).orElseThrow())
+                .peek(timeSlotUserInfo -> timeSlotUserInfo.setPicked(true))
+                .iterator());
+  }
+
+  public void updateRosterPlanUserInfosFromSolution(
+      RosterPlanningSolution solution, RosterPlan rosterPlan) {
+    rosterPlanUserInfoRepository.saveAll(
+        () ->
+            solution.getRosterPlanUsers().stream()
+                .filter(rosterPlanUser -> rosterPlanUser.getTimeSlot() != null)
+                .map(
+                    rosterPlanUser ->
+                        findRosterPlanUserInfoFrom(rosterPlan, rosterPlanUser).orElseThrow())
+                .peek(rosterPlanUserInfo -> rosterPlanUserInfo.setLocked(true))
+                .iterator());
   }
 }

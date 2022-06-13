@@ -2,8 +2,6 @@ package com.orbital22.wemeet.service;
 
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
-import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
-import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import com.orbital22.wemeet.solver.RosterPlanningSolution;
 import lombok.AllArgsConstructor;
 import org.optaplanner.core.api.solver.SolverManager;
@@ -17,8 +15,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class SolverService {
   private final RosterPlanRepository rosterPlanRepository;
-  private final RosterPlanUserInfoRepository rosterPlanUserInfoRepository;
-  private final TimeSlotUserInfoRepository timeSlotUserInfoRepository;
   private final RosterPlanService rosterPlanService;
   private final UserService userService;
   private final SolverManager<RosterPlanningSolution, Integer> solverManager;
@@ -31,27 +27,8 @@ public class SolverService {
     // Update is async, new `RosterPlan` is safer even if it is supposed to be immutable.
     RosterPlan rosterPlan = rosterPlanRepository.findById(solution.getId()).orElseThrow();
 
-    timeSlotUserInfoRepository.saveAll(
-        () ->
-            solution.getRosterPlanUsers().stream()
-                .filter(rosterPlanUser -> rosterPlanUser.getTimeSlot() != null)
-                .map(
-                    rosterPlanUser ->
-                        userService.findTimeSlotUserInfoFrom(rosterPlanUser).orElseThrow())
-                .peek(timeSlotUserInfo -> timeSlotUserInfo.setPicked(true))
-                .iterator());
-
-    rosterPlanUserInfoRepository.saveAll(
-        () ->
-            solution.getRosterPlanUsers().stream()
-                .filter(rosterPlanUser -> rosterPlanUser.getTimeSlot() != null)
-                .map(
-                    rosterPlanUser ->
-                        userService
-                            .findRosterPlanUserInfoFrom(rosterPlan, rosterPlanUser)
-                            .orElseThrow())
-                .peek(rosterPlanUserInfo -> rosterPlanUserInfo.setLocked(true))
-                .iterator());
+    userService.updateTimeSlotUserInfosFromSolution(solution);
+    userService.updateRosterPlanUserInfosFromSolution(solution, rosterPlan);
 
     rosterPlan.setSolved(true);
     rosterPlanService.justSave(rosterPlan);
