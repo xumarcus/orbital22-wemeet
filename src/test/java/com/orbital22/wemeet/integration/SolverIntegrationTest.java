@@ -21,7 +21,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -51,7 +50,6 @@ public class SolverIntegrationTest {
   User suck;
   RosterPlan rosterPlan;
 
-  @WithMockUser(username = "talk@wemeet.com")
   @BeforeEach
   public void setUp(
       @Autowired UserRepository userRepository,
@@ -93,54 +91,6 @@ public class SolverIntegrationTest {
 
   @Test
   public void contextLoads() {}
-
-  private void addFirstTimeSlot() throws Exception {
-    Map<String, Object> map = new HashMap<>();
-    map.put("startDateTime", "2019-06-09T18:00:00");
-    map.put("endDateTime", "2019-06-09T19:00:00");
-    map.put("capacity", 2);
-    map.put("rosterPlan", "/api/rosterPlan/1");
-
-    this.mockMvc
-        .perform(
-            post("/api/timeSlot")
-                .with(user(talk.getEmail()))
-                .content(objectMapper.writeValueAsString(map))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost/api/timeSlot/1"));
-  }
-
-  private void addSecondTimeSlot() throws Exception {
-    Map<String, Object> map = new HashMap<>();
-    map.put("startDateTime", "2019-06-12T18:00:00");
-    map.put("endDateTime", "2019-06-12T19:00:00");
-    map.put("capacity", 1);
-    map.put("rosterPlan", "/api/rosterPlan/1");
-
-    this.mockMvc
-        .perform(
-            post("/api/timeSlot")
-                .with(user(talk.getEmail()))
-                .content(objectMapper.writeValueAsString(map))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost/api/timeSlot/2"));
-  }
-
-  private void addTimeSlotUserInfo(User user, int timeSlotId, int rank) throws Exception {
-    Map<String, Object> map = new HashMap<>();
-    map.put("timeSlot", "/api/timeSlot/" + timeSlotId);
-    map.put("rank", rank);
-
-    this.mockMvc
-        .perform(
-            post("/api/timeSlotUserInfo")
-                .with(user(user.getEmail()))
-                .content(objectMapper.writeValueAsString(map))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
-  }
 
   @Test
   public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns(
