@@ -43,8 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RosterPlanUpdateIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
-  @Autowired CacheManager cacheManager;
-  @Autowired AclRegisterService aclRegisterService;
 
   User talk;
   User cock;
@@ -54,7 +52,8 @@ public class RosterPlanUpdateIntegrationTest {
   @BeforeEach
   public void setUp(
       @Autowired UserRepository userRepository,
-      @Autowired RosterPlanRepository rosterPlanRepository) {
+      @Autowired RosterPlanRepository rosterPlanRepository,
+      @Autowired AclRegisterService aclRegisterService) {
     List<User> users =
         userRepository.saveAll(
             () ->
@@ -76,7 +75,7 @@ public class RosterPlanUpdateIntegrationTest {
   }
 
   @AfterEach
-  public void tearDown(@Autowired H2Util h2Util) {
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
     h2Util.resetDatabase();
     Cache cache = cacheManager.getCache("aclCache");
     if (cache != null) {
@@ -89,7 +88,7 @@ public class RosterPlanUpdateIntegrationTest {
 
   private void addCock() throws Exception {
     Map<String, Object> map = new HashMap<>();
-    map.put("hasResponded", false);
+    map.put("locked", false);
     map.put("user", "/api/users/2");
     map.put("rosterPlan", "/api/rosterPlan/1");
 

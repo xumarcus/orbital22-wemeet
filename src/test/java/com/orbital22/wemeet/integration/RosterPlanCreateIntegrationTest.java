@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RosterPlanCreateIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
-  @Autowired CacheManager cacheManager;
 
   @BeforeEach
   public void setUp(@Autowired UserRepository userRepository) {
@@ -43,7 +42,7 @@ public class RosterPlanCreateIntegrationTest {
   }
 
   @AfterEach
-  public void tearDown(@Autowired H2Util h2Util) {
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
     h2Util.resetDatabase();
     Cache cache = cacheManager.getCache("aclCache");
     if (cache != null) {

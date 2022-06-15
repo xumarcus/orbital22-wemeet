@@ -42,9 +42,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SolverIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
-  @Autowired CacheManager cacheManager;
-  @Autowired AclRegisterService aclRegisterService;
-
   User talk;
   User cock;
   User suck;
@@ -55,7 +52,8 @@ public class SolverIntegrationTest {
       @Autowired UserRepository userRepository,
       @Autowired RosterPlanUserInfoRepository rosterPlanUserInfoRepository,
       @Autowired UserService userService,
-      @Autowired RosterPlanService rosterPlanService) {
+      @Autowired RosterPlanService rosterPlanService,
+      @Autowired AclRegisterService aclRegisterService) {
     List<User> users =
         userRepository.saveAll(
             () ->
@@ -81,7 +79,7 @@ public class SolverIntegrationTest {
   }
 
   @AfterEach
-  public void tearDown(@Autowired H2Util h2Util) {
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
     h2Util.resetDatabase();
     Cache cache = cacheManager.getCache("aclCache");
     if (cache != null) {

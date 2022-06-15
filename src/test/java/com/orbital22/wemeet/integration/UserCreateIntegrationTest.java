@@ -31,10 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserCreateIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
-  @Autowired CacheManager cacheManager;
 
   @AfterEach
-  public void tearDown(@Autowired H2Util h2Util) {
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
     h2Util.resetDatabase();
     Cache cache = cacheManager.getCache("aclCache");
     if (cache != null) {
