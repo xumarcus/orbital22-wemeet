@@ -1,8 +1,10 @@
 package com.orbital22.wemeet.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.orbital22.wemeet.model.RosterPlan;
-import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.model.*;
+import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
+import com.orbital22.wemeet.repository.TimeSlotRepository;
+import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.service.RosterPlanService;
@@ -18,11 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(properties = "optaplanner.solver.termination.spent-limit=1s")
+@SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @Import(H2Util.class)
@@ -53,6 +55,7 @@ public class SolverIntegrationTest {
   @BeforeEach
   public void setUp(
       @Autowired UserRepository userRepository,
+      @Autowired RosterPlanUserInfoRepository rosterPlanUserInfoRepository,
       @Autowired UserService userService,
       @Autowired RosterPlanService rosterPlanService) {
     List<User> users =
@@ -67,8 +70,16 @@ public class SolverIntegrationTest {
     rosterPlan =
         rosterPlanService.justSave(RosterPlan.builder().title("Talk Cock").owner(talk).build());
 
+    rosterPlanUserInfoRepository.saveAll(
+        () ->
+            users.stream()
+                .map(user -> RosterPlanUserInfo.builder().user(user).rosterPlan(rosterPlan).build())
+                .iterator());
+
     userService.setSessionUser(talk);
     aclRegisterService.register(rosterPlan, talk.getEmail(), READ, WRITE, DELETE);
+    aclRegisterService.register(rosterPlan, cock.getEmail(), READ);
+    aclRegisterService.register(rosterPlan, suck.getEmail(), READ);
   }
 
   @AfterEach
@@ -82,22 +93,6 @@ public class SolverIntegrationTest {
 
   @Test
   public void contextLoads() {}
-
-  private void addUser(int id) throws Exception {
-    Map<String, Object> map = new HashMap<>();
-    map.put("hasResponded", false);
-    map.put("user", "/api/users/" + id);
-    map.put("rosterPlan", "/api/rosterPlan/1");
-
-    this.mockMvc
-        .perform(
-            post("/api/rosterPlanUserInfo")
-                .with(user(talk.getEmail()))
-                .accept(MediaTypes.HAL_JSON)
-                .content(objectMapper.writeValueAsString(map))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
-  }
 
   private void addFirstTimeSlot() throws Exception {
     Map<String, Object> map = new HashMap<>();
@@ -148,22 +143,33 @@ public class SolverIntegrationTest {
   }
 
   @Test
-  public void givenNonOwnerUser_whenAddTimeSlotUserInfo_thenOk() throws Exception {
-    addUser(2);
-    addFirstTimeSlot();
-    addTimeSlotUserInfo(cock, 1, 1);
-  }
+  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns(
+      @Autowired TimeSlotRepository timeSlotRepository,
+      @Autowired TimeSlotUserInfoRepository timeSlotUserInfoRepository)
+      throws Exception {
+    TimeSlot t1 =
+        timeSlotRepository.save(
+            TimeSlot.builder()
+                .rosterPlan(rosterPlan)
+                .startDateTime(LocalDateTime.of(2019, 6, 9, 18, 0, 0))
+                .endDateTime(LocalDateTime.of(2019, 6, 9, 19, 0, 0))
+                .capacity(1)
+                .build());
 
-  @Test
-  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns() throws Exception {
-    addUser(1);
-    addUser(2);
-    addUser(3);
-    addFirstTimeSlot();
-    addSecondTimeSlot();
-    addTimeSlotUserInfo(talk, 1, 1);
-    addTimeSlotUserInfo(cock, 1, 2);
-    addTimeSlotUserInfo(suck, 2, 3);
+    TimeSlot t2 =
+        timeSlotRepository.save(
+            TimeSlot.builder()
+                .rosterPlan(rosterPlan)
+                .startDateTime(LocalDateTime.of(2019, 6, 12, 18, 0, 0))
+                .endDateTime(LocalDateTime.of(2019, 6, 12, 19, 0, 0))
+                .capacity(2)
+                .build());
+
+    timeSlotUserInfoRepository.saveAll(
+        List.of(
+            TimeSlotUserInfo.builder().timeSlot(t1).user(talk).rank(1).build(),
+            TimeSlotUserInfo.builder().timeSlot(t2).user(cock).rank(2).build(),
+            TimeSlotUserInfo.builder().timeSlot(t2).user(suck).rank(3).build()));
 
     Map<String, Object> map = new HashMap<>();
     map.put("title", "Talk Cock Suck");
@@ -187,7 +193,7 @@ public class SolverIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(content().json(objectMapper.writeValueAsString(resp)));
 
-    // Solver takes 1s in test
+    // Solver terminates in 1s
     Thread.sleep(2000);
 
     resp.replace("solved", true);
