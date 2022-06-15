@@ -22,12 +22,3 @@ If successful, return `201 Created` with `Location` set to `/api/users/:id`, reg
 
 include::{snippets}/post-users-registered-success/http-response.adoc[]
 include::{snippets}/post-users-unregistered-success/http-response.adoc[]
-
-.When `status` changes from `MODIFIED` to `QUEUED`
-* Create snapshot of plan and set origin
-* Create solver job with `problem_id` from above
-* When job is done, callback
-- Update `status` to `SOLVED` if still `QUEUED`
-- Fill `fixed` field of `RosterPlanUserInfo`
-
-Later, owner can republish from snapshot, preserving the `fixed`.
