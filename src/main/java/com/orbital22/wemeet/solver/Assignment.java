@@ -1,29 +1,29 @@
 package com.orbital22.wemeet.solver;
 
 import com.orbital22.wemeet.model.TimeSlot;
-import lombok.*;
+import com.orbital22.wemeet.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
-
-import java.util.Map;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @PlanningEntity
-public class RosterPlanUserPlanningEntity {
+public class Assignment {
   @PlanningId private int id;
-
-  @PlanningVariable(valueRangeProviderRefs = "timeSlots")
+  private User user;
   private TimeSlot timeSlot;
+  private int rank;
 
-  @NonNull private Map<TimeSlot, Integer> rankMap;
-
+  @PlanningVariable(valueRangeProviderRefs = "booleanValueRange")
+  @Builder.Default
   @Nullable
-  public Integer penalty() {
-    return rankMap.get(timeSlot);
-  }
+  private Boolean considered = null;
 }

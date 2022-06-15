@@ -1,6 +1,5 @@
 package com.orbital22.wemeet.solver;
 
-import com.orbital22.wemeet.model.TimeSlot;
 import com.orbital22.wemeet.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +8,9 @@ import lombok.NoArgsConstructor;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.core.impl.domain.valuerange.buildin.primboolean.BooleanValueRange;
 
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -21,17 +20,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @PlanningSolution
-public class RosterPlanningSolution {
+public class RosterPlanSolution {
   private int id;
 
   // Re-authenticate
   @NotNull private User owner;
 
-  @ValueRangeProvider(id = "timeSlots")
-  @ProblemFactCollectionProperty
-  private Set<TimeSlot> timeSlots;
+  @ValueRangeProvider(id = "booleanValueRange")
+  private final BooleanValueRange booleanValueRange = new BooleanValueRange();
 
-  @PlanningEntityCollectionProperty private Set<RosterPlanUserPlanningEntity> rosterPlanUsers;
+  @PlanningEntityCollectionProperty private Set<Assignment> assignments;
 
   @PlanningScore private HardSoftScore score;
 }

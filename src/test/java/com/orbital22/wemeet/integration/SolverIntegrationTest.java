@@ -8,15 +8,21 @@ import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.service.RosterPlanService;
+import com.orbital22.wemeet.service.SolverService;
 import com.orbital22.wemeet.service.UserService;
+import com.orbital22.wemeet.solver.RosterPlanSolution;
 import de.cronn.testutils.h2.H2Util;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
@@ -29,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.acls.domain.BasePermission.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,6 +49,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SolverIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
+  @Autowired TimeSlotRepository timeSlotRepository;
+  @Autowired TimeSlotUserInfoRepository timeSlotUserInfoRepository;
+
+  @SpyBean SolverService solverService;
+
   User talk;
   User cock;
   User suck;
@@ -90,11 +102,7 @@ public class SolverIntegrationTest {
   @Test
   public void contextLoads() {}
 
-  @Test
-  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns(
-      @Autowired TimeSlotRepository timeSlotRepository,
-      @Autowired TimeSlotUserInfoRepository timeSlotUserInfoRepository)
-      throws Exception {
+  private void easy() throws Exception {
     TimeSlot t1 =
         timeSlotRepository.save(
             TimeSlot.builder()
@@ -131,11 +139,16 @@ public class SolverIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost/api/rosterPlan/2"));
+  }
+
+  @Test
+  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns() throws Exception {
+    easy();
 
     Map<String, Object> resp = new HashMap<>();
     resp.put("title", "Talk Cock Suck");
-    resp.put("solved", false);
 
+    resp.put("solved", false);
     this.mockMvc
         .perform(get("/api/rosterPlan/2").with(user(talk.getEmail())))
         .andExpect(status().isOk())
@@ -143,6 +156,10 @@ public class SolverIntegrationTest {
 
     // Solver terminates in 1s
     Thread.sleep(2000);
+
+    ArgumentCaptor<RosterPlanSolution> arg = ArgumentCaptor.forClass(RosterPlanSolution.class);
+    Mockito.verify(solverService).updateRosterPlanWith(arg.capture());
+    assertEquals(HardSoftScore.of(0, -6), arg.getValue().getScore());
 
     resp.replace("solved", true);
     this.mockMvc
