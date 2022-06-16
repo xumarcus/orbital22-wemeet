@@ -11,12 +11,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import logo from './logo_banner.png';
 import {Link, useNavigate} from 'react-router-dom';
 import LogInModal from './LogInModal';
 import ForgetPasswordModel from './ForgetPasswordModal';
 import SignUpModal from './SignUpModal';
+import AppContext from '../core/app-context';
 
 const pages = [
   ['Features', 'features'],
@@ -26,10 +27,12 @@ const pages = [
 
 const settings = [
   ['Dashboard', 'dashboard'],
-  ["Profile", "profile"],
+  ['Profile', 'profile'],
 ];
 
 const NavBar = () => {
+  const appContext = useContext(AppContext);
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [ModalVisible, setModalVisible] = useState('');
@@ -51,141 +54,145 @@ const NavBar = () => {
 
   const handleCloseUserMenu = (newPage) => {
     setAnchorElUser(null);
-    navigate(`/${ newPage }`);
+    navigate(`/${newPage}`);
   };
 
   const handleStartNowClick = () => {
-    console.log("Start Now");
-    setModalVisible("signin");
+    console.log('Start Now');
+    setModalVisible('signin');
   };
 
   return (
-    <>
-      <LogInModal visible={ModalVisible} setVisible={setModalVisible} />
-      <ForgetPasswordModel
-          visible={ ModalVisible }
-          setVisible={ setModalVisible }
-      />
-      <SignUpModal visible={ ModalVisible } setVisible={ setModalVisible }/>
-      <AppBar position="static" sx={ { bgcolor: "white", boxShadow: "0" } }>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Link to={ "/" }>
+      <>
+        <LogInModal visible={ModalVisible} setVisible={setModalVisible}/>
+        <ForgetPasswordModel
+            visible={ModalVisible}
+            setVisible={setModalVisible}
+        />
+        <SignUpModal visible={ModalVisible} setVisible={setModalVisible}/>
+        <AppBar position="static" sx={{bgcolor: 'white', boxShadow: '0'}}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Link to={'/'}>
+                <Box
+                    component="img"
+                    sx={{
+                      display: {xs: 'none', md: 'flex'},
+                      my: 3,
+                      mx: 2,
+                      maxHeight: {xs: 320, md: 250},
+                      maxWidth: {xs: 350, md: 300},
+                    }}
+                    alt="WeMeet"
+                    src={logo}
+                />
+              </Link>
+              <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="secondary"
+                >
+                  <MenuIcon/>
+                </IconButton>
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                      display: {xs: 'block', md: 'none'},
+                    }}
+                >
+                  {pages.map((page) => (
+                      <MenuItem
+                          key={page}
+                          onClick={handleCloseNavMenu.bind(this, page[1])}
+                      >
+                        <Typography textAlign="center">{page[0]}</Typography>
+                      </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
               <Box
-                  component="img"
-                  sx={ {
-                    display: { xs: "none", md: "flex" },
-                    my: 3,
-                    mx: 2,
-                  maxHeight: { xs: 320, md: 250 },
-                  maxWidth: { xs: 350, md: 300 }
-                }}
-                alt="WeMeet"
-                src={logo}
-              />
-            </Link>
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="secondary"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left"
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left"
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" }
-                }}
+                  sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}, pr: 2}}
+                  justifyContent="flex-end"
               >
                 {pages.map((page) => (
-                  <MenuItem
-                    key={page}
-                    onClick={handleCloseNavMenu.bind(this, page[1])}
-                  >
-                    <Typography textAlign="center">{page[0]}</Typography>
-                  </MenuItem>
+                    <Button
+                        key={page}
+                        onClick={handleCloseNavMenu.bind(this, page[1])}
+                        sx={{
+                          my: 2,
+                          color: 'black',
+                          fontWeight: 'bold',
+                          display: 'block',
+                        }}
+                    >
+                      {page[1]}
+                    </Button>
                 ))}
-              </Menu>
-            </Box>
-            <Box
-              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, pr: 2 }}
-              justifyContent="flex-end"
-            >
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu.bind(this, page[1])}
-                  sx={{
-                    my: 2,
-                    color: "black",
-                    fontWeight: "bold",
-                    display: "block"
-                  }}
-                >
-                  {page[1]}
-                </Button>
-              ))}
-            </Box>
+              </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                    <MenuItem key={ setting[0] } onClick={ handleCloseUserMenu.bind(this, setting[1]) }>
-                      <Typography textAlign="center">{ setting[0] }</Typography>
-                    </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            <Box sx={{ pl: 2 }}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleStartNowClick}
-                color="success"
-              >
-                Start Now
-              </Button>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </>
+              <Box sx={{flexGrow: 0}}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                    {/* FIXME */}
+                    <Avatar alt={appContext.values.user?.email ?? 'Anonymous'}
+                            src={'404'}/>
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                    sx={{mt: '45px'}}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                      <MenuItem key={setting[0]}
+                                onClick={handleCloseUserMenu.bind(this,
+                                    setting[1])}>
+                        <Typography textAlign="center">{setting[0]}</Typography>
+                      </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+              <Box sx={{pl: 2}}>
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={handleStartNowClick}
+                    color="success"
+                >
+                  Start Now
+                </Button>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </>
   );
 };
 export default NavBar;

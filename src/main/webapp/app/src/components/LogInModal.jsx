@@ -1,53 +1,51 @@
-import * as React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Container from "@mui/material/Container";
-import SuccessAlert from "./SuccessAlert";
-import RetryAlert from "./RetryAlert";
-import ajax from "../util";
+import * as React from 'react';
+import {useContext} from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Container from '@mui/material/Container';
+import RetryAlert from './RetryAlert';
+import ajax from '../core/util';
+import AppContext from '../core/app-context';
 
 const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
-    p: 4
+    p: 4,
 };
 
 const LogInModal = (prop) => {
     const { visible, setVisible } = prop;
     const handleClose = () => {
-        setSuccessAlert(false);
         setRetryAlert(false);
         setVisible("");
     }
-    const [successAlert, setSuccessAlert] = React.useState(false);
     const [retryAlert, setRetryAlert] = React.useState(false);
 
+    const appContext = useContext(AppContext);
 
     const handleSwitchtoForgetPassword = () => {
-        console.log("forgetpw");
         setVisible("forgetPassword");
     };
 
     const handleSwitchtoSignUp = () => {
-        console.log("signup");
         setVisible("signup");
     };
 
@@ -56,18 +54,11 @@ const LogInModal = (prop) => {
         const formData = new FormData(event.currentTarget);
         try {
             const user = await ajax('POST', formData)("/login");
-
-            // TODO preserve user in context
-            // TODO combine two API calls into one in BE
-            console.log(user);
-
+            appContext.setValues({...appContext.values, user});
             setRetryAlert(false);
-            setSuccessAlert(true);
         } catch (e) {
             console.log(e);
-
             setRetryAlert(true);
-            setSuccessAlert(false);
         }
     };
 
@@ -85,8 +76,6 @@ const LogInModal = (prop) => {
         >
             <Fade in={ visible === "signin" }>
                 <Box sx={ style }>
-                    {/* white box to hold form */ }
-                    { successAlert && <SuccessAlert/> }
                     { retryAlert && <RetryAlert/> }
                     <Container component="main" maxWidth="xs">
                         <CssBaseline/>
