@@ -12,14 +12,13 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import {useState} from 'react';
-import logo from './logo2.png';
+import logo from './logo_banner.png';
 import {Link, useNavigate} from 'react-router-dom';
 import LogInModal from './LogInModal';
 import ForgetPasswordModel from './ForgetPasswordModal';
 import SignUpModal from './SignUpModal';
 
 const pages = [
-  // ["Display Name", "url"]
   ['Features', 'features'],
   ['Guide', 'guide'],
   ['About Us', 'about'],
