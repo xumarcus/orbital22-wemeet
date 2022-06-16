@@ -1,79 +1,74 @@
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import { useRef } from "react";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import CoverImg from "./cover_img.jpg";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Image from 'mui-image';
 
-const Home = () => {
-  const handleSignUpButton = () => {
-    console.log(textFieldRef.current.value || "no value");
-    textFieldRef.current.value = "";
-  };
-
-  const textFieldRef = useRef();
-
-  return (
-    <>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
-        <Box textAlign="center" width="50%">
-          <Stack direction="column" justifyContent="center" alignItems="center">
-            <Box sx={{ width: "100%", height: "33.3%", my: 5 }}>
-              <Typography variant="h5">
-                Scheduling <br />
-                Made
-                <br /> Easy
-              </Typography>
-            </Box>
-            <Box sx={{ width: "100%", height: "33.3%", my: 5 }}>
-              <Typography variant="body1">(some text here)</Typography>
-            </Box>
-            <Box sx={{ width: "100%", height: "33.3%", my: 10 }}>
-              <Grid container justifyContent="center">
-                <Grid item>
-                  <TextField
-                    inputRef={textFieldRef}
-                    label="Email"
-                    variant="outlined"
-                  />
-                </Grid>
-
-                <Grid item alignItems="stretch" style={{ display: "flex" }}>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={handleSignUpButton}
-                  >
-                    Sign Up
-                  </Button>
-                </Grid>
-              </Grid>
-              <Typography variant="body2" sx={{ mt: 2 }}>
-                Successfully Submitted
-              </Typography>
-            </Box>
-          </Stack>
+// TODO make this responsive
+const Home = () => (
+    <Grid
+        container
+        spacing={5}
+    >
+      <Grid item md={6}>
+        <Box sx={{mt: 15}}>
+          <Typography align="center" variant="h3">
+            Scheduling <br/>
+            Made <strong>Easy</strong>
+          </Typography>
         </Box>
-        <Box
-          component="img"
-          sx={{
-            textAlign: "center",
-            width: "50%"
-          }}
-          alt="The house from the p."
-          src={CoverImg}
-        />
-      </Stack>
-    </>
-  );
-};
+        <Box sx={{m: 5}}>
+          <Typography variant="body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat.
+          </Typography>
+        </Box>
+      </Grid>
+      <Grid item md={6}>
+        <Image fill="contain" src={'cover_img.png'}></Image>
+      </Grid>
+      <Grid item md={4}>
+        <Typography align="center" variant="h5">
+          Item 1?
+        </Typography>
+        <Box sx={{m: 5}}>
+          <Typography variant="body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat.
+          </Typography>
+        </Box>
+      </Grid>
+      <Grid item md={4}>
+        <Typography align="center" variant="h5">
+          Item 2?
+        </Typography>
+        <Box sx={{m: 5}}>
+          <Typography variant="body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat.
+          </Typography>
+        </Box>
+      </Grid>
+      <Grid item md={4}>
+        <Typography align="center" variant="h5">
+          Item 3?
+        </Typography>
+        <Box sx={{m: 5}}>
+          <Typography variant="body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat.
+          </Typography>
+        </Box>
+      </Grid>
+    </Grid>
+);
 
 export default Home;
