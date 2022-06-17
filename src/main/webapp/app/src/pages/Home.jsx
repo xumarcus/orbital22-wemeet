@@ -2,7 +2,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Image from 'mui-image';
 
 // TODO make this responsive
 const Home = () => (
@@ -27,7 +26,7 @@ const Home = () => (
         </Box>
       </Grid>
       <Grid item md={6}>
-        <Image fill="contain" src={'cover_img.png'}></Image>
+        <Box sx={{width: '100%'}} component="img" src="cover_img.png"/>
       </Grid>
       <Grid item md={4}>
         <Typography align="center" variant="h5">
