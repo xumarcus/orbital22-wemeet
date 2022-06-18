@@ -11,10 +11,10 @@ import javax.validation.ConstraintValidatorContext;
 @Component
 @AllArgsConstructor
 public class NewEmailValidator implements ConstraintValidator<NewEmailConstraint, String> {
-  private UserRepository userRepository;
+    private UserRepository userRepository;
 
-  @Override
-  public boolean isValid(String email, ConstraintValidatorContext ctx) {
+    @Override
+    public boolean isValid(String email, ConstraintValidatorContext ctx) {
     return !userRepository.existsByEmail(email);
-  }
+    }
 }

@@ -9,10 +9,10 @@ import javax.validation.constraints.Size;
 
 @Data
 public class AuthRegisterRequest {
-  @NotNull
-  @Email(message = "Valid email address required")
-  @NewEmailConstraint
-  private String email;
+    @NotNull
+    @Email(message = "Valid email address required")
+    @NewEmailConstraint
+    private String email;
 
   @NotNull
   @Size(min = 8, message = "Password should have at least 8 characters")

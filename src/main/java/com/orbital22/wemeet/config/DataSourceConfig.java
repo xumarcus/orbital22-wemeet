@@ -12,19 +12,18 @@ import java.util.Optional;
 
 @Configuration
 public class DataSourceConfig {
-  @Value("${spring.datasource.url}")
-  private String dbUrl;
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
 
-  @Bean
-  public DataSource dataSource() {
-    return Optional.ofNullable(dbUrl)
-        .filter(url -> !url.isEmpty())
-        .map(
-            url -> {
-              HikariConfig config = new HikariConfig();
-              config.setJdbcUrl(url);
-              return new HikariDataSource(config);
-            })
-        .orElseThrow(() -> new CannotGetJdbcConnectionException(dbUrl));
-  }
+    @Bean
+    public DataSource dataSource() {
+        return Optional.ofNullable(dbUrl)
+                .filter(url -> !url.isEmpty())
+                .map(url -> {
+                    HikariConfig config = new HikariConfig();
+                    config.setJdbcUrl(url);
+                    return new HikariDataSource(config);
+                })
+                .orElseThrow(() -> new CannotGetJdbcConnectionException(dbUrl));
+    }
 }

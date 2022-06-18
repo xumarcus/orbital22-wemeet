@@ -9,19 +9,21 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author xumarcus
- *     <p>This DAO furnishes UserDetails to Spring Security. There is no need to inject this
- *     elsewhere.
+ * <p>
+ * This DAO furnishes UserDetails to Spring Security.
+ * There is no need to inject this elsewhere.
  */
+
 @Service
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-  private UserRepository userRepository;
+    private UserRepository userRepository;
 
-  @Override
-  public UserDetails loadUserByUsername(String email) {
+    @Override
+    public UserDetails loadUserByUsername(String email) {
     return userRepository
         .findByEmail(email)
         .map(CustomUser::new)
         .orElseThrow(() -> new UsernameNotFoundException(email));
-  }
+    }
 }
