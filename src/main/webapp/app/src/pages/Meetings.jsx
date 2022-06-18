@@ -15,6 +15,9 @@ import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import enLocale from 'date-fns/locale/en-GB';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import addDays from 'date-fns/addDays';
 
 const Meetings = () => {
     const [choice1, setChoice1] = useState([]);
@@ -29,12 +32,9 @@ const Meetings = () => {
         ((currChoice === "1" && setChoice1(newSchedule)) ||
             (currChoice === "2" && setChoice2(newSchedule)) ||
             (currChoice === "3" && setChoice3(newSchedule)))
-        console.log(newSchedule)
     }
 
     const handleSwitchChoice = (event, source) => {
-        console.log(event);
-        console.log(source);
         setCurrChoice(source);
     }
 
@@ -46,18 +46,22 @@ const Meetings = () => {
         setStartDate(newStartDate);
     }
 
+    const handleShiftDatesEarlier = () => {
+        setStartDate(addDays(startDate, -5))
+    }
+
+    const handleShiftDatesLater = () => {
+        setStartDate(addDays(startDate, 5))
+    }
+
     const handleClearAll = () => {
         setChoice1([]);
         setChoice2([]);
         setChoice3([]);
-        console.log("clear all")
     }
 
     const handleSubmit = () => {
-        console.log(choice1);
-        console.log(choice2);
-        console.log(choice3);
-        console.log("submitted");
+        // api call
         handleClearAll();
     }
 
@@ -65,13 +69,11 @@ const Meetings = () => {
         <>
             <Header/>
             <Footer/>
-            {/*<CenterWrapper>*/}
             <Typography variant="h3" component="div" textAlign="center">
                 Meetings
             </Typography>
             <Box
-            sx={{border: "1px dashed",
-                my: 2,
+            sx={{my: 2,
                 mx: 5,
                 alignItems: "center",
                 justifyContent: "center",
@@ -80,11 +82,8 @@ const Meetings = () => {
                 <Box
                     sx={{
                         display: "flex",
-                        // justify:"center",
-                        // align:"center",
                         m:5,
-                        justifyContent: "space-evenly",
-                        border: "1px dashed"
+                        justifyContent: "space-evenly"
                     }}
                 >
                     <FormControl sx={{minWidth: 120 }}>
@@ -107,7 +106,7 @@ const Meetings = () => {
                         adapterLocale={enLocale}>
                         <DesktopDatePicker
                             sx={{ mx: 5 }}
-                            label="Date desktop"
+                            label="Start Date"
                             inputFormat="dd/MM/yyyy"
                             value={startDate}
                             onChange={handleStartDateChange}
@@ -115,15 +114,18 @@ const Meetings = () => {
                         />
                     </LocalizationProvider>
                 </Box>
-                <Box sx={{justifyContent:"center"}}>
+                <Box sx={{width: "100%",
+                    justifyContent:"center"}}>
+                    <ArrowCircleLeftIcon onClick={handleShiftDatesEarlier} />
                     <ButtonGroup
                         variant="contained"
                         aria-label="outlined primary button group"
-                        sx={{border: "1px dashed", justifySelf:"center"}}>
+                        sx={{justifySelf:"center"}}>
                         <Button onClick={(event) => handleSwitchChoice(event, "1")}>1st Choice</Button>
                         <Button onClick={(event) => handleSwitchChoice(event, "2")}>2nd Choice</Button>
                         <Button onClick={(event) => handleSwitchChoice(event, "3")}>3rd Choice</Button>
                     </ButtonGroup>
+                    <ArrowCircleRightIcon onClick={handleShiftDatesLater}/>
                 </Box>
             </Box>
             <Box
@@ -143,23 +145,20 @@ const Meetings = () => {
                 selectionScheme = {'linear'}
                 onChange={handleChange}
             />
-
-            <Box sx={{
-                my: 5,
-                mb: 10,
-                px:2
-            }}>
-                <Button variant="outlined" onClick={handleClearAll}>
-                    Clear All
-                </Button>
-                <Button variant="contained" color="success" onClick={handleSubmit}>
-                    Submit
-                </Button>
+                <Box sx={{
+                    my: 5,
+                    mb: 10,
+                    px:2
+                }}>
+                    <Button variant="outlined" onClick={handleClearAll}>
+                        Clear All
+                    </Button>
+                    <Button variant="contained" color="success" onClick={handleSubmit}>
+                        Submit
+                    </Button>
+                </Box>
             </Box>
-            </Box>
-
             {/*</CenterWrapper>*/}
-
         </>
     );
 };
