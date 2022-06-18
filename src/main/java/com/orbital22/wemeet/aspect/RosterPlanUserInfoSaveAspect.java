@@ -2,7 +2,6 @@ package com.orbital22.wemeet.aspect;
 
 import com.orbital22.wemeet.model.RosterPlanUserInfo;
 import com.orbital22.wemeet.security.AclRegisterService;
-import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,8 +13,7 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 @Aspect
 @Component
 @AllArgsConstructor
-public class RosterPlanUserInfoCreateAspect {
-  private final UserService userService;
+public class RosterPlanUserInfoSaveAspect {
   private final AclRegisterService aclRegisterService;
 
   @Pointcut("execution(* com.orbital22.wemeet.repository.RosterPlanUserInfoRepository.save(*))")
@@ -23,11 +21,11 @@ public class RosterPlanUserInfoCreateAspect {
 
   // No fields to validate
   @AfterReturning(
-      pointcut = "com.orbital22.wemeet.aspect.RosterPlanUserInfoCreateAspect.save()",
-      returning = "ret")
-  private void afterSaving(RosterPlanUserInfo ret) {
-    String email = ret.getUser().getEmail();
-    aclRegisterService.register(ret, email, READ, WRITE, DELETE);
-    aclRegisterService.register(ret.getRosterPlan(), email, READ);
+      pointcut = "com.orbital22.wemeet.aspect.RosterPlanUserInfoSaveAspect.save()",
+      returning = "rosterPlanUserInfo")
+  private void handleAfterSave(RosterPlanUserInfo rosterPlanUserInfo) {
+    String email = rosterPlanUserInfo.getUser().getEmail();
+    aclRegisterService.register(rosterPlanUserInfo, email, READ, WRITE, DELETE);
+    aclRegisterService.register(rosterPlanUserInfo.getRosterPlan(), email, READ);
   }
 }

@@ -31,10 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserCreateIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
-  @Autowired CacheManager cacheManager;
 
   @AfterEach
-  public void tearDown(@Autowired H2Util h2Util) {
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
     h2Util.resetDatabase();
     Cache cache = cacheManager.getCache("aclCache");
     if (cache != null) {
@@ -49,7 +48,7 @@ class UserCreateIntegrationTest {
   public void givenRequestWithInvalidEmail_whenRegister_thenBadRequest() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "not-email");
-    map.put("password", "password");
+    map.put("rawPassword", "password");
     map.put("registered", true);
 
     this.mockMvc
@@ -65,7 +64,7 @@ class UserCreateIntegrationTest {
   public void givenRequestWithInvalidPassword_whenRegister_thenBadRequest() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
-    map.put("password", "invalid");
+    map.put("rawPassword", "invalid");
     map.put("registered", true);
 
     this.mockMvc
@@ -81,7 +80,7 @@ class UserCreateIntegrationTest {
   public void givenValidRequest_whenCreateUnregistered_thenCreated() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
-    map.put("password", null);
+    map.put("rawPassword", null);
     map.put("registered", false);
 
     this.mockMvc
@@ -98,7 +97,7 @@ class UserCreateIntegrationTest {
   public void givenValidRequest_whenRegister_thenCreated() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
-    map.put("password", "password");
+    map.put("rawPassword", "password");
     map.put("registered", true);
 
     this.mockMvc

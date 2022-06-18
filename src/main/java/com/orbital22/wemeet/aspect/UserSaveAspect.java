@@ -1,14 +1,11 @@
 package com.orbital22.wemeet.aspect;
 
-import com.orbital22.wemeet.mapper.UserMapper;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.security.AclRegisterService;
-import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,31 +19,30 @@ import static org.springframework.security.acls.domain.BasePermission.*;
 @Aspect
 @Component
 @AllArgsConstructor
-public class UserCreateAspect {
+public class UserSaveAspect {
   private final PasswordEncoder passwordEncoder;
-  private final UserService userService;
   private final AclRegisterService aclRegisterService;
 
   @Pointcut("execution(* com.orbital22.wemeet.repository.UserRepository.save(*))")
   public void save() {}
 
-  @Around("com.orbital22.wemeet.aspect.UserCreateAspect.save() && args(user)")
-  private User handleSave(ProceedingJoinPoint pjp, User user) throws Throwable {
-    userService.validate(UserMapper.INSTANCE.userToUserDto(user));
-
+  @Before("com.orbital22.wemeet.aspect.UserSaveAspect.save() && args(user)")
+  private void handleBeforeSave(User user) {
     if (user.isRegistered()) {
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
-    } else {
-      user.setPassword(StringUtils.EMPTY);
+      user.setPassword(passwordEncoder.encode(user.getRawPassword()));
     }
-    User saved = (User) pjp.proceed();
-    if (saved.isRegistered()) {
+  }
+
+  @AfterReturning(
+      pointcut = "com.orbital22.wemeet.aspect.UserSaveAspect.save()",
+      returning = "user")
+  private void handleAfterSave(User user) {
+    if (user.isRegistered()) {
       SecurityContextHolder.getContext()
           .setAuthentication(
               new UsernamePasswordAuthenticationToken(
-                  saved.getEmail(), null, Collections.emptySet()));
+                  user.getEmail(), null, Collections.emptySet()));
     }
-    aclRegisterService.register(saved, saved.getEmail(), READ, WRITE, DELETE);
-    return saved;
+    aclRegisterService.register(user, user.getEmail(), READ, WRITE, DELETE);
   }
 }

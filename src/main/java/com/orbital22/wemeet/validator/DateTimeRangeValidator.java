@@ -1,7 +1,7 @@
 package com.orbital22.wemeet.validator;
 
 import com.orbital22.wemeet.annotation.DateTimeRangeConstraint;
-import com.orbital22.wemeet.util.DateTimeRange;
+import com.orbital22.wemeet.util.HasDateTimeRange;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +11,9 @@ import javax.validation.ConstraintValidatorContext;
 @Component
 @NoArgsConstructor
 public class DateTimeRangeValidator
-    implements ConstraintValidator<DateTimeRangeConstraint, DateTimeRange> {
+    implements ConstraintValidator<DateTimeRangeConstraint, HasDateTimeRange> {
   @Override
-  public boolean isValid(DateTimeRange dateTimeRange, ConstraintValidatorContext ctx) {
-    return DateTimeRange.isValid(dateTimeRange);
+  public boolean isValid(HasDateTimeRange dateTimeRange, ConstraintValidatorContext ctx) {
+    return HasDateTimeRange.isValid(dateTimeRange);
   }
 }

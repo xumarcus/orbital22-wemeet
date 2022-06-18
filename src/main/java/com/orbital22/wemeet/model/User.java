@@ -1,6 +1,6 @@
 package com.orbital22.wemeet.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -9,11 +9,13 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 
 @Builder
 @Getter
@@ -31,48 +33,55 @@ public class User {
   private int id;
 
   @NaturalId
-  @NonNull
+  @NotBlank
+  @Email
   @Column(unique = true)
   private String email;
 
-  @JsonProperty(access = WRITE_ONLY)
+  @JsonIgnore
   @RestResource(exported = false)
-  @Nullable // Jackson
+  @Builder.Default
+  @NotNull
   @Column
-  private String password;
+  private String password = StringUtils.EMPTY;
+
+  @Transient
+  @Nullable
+  @Size(min = 8)
+  private String rawPassword;
 
   @RestResource(exported = false) // internal
+  @Builder.Default
   @Column
   private boolean enabled = true;
 
-  @Column private boolean registered = true;
+  @Builder.Default @Column private boolean registered = true;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "user_authority",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "authority_id"))
-  @ToString.Include
   @Builder.Default
-  @NonNull
+  @NotNull
   private Set<Authority> authorities = Collections.emptySet();
 
-  @OneToMany(mappedBy = "owner")
   @ToString.Exclude
+  @OneToMany(mappedBy = "owner")
   @Builder.Default
-  @NonNull
+  @NotNull
   private Set<RosterPlan> ownedRosterPlans = Collections.emptySet();
 
-  @OneToMany(mappedBy = "user")
   @ToString.Exclude
+  @OneToMany(mappedBy = "user")
   @Builder.Default
-  @NonNull
+  @NotNull
   private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
 
-  @OneToMany(mappedBy = "user")
   @ToString.Exclude
+  @OneToMany(mappedBy = "user")
   @Builder.Default
-  @NonNull
+  @NotNull
   private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
   public static User ofUnregistered(String email) {

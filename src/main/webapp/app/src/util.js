@@ -3,12 +3,14 @@
 // TODO handle fullyAuthenticated
 
 const ajax = (method, data) => async (uri) => {
+    // Spring POST /login accepts formData by default.
+    // POST /logout does not take any parameters.
     const isFormData = uri.endsWith("login");
     const resp = await fetch(uri, {
         body: isFormData ? data : JSON.stringify(data),
         headers: {
             "X-XSRF-TOKEN": csrfToken(),
-            ...(isFormData ? undefined : { "Content-Type": "application/json" })
+            ...(isFormData ? undefined : {"Content-Type": "application/json"})
         },
         method,
         redirect: "follow",

@@ -10,14 +10,14 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
-  @Value(
-      "${spring.datasource.url:jdbc:postgresql://localhost:5432/postgres?user=postgres&password=password}")
+  @Value("${spring.datasource.url:}")
   private String dbUrl;
 
-    @Bean
-    public DataSource dataSource() {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(dbUrl);
-        return new HikariDataSource(config);
-    }
+  @Bean
+  public DataSource dataSource() {
+    HikariConfig config = new HikariConfig();
+    String localDbUrl = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=password";
+    config.setJdbcUrl(dbUrl.isEmpty() ? localDbUrl : dbUrl);
+    return new HikariDataSource(config);
+  }
 }

@@ -1,8 +1,6 @@
 package com.orbital22.wemeet.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.orbital22.wemeet.dto.RosterPlanDto;
-import com.orbital22.wemeet.mapper.RosterPlanMapper;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
@@ -45,8 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RosterPlanUpdateIntegrationTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired MockMvc mockMvc;
-  @Autowired CacheManager cacheManager;
-  @Autowired AclRegisterService aclRegisterService;
 
   User talk;
   User cock;
@@ -56,7 +52,8 @@ public class RosterPlanUpdateIntegrationTest {
   @BeforeEach
   public void setUp(
       @Autowired UserRepository userRepository,
-      @Autowired RosterPlanRepository rosterPlanRepository) {
+      @Autowired RosterPlanRepository rosterPlanRepository,
+      @Autowired AclRegisterService aclRegisterService) {
     List<User> users =
         userRepository.saveAll(
             () ->
@@ -78,7 +75,7 @@ public class RosterPlanUpdateIntegrationTest {
   }
 
   @AfterEach
-  public void tearDown(@Autowired H2Util h2Util) {
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
     h2Util.resetDatabase();
     Cache cache = cacheManager.getCache("aclCache");
     if (cache != null) {
@@ -91,7 +88,7 @@ public class RosterPlanUpdateIntegrationTest {
 
   private void addCock() throws Exception {
     Map<String, Object> map = new HashMap<>();
-    map.put("hasResponded", false);
+    map.put("locked", false);
     map.put("user", "/api/users/2");
     map.put("rosterPlan", "/api/rosterPlan/1");
 
@@ -124,25 +121,13 @@ public class RosterPlanUpdateIntegrationTest {
 
   @Test
   public void givenNewUser_whenOwnerAddUserInfo_thenNewUserCanRead() throws Exception {
-    RosterPlanDto rosterPlanDto = RosterPlanMapper.INSTANCE.rosterPlanToRosterPlanDto(rosterPlan);
+    Map<String, Object> map = new HashMap<>();
+    map.put("title", "Talk Cock");
+
     addCock();
     this.mockMvc
         .perform(get("/api/rosterPlan/1").with(user(cock.getEmail())).accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(rosterPlanDto), false));
-  }
-
-  @Test
-  public void givenValidRequest_whenOwnerAddTimeSlot_thenCreateTimeSlotAttachedToRosterPlan()
-      throws Exception {
-    RosterPlanDto rosterPlanDto = RosterPlanMapper.INSTANCE.rosterPlanToRosterPlanDto(rosterPlan);
-    addTimeSlot();
-
-    this.mockMvc
-        .perform(
-            get("/api/timeSlot/1/rosterPlan")
-                .with(user(talk.getEmail()))
-                .accept(MediaTypes.HAL_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(rosterPlanDto), false));
+        .andExpect(content().json(objectMapper.writeValueAsString(map), false));
   }
 
   @Test
