@@ -10,7 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Profile({"development", "test"})
 public class DevelopmentCORSConfig implements WebMvcConfigurer {
   @Override
-  public void addCorsMappings(@NotNull CorsRegistry registry) {
-    registry.addMapping("/**");
+  public void addCorsMappings(@NotNull CorsRegistry corsRegistry) {
+    // Enable CORS for frontend debugging
+    corsRegistry
+        .addMapping("/**")
+        .allowedOrigins("http://localhost:3000") // Localhost
+        .allowCredentials(true) // Persist session in debugging
+        .allowedMethods("*"); // For testing
   }
 }

@@ -15,16 +15,23 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 public class DevelopmentRepositoryRestConfig implements RepositoryRestConfigurer {
   private final LocalValidatorFactoryBean validator;
 
+  /**
+   * @see DevelopmentCORSConfig
+   */
   @Override
   public void configureRepositoryRestConfiguration(
-      RepositoryRestConfiguration config, CorsRegistry cors) {
+      RepositoryRestConfiguration config, CorsRegistry corsRegistry) {
     // For testing
     config.setExposeRepositoryMethodsByDefault(true);
 
     // Enable CORS for frontend debugging
-    cors.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+    corsRegistry
+        .addMapping("/**")
+        .allowedOrigins("http://localhost:3000") // Localhost
+        .allowCredentials(true) // Persist session in debugging
+        .allowedMethods("*"); // For testing
 
-    RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
+    RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, corsRegistry);
   }
 
   @Override
