@@ -5,12 +5,9 @@ import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 /*
  * Permissions used: WRITE | DELETE
@@ -25,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   @RestResource
   @Override
   @NonNull
-  // Visible for all
+  @PreAuthorize("isAuthenticated()")
   Optional<User> findById(@NonNull Integer id);
 
   @RestResource

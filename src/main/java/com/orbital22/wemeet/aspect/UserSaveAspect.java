@@ -43,6 +43,7 @@ public class UserSaveAspect {
               new UsernamePasswordAuthenticationToken(
                   user.getEmail(), null, Collections.emptySet()));
     }
+    // READ permission is unused
     aclRegisterService.register(user, user.getEmail(), READ, WRITE, DELETE);
   }
 }
