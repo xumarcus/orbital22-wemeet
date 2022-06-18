@@ -9,14 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
-/** Example */
+/**
+ * Example
+ */
 @Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/hello")
 public class HelloController {
-  @GetMapping()
-  public PODResponse<String> hello(Principal principal) {
-    return new PODResponse<>(String.format("Hello %s", principal.getName()));
-  }
+    @GetMapping()
+    public PODResponse<String> hello(Principal principal) {
+        return new PODResponse<>(String.format("Hello %s", principal.getName()));
+    }
 }

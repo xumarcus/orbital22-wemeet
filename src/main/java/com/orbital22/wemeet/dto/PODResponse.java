@@ -9,5 +9,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PODResponse<T extends Serializable> {
-  @NonNull private T data;
+    @NonNull
+    private T data;
 }
