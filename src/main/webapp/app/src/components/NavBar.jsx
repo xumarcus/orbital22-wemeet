@@ -1,39 +1,38 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import { useState } from "react";
-import logo from "./logo2.png";
-import { Link, useNavigate } from "react-router-dom";
-import LogInModal from "./LogInModal";
-import ForgetPasswordModel from "./ForgetPasswordModal";
-import SignUpModal from "./SignUpModal";
+import MenuIcon from '@mui/icons-material/Menu';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import {useState} from 'react';
+import logo from './logo_banner.png';
+import {Link, useNavigate} from 'react-router-dom';
+import LogInModal from './LogInModal';
+import ForgetPasswordModel from './ForgetPasswordModal';
+import SignUpModal from './SignUpModal';
 
 const pages = [
-  // ["Display Name", "url"]
-  ["Features", "features"],
-  ["Guide", "guide"],
-  ["About Us", "about"]
+  ['Features', 'features'],
+  ['Guide', 'guide'],
+  ['About Us', 'about'],
 ];
 
 const settings = [
-  ["Dashboard", "dashboard"],
+  ['Dashboard', 'dashboard'],
   ["Profile", "profile"],
 ];
 
-const ResponsiveAppBar = () => {
+const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [ModalVisible, setModalVisible] = useState("");
+  const [ModalVisible, setModalVisible] = useState('');
 
   let navigate = useNavigate();
 
@@ -189,4 +188,4 @@ const ResponsiveAppBar = () => {
     </>
   );
 };
-export default ResponsiveAppBar;
+export default NavBar;
