@@ -18,6 +18,7 @@ import LogInModal from './LogInModal';
 import ForgetPasswordModel from './ForgetPasswordModal';
 import SignUpModal from './SignUpModal';
 import AppContext from '../core/app-context';
+import ajax from '../core/util';
 
 const pages = [
   ['Features', 'features'],
@@ -28,6 +29,7 @@ const pages = [
 const settings = [
   ['Dashboard', 'dashboard'],
   ['Profile', 'profile'],
+  ['Log out', 'logout'],
 ];
 
 const NavBar = () => {
@@ -37,7 +39,7 @@ const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [ModalVisible, setModalVisible] = useState('');
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -48,13 +50,17 @@ const NavBar = () => {
 
   const handleCloseNavMenu = (newPage) => {
     setAnchorElNav(null);
-    // console.log(e.currentTarget.outerText);
     navigate(`/${newPage}`);
   };
 
-  const handleCloseUserMenu = (newPage) => {
+  const handleCloseUserMenu = async (newPage) => {
     setAnchorElUser(null);
-    navigate(`/${newPage}`);
+    if (newPage === 'logout') {
+      await ajax('POST')('/logout');
+      appContext.setValues({...appContext.values, user: null});
+    } else {
+      navigate(`/${newPage}`);
+    }
   };
 
   const handleStartNowClick = () => {

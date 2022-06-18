@@ -55,7 +55,7 @@ const LogInModal = (prop) => {
         try {
             const user = await ajax('POST', formData)("/login");
             appContext.setValues({...appContext.values, user});
-            setRetryAlert(false);
+            handleClose();
         } catch (e) {
             console.log(e);
             setRetryAlert(true);
