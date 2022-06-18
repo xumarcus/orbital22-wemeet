@@ -1,21 +1,20 @@
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import Header from "../components/NavBar";
-import Footer from "../components/Footer";
-import CenterWrapper from "../components/CenterWrapper";
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import {useContext} from 'react';
+import CenterWrapper from '../components/CenterWrapper';
+import AppContext from '../core/app-context';
 
+// TODO
 const Profile = () => {
-    return (
-        <>
-            <Header/>
-            <Footer/>
-            <CenterWrapper>
-                <Typography variant="h3" component="div" textAlign="center">
-                    Profile
-                </Typography>
-            </CenterWrapper>
-        </>
-    );
+  const appContext = useContext(AppContext);
+
+  return (
+      <CenterWrapper>
+        <Typography variant="h3" component="div" textAlign="center">
+          {JSON.stringify(appContext.values.user)}
+        </Typography>
+      </CenterWrapper>
+  );
 };
 
 export default Profile;

@@ -1,33 +1,33 @@
-import * as React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Container from "@mui/material/Container";
-import ajax from "../util";
-import SuccessAlert from "./SuccessAlert";
-import RetryAlert from "./RetryAlert";
+import * as React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Container from '@mui/material/Container';
+import ajax from '../core/util';
+import SuccessAlert from './SuccessAlert';
+import RetryAlert from './RetryAlert';
 
 const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
-    p: 4
+    p: 4,
 };
 
 const SignUpModal = (prop) => {
@@ -39,10 +39,12 @@ const SignUpModal = (prop) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const fields = ["email", "password"];
-        const request = Object.fromEntries(fields.map(k => [k, formData.get(k)]));
+        const request = {
+            "email": formData.get("email"),
+            "rawPassword": formData.get("password")
+        };
         try {
-            const { data } = await ajax('POST', request)("/api/auth/register");
+            const {data} = await ajax('POST', request)("/api/users");
             console.log(data); // e.g. test@test.com
             setRetryAlert(false);
             setSuccessAlert(true);

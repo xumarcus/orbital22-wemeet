@@ -4,14 +4,18 @@ import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
-public interface DateTimeRange {
+public interface HasDateTimeRange {
   @NonNull
   LocalDateTime getStartDateTime();
 
   @NonNull
   LocalDateTime getEndDateTime();
 
-  default boolean contains(DateTimeRange other) {
+  static boolean isValid(HasDateTimeRange dateTimeRange) {
+    return dateTimeRange.getStartDateTime().isBefore(dateTimeRange.getEndDateTime());
+  }
+
+  default boolean containsRange(HasDateTimeRange other) {
     return getStartDateTime().isBefore(other.getStartDateTime())
         && getEndDateTime().isAfter(other.getEndDateTime());
   }

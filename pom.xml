@@ -23,6 +23,7 @@
         <org.mapstruct.version>1.5.0.Final</org.mapstruct.version>
         <org.liquibase.verion>4.11.0</org.liquibase.verion>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
+        <springframework.restdocs.version>2.0.5.RELEASE</springframework.restdocs.version>
     </properties>
 
     <dependencyManagement>
@@ -104,6 +105,11 @@
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-hal-explorer</artifactId>
+            <version>3.7.0</version>
+        </dependency>
 
         <!-- Database Management -->
         <dependency>
@@ -176,16 +182,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.optaplanner</groupId>
             <artifactId>optaplanner-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- To be disabled in production -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-rest-hal-explorer</artifactId>
-            <version>3.7.0</version>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.cronn</groupId>
+            <artifactId>test-utils</artifactId>
+            <version>0.4.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -305,6 +320,56 @@
                     <!--suppress UnresolvedMavenProperty -->
                     <url>${env.JDBC_DATABASE_URL}</url>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>1.5.8</version>
+                <executions>
+                    <execution>
+                        <id>generate-docs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html</backend>
+                            <doctype>book</doctype>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.restdocs</groupId>
+                        <artifactId>spring-restdocs-asciidoctor</artifactId>
+                        <version>2.0.6.RELEASE</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/static/docs
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/generated-docs
+                                    </directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

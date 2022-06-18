@@ -58,7 +58,7 @@ public class AclServiceConfig {
     return aclService;
   }
 
-  @Profile("!test") // PostgresQL
+  @Profile({"development", "production"}) // PostgresQL
   @Bean
   public JdbcMutableAclService aclService() {
     JdbcMutableAclService aclService =

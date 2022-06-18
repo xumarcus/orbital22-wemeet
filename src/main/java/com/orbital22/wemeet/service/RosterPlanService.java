@@ -1,72 +1,83 @@
 package com.orbital22.wemeet.service;
 
-import com.orbital22.wemeet.dto.RosterPlanCreateRequest;
-import com.orbital22.wemeet.mapper.TimeSlotMapper;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.RosterPlanUserInfo;
-import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.model.TimeSlot;
+import com.orbital22.wemeet.model.TimeSlotUserInfo;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
 import com.orbital22.wemeet.repository.TimeSlotRepository;
-import com.orbital22.wemeet.security.AclRegisterService;
+import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static org.springframework.security.acls.domain.BasePermission.*;
+import java.util.Set;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class RosterPlanService {
-  private RosterPlanRepository rosterPlanRepository;
-  private TimeSlotRepository timeSlotRepository;
-  private RosterPlanUserInfoRepository rosterPlanUserInfoRepository;
-  private UserService userService;
-  private AclRegisterService aclRegisterService;
+  private final RosterPlanRepository rosterPlanRepository;
+  private final RosterPlanUserInfoRepository rosterPlanUserInfoRepository;
+  private final TimeSlotRepository timeSlotRepository;
+  private final TimeSlotUserInfoRepository timeSlotUserInfoRepository;
 
-  public RosterPlan create(RosterPlanCreateRequest request, User owner) {
-    RosterPlan rosterPlan =
-        rosterPlanRepository.save(
-            RosterPlan.builder().owner(owner).title(request.getTitle()).build());
-    aclRegisterService.register(rosterPlan, owner.getEmail(), READ, WRITE, DELETE);
+  public void deepCopy(RosterPlan source, RosterPlan target) {
+    assert (source != null);
 
-    rosterPlan.setRosterPlanUserInfos(
-        rosterPlanUserInfoRepository
-            .saveAll(
-                () ->
-                    userService.fromEmails(request.getEmails()).stream()
-                        .peek(
-                            user -> aclRegisterService.register(rosterPlan, user.getEmail(), READ))
-                        .map(
-                            user ->
-                                RosterPlanUserInfo.builder()
-                                    .rosterPlan(rosterPlan)
-                                    .user(user)
-                                    .hasResponded(false)
-                                    .build())
-                        .peek(
-                            info ->
-                                aclRegisterService.register(
-                                    info, info.getUser().getEmail(), READ, WRITE))
-                        .iterator())
-            .stream()
-            .collect(Collectors.toMap(RosterPlanUserInfo::getUser, Function.identity())));
-
-    // No ACL
-    rosterPlan.setTimeSlots(
+    target.setTimeSlots(
         new HashSet<>(
             timeSlotRepository.saveAll(
                 () ->
-                    request.getTimeSlotDtos().stream()
-                        .map(TimeSlotMapper.INSTANCE::timeSlotDtoToTimeSlot)
-                        .peek(timeSlot -> timeSlot.setRosterPlan(rosterPlan))
+                    source.getTimeSlots().stream()
+                        .map(
+                            timeSlot -> {
+                              // No aspect (yet)
+                              TimeSlot cloned =
+                                  timeSlotRepository.save(
+                                      TimeSlot.builder()
+                                          .rosterPlan(target)
+                                          .startDateTime(timeSlot.getStartDateTime())
+                                          .endDateTime(timeSlot.getEndDateTime())
+                                          .capacity(timeSlot.getCapacity())
+                                          .build());
+                              Set<TimeSlotUserInfo> timeSlotUserInfos =
+                                  new HashSet<>(
+                                      timeSlotUserInfoRepository.saveAll(
+                                          () ->
+                                              timeSlot.getTimeSlotUserInfos().stream()
+                                                  .map(
+                                                      timeSlotUserInfo ->
+                                                          TimeSlotUserInfo.builder()
+                                                              .timeSlot(cloned)
+                                                              .user(timeSlotUserInfo.getUser())
+                                                              .rank(timeSlotUserInfo.getRank())
+                                                              .build())
+                                                  .iterator()));
+                              cloned.setTimeSlotUserInfos(timeSlotUserInfos);
+                              return cloned;
+                            })
                         .iterator())));
 
-    return rosterPlanRepository.saveAndFlush(rosterPlan);
+    target.setRosterPlanUserInfos(
+        new HashSet<>(
+            rosterPlanUserInfoRepository.saveAll(
+                () ->
+                    source.getRosterPlanUserInfos().stream()
+                        .map(
+                            rosterPlanUserInfo ->
+                                RosterPlanUserInfo.builder()
+                                    .rosterPlan(target)
+                                    .user(rosterPlanUserInfo.getUser())
+                                    .locked(rosterPlanUserInfo.isLocked())
+                                    .build())
+                        .iterator())));
+  }
+
+  public RosterPlan justSave(RosterPlan rosterPlan) {
+    return rosterPlanRepository.saveAll(Collections.singleton(rosterPlan)).get(0);
   }
 }

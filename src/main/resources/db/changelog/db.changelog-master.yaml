@@ -285,3 +285,58 @@ databaseChangeLog:
                   type: varchar(100)
                   constraints:
                     nullable: true
+  - changeSet:
+      id: roster_plan_add_solved
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: solved
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: solved
+                  type: boolean
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: roster_plan_add_parent_id
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: parent_id
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: parent_id
+                  type: int
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: time_slot_user_info_add_picked
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: time_slot_user_info
+                columnName: picked
+      changes:
+        - addColumn:
+            tableName: time_slot_user_info
+            columns:
+              - column:
+                  name: picked
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

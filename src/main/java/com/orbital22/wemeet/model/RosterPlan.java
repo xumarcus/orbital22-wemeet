@@ -1,12 +1,17 @@
 package com.orbital22.wemeet.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
 @Builder
 @Getter
@@ -17,40 +22,53 @@ import java.util.Set;
 @Entity
 @Table(name = "roster_plan")
 public class RosterPlan {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
+  private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+  @NotBlank @Column private String title;
 
-    @Column
-    @NonNull
-    private String title;
+  @ToString.Exclude
+  @ManyToOne
+  @JoinColumn(name = "parent_id")
+  @Nullable
+  private RosterPlan parent;
 
-    @OneToMany(mappedBy = "rosterPlan")
-    @Builder.Default
-    @NonNull
-    private Set<TimeSlot> timeSlots = Collections.emptySet();
+  // needed?
+  @JsonProperty(access = READ_ONLY)
+  @ManyToOne
+  @JoinColumn(name = "owner_id")
+  // Nullable before aspect injects
+  private User owner;
 
-    @OneToMany(mappedBy = "rosterPlan")
-    @MapKeyJoinColumn(name = "user_id")
-    @Builder.Default
-    @NonNull
-    private Map<User, RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptyMap();
+  @JsonProperty(access = READ_ONLY)
+  @OneToMany(mappedBy = "rosterPlan")
+  @Builder.Default
+  @NotNull
+  private Set<TimeSlot> timeSlots = Collections.emptySet();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RosterPlan that = (RosterPlan) o;
-        return id == that.id;
-    }
+  @JsonProperty(access = READ_ONLY)
+  @OneToMany(mappedBy = "rosterPlan")
+  @Builder.Default
+  @NotNull
+  private Set<RosterPlanUserInfo> rosterPlanUserInfos = Collections.emptySet();
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+  @JsonProperty(access = READ_ONLY)
+  @Nullable // not applicable to parent
+  @Column
+  private Boolean solved;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RosterPlan that = (RosterPlan) o;
+    return id == that.id;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }
