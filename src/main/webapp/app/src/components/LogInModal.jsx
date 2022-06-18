@@ -16,8 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import SuccessAlert from "./SuccessAlert";
 import RetryAlert from "./RetryAlert";
-import { login } from "../util";
-
+import ajax from "../util";
 
 const style = {
     position: "absolute",
@@ -56,7 +55,7 @@ const LogInModal = (prop) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         try {
-            const user = await login(formData);
+            const user = await ajax('POST', formData)("/login");
 
             // TODO preserve user in context
             // TODO combine two API calls into one in BE

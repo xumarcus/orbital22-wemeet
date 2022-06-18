@@ -267,3 +267,21 @@ databaseChangeLog:
         - sqlFile:
             dbms: all
             path: db/changelog/spring-acl-schema.sql
+  - changeSet:
+      id: spring-acl-schema-add-class-id-type
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: acl_class
+                columnName: class_id_type
+      changes:
+        - addColumn:
+            tableName: acl_class
+            columns:
+              - column:
+                  name: class_id_type
+                  type: varchar(100)
+                  constraints:
+                    nullable: true

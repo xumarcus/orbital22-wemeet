@@ -5,25 +5,19 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.CannotGetJdbcConnectionException;
 
 import javax.sql.DataSource;
-import java.util.Optional;
 
 @Configuration
 public class DataSourceConfig {
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
+  @Value(
+      "${spring.datasource.url:jdbc:postgresql://localhost:5432/postgres?user=postgres&password=password}")
+  private String dbUrl;
 
     @Bean
     public DataSource dataSource() {
-        return Optional.ofNullable(dbUrl)
-                .filter(url -> !url.isEmpty())
-                .map(url -> {
-                    HikariConfig config = new HikariConfig();
-                    config.setJdbcUrl(url);
-                    return new HikariDataSource(config);
-                })
-                .orElseThrow(() -> new CannotGetJdbcConnectionException(dbUrl));
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(dbUrl);
+        return new HikariDataSource(config);
     }
 }

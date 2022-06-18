@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -37,11 +38,10 @@ public class TimeSlot {
     @Column
     private int capacity;
 
-    @OneToMany
-    @ToString.Exclude
+    @OneToMany(mappedBy = "timeSlot")
     @Builder.Default
     @NonNull
-    private Map<User, TimeSlotUserInfo> timeSlotUserInfos = Collections.emptyMap();
+    private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {

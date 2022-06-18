@@ -1,9 +1,11 @@
-# orbital22-wemeet
+# orbital22-wemeet (0.2.0)
 
 ## Database
 - [PostgresSQL 14](https://www.postgresql.org/download/) (Comes with `pgAdmin4`)
+
+### Remote connection
 - [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli)
-- Outgoing connection to port 5432 should be open (blocked by NUS, use VPN or external)
+- Open port 5432 for outgoing traffic (use VPN if blocked)
 ```shell
 heroku login
 heroku pg:psql -a orbital22-wemeet-dev # Check connection
@@ -11,11 +13,17 @@ heroku run env -a orbital22-wemeet-dev
 # Pipe to findstr /b JDBC_DATABASE_URL > .env and set encoding to UTF-8
 # Or copy JDBC=... from terminal 
 ```
+- Install `EnvFile` plugin for IDEA
+- In configuration for `Main`, enable `EnvFile` and add local `.env`
+
+### Local connection
+- Open `pgAdmin4` app
+- Set (master) password for `postgres` user to `password`
 
 ## IDE and Code Style
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
-- Plugins &rarr; google-java-format &rarr; Enable
-- Git &rarr; Before Commit &rarr; Reformat, Rearrange, Optimize
+- Plugins &rarr; `google-java-format` &rarr; Enable
+- Git &rarr; Before Commit &rarr; Reformat, Rearrange, Optimize, Analyze, Check TODO, Run `SpringBootInitTest`
 - OpenJDK 11
 - SQL naming is `snake_case`. While Spring magic automatically transforms entity names to snake case,
   indicate `@Table(name)` to avoid confusion and more importantly, help the IDE.
@@ -31,49 +39,58 @@ heroku git:remote -a orbital22-wemeet-staging -r heroku
 - `Main` Configuration:
   - Application
   - `com.orbital22.wemeet.Main`
-  - Enable `EnvFile` and add local `.env`
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
+- Check database connection (see above)
 - Build &rarr; Check `localhost:5000`
 
 ## Debugging
 
-- `cd src/main/webapp/app`
-- `npm start`
-- Insert/replace these in `src/main/resources/application.properties`.
+### Frontend
+- NodeJS 16.15.0 (comes with NPM)
+```shell
+cd src/main/webapp/app
+npm start
+```
 
+### Backend
+- Live Reload extension
+- HAL explorer (at `localhost:{PORT}/api/explorer/`)
+
+### Configuration
+Insert/replace these in `src/main/resources/application.properties`.
 ```properties
 # More messages
-logging.level.org.springframework=DEBUG
+logging.level.org.springframework={TRACE/DEBUG/INFO/ERROR}
+# Even more messages (optional)
+com.zaxxer.hikari.level={TRACE/DEBUG/INFO/ERROR}
 # Disable CORS, CSRF and firewall
 spring.profiles.active=development
 # Expose cookie to client
 server.servlet.session.cookie.http-only=false
 server.servlet.session.cookie.secure=false
-# Actuator
+# Actuator (optional)
 management.endpoints.web.exposure.include=*
 management.endpoint.shutdown.enabled=true
 endpoints.shutdown.enabled=true
 ```
 
 ## Deployment
-
 Profile is always `production`.
 
-To dev server
-
+To deploy manually to `dev` server,
 ```shell
 git checkout dev
 git push heroku-dev dev:main
 ```
+Every merged PR is automatically deployed to `dev`.
 
-To staging server
+To `staging` server
 ```shell
 git checkout main
 git merge dev
 git push heroku main
 ```
-
-To test out database changes, create another app in Heroku.
+Release is manual.
 
 To run migrations, (run automatically during deployment using `release`)
 ```shell
@@ -83,10 +100,11 @@ liquibase update --changelog-file
   --password {REDACTED}
   --url jdbc:postgresql://{DATABASE_URL}:5432/{DATABASE_NAME}
 ```
+Review apps will test your migrations from scratch.
 
 ## Notes
-- No idea what magic `src/main/resources/liquibase.properties` is doing, but doing without somehow breaks deployment.
-- No idea why validation fails to autoconfigure in Spring Boot `2.6.7` but works in `2.6.3`.
+- No idea what magic `src/main/resources/liquibase.properties` is doing...
+- Is Spring Boot LTS `2.6.3`?
 - Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`
 - `user` is a keyword in Postgres. Breaking change in migration changelog is needed to rectify.
 - Even without `release` migrations are run when the application boots. Just for the UI/UX.

@@ -14,7 +14,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
-import { ajax } from "../util";
+import ajax from "../util";
 import SuccessAlert from "./SuccessAlert";
 import RetryAlert from "./RetryAlert";
 
@@ -43,12 +43,12 @@ const SignUpModal = (prop) => {
         const request = Object.fromEntries(fields.map(k => [k, formData.get(k)]));
         try {
             const { data } = await ajax('POST', request)("/api/auth/register");
-            // console.log(data); e.g. test@test.com
+            console.log(data); // e.g. test@test.com
             setRetryAlert(false);
             setSuccessAlert(true);
         } catch (e) {
             console.log(e);
-            // console.log(e.cause); e.g. {errors: [{defaultMessage}], ...}
+            console.log(e.cause); // e.g. {errors: [{defaultMessage}], ...}
             setRetryAlert(true);
             setSuccessAlert(false);
         }

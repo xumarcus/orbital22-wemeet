@@ -1,0 +1,24 @@
+== User management
+
+If `registered` is true (default), send `password` with at least 8 characters.
+
+include::{snippets}/post-users-registered-success/http-request.adoc[]
+
+Counterexample
+
+include::{snippets}/post-users-registered-password-error/http-request.adoc[]
+include::{snippets}/post-users-registered-password-error/http-response.adoc[]
+
+The `email` field is validated.
+
+include::{snippets}/post-users-registered-email-error/http-request.adoc[]
+include::{snippets}/post-users-registered-email-error/http-response.adoc[]
+
+Otherwise, `password` must be `null` or `undefined`.
+
+include::{snippets}/post-users-unregistered-success/http-request.adoc[]
+
+If successful, return `201 Created` with `Location` set to `/api/users/:id`, registered or not.
+
+include::{snippets}/post-users-registered-success/http-response.adoc[]
+include::{snippets}/post-users-unregistered-success/http-response.adoc[]

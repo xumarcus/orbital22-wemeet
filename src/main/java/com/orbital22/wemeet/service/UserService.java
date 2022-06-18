@@ -1,29 +1,49 @@
 package com.orbital22.wemeet.service;
 
+import com.orbital22.wemeet.dto.UserDto;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
-import com.orbital22.wemeet.security.AclRegisterService;
-import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.transaction.Transactional;
-
-import static org.springframework.security.acls.domain.BasePermission.*;
+import java.util.Optional;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
-  private PasswordEncoder passwordEncoder;
-  private UserRepository userRepository;
-  private AclRegisterService aclRegisterService;
+  private final UserRepository userRepository;
+  private final LocalValidatorFactoryBean validator;
 
-  public void register(String email, String password) {
-    Assert.isTrue(!userRepository.existsByEmail(email), "Email exists");
-    User user = User.ofRegistered(email, passwordEncoder.encode(password));
-    userRepository.save(user);
-    aclRegisterService.register(user, email, READ, WRITE, DELETE);
+  public void validate(UserDto e) {
+    Errors errors = new BeanPropertyBindingResult(e, e.getClass().getName());
+    validator.validate(e, errors);
+
+    // To refactor these two conditions
+    // such that validation can be settled with bean alone
+    if (e.isRegistered() ^ (e.getPassword() != null)) {
+      errors.reject("REGISTERED_IFF_PASSWORD_NULL");
+    }
+    if (userRepository.findByEmail(e.getEmail()).map(User::isRegistered).orElse(false)) {
+      errors.reject("USER_ALREADY_REGISTERED");
+    }
+
+    if (errors.hasErrors()) {
+      throw new RepositoryConstraintViolationException(errors);
+    }
+  }
+
+  @NonNull
+  public Optional<User> me() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return userRepository.findByEmail(authentication.getName());
   }
 }
