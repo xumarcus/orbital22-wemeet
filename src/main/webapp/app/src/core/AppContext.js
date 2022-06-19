@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 export const defaultAppContext = {
-  setState: () => {},
   user: {
     authorities: [],
     email: null,
@@ -27,5 +26,8 @@ export const defaultAppContext = {
   }
 }
 
-const AppContext = React.createContext(defaultAppContext)
+const AppContext = React.createContext({
+  context: defaultAppContext,
+  setContext: () => {}
+})
 export default AppContext

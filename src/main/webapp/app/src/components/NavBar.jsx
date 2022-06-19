@@ -33,7 +33,7 @@ const settings = [
 ]
 
 const NavBar = () => {
-  const appContext = useContext(AppContext)
+  const { context, setContext } = useContext(AppContext)
 
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -57,7 +57,7 @@ const NavBar = () => {
     setAnchorElUser(null)
     if (newPage === 'logout') {
       await ajax('POST')('/logout')
-      appContext.setState({ ...appContext, user: defaultAppContext.user })
+      setContext({ ...context, user: defaultAppContext.user })
     } else {
       navigate(`/${newPage}`)
     }
@@ -157,7 +157,7 @@ const NavBar = () => {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {/* FIXME */}
                   <Avatar
-                    alt={appContext.user._links.self.href ?? 'Anonymous'}
+                    alt={context.user._links.self.href ?? 'Anonymous'}
                     src='404'
                   />
                 </IconButton>

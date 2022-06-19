@@ -6,12 +6,12 @@ import AppContext from '../core/AppContext'
 
 // TODO
 const Profile = () => {
-  const appContext = useContext(AppContext)
+  const { context, setContext } = useContext(AppContext)
 
   return (
     <CenterWrapper>
       <Typography variant='h3' component='div' textAlign='center'>
-        {JSON.stringify(appContext.values.user)}
+        {JSON.stringify(context.user)}
       </Typography>
     </CenterWrapper>
   )

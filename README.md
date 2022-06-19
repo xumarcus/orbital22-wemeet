@@ -29,6 +29,7 @@ heroku run env -a orbital22-wemeet-dev
 - Javascript:
   - Do not format: `*.js*`
   - `npm install` installs `standard` which is run before `npm start`
+  - https://stackoverflow.com/questions/70031839/cannot-resolve-symbol-routes
 - SQL naming is `snake_case`. While Spring magic automatically transforms entity names to snake case,
   indicate `@Table(name)` to avoid confusion and more importantly, help the IDE.
 

@@ -5,6 +5,10 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import PageTitle from '../components/PageTitle'
 import EventGrid from '../components/EventGrid'
+import { useContext } from 'react'
+import AppContext from '../core/AppContext'
+import ErrorFallback from '../components/ErrorFallback'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const TabPanel = ({ children, value, index, ...other }) => (
   <div
@@ -36,6 +40,7 @@ const TABS = [
 ]
 
 const Dashboard = () => {
+  const { context } = useContext(AppContext)
   const [index, setIndex] = React.useState(0)
 
   return (
@@ -55,7 +60,9 @@ const Dashboard = () => {
 
         <Box sx={{ backgroundColor: '#efefef', height: '100vh' }}>
           <TabPanel value={index} index={0}>
-            <EventGrid />
+            <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[context]}>
+              <EventGrid />
+            </ErrorBoundary>
           </TabPanel>
           <TabPanel value={index} index={1}>
             Pending Response

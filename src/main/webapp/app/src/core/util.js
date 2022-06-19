@@ -1,4 +1,5 @@
-// TODO handle fullyAuthenticated
+import { ID_REGEX } from './const'
+
 const ajax = (method, data) => async (uri) => {
   // Spring POST /login accepts formData by default.
   // POST /logout does not take any parameters.
@@ -38,9 +39,16 @@ export const cookies = () => {
     .map(cookie => cookie.split('=').map(v => v.trim()))
     .filter(([k, v]) => k.length && v.length)
     .reduce((builder, [k, v]) => {
-      builder[k.replace('XSRF-TOKEN', 'X-XSRF-TOKEN')] = v
+      builder[k] = v
       return builder
     }, {})
+}
+
+export const extendWithID = (resp) => {
+  const self = resp._links.self.href
+  const [match] = ID_REGEX.exec(self)
+  const ID = parseInt(match)
+  return { ...resp, ID }
 }
 
 export default ajax

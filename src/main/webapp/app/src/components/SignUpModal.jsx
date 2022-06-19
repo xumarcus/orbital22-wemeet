@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useState } from 'react'
+import { useState, useContext } from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -17,6 +17,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
 import ajax from '../core/util'
 import RetryAlert from './RetryAlert'
+
 import AppContext from '../core/AppContext'
 
 const style = {
@@ -32,7 +33,7 @@ const style = {
 }
 
 const SignUpModal = ({ visible, setVisible }) => {
-  const appContext = useContext(AppContext)
+  const { context, setContext } = useContext(AppContext)
 
   const [retryAlert, setRetryAlert] = useState(false)
   const handleClose = () => {
@@ -49,7 +50,7 @@ const SignUpModal = ({ visible, setVisible }) => {
     }
     try {
       const { user } = await ajax('POST', request)('/api/users')
-      appContext.setState({ ...appContext, user })
+      setContext({ ...context, user })
       handleClose()
     } catch (e) {
       console.log(e.cause) // e.g. {errors: [{defaultMessage}], ...}

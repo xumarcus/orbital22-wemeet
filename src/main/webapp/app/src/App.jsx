@@ -20,48 +20,44 @@ import Profile from './pages/Profile'
 import Wizard from './pages/Wizard'
 
 const App = () => {
-  // FIXME cleared on refresh
-  const [state, setState] = useState(defaultAppContext)
-  state.setState = setState
+  // FIXME values are cleared on refresh
+  const [context, setContext] = useState(defaultAppContext)
 
   return (
     <>
       <CssBaseline />
-      <AppContext.Provider value={state}>
 
-        <Container maxWidth='xl'>
-          <BrowserRouter>
-            <NavBar />
+      <BrowserRouter>
+        <AppContext.Provider value={{ context, setContext }}>
+          <NavBar />
+          <Container maxWidth='xl'>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <Routes>
-                <Route path='/'>
-                  <Route path='' element={<Home />} />
+                <Route path='' element={<Home />} />
 
-                  {/* TODO <Route path='about' /> */}
-                  <Route path='dashboard' element={<Dashboard />} />
-                  <Route path='demo' element={<Demo />} />
+                {/* TODO <Route path='about' /> */}
+                <Route path='dashboard' element={<Dashboard />} />
+                <Route path='demo' element={<Demo />} />
 
-                  {/* TODO <Route path='features' /> */}
+                {/* TODO <Route path='features' /> */}
 
-                  {/* TODO WIP */}
-                  <Route path='guide' element={<Guide />} />
+                {/* TODO WIP */}
+                <Route path='guide' element={<Guide />} />
 
-                  <Route path='meeting'>
-                    <Route path='create' element={<MeetingCreate />} />
-                  </Route>
-                  <Route path='profile' element={<Profile />} />
-
-                  {/* TODO is this needed? */}
-                  <Route path='wizard' element={<Wizard />} />
+                <Route path='meeting'>
+                  <Route path='create' element={<MeetingCreate />} />
                 </Route>
+                <Route path='profile' element={<Profile />} />
+
+                {/* TODO is this needed? */}
+                <Route path='wizard' element={<Wizard />} />
                 <Route path='*' element={<ErrorFallback />} />
               </Routes>
             </ErrorBoundary>
-          </BrowserRouter>
+          </Container>
+        </AppContext.Provider>
+      </BrowserRouter>
 
-        </Container>
-
-      </AppContext.Provider>
       <Footer />
     </>
   )

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useContext } from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -17,6 +16,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
 import RetryAlert from './RetryAlert'
 import ajax from '../core/util'
+import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 
 const style = {
@@ -32,14 +32,14 @@ const style = {
 }
 
 const LogInModal = ({ visible, setVisible }) => {
+  const { context, setContext } = useContext(AppContext)
+
   const handleClose = () => {
     setRetryAlert(false)
     setVisible('')
   }
 
   const [retryAlert, setRetryAlert] = React.useState(false)
-
-  const appContext = useContext(AppContext)
 
   const handleSwitchtoForgetPassword = () => {
     setVisible('forgetPassword')
@@ -54,7 +54,7 @@ const LogInModal = ({ visible, setVisible }) => {
     const formData = new FormData(event.currentTarget)
     try {
       const user = await ajax('POST', formData)('/login')
-      appContext.setState({ ...appContext, user })
+      setContext({ ...context, user })
       handleClose()
     } catch (e) {
       console.log(e) // FIXME
