@@ -23,13 +23,13 @@ import ajax from '../core/util'
 const pages = [
   ['Features', 'features'],
   ['Guide', 'guide'],
-  ['About Us', 'about'],
+  ['About Us', 'about']
 ]
 
 const settings = [
   ['Dashboard', 'dashboard'],
   ['Profile', 'profile'],
-  ['Log out', 'logout'],
+  ['Log out', 'logout']
 ]
 
 const NavBar = () => {
@@ -70,56 +70,56 @@ const NavBar = () => {
 
   return (
     <>
-      <LogInModal visible={ModalVisible} setVisible={setModalVisible}/>
+      <LogInModal visible={ModalVisible} setVisible={setModalVisible} />
       <ForgetPasswordModel
         visible={ModalVisible}
         setVisible={setModalVisible}
       />
-      <SignUpModal visible={ModalVisible} setVisible={setModalVisible}/>
-      <AppBar position="static" sx={{ bgcolor: 'white', boxShadow: '0' }}>
-        <Container maxWidth="xl">
+      <SignUpModal visible={ModalVisible} setVisible={setModalVisible} />
+      <AppBar position='static' sx={{ bgcolor: 'white', boxShadow: '0' }}>
+        <Container maxWidth='xl'>
           <Toolbar disableGutters>
-            <Link to="/">
+            <Link to='/'>
               <Box
-                component="img"
+                component='img'
                 sx={{
                   display: { xs: 'none', md: 'flex' },
                   my: 3,
                   mx: 2,
                   maxHeight: { xs: 320, md: 250 },
-                  maxWidth: { xs: 350, md: 300 },
+                  maxWidth: { xs: 350, md: 300 }
                 }}
-                alt="WeMeet"
+                alt='WeMeet'
                 src={logo}
               />
             </Link>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
+                size='large'
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
                 onClick={handleOpenNavMenu}
-                color="secondary"
+                color='secondary'
               >
-                <MenuIcon/>
+                <MenuIcon />
               </IconButton>
               <Menu
-                id="menu-appbar"
+                id='menu-appbar'
                 anchorEl={anchorElNav}
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'left',
+                  horizontal: 'left'
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'left',
+                  horizontal: 'left'
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: 'block', md: 'none' },
+                  display: { xs: 'block', md: 'none' }
                 }}
               >
                 {pages.map((page) => (
@@ -127,14 +127,14 @@ const NavBar = () => {
                     key={page}
                     onClick={handleCloseNavMenu.bind(this, page[1])}
                   >
-                    <Typography textAlign="center">{page[0]}</Typography>
+                    <Typography textAlign='center'>{page[0]}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
             <Box
               sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, pr: 2 }}
-              justifyContent="flex-end"
+              justifyContent='flex-end'
             >
               {pages.map((page) => (
                 <Button
@@ -144,7 +144,7 @@ const NavBar = () => {
                     my: 2,
                     color: 'black',
                     fontWeight: 'bold',
-                    display: 'block',
+                    display: 'block'
                   }}
                 >
                   {page[1]}
@@ -153,27 +153,27 @@ const NavBar = () => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {/* FIXME */}
                   <Avatar
                     alt={appContext.values.user?.email ?? 'Anonymous'}
-                    src="404"
+                    src='404'
                   />
                 </IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: '45px' }}
-                id="menu-appbar"
+                id='menu-appbar'
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
@@ -184,17 +184,17 @@ const NavBar = () => {
                     onClick={handleCloseUserMenu.bind(this,
                       setting[1])}
                   >
-                    <Typography textAlign="center">{setting[0]}</Typography>
+                    <Typography textAlign='center'>{setting[0]}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
             <Box sx={{ pl: 2 }}>
               <Button
-                variant="contained"
-                size="large"
+                variant='contained'
+                size='large'
                 onClick={handleStartNowClick}
-                color="success"
+                color='success'
               >
                 Start Now
               </Button>

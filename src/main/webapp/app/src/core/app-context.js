@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export const defaultAppContextValues = {
-  user: null,
+  user: null
 }
 
 const AppContext = React.createContext({

@@ -10,7 +10,7 @@ import Demo from './components/Demo'
 import Error from './pages/Error'
 import Guide from './pages/Guide'
 import Home from './pages/Home'
-import Meetings from './pages/Meetings'
+import MeetingCreate from './pages/MeetingCreate'
 import Profile from './pages/Profile'
 import Wizard from './pages/Wizard'
 
@@ -23,21 +23,31 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App/>}>
-          <Route path="" element={<Home/>}/>
-          <Route path="about" element={<Navigate to="/error"/>}/>{' '}
+        <Route path='/' element={<App />}>
+          <Route path='' element={<Home />} />
+
           {/* TODO */}
-          <Route path="dashboard" element={<Dashboard/>}/>
-          <Route path="demo" element={<Demo/>}/>
-          <Route path="error" element={<Error/>}/>
-          <Route path="features" element={<Navigate to="/error"/>}/>{' '}
+          <Route path='about' element={<Navigate to='/error' />} />{' '}
+
+          <Route path='dashboard' element={<Dashboard />} />
+          <Route path='demo' element={<Demo />} />
+          <Route path='error' element={<Error />} />
+
           {/* TODO */}
-          <Route path="guide" element={<Guide/>}/>
-          <Route path="profile" element={<Profile/>}/>
-          <Route path="wizard" element={<Wizard/>}/>
-          <Route path="meeting" element={<Meetings/>}/>
+          <Route path='features' element={<Navigate to='/error' />} />{' '}
+
+          {/* TODO WIP */}
+          <Route path='guide' element={<Guide />} />
+
+          <Route path='meeting'>
+            <Route path='create' element={<MeetingCreate />} />
+          </Route>
+          <Route path='profile' element={<Profile />} />
+
+          {/* TODO is this needed? */}
+          <Route path='wizard' element={<Wizard />} />
         </Route>
-        <Route path="*" element={<Error/>}/>
+        <Route path='*' element={<Error />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

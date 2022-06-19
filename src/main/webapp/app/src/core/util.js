@@ -9,10 +9,10 @@ const ajax = (method, data) => async (uri) => {
     credentials: 'include', // Safe, since only localhost:3000 is allowed
     headers: {
       ...cookies(),
-      ...(isFormData ? undefined : { 'Content-Type': 'application/json' }),
+      ...(isFormData ? undefined : { 'Content-Type': 'application/json' })
     },
     method,
-    redirect: 'follow',
+    redirect: 'follow'
   })
 
   if (resp.ok) {
@@ -34,10 +34,10 @@ const ajax = (method, data) => async (uri) => {
 }
 
 const cookies = () => {
-  return document.cookie.match(/(^|(?<=, ))[^=;,]+=[^;]+/g).
-    map(cookie => cookie.split('=').map(v => v.trim())).
-    filter(([k, v]) => k.length && v.length).
-    reduce((builder, [k, v]) => {
+  return document.cookie.match(/(^|(?<=, ))[^=;,]+=[^;]+/g)
+    .map(cookie => cookie.split('=').map(v => v.trim()))
+    .filter(([k, v]) => k.length && v.length)
+    .reduce((builder, [k, v]) => {
       builder[k.replace('XSRF-TOKEN', 'X-XSRF-TOKEN')] = v
       return builder
     }, {})

@@ -6,7 +6,7 @@ const UserGuide = () => {
   return (
     <>
       <CenterWrapper>
-        <Typography variant="h3" component="div" textAlign="center">
+        <Typography variant='h3' component='div' textAlign='center'>
           User Guide Here
         </Typography>
       </CenterWrapper>

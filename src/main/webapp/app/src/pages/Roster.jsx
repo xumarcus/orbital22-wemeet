@@ -31,18 +31,18 @@ const Roster = () => {
   return (
     <>
       <CenterWrapper>
-        <Typography variant="h3" component="div" textAlign="center">
+        <Typography variant='h3' component='div' textAlign='center'>
           Roster
         </Typography>
         <Box sx={{ minWidth: 120 }}>
           <TextField
-            id="outlined-basic" label="List of Names"
-            variant="outlined"
+            id='outlined-basic' label='List of Names'
+            variant='outlined'
           />
-          <br/>
+          <br />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              label="Start Date"
+              label='Start Date'
               value={startDate}
               onChange={(newValue) => {
                 setStartDate(newValue)
@@ -51,7 +51,7 @@ const Roster = () => {
             />
 
             <DatePicker
-              label="End Date"
+              label='End Date'
               value={endDate}
               onChange={(newValue) => {
                 setEndDate(newValue)
@@ -61,12 +61,12 @@ const Roster = () => {
           </LocalizationProvider>
           <FormControl fullWidth>
 
-            <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
+            <InputLabel id='demo-simple-select-label'>Frequency</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
               value={frequency}
-              label="Frequency"
+              label='Frequency'
               onChange={handleChange}
             >
               <MenuItem value={1}>Daily</MenuItem>
@@ -76,7 +76,7 @@ const Roster = () => {
               <MenuItem value={5}>Weekends</MenuItem>
             </Select>
           </FormControl>
-          <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+          <Button variant='contained' onClick={handleSubmit}>Submit</Button>
         </Box>
       </CenterWrapper>
     </>

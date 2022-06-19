@@ -9,7 +9,7 @@ function TabPanel (props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -27,7 +27,7 @@ function TabPanel (props) {
 function a11yProps (index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
   }
 }
 
@@ -41,42 +41,42 @@ export default function Dashboard () {
   return (
     <>
       <Typography
-        variant="h3" component="div" textAlign="center"
+        variant='h3' component='div' textAlign='center'
         sx={{ my: 5 }}
       >
         Dashboard
       </Typography>
       <Box sx={{ my: 5 }}>
-        <Typography variant="body" sx={{ mx: 5 }}>
+        <Typography variant='body' sx={{ mx: 5 }}>
           Photo
         </Typography>
-        <Typography variant="body" sx={{ mx: 5 }}>
+        <Typography variant='body' sx={{ mx: 5 }}>
           Name
         </Typography>
-        <Typography variant="body" sx={{ mx: 5 }}>
+        <Typography variant='body' sx={{ mx: 5 }}>
           Email
         </Typography>
       </Box>
       <Box sx={{
         width: '100%',
         alignContent: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}
       >
         <Box sx={{
           borderBottom: 1,
           borderColor: 'divider',
           alignContent: 'center',
-          justifyContent: 'center',
+          justifyContent: 'center'
         }}
         >
           <Tabs
             value={value} onChange={handleChange}
-            aria-label="basic tabs example"
+            aria-label='basic tabs example'
           >
-            <Tab label="My Events" {...a11yProps(0)} />
-            <Tab label="Events Pending Response" {...a11yProps(1)} />
-            <Tab label="(untitled)" {...a11yProps(2)} />
+            <Tab label='My Events' {...a11yProps(0)} />
+            <Tab label='Events Pending Response' {...a11yProps(1)} />
+            <Tab label='(untitled)' {...a11yProps(2)} />
           </Tabs>
         </Box>
         <Box sx={{ backgroundColor: '#efefef', height: '100vh' }}>

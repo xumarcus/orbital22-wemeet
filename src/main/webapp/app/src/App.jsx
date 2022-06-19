@@ -13,14 +13,14 @@ const App = () => {
 
   return (
     <>
-      <CssBaseline/>
+      <CssBaseline />
       <AppContext.Provider value={{ values, setValues }}>
-        <NavBar/>
-        <Container maxWidth="xl">
-          <Outlet/>
+        <NavBar />
+        <Container maxWidth='xl'>
+          <Outlet />
         </Container>
       </AppContext.Provider>
-      <Footer/>
+      <Footer />
     </>
   )
 }

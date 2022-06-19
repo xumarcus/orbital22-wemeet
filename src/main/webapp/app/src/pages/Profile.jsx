@@ -10,7 +10,7 @@ const Profile = () => {
 
   return (
     <CenterWrapper>
-      <Typography variant="h3" component="div" textAlign="center">
+      <Typography variant='h3' component='div' textAlign='center'>
         {JSON.stringify(appContext.values.user)}
       </Typography>
     </CenterWrapper>

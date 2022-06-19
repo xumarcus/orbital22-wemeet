@@ -5,10 +5,10 @@ import CenterWrapper from '../components/CenterWrapper'
 const Error = ({ status_code, message }) => {
   return (
     <CenterWrapper>
-      <Typography variant="h1" align="center">
+      <Typography variant='h1' align='center'>
         {status_code || 404}
       </Typography>
-      <Typography variant="h5" align="center">
+      <Typography variant='h5' align='center'>
         {message || 'An error has occurred.'}
       </Typography>
     </CenterWrapper>

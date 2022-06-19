@@ -28,7 +28,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 4
 }
 
 const LogInModal = (prop) => {
@@ -64,72 +64,72 @@ const LogInModal = (prop) => {
 
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
+      aria-labelledby='transition-modal-title'
       open={visible === 'signin'}
       onClose={handleClose}
       // closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 500,
+        timeout: 500
       }}
       sx={{ width: '70%', left: '15%' }}
     >
       <Fade in={visible === 'signin'}>
         <Box sx={style}>
-          {retryAlert && <RetryAlert/>}
-          <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+          {retryAlert && <RetryAlert />}
+          <Container component='main' maxWidth='xs'>
+            <CssBaseline />
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon/>
+                <LockOutlinedIcon />
               </Avatar>
               <Typography
-                id="transition-modal-title"
-                component="h1"
-                variant="h5"
+                id='transition-modal-title'
+                component='h1'
+                variant='h5'
               >
                 Sign in
               </Typography>
               <Box
-                component="form"
+                component='form'
                 onSubmit={handleSubmit}
                 noValidate
                 sx={{ mt: 1 }}
               >
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  autoComplete='email'
                   autoFocus
                 />
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  autoComplete='current-password'
                 />
                 <FormControlLabel
-                  control={<Checkbox value="remember" color="primary"/>}
-                  label="Remember me"
+                  control={<Checkbox value='remember' color='primary' />}
+                  label='Remember me'
                 />
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
+                  variant='contained'
                   sx={{ mt: 2, mb: 2 }}
                 >
                   Sign In
@@ -137,7 +137,7 @@ const LogInModal = (prop) => {
                 <Grid container>
                   <Grid item xs>
                     <Link
-                      variant="body2"
+                      variant='body2'
                       onClick={() => handleSwitchtoForgetPassword()}
                     >
                       Forgot password?
@@ -145,7 +145,7 @@ const LogInModal = (prop) => {
                   </Grid>
                   <Grid item>
                     <Link
-                      variant="body2"
+                      variant='body2'
                       onClick={() => handleSwitchtoSignUp()}
                     >
                       {'Don\'t have an account? Sign Up'}

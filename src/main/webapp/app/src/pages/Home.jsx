@@ -11,13 +11,13 @@ const Home = () => (
   >
     <Grid item md={6}>
       <Box sx={{ mt: 15 }}>
-        <Typography align="center" variant="h3">
-          Scheduling <br/>
+        <Typography align='center' variant='h3'>
+          Scheduling <br />
           Made <strong>Easy</strong>
         </Typography>
       </Box>
       <Box sx={{ m: 5 }}>
-        <Typography variant="body">
+        <Typography variant='body'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
           do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -26,14 +26,14 @@ const Home = () => (
       </Box>
     </Grid>
     <Grid item md={6}>
-      <Box sx={{ width: '100%' }} component="img" src="cover_img.png"/>
+      <Box sx={{ width: '100%' }} component='img' src='cover_img.png' />
     </Grid>
     <Grid item md={4}>
-      <Typography align="center" variant="h5">
+      <Typography align='center' variant='h5'>
         Item 1?
       </Typography>
       <Box sx={{ m: 5 }}>
-        <Typography variant="body">
+        <Typography variant='body'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
           do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -42,11 +42,11 @@ const Home = () => (
       </Box>
     </Grid>
     <Grid item md={4}>
-      <Typography align="center" variant="h5">
+      <Typography align='center' variant='h5'>
         Item 2?
       </Typography>
       <Box sx={{ m: 5 }}>
-        <Typography variant="body">
+        <Typography variant='body'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
           do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -55,11 +55,11 @@ const Home = () => (
       </Box>
     </Grid>
     <Grid item md={4}>
-      <Typography align="center" variant="h5">
+      <Typography align='center' variant='h5'>
         Item 3?
       </Typography>
       <Box sx={{ m: 5 }}>
-        <Typography variant="body">
+        <Typography variant='body'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
           do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           Ut enim ad minim veniam, quis nostrud exercitation ullamco

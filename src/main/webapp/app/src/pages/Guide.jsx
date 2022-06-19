@@ -12,12 +12,12 @@ const Guide = () => {
     <>
       <CenterWrapper>
         // button group
-        <Typography variant="h3" align="center">
-          User / Developer Guide <br/>
+        <Typography variant='h3' align='center'>
+          User / Developer Guide <br />
           Coming Soon{' '}
         </Typography>
-        {userGuideVisible && <UserGuide/>}
-        {devGuideVisible && <DevGuide/>}
+        {userGuideVisible && <UserGuide />}
+        {devGuideVisible && <DevGuide />}
       </CenterWrapper>
     </>
   )

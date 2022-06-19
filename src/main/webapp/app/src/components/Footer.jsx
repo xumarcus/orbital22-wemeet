@@ -11,11 +11,11 @@ const Footer = () => {
         color: 'black',
         top: 'auto',
         bottom: 0,
-        textAlign: 'center',
+        textAlign: 'center'
       }}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography align="center">An Orbital 2022 Project</Typography>
+        <Typography align='center'>An Orbital 2022 Project</Typography>
       </Toolbar>
     </AppBar>
   )

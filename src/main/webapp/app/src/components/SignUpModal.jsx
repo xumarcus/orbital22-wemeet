@@ -28,7 +28,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 4
 }
 
 const SignUpModal = ({ visible, setVisible }) => {
@@ -45,7 +45,7 @@ const SignUpModal = ({ visible, setVisible }) => {
     const formData = new FormData(event.currentTarget)
     const request = {
       email: formData.get('email'),
-      rawPassword: formData.get('password'),
+      rawPassword: formData.get('password')
     }
     try {
       const { user } = await ajax('POST', request)('/api/users')
@@ -63,36 +63,36 @@ const SignUpModal = ({ visible, setVisible }) => {
 
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
+      aria-labelledby='transition-modal-title'
       open={visible === 'signup'}
       onClose={handleClose}
       // closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 500,
+        timeout: 500
       }}
       sx={{ width: '70%', left: '15%' }}
     >
       <Fade in={visible === 'signup'}>
         <Box sx={style}>
-          {retryAlert && <RetryAlert/>}
-          <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+          {retryAlert && <RetryAlert />}
+          <Container component='main' maxWidth='xs'>
+            <CssBaseline />
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon/>
+                <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
+              <Typography component='h1' variant='h5'>
                 Sign up
               </Typography>
               <Box
-                component="form"
+                component='form'
                 noValidate
                 onSubmit={handleSubmit}
                 sx={{ mt: 3 }}
@@ -100,12 +100,12 @@ const SignUpModal = ({ visible, setVisible }) => {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      autoComplete="given-name"
-                      name="firstName"
+                      autoComplete='given-name'
+                      name='firstName'
                       required
                       fullWidth
-                      id="firstName"
-                      label="First Name"
+                      id='firstName'
+                      label='First Name'
                       autoFocus
                     />
                   </Grid>
@@ -113,54 +113,54 @@ const SignUpModal = ({ visible, setVisible }) => {
                     <TextField
                       required
                       fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
+                      id='lastName'
+                      label='Last Name'
+                      name='lastName'
+                      autoComplete='family-name'
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       required
                       fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
+                      id='email'
+                      label='Email Address'
+                      name='email'
+                      autoComplete='email'
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       required
                       fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
+                      name='password'
+                      label='Password'
+                      type='password'
+                      id='password'
+                      autoComplete='new-password'
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <FormControlLabel
                       control={
-                        <Checkbox value="allowExtraEmails" color="primary"/>
+                        <Checkbox value='allowExtraEmails' color='primary' />
                       }
-                      label="I want to receive inspiration, marketing promotions and updates via email."
+                      label='I want to receive inspiration, marketing promotions and updates via email.'
                     />
                   </Grid>
                 </Grid>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
+                  variant='contained'
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Sign Up
                 </Button>
-                <Grid container justifyContent="flex-end">
+                <Grid container justifyContent='flex-end'>
                   <Grid item>
                     <Link
-                      variant="body2"
+                      variant='body2'
                       onClick={() => handleSwitchtoSignIn()}
                     >
                       Already have an account? Sign in

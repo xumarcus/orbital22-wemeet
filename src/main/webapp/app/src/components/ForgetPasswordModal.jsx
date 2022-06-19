@@ -24,7 +24,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 4
 }
 
 const ForgetPasswordModal = (prop) => {
@@ -44,65 +44,65 @@ const ForgetPasswordModal = (prop) => {
     const data = new FormData(event.currentTarget)
     console.log({
       email: data.get('email'),
-      password: data.get('password'),
+      password: data.get('password')
     })
   }
 
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
+      aria-labelledby='transition-modal-title'
       open={visible === 'forgetPassword'}
       onClose={handleClose}
       // closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 500,
+        timeout: 500
       }}
       sx={{ width: '70%', left: '15%' }}
     >
       <Fade in={visible === 'forgetPassword'}>
         <Box sx={style}>
           {/* white box to hold form */}
-          <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+          <Container component='main' maxWidth='xs'>
+            <CssBaseline />
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon/>
+                <LockOutlinedIcon />
               </Avatar>
               <Typography
-                id="transition-modal-title"
-                component="h1"
-                variant="h5"
+                id='transition-modal-title'
+                component='h1'
+                variant='h5'
               >
                 Reset Password
               </Typography>
               <Box
-                component="form"
+                component='form'
                 onSubmit={handleSubmit}
                 noValidate
                 sx={{ mt: 1 }}
               >
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  autoComplete='email'
                   autoFocus
                 />
 
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
+                  variant='contained'
                   sx={{ mt: 2, mb: 2 }}
                 >
                   Send Recovery Email
@@ -110,7 +110,7 @@ const ForgetPasswordModal = (prop) => {
                 <Grid container>
                   <Grid item xs>
                     <Link
-                      variant="body2"
+                      variant='body2'
                       onClick={() => handleSwitchtoSignIn()}
                     >
                       Sign In
@@ -118,7 +118,7 @@ const ForgetPasswordModal = (prop) => {
                   </Grid>
                   <Grid item>
                     <Link
-                      variant="body2"
+                      variant='body2'
                       onClick={() => handleSwitchtoSignUp()}
                     >
                       Don't have an account? Sign Up

@@ -23,7 +23,7 @@ import '../../node_modules/@syncfusion/ej2-react-schedule/styles/material.css'
 const Demo = () => {
   return (
     <ScheduleComponent>
-      <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
+      <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
     </ScheduleComponent>
   )
 }
