@@ -24,6 +24,7 @@ const Meetings = () => {
     const [choice2, setChoice2] = useState([]);
     const [choice3, setChoice3] = useState([]);
     const [currChoice, setCurrChoice] = useState("1");
+    const [emailList, setEmailList] = useState("");
     const [startDate, setStartDate] = useState(new Date());
 
     const [interval, setInterval] = useState(2);
@@ -61,7 +62,9 @@ const Meetings = () => {
     }
 
     const handleSubmit = () => {
+        const emailArr = emailList.split(',');
         // api call
+
         handleClearAll();
     }
 
@@ -101,6 +104,13 @@ const Meetings = () => {
                             <MenuItem value={1}>1 Hour</MenuItem>
                         </Select>
                     </FormControl>
+                    <TextField
+                        id="outlined-helperText"
+                        label="Enter Emails"
+                        value={emailList}
+                        onChange={event => setEmailList(event.target.value)}
+                        helperText="Separate emails with a comma"
+                    />
                     <LocalizationProvider
                         dateAdapter={AdapterDateFns}
                         adapterLocale={enLocale}>

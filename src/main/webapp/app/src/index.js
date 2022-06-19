@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { registerLicense } from '@syncfusion/ej2-base';
 
+import App from './App';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Features from './pages/Features';
@@ -11,8 +12,12 @@ import Guide from './pages/Guide';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Wizard from './pages/Wizard';
+import Meetings from "./pages/Meetings"
+import Demo from "./components/SyncFusionDemo"
 
-import App from './App';
+
+// Registering Syncfusion license key
+// registerLicense('');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,6 +32,8 @@ root.render(
             <Route path={'guide'} element={<Guide/>}/>
             <Route path={'profile'} element={<Profile/>}/>
             <Route path={'wizard'} element={<Wizard/>}/>
+            <Route path={'meeting'} element={<Meetings/>}/>
+            <Route path={"demo"} element={<Demo/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
