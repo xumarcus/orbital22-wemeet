@@ -1,25 +1,21 @@
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import { useState } from "react";
-import Header from "../components/NavBar";
-import Footer from "../components/Footer";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import {useState} from 'react';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
+import {Link} from 'react-router-dom';
 
 const Wizard = () => {
-    const [rosterBtnLoading, setRosterBtnLoading] = useState(false);
+  const [rosterBtnLoading, setRosterBtnLoading] = useState(false);
 
-    const handleClick = () => {
-        setRosterBtnLoading(true);
-    };
+  const handleClick = () => {
+    setRosterBtnLoading(true);
+  };
 
-    return (
-        <>
-            <Header/>
-            <Footer/>
+  return (
+      <>
             <Grid
                 container
                 direction="column"

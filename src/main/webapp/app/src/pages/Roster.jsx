@@ -1,18 +1,16 @@
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import Header from "../components/NavBar";
-import Footer from "../components/Footer";
-import CenterWrapper from "../components/CenterWrapper";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import CenterWrapper from '../components/CenterWrapper';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const Roster = () => {
     const [startDate, setStartDate] = React.useState(null);
@@ -32,8 +30,6 @@ const Roster = () => {
 
     return (
         <>
-            <Header/>
-            <Footer/>
             <CenterWrapper>
                 <Typography variant="h3" component="div" textAlign="center">
                     Roster

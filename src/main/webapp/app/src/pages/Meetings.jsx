@@ -1,19 +1,17 @@
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import { useState } from "react";
-import Header from "../components/NavBar";
-import Footer from "../components/Footer";
-import ScheduleSelector from 'react-schedule-selector'
-import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import {useState} from 'react';
+import ScheduleSelector from 'react-schedule-selector';
+import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import {Select} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import {Select} from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import {DesktopDatePicker, LocalizationProvider} from '@mui/lab';
+import TextField from '@mui/material/TextField';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import enLocale from 'date-fns/locale/en-GB';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
@@ -23,7 +21,7 @@ const Meetings = () => {
     const [choice1, setChoice1] = useState([]);
     const [choice2, setChoice2] = useState([]);
     const [choice3, setChoice3] = useState([]);
-    const [currChoice, setCurrChoice] = useState("1");
+    const [currChoice, setCurrChoice] = useState('1');
     const [emailList, setEmailList] = useState("");
     const [startDate, setStartDate] = useState(new Date());
 
@@ -70,8 +68,6 @@ const Meetings = () => {
 
     return (
         <>
-            <Header/>
-            <Footer/>
             <Typography variant="h3" component="div" textAlign="center">
                 Meetings
             </Typography>
