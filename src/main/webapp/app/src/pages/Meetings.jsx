@@ -134,11 +134,14 @@ const Meetings = () => {
             sx={{ justifySelf: 'center' }}
           >
             <Button onClick={(event) => handleSwitchChoice(event, '1')}>1st
-              Choice</Button>
+              Choice
+            </Button>
             <Button onClick={(event) => handleSwitchChoice(event, '2')}>2nd
-              Choice</Button>
+              Choice
+            </Button>
             <Button onClick={(event) => handleSwitchChoice(event, '3')}>3rd
-              Choice</Button>
+              Choice
+            </Button>
           </ButtonGroup>
           <ArrowCircleRightIcon onClick={handleShiftDatesLater}/>
         </Box>

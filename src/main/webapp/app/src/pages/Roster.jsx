@@ -35,8 +35,10 @@ const Roster = () => {
           Roster
         </Typography>
         <Box sx={{ minWidth: 120 }}>
-          <TextField id="outlined-basic" label="List of Names"
-                     variant="outlined"/>
+          <TextField
+            id="outlined-basic" label="List of Names"
+            variant="outlined"
+          />
           <br/>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker

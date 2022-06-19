@@ -7,6 +7,6 @@ export const defaultAppContextValues = {
 const AppContext = React.createContext({
   values: defaultAppContextValues,
   setValues: () => {
-  },
+  }
 })
 export default AppContext
