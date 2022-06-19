@@ -6,7 +6,7 @@ import {
   Month,
   ScheduleComponent,
   Week,
-  WorkWeek,
+  WorkWeek
 } from '@syncfusion/ej2-react-schedule'
 
 import '../../node_modules/@syncfusion/ej2-base/styles/material.css'

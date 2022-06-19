@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { useContext } from 'react'
 import CenterWrapper from '../components/CenterWrapper'
-import AppContext from '../core/app-context'
+import AppContext from '../core/AppContext'
 
 // TODO
 const Profile = () => {

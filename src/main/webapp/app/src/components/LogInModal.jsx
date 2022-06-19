@@ -17,7 +17,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
 import RetryAlert from './RetryAlert'
 import ajax from '../core/util'
-import AppContext from '../core/app-context'
+import AppContext from '../core/AppContext'
 
 const style = {
   position: 'absolute',
@@ -31,12 +31,12 @@ const style = {
   p: 4
 }
 
-const LogInModal = (prop) => {
-  const { visible, setVisible } = prop
+const LogInModal = ({ visible, setVisible }) => {
   const handleClose = () => {
     setRetryAlert(false)
     setVisible('')
   }
+
   const [retryAlert, setRetryAlert] = React.useState(false)
 
   const appContext = useContext(AppContext)
@@ -54,10 +54,10 @@ const LogInModal = (prop) => {
     const formData = new FormData(event.currentTarget)
     try {
       const user = await ajax('POST', formData)('/login')
-      appContext.setValues({ ...appContext.values, user })
+      appContext.setState({ ...appContext, user })
       handleClose()
     } catch (e) {
-      console.log(e)
+      console.log(e) // FIXME
       setRetryAlert(true)
     }
   }

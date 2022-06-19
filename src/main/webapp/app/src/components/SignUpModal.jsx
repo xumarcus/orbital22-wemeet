@@ -17,7 +17,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
 import ajax from '../core/util'
 import RetryAlert from './RetryAlert'
-import AppContext from '../core/app-context'
+import AppContext from '../core/AppContext'
 
 const style = {
   position: 'absolute',
@@ -49,7 +49,7 @@ const SignUpModal = ({ visible, setVisible }) => {
     }
     try {
       const { user } = await ajax('POST', request)('/api/users')
-      appContext.setValues({ ...appContext.values, user })
+      appContext.setState({ ...appContext, user })
       handleClose()
     } catch (e) {
       console.log(e.cause) // e.g. {errors: [{defaultMessage}], ...}

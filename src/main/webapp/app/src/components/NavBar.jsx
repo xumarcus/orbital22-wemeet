@@ -17,7 +17,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import LogInModal from './LogInModal'
 import ForgetPasswordModel from './ForgetPasswordModal'
 import SignUpModal from './SignUpModal'
-import AppContext from '../core/app-context'
+import AppContext, { defaultAppContext } from '../core/AppContext'
 import ajax from '../core/util'
 
 const pages = [
@@ -57,7 +57,7 @@ const NavBar = () => {
     setAnchorElUser(null)
     if (newPage === 'logout') {
       await ajax('POST')('/logout')
-      appContext.setValues({ ...appContext.values, user: null })
+      appContext.setState({ ...appContext, user: defaultAppContext.user })
     } else {
       navigate(`/${newPage}`)
     }
@@ -157,7 +157,7 @@ const NavBar = () => {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {/* FIXME */}
                   <Avatar
-                    alt={appContext.values.user?.email ?? 'Anonymous'}
+                    alt={appContext.user._links.self.href ?? 'Anonymous'}
                     src='404'
                   />
                 </IconButton>
@@ -176,7 +176,7 @@ const NavBar = () => {
                   horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                onClose={() => setAnchorElUser(null)}
               >
                 {settings.map((setting) => (
                   <MenuItem
