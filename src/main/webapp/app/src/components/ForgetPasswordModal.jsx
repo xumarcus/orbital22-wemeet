@@ -1,79 +1,79 @@
-import * as React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Container from "@mui/material/Container";
+import * as React from 'react'
+import Backdrop from '@mui/material/Backdrop'
+import Box from '@mui/material/Box'
+import Modal from '@mui/material/Modal'
+import Fade from '@mui/material/Fade'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import Link from '@mui/material/Link'
+import Grid from '@mui/material/Grid'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Container from '@mui/material/Container'
 // import ReCAPTCHA from "react-google-recaptcha";
 // need domain to use
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
   boxShadow: 24,
-  p: 4
-};
+  p: 4,
+}
 
 const ForgetPasswordModal = (prop) => {
-  const { visible, setVisible } = prop;
-  const handleClose = () => setVisible("");
+  const { visible, setVisible } = prop
+  const handleClose = () => setVisible('')
 
   const handleSwitchtoSignIn = () => {
-    setVisible("signin");
-  };
+    setVisible('signin')
+  }
 
   const handleSwitchtoSignUp = () => {
-    setVisible("signup");
-  };
+    setVisible('signup')
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
     console.log({
-      email: data.get("email"),
-      password: data.get("password")
-    });
-  };
+      email: data.get('email'),
+      password: data.get('password'),
+    })
+  }
 
   return (
     <Modal
       aria-labelledby="transition-modal-title"
-      open={visible === "forgetPassword"}
+      open={visible === 'forgetPassword'}
       onClose={handleClose}
       // closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 500
+        timeout: 500,
       }}
-      sx={{ width: "70%", left: "15%" }}
+      sx={{ width: '70%', left: '15%' }}
     >
-      <Fade in={visible === "forgetPassword"}>
+      <Fade in={visible === 'forgetPassword'}>
         <Box sx={style}>
           {/* white box to hold form */}
           <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center"
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
+              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <LockOutlinedIcon/>
               </Avatar>
               <Typography
                 id="transition-modal-title"
@@ -121,7 +121,7 @@ const ForgetPasswordModal = (prop) => {
                       variant="body2"
                       onClick={() => handleSwitchtoSignUp()}
                     >
-                      {"Don't have an account? Sign Up"}
+                      Don't have an account? Sign Up
                     </Link>
                   </Grid>
                 </Grid>
@@ -131,7 +131,7 @@ const ForgetPasswordModal = (prop) => {
         </Box>
       </Fade>
     </Modal>
-  );
-};
+  )
+}
 
-export default ForgetPasswordModal;
+export default ForgetPasswordModal
