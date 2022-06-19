@@ -33,7 +33,7 @@ const ajax = (method, data) => async (uri) => {
   }
 }
 
-const cookies = () => {
+export const cookies = () => {
   return document.cookie.match(/(^|(?<=, ))[^=;,]+=[^;]+/g)
     .map(cookie => cookie.split('=').map(v => v.trim()))
     .filter(([k, v]) => k.length && v.length)
