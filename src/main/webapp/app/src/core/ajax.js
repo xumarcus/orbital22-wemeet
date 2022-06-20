@@ -1,5 +1,3 @@
-import { ID_REGEX } from './const'
-
 const ajax = (method, data) => async (uri) => {
   // Spring POST /login accepts formData by default.
   // POST /logout does not take any parameters.

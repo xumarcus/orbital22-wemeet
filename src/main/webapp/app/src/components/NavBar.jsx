@@ -18,7 +18,7 @@ import LogInModal from './LogInModal'
 import ForgetPasswordModel from './ForgetPasswordModal'
 import SignUpModal from './SignUpModal'
 import AppContext, { defaultAppContext } from '../core/AppContext'
-import ajax from '../core/util'
+import ajax from '../core/ajax'
 
 const pages = [
   ['Features', 'features'],

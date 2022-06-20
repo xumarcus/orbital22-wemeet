@@ -8,7 +8,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import CustomScheduleComponent from '../components/CustomScheduleComponent'
 import useSWR from 'swr'
 import { CircularProgress } from '@mui/material'
-import ajax from '../core/util'
+import ajax from '../core/ajax'
 
 const Meeting = () => {
   const params = useParams()

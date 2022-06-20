@@ -11,12 +11,13 @@ const EventGrid = () => {
   const { context } = useContext(AppContext)
 
   const restAdaptorParams = {
-    getUrl: context.user._links.ownedRosterPlans.href,
-    map: (resp) => resp._embedded.rosterPlan,
-    setUrl: '/api/rosterPlan'
+    url: context.user._links.ownedRosterPlans.href,
+    map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlan),
+    crudUrl: '/api/rosterPlan',
+    crudMap: (req) => req,
   }
 
-  if (restAdaptorParams.getUrl === null) {
+  if (restAdaptorParams.url === null) {
     throw new Error('Please sign in.')
   }
 
@@ -28,14 +29,14 @@ const EventGrid = () => {
     allowAdding: true
   }
 
-  const idTemplate = ({ id }) => (
+  const linkIDTemplate = ({ id }) => (
     <Link href={`/meeting/${id}`}>{id}</Link>
   )
 
   return (
     <GridComponent dataSource={dataManager} editSettings={editSettings} toolbar={TOOLBAR}>
       <ColumnsDirective>
-        <ColumnDirective field='id' headerText='ID' template={idTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
+        <ColumnDirective field='id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
         <ColumnDirective field='title' headerText='Title' textAlign='Center' />
       </ColumnsDirective>
       <Inject services={[Edit, Toolbar]} />

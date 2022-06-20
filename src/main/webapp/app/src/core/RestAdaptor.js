@@ -1,5 +1,5 @@
 import { CustomDataAdaptor } from '@syncfusion/ej2-data'
-import { cookies } from './util'
+import { cookies } from './ajax'
 import { StatusCodes } from 'http-status-codes'
 
 const createRequest = (method, url, option, handleRequest, data) => {
@@ -21,83 +21,62 @@ const createRequest = (method, url, option, handleRequest, data) => {
 }
 
 // TODO
-const urlWithQuery = (url, query) => {
-  // console.log(query);
+const join = (url, query) => {
+  console.log(query);
   return url;
 }
 
 const getData = (url, map, option) => {
   const query = JSON.parse(option.data)
 
-  createRequest('GET', urlWithQuery(url, query), option, (xhr, request) => {
+  createRequest('GET', join(url, query), option, (xhr, request) => {
     if (xhr.status === StatusCodes.OK) {
       const resp = JSON.parse(xhr.responseText)
-      const list = map(resp)
-      const data = {
-        result: list,
-        count: resp.count ?? list.length
-      }
-      option.onSuccess(data, request)
+      option.onSuccess(map(resp), request)
     } else {
       option.onFailure(request)
     }
   })
 }
 
-const addRecord = (url, option) => {
-  const { value } = JSON.parse(option.data)
-  createRequest('POST', url, option, (xhr, request) => {
+const addRecordInternal = (crudUrl, option, data) => {
+  createRequest('POST', crudUrl, option, (xhr, request) => {
     if (xhr.status === StatusCodes.CREATED) {
-      const data = JSON.parse(xhr.responseText)
-      option.onSuccess(data, request)
+      option.onSuccess(JSON.parse(xhr.responseText), request)
     } else {
       option.onFailure(request)
     }
-  }, value)
+  }, data)
 }
 
-// For now, unbatch the update
-const batchUpdate = (url, option) => {
+const addRecord = (crudUrl, crudMap, option) => {
+  const { value: data } = JSON.parse(option.data)
+  addRecordInternal(crudUrl, option, crudMap(data))
+}
+
+const batchUpdate = (crudUrl, crudMap, option) => {
   const { changed, added, deleted } = JSON.parse(option.data)
   if (added !== null) {
-    const [{ Subject, Id, StartTime, EndTime, IsAllDay }] = added;
-    // FIXME refactor
-      const data = {
-        startDateTime: StartTime,
-        endDateTime: EndTime,
-        capacity: 1, // TODO
-        rosterPlan: '/api/rosterPlan/1',
-      }
-      createRequest('POST', url, option, (xhr, request) => {
-        if (xhr.status === StatusCodes.CREATED) {
-          const data = JSON.parse(xhr.responseText)
-          option.onSuccess(data, request)
-        } else {
-          option.onFailure(request)
-          throw new Error('Batch add fail');
-        }
-      }, data)
+    // Tutorial says `added` is singleton
+    const [data] = added;
+    addRecordInternal(crudUrl, option, crudMap(data))
   }
 }
 
 class RestAdaptor extends CustomDataAdaptor {
-  constructor ({ getUrl, map, setUrl }) {
+  constructor ({ url, map, crudUrl, crudMap }) {
     super({
-      getData: (option) => {
-        console.log(getUrl, map, option)
-        getData(getUrl, map, option)
-      },
-      addRecord: (setUrl, option) => {
-        console.log(option)
-        addRecord(setUrl, option)
-      },
-
-      // Schedule uses batchUpdate
-      batchUpdate: (option) => {
-        console.log(option)
-        batchUpdate(setUrl, option)
-      }
+      getData: (option) => getData(url, map, option),
+      addRecord: (option) => addRecord(crudUrl, crudMap, option),
+      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option),
     })
+  }
+
+  static extendCounts(result) {
+    return {
+      result,
+      count: result.length
+    }
   }
 }
 

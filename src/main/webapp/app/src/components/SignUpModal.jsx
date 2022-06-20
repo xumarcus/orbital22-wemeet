@@ -15,7 +15,7 @@ import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
-import ajax from '../core/util'
+import ajax from '../core/ajax'
 import RetryAlert from './RetryAlert'
 
 import AppContext from '../core/AppContext'
