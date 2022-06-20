@@ -7,6 +7,9 @@ import CustomScheduleComponent from '../components/CustomScheduleComponent'
 import useSWR from 'swr'
 import { CircularProgress } from '@mui/material'
 import ajax from '../core/ajax'
+import InvitationGrid from '../components/InvitationGrid'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 const Meeting = () => {
   const params = useParams()
@@ -28,7 +31,20 @@ const MeetingInner = ({ url }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
       <PageTitle pageTitle={data?.title} />
-      <CustomScheduleComponent rosterPlan={data} />
+      <Grid container spacing={5}>
+        <Grid item xs={12} lg={8}>
+          <Typography variant='h5' sx={{ my: 2 }}>
+            Schedule
+          </Typography>
+          <CustomScheduleComponent rosterPlan={data} />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Typography variant='h5' sx={{ my: 2 }}>
+            Invitations
+          </Typography>
+          <InvitationGrid rosterPlan={data} />
+        </Grid>
+      </Grid>
     </ErrorBoundary>
   )
 }

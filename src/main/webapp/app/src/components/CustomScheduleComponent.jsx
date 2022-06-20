@@ -1,6 +1,15 @@
-import { Agenda, Day, DragAndDrop, Inject, Month, Resize, ScheduleComponent, Week } from '@syncfusion/ej2-react-schedule'
+import {
+  Agenda,
+  Day,
+  DragAndDrop,
+  Inject,
+  Month,
+  Resize,
+  ScheduleComponent,
+  Week,
+} from '@syncfusion/ej2-react-schedule'
 import * as React from 'react'
-import { CustomDataAdaptor, DataManager } from '@syncfusion/ej2-data'
+import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 
 const CustomScheduleComponent = ({ rosterPlan }) => {
