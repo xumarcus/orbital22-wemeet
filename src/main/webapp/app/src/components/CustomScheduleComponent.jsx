@@ -11,12 +11,13 @@ import {
 import * as React from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
+import { API } from '../core/const'
 
 const CustomScheduleComponent = ({ rosterPlan }) => {
   const restAdaptorParams = {
     url: rosterPlan?._links?.timeSlots?.href,
     map: (resp) => resp._embedded.timeSlot,
-    crudUrl: '/api/timeSlot',
+    crudUrl: API.TIME_SLOT,
     crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
   }
 

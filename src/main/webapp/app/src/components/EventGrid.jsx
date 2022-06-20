@@ -1,8 +1,15 @@
 import { DataManager } from '@syncfusion/ej2-data'
-import { ColumnDirective, ColumnsDirective, GridComponent, Edit, Inject, Toolbar } from '@syncfusion/ej2-react-grids'
+import {
+  ColumnDirective,
+  ColumnsDirective,
+  Edit,
+  GridComponent,
+  Inject,
+  Toolbar,
+} from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
-import { TOOLBAR } from '../core/const'
+import { API, TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
@@ -13,7 +20,7 @@ const EventGrid = () => {
   const restAdaptorParams = {
     url: context.user._links.ownedRosterPlans.href,
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlan),
-    crudUrl: '/api/rosterPlan',
+    crudUrl: API.ROSTER_PLAN,
     crudMap: (req) => req
   }
 
@@ -30,7 +37,7 @@ const EventGrid = () => {
   }
 
   const linkIDTemplate = ({ id }) => (
-    <Link to={`/meeting/${id}`}>{id}</Link>
+    id && <Link to={`/meeting/${id}`}>{id}</Link>
   )
 
   return (

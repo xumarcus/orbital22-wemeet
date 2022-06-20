@@ -9,13 +9,13 @@ import {
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
-import { TOOLBAR } from '../core/const'
+import { API, TOOLBAR } from '../core/const'
 
 const InvitationGrid = ({ rosterPlan }) => {
   const restAdaptorParams = {
-    url: rosterPlan._links.rosterPlanUserInfos,
+    url: rosterPlan._links.rosterPlanUserInfos.href,
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlanUserInfo),
-    crudUrl: '/api/rosterPlanUserInfo',
+    crudUrl: API.ROSTER_PLAN_USER_INFO,
     crudMap: (req) => req
   }
 
@@ -31,6 +31,7 @@ const InvitationGrid = ({ rosterPlan }) => {
     allowAdding: true
   }
 
+  // Checkbox?
   const lockedTemplate = ({ locked }) => locked ? '🔐' : '🔓'
 
   return (
