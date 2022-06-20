@@ -2,12 +2,14 @@ const ajax = (method, data) => async (uri) => {
   // Spring POST /login accepts formData by default.
   // POST /logout does not take any parameters.
   const isFormData = uri.endsWith('login') || uri.endsWith('logout')
+  const { 'XSRF-TOKEN': csrfToken, ...rest } = cookies()
 
   const resp = await fetch(uri, {
     body: isFormData ? data : JSON.stringify(data),
     credentials: 'include', // Safe, since only localhost:3000 is allowed
     headers: {
-      ...cookies(),
+      'X-XSRF-TOKEN': csrfToken,
+      ...rest,
       ...(isFormData ? undefined : { 'Content-Type': 'application/json' })
     },
     method,

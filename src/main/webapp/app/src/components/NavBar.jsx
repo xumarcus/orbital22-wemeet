@@ -157,7 +157,7 @@ const NavBar = () => {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {/* FIXME */}
                   <Avatar
-                    alt={context.user._links.self.href ?? 'Anonymous'}
+                    alt={context.user?._links.self.href ?? 'Anonymous'}
                     src='/avatar-does-not-exist'
                   />
                 </IconButton>

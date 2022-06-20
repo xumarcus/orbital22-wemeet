@@ -49,7 +49,7 @@ const SignUpModal = ({ visible, setVisible }) => {
       rawPassword: formData.get('password')
     }
     try {
-      const { user } = await ajax('POST', request)('/api/users')
+      const user = await ajax('POST', request)('/api/users')
       setContext({ ...context, user })
       handleClose()
     } catch (e) {
