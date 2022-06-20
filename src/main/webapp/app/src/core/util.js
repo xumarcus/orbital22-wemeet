@@ -44,11 +44,4 @@ export const cookies = () => {
     }, {})
 }
 
-export const extendWithID = (resp) => {
-  const self = resp._links.self.href
-  const [match] = ID_REGEX.exec(self)
-  const ID = parseInt(match)
-  return { ...resp, ID }
-}
-
 export default ajax

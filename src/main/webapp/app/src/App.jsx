@@ -15,7 +15,7 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Demo from './components/Demo'
 import Guide from './pages/Guide'
-import MeetingCreate from './pages/MeetingCreate'
+import Meeting from './pages/Meeting'
 import Profile from './pages/Profile'
 import Wizard from './pages/Wizard'
 
@@ -44,9 +44,7 @@ const App = () => {
                 {/* TODO WIP */}
                 <Route path='guide' element={<Guide />} />
 
-                <Route path='meeting'>
-                  <Route path='create' element={<MeetingCreate />} />
-                </Route>
+                <Route path='meeting/:meetingId' element={<Meeting />} />
                 <Route path='profile' element={<Profile />} />
 
                 {/* TODO is this needed? */}

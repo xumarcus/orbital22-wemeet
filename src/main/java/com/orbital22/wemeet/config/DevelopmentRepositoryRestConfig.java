@@ -9,11 +9,17 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.metamodel.Type;
+
 @Configuration
 @Profile({"development", "test"})
 @AllArgsConstructor
 public class DevelopmentRepositoryRestConfig implements RepositoryRestConfigurer {
   private final LocalValidatorFactoryBean validator;
+
+  @PersistenceContext private final EntityManager entityManager;
 
   /**
    * @see DevelopmentCORSConfig
@@ -30,6 +36,12 @@ public class DevelopmentRepositoryRestConfig implements RepositoryRestConfigurer
         .allowedOrigins("http://localhost:3000") // Localhost
         .allowCredentials(true) // Persist session in debugging
         .allowedMethods("*"); // For testing
+
+    // Expose IDs
+    config.exposeIdsFor(
+        entityManager.getMetamodel().getEntities().stream()
+            .map(Type::getJavaType)
+            .toArray(Class[]::new));
 
     RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, corsRegistry);
   }

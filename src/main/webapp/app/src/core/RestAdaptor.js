@@ -2,7 +2,7 @@ import { CustomDataAdaptor } from '@syncfusion/ej2-data'
 import { cookies } from './util'
 import { StatusCodes } from 'http-status-codes'
 
-const createRequest = (method, url, option, handleRequest, columnNamesToObjectKeys) => {
+const createRequest = (method, url, option, handleRequest) => {
   const xhr = new XMLHttpRequest()
   xhr.onreadystatechange = function () {
     if (this.readyState === 4) {
@@ -15,17 +15,32 @@ const createRequest = (method, url, option, handleRequest, columnNamesToObjectKe
   if (method !== 'GET') {
     xhr.setRequestHeader('Content-Type', 'application/json')
     const { value } = JSON.parse(option.data)
-    xhr.send(JSON.stringify(columnNamesToObjectKeys(value)))
+    xhr.send(JSON.stringify(value))
   } else {
     xhr.send()
   }
 }
 
-const getData = ({ url, respToList }, option) => {
-  createRequest('GET', url, option, (xhr, request) => {
+const urlWithQuery = (url, query) => {
+  const filters = query?.where;
+  if (filters !== null) {
+    for (const filter of filters) {
+      if (filter.field === 'id' && filter.operator === 'equal') {
+        return `${url}/${filter.value}`;
+      }
+    }
+  } else {
+    return url;
+  }
+}
+
+const getData = (url, map, option) => {
+  const query = JSON.parse(option.data)
+
+  createRequest('GET', urlWithQuery(url, query), option, (xhr, request) => {
     if (xhr.status === StatusCodes.OK) {
       const resp = JSON.parse(xhr.responseText)
-      const list = respToList(resp)
+      const list = map(resp)
       const data = {
         result: list,
         count: resp.count ?? list.length
@@ -37,26 +52,25 @@ const getData = ({ url, respToList }, option) => {
   })
 }
 
-const addRecord = ({ url, respItemToObject, columnNamesToObjectKeys }, option) => {
+const addRecord = (url, option) => {
   createRequest('POST', url, option, (xhr, request) => {
     if (xhr.status === StatusCodes.CREATED) {
-      const resp = JSON.parse(xhr.responseText)
-      const data = respItemToObject(resp)
+      const data = JSON.parse(xhr.responseText)
       option.onSuccess(data, request)
     } else {
       option.onFailure(request)
     }
-  }, columnNamesToObjectKeys)
+  })
 }
 
 class RestAdaptor extends CustomDataAdaptor {
-  constructor (get, set) {
+  constructor ({ getUrl, map, setUrl }) {
     super({
       getData: (option) => {
-        getData(get, option)
+        getData(getUrl, map, option)
       },
       addRecord: (option) => {
-        addRecord(set, option)
+        addRecord(setUrl, option)
       }
     })
   }
