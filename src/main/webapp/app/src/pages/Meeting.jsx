@@ -13,7 +13,7 @@ import ajax from '../core/ajax'
 const Meeting = () => {
   const params = useParams()
   const meetingId = parseInt(params.meetingId)
-  const url = `/api/rosterPlan/${meetingId}`;
+  const url = `/api/rosterPlan/${meetingId}`
 
   /* TODO fetch rosterPlan from BE (cached request) with swr
       Then fetch time slots and infos... then everything
@@ -23,13 +23,13 @@ const Meeting = () => {
   */
 
   const { data, error } = useSWR(url, ajax('GET'))
-  if (error) return <ErrorFallback />;
-  if (!data) return <CircularProgress />;
+  if (error) return <ErrorFallback />
+  if (!data) return <CircularProgress />
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
       <PageTitle pageTitle={data?.title} />
-      <CustomScheduleComponent rosterPlan={data}/>
+      <CustomScheduleComponent rosterPlan={data} />
     </ErrorBoundary>
   )
 }

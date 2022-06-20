@@ -22,8 +22,8 @@ const createRequest = (method, url, option, handleRequest, data) => {
 
 // TODO
 const join = (url, query) => {
-  console.log(query);
-  return url;
+  console.log(query)
+  return url
 }
 
 const getData = (url, map, option) => {
@@ -58,7 +58,7 @@ const batchUpdate = (crudUrl, crudMap, option) => {
   const { changed, added, deleted } = JSON.parse(option.data)
   if (added !== null) {
     // Tutorial says `added` is singleton
-    const [data] = added;
+    const [data] = added
     addRecordInternal(crudUrl, option, crudMap(data))
   }
 }
@@ -68,11 +68,11 @@ class RestAdaptor extends CustomDataAdaptor {
     super({
       getData: (option) => getData(url, map, option),
       addRecord: (option) => addRecord(crudUrl, crudMap, option),
-      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option),
+      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option)
     })
   }
 
-  static extendCounts(result) {
+  static extendCounts (result) {
     return {
       result,
       count: result.length

@@ -1,6 +1,6 @@
-import {Agenda, Day,DragAndDrop, Inject,Month,Resize,ScheduleComponent,Week } from '@syncfusion/ej2-react-schedule'
+import { Agenda, Day, DragAndDrop, Inject, Month, Resize, ScheduleComponent, Week } from '@syncfusion/ej2-react-schedule'
 import * as React from 'react'
-import {CustomDataAdaptor, DataManager } from '@syncfusion/ej2-data'
+import { CustomDataAdaptor, DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 
 const CustomScheduleComponent = ({ rosterPlan }) => {
@@ -8,7 +8,7 @@ const CustomScheduleComponent = ({ rosterPlan }) => {
     url: rosterPlan?._links?.timeSlots?.href,
     map: (resp) => resp._embedded.timeSlot,
     crudUrl: '/api/timeSlot',
-    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href }),
+    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
   }
 
   if (restAdaptorParams.url === null) {
@@ -26,7 +26,7 @@ const CustomScheduleComponent = ({ rosterPlan }) => {
     fields: {
       startTime: { name: 'startDateTime' },
       endTime: { name: 'endDateTime' },
-      subject: { name: 'capacity' },  // FIXME Stand in
+      subject: { name: 'capacity' } // FIXME Stand in
     }
   }
 

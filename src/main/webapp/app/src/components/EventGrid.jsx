@@ -14,7 +14,7 @@ const EventGrid = () => {
     url: context.user._links.ownedRosterPlans.href,
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlan),
     crudUrl: '/api/rosterPlan',
-    crudMap: (req) => req,
+    crudMap: (req) => req
   }
 
   if (restAdaptorParams.url === null) {
