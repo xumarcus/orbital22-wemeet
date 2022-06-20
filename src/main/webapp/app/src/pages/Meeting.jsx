@@ -1,8 +1,6 @@
 import * as React from 'react'
 import PageTitle from '../components/PageTitle'
 import { useParams } from 'react-router-dom'
-import { DataManager, Query } from '@syncfusion/ej2-data'
-import RestAdaptor from '../core/RestAdaptor'
 import ErrorFallback from '../components/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
 import CustomScheduleComponent from '../components/CustomScheduleComponent'
@@ -12,9 +10,10 @@ import ajax from '../core/ajax'
 
 const Meeting = () => {
   const params = useParams()
-  const meetingId = parseInt(params.meetingId)
-  const url = `/api/rosterPlan/${meetingId}`
+  return <MeetingInner url={`/api/rosterPlan/${params.meetingId}`} />
+}
 
+const MeetingInner = ({ url }) => {
   /* TODO fetch rosterPlan from BE (cached request) with swr
       Then fetch time slots and infos... then everything
       Use DM to connect component to CRUD API

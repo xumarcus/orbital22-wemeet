@@ -5,7 +5,7 @@ import RestAdaptor from '../core/RestAdaptor'
 import { TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
-import Link from '@mui/material/Link'
+import { Link } from 'react-router-dom'
 
 const EventGrid = () => {
   const { context } = useContext(AppContext)
@@ -30,7 +30,7 @@ const EventGrid = () => {
   }
 
   const linkIDTemplate = ({ id }) => (
-    <Link href={`/meeting/${id}`}>{id}</Link>
+    <Link to={`/meeting/${id}`}>{id}</Link>
   )
 
   return (
