@@ -158,7 +158,7 @@ const NavBar = () => {
                   {/* FIXME */}
                   <Avatar
                     alt={context.user._links.self.href ?? 'Anonymous'}
-                    src='404'
+                    src='/avatar-does-not-exist'
                   />
                 </IconButton>
               </Tooltip>
