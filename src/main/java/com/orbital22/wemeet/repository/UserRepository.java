@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 /*
@@ -16,18 +17,22 @@ import java.util.Optional;
 @RepositoryRestResource(collectionResourceRel = "users", path = "users")
 public interface UserRepository extends JpaRepository<User, Integer> {
   @RestResource
-  @NonNull
+  @NotNull
   Optional<User> findByEmail(String email);
 
   @RestResource
   @Override
-  @NonNull
+  @NotNull
   @PreAuthorize("isAuthenticated()")
   Optional<User> findById(@NonNull Integer id);
 
   @RestResource
   @Override
-  @NonNull
+  @NotNull
   @PreAuthorize("#user.id == 0 or hasPermission(#user, 'WRITE')")
   <S extends User> S save(@NonNull S user);
+
+  default <S extends User> S justSave(@NonNull S user) {
+    return this.save(user);
+  }
 }

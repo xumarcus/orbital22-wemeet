@@ -1,6 +1,8 @@
 package com.orbital22.wemeet.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orbital22.wemeet.model.User;
+import com.orbital22.wemeet.repository.UserRepository;
 import de.cronn.testutils.h2.H2Util;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -108,5 +110,24 @@ class UserCreateIntegrationTest {
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
+  }
+
+  @Test
+  public void givenUnregisteredUser_whenRegister_thenCreated(@Autowired UserRepository userRepository) throws Exception {
+    userRepository.justSave(User.ofUnregistered("user@wemeet.com"));
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", "user@wemeet.com");
+    map.put("rawPassword", "password");
+    map.put("registered", true);
+
+    this.mockMvc
+            .perform(
+                    post("/api/users")
+                            .content(objectMapper.writeValueAsString(map))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isCreated())
+            .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
+            .andDo(document("post-users-registered-success"));
   }
 }
