@@ -1,8 +1,12 @@
 package com.orbital22.wemeet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 @Builder
@@ -30,6 +34,22 @@ public class RosterPlanUserInfo {
 
   @Column(name = "has_responded") // TODO
   private boolean locked;
+
+  // Serialization
+  @Transient
+  @Nullable
+  @Email
+  private String email;
+
+  @JsonProperty
+  public String getEmail() {
+    return user.getEmail();
+  }
+
+  @JsonIgnore
+  public String getTransientEmail() {
+    return email;
+  }
 
   @Override
   public boolean equals(Object o) {
