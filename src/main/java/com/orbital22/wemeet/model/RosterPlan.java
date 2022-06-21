@@ -39,7 +39,7 @@ public class RosterPlan {
   @JsonProperty(access = READ_ONLY)
   @ManyToOne
   @JoinColumn(name = "owner_id")
-  // Nullable before aspect injects
+  @NonNull // Serialization
   private User owner;
 
   @JsonProperty(access = READ_ONLY)

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Builder
@@ -26,10 +27,12 @@ public class RosterPlanUserInfo {
   @ToString.Exclude
   @ManyToOne
   @JoinColumn(name = "roster_plan_id")
+  @NotNull
   private RosterPlan rosterPlan;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
+  @NonNull // Serialization
   private User user;
 
   @Column(name = "has_responded") // TODO
