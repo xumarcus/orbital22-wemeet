@@ -17,7 +17,7 @@ const InvitationGrid = ({ rosterPlan }) => {
     url: rosterPlan._links.rosterPlanUserInfos.href,
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlanUserInfo),
     crudUrl: API.ROSTER_PLAN_USER_INFO,
-    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan._links.self.href }),
+    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan._links.self.href })
   }
 
   if (restAdaptorParams.url === null) {
@@ -25,31 +25,37 @@ const InvitationGrid = ({ rosterPlan }) => {
   }
 
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams),
+    adaptor: new RestAdaptor(restAdaptorParams)
   })
 
   const editSettings = {
     allowAdding: true,
-    allowEditing: true,
+    allowEditing: true
   }
 
   const lockedTemplate = ({ locked }) => (
-    <Typography variant="body">
+    <Typography variant='body'>
       {locked ? '🔐' : '🔓'}
     </Typography>
   )
 
   return (
-    <GridComponent dataSource={dataManager} editSettings={editSettings}
-                   toolbar={TOOLBAR}>
+    <GridComponent
+      dataSource={dataManager} editSettings={editSettings}
+      toolbar={TOOLBAR}
+    >
       <ColumnsDirective>
-        <ColumnDirective field="email" headerText="Email" textAlign="Center"
-                         isPrimaryKey/>
-        <ColumnDirective field="locked" headerText="Locked" width="120"
-                         textAlign="Center" template={lockedTemplate} displayAsCheckbox
-                         editType="booleanEdit"/>
+        <ColumnDirective
+          field='email' headerText='Email' textAlign='Center'
+          isPrimaryKey
+        />
+        <ColumnDirective
+          field='locked' headerText='Locked' width='120'
+          textAlign='Center' template={lockedTemplate} displayAsCheckbox
+          editType='booleanEdit'
+        />
       </ColumnsDirective>
-      <Inject services={[Edit, Toolbar]}/>
+      <Inject services={[Edit, Toolbar]} />
     </GridComponent>
   )
 }
