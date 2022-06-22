@@ -1,32 +1,34 @@
+// Spring POST /login accepts formData by default.
+// POST /logout does not take any parameters.
+const isJson = (uri) => !uri.endsWith('login') && !uri.endsWith('logout')
+
+const isContentTypeJson = (contentType) => /application\/([+\w]*)json/.exec(contentType) !== null;
+
 const ajax = (method, data) => async (uri) => {
-  // Spring POST /login accepts formData by default.
-  // POST /logout does not take any parameters.
-  const isFormData = uri.endsWith('login') || uri.endsWith('logout')
   const { 'XSRF-TOKEN': csrfToken, ...rest } = cookies()
 
   const resp = await fetch(uri, {
-    body: isFormData ? data : JSON.stringify(data),
+    body: isJson(uri) ? JSON.stringify(data) : data,
     credentials: 'include', // Safe, since only localhost:3000 is allowed
     headers: {
       'X-XSRF-TOKEN': csrfToken,
       ...rest,
-      ...(isFormData ? undefined : { 'Content-Type': 'application/json' })
+      ...(isJson(uri) ? { 'Content-Type': 'application/json' } : undefined)
     },
     method,
     redirect: 'follow'
   })
 
   if (resp.ok) {
-    const location = resp.headers.get('Location')
-    if (location != null) {
-      return ajax('GET')(location)
+    if (!isJson(resp.url)) {
+      throw new Error('Please sign in.');
     }
 
     const contentType = resp.headers.get('Content-Type')
-    if (contentType.endsWith('json')) {
+    if (isContentTypeJson(contentType)) {
       return resp.json()
     } else {
-      return resp.text()
+      throw new Error("Response is not in JSON");
     }
   } else {
     // Throws if `resp` is not error response
