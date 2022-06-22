@@ -14,12 +14,13 @@ import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
 
-const EventGrid = () => {
+const PendingResponseGrid = () => {
   const { context } = useContext(AppContext)
 
   const restAdaptorParams = {
-    url: context.user._links.ownedRosterPlans.href,
-    map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlan),
+    url: context.user._links.rosterPlanUserInfos.href
+      .replace('{?projection}', '?projection=rosterPlanUserInfoProjection'),
+    map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlanUserInfo),
     crudUrl: API.ROSTER_PLAN,
     crudMap: (req) => req
   }
@@ -33,22 +34,27 @@ const EventGrid = () => {
   })
 
   const editSettings = {
-    allowAdding: true
+    // TODO add delete?
   }
 
-  const linkIDTemplate = ({ id }) => (
-    id && <Link to={ROUTES.MEETING_EDIT(id)}>{id}</Link>
+  const linkIDTemplate = ({ rosterPlan: { id } }) => (
+    id && <Link to={ROUTES.MEETING_RANK(id)}>{id}</Link>
+  )
+
+  const linkEmailTemplate = ({ user: { id, email } }) => (
+    id === context.user.id ? 'Yourself' : email
   )
 
   return (
     <GridComponent dataSource={dataManager} editSettings={editSettings} toolbar={TOOLBAR}>
       <ColumnsDirective>
-        <ColumnDirective field='id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
-        <ColumnDirective field='title' headerText='Title' textAlign='Center' />
+        <ColumnDirective field='rosterPlan.id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
+        <ColumnDirective field='rosterPlan.title' headerText='Title' textAlign='Center' />
+        <ColumnDirective field='user.email' headerText='From' template={linkEmailTemplate} textAlign='Center' />
       </ColumnsDirective>
       <Inject services={[Edit, Toolbar]} />
     </GridComponent>
   )
 }
 
-export default EventGrid
+export default PendingResponseGrid
