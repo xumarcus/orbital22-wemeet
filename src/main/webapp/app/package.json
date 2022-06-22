@@ -13,6 +13,8 @@
     "@syncfusion/ej2-base": "^20.1",
     "@syncfusion/ej2-data": "^20.1",
     "@syncfusion/ej2-grids": "^20.1",
+    "@syncfusion/ej2-react-calendars": "^20.1.58",
+    "@syncfusion/ej2-react-dropdowns": "^20.1.61",
     "@syncfusion/ej2-react-grids": "^20.1",
     "@syncfusion/ej2-react-schedule": "^20.1",
     "@testing-library/jest-dom": "^5.16.4",
