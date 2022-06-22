@@ -22,7 +22,6 @@ const createRequest = (method, url, option, handleRequest, data) => {
 
 // TODO
 const join = (url, query) => {
-  console.log(query)
   return url
 }
 
