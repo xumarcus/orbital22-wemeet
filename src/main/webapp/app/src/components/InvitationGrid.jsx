@@ -12,9 +12,10 @@ import RestAdaptor from '../core/RestAdaptor'
 import { API, TOOLBAR } from '../core/const'
 import Typography from '@mui/material/Typography'
 
-const InvitationGrid = ({ rosterPlan }) => {
+const InvitationGrid = ({ rosterPlan, invitationGrid: { readonly } }) => {
   const restAdaptorParams = {
-    url: rosterPlan._links.rosterPlanUserInfos.href,
+    url: rosterPlan._links.rosterPlanUserInfos.href
+      .replace('{?projection}', '?projection=rosterPlanUserInfoProjection'),
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlanUserInfo),
     crudUrl: API.ROSTER_PLAN_USER_INFO,
     crudMap: (req) => ({ ...req, rosterPlan: rosterPlan._links.self.href })
@@ -42,7 +43,7 @@ const InvitationGrid = ({ rosterPlan }) => {
   return (
     <GridComponent
       dataSource={dataManager} editSettings={editSettings}
-      toolbar={TOOLBAR}
+      toolbar={!readonly ? TOOLBAR : null}
     >
       <ColumnsDirective>
         <ColumnDirective
@@ -55,7 +56,7 @@ const InvitationGrid = ({ rosterPlan }) => {
           editType='booleanEdit'
         />
       </ColumnsDirective>
-      <Inject services={[Edit, Toolbar]} />
+      {!readonly && <Inject services={[Edit, Toolbar]} />}
     </GridComponent>
   )
 }

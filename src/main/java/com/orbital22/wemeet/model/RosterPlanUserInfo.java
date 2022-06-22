@@ -1,7 +1,6 @@
 package com.orbital22.wemeet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,22 +31,17 @@ public class RosterPlanUserInfo {
 
   @ManyToOne
   @JoinColumn(name = "user_id")
-  @NonNull // Serialization
+  @NonNull // For deserialization
   private User user;
 
   @Column(name = "has_responded") // TODO
   private boolean locked;
 
-  // Serialization
+  // For deserialization
   @Transient
   @Nullable
   @Email
   private String email;
-
-  @JsonProperty
-  public String getEmail() {
-    return user.getEmail();
-  }
 
   @JsonIgnore
   public String getTransientEmail() {
