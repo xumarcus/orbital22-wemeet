@@ -25,8 +25,8 @@ import MeetingRank from './pages/MeetingRank'
 const App = () => {
   const [context, setContext] = useState(defaultAppContext)
 
-  useEffect( () => {
-    ajax('GET')(API.ME).then(user => setContext({...context, user}));
+  useEffect(() => {
+    ajax('GET')(API.ME).then(user => setContext({ ...context, user }))
   }, [])
 
   return (

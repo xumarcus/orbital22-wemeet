@@ -2,7 +2,7 @@
 // POST /logout does not take any parameters.
 const isJson = (uri) => !uri.endsWith('login') && !uri.endsWith('logout')
 
-const isContentTypeJson = (contentType) => /application\/([+\w]*)json/.exec(contentType) !== null;
+const isContentTypeJson = (contentType) => /application\/([+\w]*)json/.exec(contentType) !== null
 
 const ajax = (method, data) => async (uri) => {
   const { 'XSRF-TOKEN': csrfToken, ...rest } = cookies()
@@ -21,14 +21,14 @@ const ajax = (method, data) => async (uri) => {
 
   if (resp.ok) {
     if (!isJson(resp.url)) {
-      throw new Error('Please sign in.');
+      throw new Error('Please sign in.')
     }
 
     const contentType = resp.headers.get('Content-Type')
     if (isContentTypeJson(contentType)) {
       return resp.json()
     } else {
-      throw new Error("Response is not in JSON");
+      throw new Error('Response is not in JSON')
     }
   } else {
     // Throws if `resp` is not error response

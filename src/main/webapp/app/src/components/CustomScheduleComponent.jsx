@@ -18,7 +18,7 @@ const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
     url: rosterPlan?._links?.timeSlots?.href,
     map: (resp) => resp._embedded.timeSlot,
     crudUrl: API.TIME_SLOT,
-    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href }),
+    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
   }
 
   if (restAdaptorParams.url === null) {
@@ -26,7 +26,7 @@ const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
   }
 
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams),
+    adaptor: new RestAdaptor(restAdaptorParams)
   })
 
   const eventSettings = {
@@ -36,13 +36,15 @@ const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
     fields: {
       startTime: { name: 'startDateTime' },
       endTime: { name: 'endDateTime' },
-      subject: { name: 'capacity' }, // FIXME Stand in
-    },
+      subject: { name: 'capacity' } // FIXME Stand in
+    }
   }
 
   return (
-    <ScheduleComponent height="80vh" eventSettings={eventSettings}
-                       readonly={readonly}>
+    <ScheduleComponent
+      height='80vh' eventSettings={eventSettings}
+      readonly={readonly}
+    >
       <Inject
         services={readonly
           ? [Day, Week, Month, Agenda]

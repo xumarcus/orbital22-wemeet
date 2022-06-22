@@ -5,12 +5,12 @@ export const API = {
   ROSTER_PLAN_ID: (id) => `/api/rosterPlan/${id}`,
   ROSTER_PLAN_USER_INFO: '/api/rosterPlanUserInfo',
   TIME_SLOT: '/api/timeSlot',
-  ME: '/api/users/me',
+  ME: '/api/users/me'
 }
 export const ROUTES = {
   MEETING_EDIT: (id) => `/meeting/${id}/edit`,
-  MEETING_RANK: (id) => `/meeting/${id}/rank`,
+  MEETING_RANK: (id) => `/meeting/${id}/rank`
 }
 export const ERROR_MESSAGES = {
-  INVALID_URL: "Invalid URL",
+  INVALID_URL: 'Invalid URL'
 }

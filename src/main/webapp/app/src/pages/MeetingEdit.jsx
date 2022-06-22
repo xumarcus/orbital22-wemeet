@@ -24,18 +24,18 @@ const MeetingEdit = () => {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params]}>
-      <Inner meetingId={params.meetingId}/>
+      <Inner meetingId={params.meetingId} />
     </ErrorBoundary>
-  );
+  )
 }
 
 const Inner = ({ meetingId }) => {
   if (meetingId === undefined) {
-    throw new Error(ERROR_MESSAGES.INVALID_URL);
+    throw new Error(ERROR_MESSAGES.INVALID_URL)
   }
 
   const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
-  if (error) throw new Error(error);
+  if (error) throw new Error(error)
   if (!data) return <CircularProgress />
 
   return (
