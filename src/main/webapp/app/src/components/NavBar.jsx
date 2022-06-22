@@ -56,15 +56,19 @@ const NavBar = () => {
   const handleCloseUserMenu = async (newPage) => {
     setAnchorElUser(null)
     if (newPage === 'logout') {
-      await ajax('POST')('/logout')
-      setContext({ ...context, user: defaultAppContext.user })
+      try {
+        await ajax('POST')('/logout')
+      } catch (e) {
+        // do nothing
+      } finally {
+        setContext(defaultAppContext)
+      }
     } else {
       navigate(`/${newPage}`)
     }
   }
 
   const handleStartNowClick = () => {
-    console.log('Start Now')
     setModalVisible('signin')
   }
 
