@@ -10,22 +10,32 @@ import ajax from '../core/ajax'
 import InvitationGrid from '../components/InvitationGrid'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import { API, ERROR_MESSAGES } from '../core/const'
 
-const Meeting = () => {
+/* TODO fetch rosterPlan from BE (cached request) with swr
+    Then fetch time slots and infos... then everything
+    Use DM to connect component to CRUD API
+    Include Grid of users invited
+    [Optimization] can use projection if too many requests
+*/
+
+const MeetingEdit = () => {
   const params = useParams()
-  return <MeetingInner url={`/api/rosterPlan/${params.meetingId}`} />
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params]}>
+      <Inner meetingId={params.meetingId}/>
+    </ErrorBoundary>
+  );
 }
 
-const MeetingInner = ({ url }) => {
-  /* TODO fetch rosterPlan from BE (cached request) with swr
-      Then fetch time slots and infos... then everything
-      Use DM to connect component to CRUD API
-      Include Grid of users invited
-      [Optimization] can use projection if too many requests
-  */
+const Inner = ({ meetingId }) => {
+  if (meetingId === undefined) {
+    throw new Error(ERROR_MESSAGES.INVALID_URL);
+  }
 
-  const { data, error } = useSWR(url, ajax('GET'))
-  if (error) return <ErrorFallback />
+  const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
+  if (error) throw new Error(error);
   if (!data) return <CircularProgress />
 
   return (
@@ -42,11 +52,11 @@ const MeetingInner = ({ url }) => {
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
-          <InvitationGrid rosterPlan={data} />
+          <InvitationGrid rosterPlan={data} invitationGrid={{ readonly: false }} />
         </Grid>
       </Grid>
     </ErrorBoundary>
   )
 }
 
-export default Meeting
+export default MeetingEdit

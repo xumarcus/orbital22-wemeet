@@ -13,12 +13,12 @@ import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 import { API } from '../core/const'
 
-const CustomScheduleComponent = ({ rosterPlan }) => {
+const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
   const restAdaptorParams = {
     url: rosterPlan?._links?.timeSlots?.href,
     map: (resp) => resp._embedded.timeSlot,
     crudUrl: API.TIME_SLOT,
-    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
+    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href }),
   }
 
   if (restAdaptorParams.url === null) {
@@ -26,7 +26,7 @@ const CustomScheduleComponent = ({ rosterPlan }) => {
   }
 
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams)
+    adaptor: new RestAdaptor(restAdaptorParams),
   })
 
   const eventSettings = {
@@ -36,14 +36,17 @@ const CustomScheduleComponent = ({ rosterPlan }) => {
     fields: {
       startTime: { name: 'startDateTime' },
       endTime: { name: 'endDateTime' },
-      subject: { name: 'capacity' } // FIXME Stand in
-    }
+      subject: { name: 'capacity' }, // FIXME Stand in
+    },
   }
 
   return (
-    <ScheduleComponent height='80vh' eventSettings={eventSettings}>
+    <ScheduleComponent height="80vh" eventSettings={eventSettings}
+                       readonly={readonly}>
       <Inject
-        services={[Day, Week, Month, Agenda, Resize, DragAndDrop]}
+        services={readonly
+          ? [Day, Week, Month, Agenda]
+          : [Day, Week, Month, Agenda, Resize, DragAndDrop]}
       />
     </ScheduleComponent>
   )
