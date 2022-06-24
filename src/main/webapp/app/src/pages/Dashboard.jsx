@@ -1,101 +1,76 @@
-import Typography from "@mui/material/Typography";
-// import * as React from "react";
-import Header from "../components/NavBar";
-import Footer from "../components/Footer";
-// import CenterWrapper from "../components/CenterWrapper";
-//
-// import { UserContext } from "../UserContext";
-// import Grid from "@mui/material/Grid";
-// import Box from "@mui/material/Box";
-// import Container from "@mui/material/Container";
-// import {Tab, Tabs} from "@mui/material";
-// import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
+import PageTitle from '../components/PageTitle'
+import EventGrid from '../components/EventGrid'
+import { useContext } from 'react'
+import AppContext from '../core/AppContext'
+import ErrorFallback from '../components/ErrorFallback'
+import { ErrorBoundary } from 'react-error-boundary'
 
+const TabPanel = ({ children, value, index, ...other }) => (
+  <div
+    role='tabpanel'
+    hidden={value !== index}
+    id={`simple-tabpanel-${index}`}
+    aria-labelledby={`simple-tab-${index}`}
+    {...other}
+  >
+    {value === index && (
+      <Box sx={{ p: 3 }}>
+        <Typography>{children}</Typography>
+      </Box>
+    )}
+  </div>
+)
 
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+const a11yProps = (index) => (
+  {
+    id: `simple-tab-${index}`,
+    key: index,
+    'aria-controls': `simple-tabpanel-${index}`
+  }
+)
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+const TABS = [
+  'Events',
+  'Pending Response'
+]
 
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
+const Dashboard = () => {
+  const { context } = useContext(AppContext)
+  const [index, setIndex] = React.useState(0)
+
+  return (
+    <>
+      <PageTitle pageTitle='Dashboard' />
+      <Box sx={{
+        width: '100%',
+        alignContent: 'center',
+        justifyContent: 'center'
+      }}
+      >
+        <Tabs
+          value={index} onChange={(event, newIndex) => setIndex(newIndex)}
         >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
+          {TABS.map((label, index) => <Tab label={label} {...a11yProps(index)} />)}
+        </Tabs>
 
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
-export default function Dashboard() {
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
-    return (
-        <>
-        <Header />
-        <Footer />
-        <Typography variant="h3" component="div" textAlign="center" sx={{my:5}}>
-            Dashboard
-        </Typography>
-        <Box sx={{my:5}}>
-            <Typography variant="body" sx={{mx:5}}>
-                Photo
-            </Typography>
-            <Typography variant="body" sx={{mx:5}}>
-                Name
-            </Typography>
-            <Typography variant="body" sx={{mx:5}}>
-                Email
-            </Typography>
+        <Box sx={{ backgroundColor: '#efefef', height: '100vh' }}>
+          <TabPanel value={index} index={0}>
+            <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[context]}>
+              <EventGrid />
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel value={index} index={1}>
+            Pending Response
+          </TabPanel>
         </Box>
-        <Box sx={{ width: '100%', alignContent: "center", justifyContent:"center" }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', alignContent: "center", justifyContent:"center"}}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="My Events" {...a11yProps(0)} />
-                    <Tab label="Events Pending Response" {...a11yProps(1)} />
-                    <Tab label="(untitled)" {...a11yProps(2)} />
-                </Tabs>
-            </Box>
-            <Box sx={{backgroundColor:"#efefef", height: "100vh"}}>
-                <TabPanel value={value} index={0}>
-                    My Events
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    Events Pending Response
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    (untitled)
-                </TabPanel>
-            </Box>
-        </Box>
-        </>
-    );
+      </Box>
+    </>
+  )
 }
+
+export default Dashboard
