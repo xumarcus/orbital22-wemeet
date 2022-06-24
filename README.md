@@ -22,9 +22,14 @@ heroku run env -a orbital22-wemeet-dev
 
 ## IDE and Code Style
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
-- Plugins &rarr; `google-java-format` &rarr; Enable
-- Git &rarr; Before Commit &rarr; Reformat, Rearrange, Optimize, Analyze, Check TODO, Run `SpringBootInitTest`
-- OpenJDK 11
+  - Git &rarr; Before Commit &rarr; Reformat, Rearrange, Optimize, Analyze, Check TODO
+- Java:
+  - OpenJDK 11
+  - Plugins &rarr; `google-java-format` &rarr; Enable
+- Javascript:
+  - Do not format: `*.js*`
+  - `npm install` installs `standard` which is run before `npm start`
+  - https://stackoverflow.com/questions/70031839/cannot-resolve-symbol-routes
 - SQL naming is `snake_case`. While Spring magic automatically transforms entity names to snake case,
   indicate `@Table(name)` to avoid confusion and more importantly, help the IDE.
 
@@ -58,17 +63,20 @@ npm start
 
 ### Configuration
 Insert/replace these in `src/main/resources/application.properties`.
-```properties
+```
 # More messages
 logging.level.org.springframework={TRACE/DEBUG/INFO/ERROR}
+
 # Even more messages (optional)
-logging.level.com.zaxxer.hikari=
-{TRACE/DEBUG/INFO/ERROR}
+logging.level.com.zaxxer.hikari={TRACE/DEBUG/INFO/ERROR}
+
 # Disable CORS, CSRF and firewall
 spring.profiles.active=development
+
 # Expose cookie to client
 server.servlet.session.cookie.http-only=false
 server.servlet.session.cookie.secure=false
+
 # Actuator (optional)
 management.endpoints.web.exposure.include=*
 management.endpoint.shutdown.enabled=true

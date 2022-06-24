@@ -104,8 +104,8 @@ public class RosterPlanUpdateIntegrationTest {
 
   private void addTimeSlot() throws Exception {
     Map<String, Object> map = new HashMap<>();
-    map.put("startDateTime", "2019-06-09T18:00:00");
-    map.put("endDateTime", "2019-06-09T19:00:00");
+    map.put("startDateTime", "2019-06-09T18:00:00.000Z");
+    map.put("endDateTime", "2019-06-09T19:00:00.000Z");
     map.put("capacity", 2);
     map.put("rosterPlan", "/api/rosterPlan/1");
 
@@ -169,5 +169,34 @@ public class RosterPlanUpdateIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost/api/timeSlotUserInfo/1"));
+  }
+
+  @Test
+  public void givenValidEmail_whenOwnerAddUserInfo_thenCreateNewUnregisteredUser()
+      throws Exception {
+    this.mockMvc
+        .perform(get("/api/users/3").with(user("suck@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .andExpect(status().isNotFound());
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("locked", false);
+    map.put("email", "suck@wemeet.com");
+
+    Map<String, Object> expected = new HashMap<>(map);
+
+    map.put("rosterPlan", "/api/rosterPlan/1");
+    this.mockMvc
+        .perform(
+            post("/api/rosterPlanUserInfo")
+                .with(user(talk.getEmail()))
+                .accept(MediaTypes.HAL_JSON)
+                .content(objectMapper.writeValueAsString(map))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(content().json(objectMapper.writeValueAsString(expected), false));
+
+    this.mockMvc
+        .perform(get("/api/users/3").with(user("suck@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .andExpect(status().isOk());
   }
 }

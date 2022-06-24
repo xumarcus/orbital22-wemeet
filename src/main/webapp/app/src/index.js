@@ -1,39 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import reportWebVitals from './reportWebVitals'
+import { registerLicense } from '@syncfusion/ej2-base'
 
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import App from './App'
 
-import About from './pages/About';
-import Dashboard from './pages/Dashboard';
-import Features from './pages/Features';
-import Guide from './pages/Guide';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import Wizard from './pages/Wizard';
+import { SYNCFUSION_LICENSE_KEY } from './core/const'
 
-import App from './App';
+registerLicense(SYNCFUSION_LICENSE_KEY)
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-    <React.StrictMode>
-      <BrowserRouter>
-        <Routes>
-          <Route path={'/'} element={<App/>}>
-            <Route path={''} element={<Home/>}/>
-            <Route path={'about'} element={<About/>}/>
-            <Route path={'dashboard'} element={<Dashboard/>}/>
-            <Route path={'features'} element={<Features/>}/>
-            <Route path={'guide'} element={<Guide/>}/>
-            <Route path={'profile'} element={<Profile/>}/>
-            <Route path={'wizard'} element={<Wizard/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </React.StrictMode>,
-);
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()

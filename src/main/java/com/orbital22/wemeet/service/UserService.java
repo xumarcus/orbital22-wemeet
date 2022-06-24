@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
+  private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
   @NotNull
@@ -29,5 +31,26 @@ public class UserService {
     SecurityContextHolder.getContext()
         .setAuthentication(
             new UsernamePasswordAuthenticationToken(user.getEmail(), null, user.getAuthorities()));
+  }
+
+  public void handleBeforeSave(User user) {
+    if (user.getId() != 0) {
+      assert (user.isRegistered());
+    } else {
+      Optional<User> opt = userRepository.findByEmail(user.getEmail());
+      if (user.isRegistered()) {
+        opt.ifPresent(
+                currentUser -> {
+                  assert (!currentUser.isRegistered());
+                  user.setId(currentUser.getId());
+                });
+      } else {
+        assert (opt.isEmpty());
+      }
+    }
+
+    if (user.isRegistered()) {
+      user.setPassword(passwordEncoder.encode(user.getRawPassword()));
+    }
   }
 }

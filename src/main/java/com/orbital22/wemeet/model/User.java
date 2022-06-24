@@ -1,6 +1,7 @@
 package com.orbital22.wemeet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,8 @@ import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 
 @Builder
 @Getter
@@ -45,17 +48,19 @@ public class User {
   @Column
   private String password = StringUtils.EMPTY;
 
-  @Transient
-  @Nullable
-  @Size(min = 8)
-  private String rawPassword;
-
   @RestResource(exported = false) // internal
   @Builder.Default
   @Column
   private boolean enabled = true;
 
   @Builder.Default @Column private boolean registered = true;
+
+  // Serialization
+  @JsonProperty(access = WRITE_ONLY)
+  @Transient
+  @Nullable
+  @Size(min = 8)
+  private String rawPassword;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
