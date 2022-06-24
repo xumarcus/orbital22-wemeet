@@ -1,23 +1,18 @@
-import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { useContext } from 'react'
 import CenterWrapper from '../components/CenterWrapper'
 import AppContext from '../core/AppContext'
 import FormControl from '@mui/material/FormControl'
-import { FormLabel, Input } from '@mui/material'
+import { FormLabel } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
-// TODO
 const Profile = () => {
-  const { context, setContext } = useContext(AppContext)
+  const { context } = useContext(AppContext)
 
   return (
     <CenterWrapper>
-      <Typography variant='h3' component='div' textAlign='center'>
-        {JSON.stringify(context.user)}
-      </Typography>
       <Grid>
         <FormControl id='firstName'>
           <FormLabel>First Name</FormLabel>

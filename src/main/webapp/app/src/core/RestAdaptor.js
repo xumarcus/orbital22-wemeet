@@ -1,5 +1,5 @@
 import { CustomDataAdaptor } from '@syncfusion/ej2-data'
-import { cookies } from './ajax'
+import { cookies, isContentTypeJson } from './ajax'
 import { StatusCodes } from 'http-status-codes'
 
 const createRequest = (method, url, option, handleRequest, data) => {
@@ -22,7 +22,6 @@ const createRequest = (method, url, option, handleRequest, data) => {
 
 // TODO
 const join = (url, query) => {
-  console.log(query)
   return url
 }
 
@@ -30,7 +29,7 @@ const getData = (url, map, option) => {
   const query = JSON.parse(option.data)
 
   createRequest('GET', join(url, query), option, (xhr, request) => {
-    if (xhr.status === StatusCodes.OK) {
+    if (xhr.status === StatusCodes.OK && isContentTypeJson(xhr.getResponseHeader('Content-Type'))) {
       const resp = JSON.parse(xhr.responseText)
       option.onSuccess(map(resp), request)
     } else {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
@@ -15,13 +15,19 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Demo from './components/Demo'
 import Guide from './pages/Guide'
-import Meeting from './pages/Meeting'
+import MeetingEdit from './pages/MeetingEdit'
 import Profile from './pages/Profile'
 import Wizard from './pages/Wizard'
+import { API } from './core/const'
+import ajax from './core/ajax'
+import MeetingRank from './pages/MeetingRank'
 
 const App = () => {
-  // FIXME values are cleared on refresh
   const [context, setContext] = useState(defaultAppContext)
+
+  useEffect(() => {
+    ajax('GET')(API.ME).then(user => setContext({ ...context, user }))
+  }, [])
 
   return (
     <>
@@ -44,7 +50,10 @@ const App = () => {
                 {/* TODO WIP */}
                 <Route path='guide' element={<Guide />} />
 
-                <Route path='meeting/:meetingId' element={<Meeting />} />
+                <Route path='meeting'>
+                  <Route path=':meetingId/edit' element={<MeetingEdit />} />
+                  <Route path=':meetingId/rank' element={<MeetingRank />} />
+                </Route>
                 <Route path='profile' element={<Profile />} />
 
                 {/* TODO is this needed? */}

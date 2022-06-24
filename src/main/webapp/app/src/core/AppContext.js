@@ -2,6 +2,7 @@ import * as React from 'react'
 
 export const defaultAppContext = {
   user: {
+    id: null,
     authorities: [],
     email: null,
     enabled: null,

@@ -33,8 +33,9 @@ public class UserSaveAspect {
   private void handleAfterSave(User user) {
     if (user.isRegistered()) {
       userService.setSessionUser(user);
+
+      // READ permission is unused
+      aclRegisterService.register(user, user.getEmail(), READ, WRITE, DELETE);
     }
-    // READ permission is unused
-    aclRegisterService.register(user, user.getEmail(), READ, WRITE, DELETE);
   }
 }

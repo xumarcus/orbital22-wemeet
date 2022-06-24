@@ -2,6 +2,7 @@ package com.orbital22.wemeet.service;
 
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
+import com.orbital22.wemeet.util.ProjectUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,17 +36,23 @@ public class UserService {
 
   public void handleBeforeSave(User user) {
     if (user.getId() != 0) {
-      assert (user.isRegistered());
+      if (!user.isRegistered()) {
+        throw ProjectUtils.from(user, User.Fields.registered, "CANNOT_UNREGISTER_USER");
+      }
     } else {
       Optional<User> opt = userRepository.findByEmail(user.getEmail());
       if (user.isRegistered()) {
         opt.ifPresent(
-                currentUser -> {
-                  assert (!currentUser.isRegistered());
-                  user.setId(currentUser.getId());
-                });
+            currentUser -> {
+              if (currentUser.isRegistered()) {
+                throw ProjectUtils.from(user, User.Fields.email, "USER_IS_ALREADY_REGISTERED");
+              }
+              user.setId(currentUser.getId());
+            });
       } else {
-        assert (opt.isEmpty());
+        if (opt.isPresent()) {
+          throw ProjectUtils.from(user, User.Fields.email, "CANNOT_CREATE_USER_WITH_SAME_EMAIL");
+        }
       }
     }
 

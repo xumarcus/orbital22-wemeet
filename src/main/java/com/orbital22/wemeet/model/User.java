@@ -55,7 +55,7 @@ public class User {
 
   @Builder.Default @Column private boolean registered = true;
 
-  // Serialization
+  // For deserialization
   @JsonProperty(access = WRITE_ONLY)
   @Transient
   @Nullable

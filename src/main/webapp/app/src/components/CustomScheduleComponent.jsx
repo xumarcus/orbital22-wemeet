@@ -6,7 +6,7 @@ import {
   Month,
   Resize,
   ScheduleComponent,
-  Week
+  Week,
 } from '@syncfusion/ej2-react-schedule'
 import * as React from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
@@ -15,7 +15,7 @@ import { API } from '../core/const'
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars'
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
 
-const CustomScheduleComponent = ({ rosterPlan }) => {
+const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
   const restAdaptorParams = {
     url: rosterPlan?._links?.timeSlots?.href,
     map: (resp) => resp._embedded.timeSlot,
@@ -96,13 +96,16 @@ const CustomScheduleComponent = ({ rosterPlan }) => {
 
   return (
     <ScheduleComponent
-      height='80vh'
-      eventSettings={eventSettings}
-      showQuickInfo={false}
       editorTemplate={editorTemplate}
+      eventSettings={eventSettings}
+      height='80vh'
+      readonly={readonly}
+      showQuickInfo={false}
     >
       <Inject
-        services={[Day, Week, Month, Agenda, Resize, DragAndDrop]}
+        services={readonly
+          ? [Day, Week, Month, Agenda]
+          : [Day, Week, Month, Agenda, Resize, DragAndDrop]}
       />
     </ScheduleComponent>
   )

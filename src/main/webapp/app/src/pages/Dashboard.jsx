@@ -1,14 +1,15 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
+import { useContext } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import PageTitle from '../components/PageTitle'
 import EventGrid from '../components/EventGrid'
-import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import ErrorFallback from '../components/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
+import PendingResponseGrid from '../components/PendingResponseGrid'
 
 const TabPanel = ({ children, value, index, ...other }) => (
   <div
@@ -65,7 +66,9 @@ const Dashboard = () => {
             </ErrorBoundary>
           </TabPanel>
           <TabPanel value={index} index={1}>
-            Pending Response
+            <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[context]}>
+              <PendingResponseGrid />
+            </ErrorBoundary>
           </TabPanel>
         </Box>
       </Box>
