@@ -1,8 +1,8 @@
 // Spring POST /login accepts formData by default.
 // POST /logout does not take any parameters.
-const isJson = (uri) => !uri.endsWith('login') && !uri.endsWith('logout')
+export const isJson = (uri) => !uri.endsWith('login') && !uri.endsWith('logout')
 
-const isContentTypeJson = (contentType) => /application\/([+\w]*)json/.exec(contentType) !== null
+export const isContentTypeJson = (contentType) => /application\/([+\w]*)json/.exec(contentType) !== null
 
 const ajax = (method, data) => async (uri) => {
   const { 'XSRF-TOKEN': csrfToken, ...rest } = cookies()

@@ -12,5 +12,6 @@ export const ROUTES = {
   MEETING_RANK: (id) => `/meeting/${id}/rank`
 }
 export const ERROR_MESSAGES = {
-  INVALID_URL: 'Invalid URL'
+  INVALID_URL: 'Invalid URL',
+  PLEASE_SIGN_IN: 'Please sign in'
 }

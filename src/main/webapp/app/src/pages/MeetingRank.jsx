@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import PageTitle from '../components/PageTitle'
 import { useParams } from 'react-router-dom'
 import ErrorFallback from '../components/ErrorFallback'
@@ -11,6 +12,7 @@ import InvitationGrid from '../components/InvitationGrid'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { API, ERROR_MESSAGES } from '../core/const'
+import AppContext from '../core/AppContext'
 
 /* TODO fetch rosterPlan from BE (cached request) with swr
     Then fetch time slots and infos... then everything
@@ -19,11 +21,12 @@ import { API, ERROR_MESSAGES } from '../core/const'
     [Optimization] can use projection if too many requests
 */
 
-const MeetingEdit = () => {
+const MeetingRank = () => {
+  const { context } = useContext(AppContext)
   const params = useParams()
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params]}>
+    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params, context]}>
       <Inner meetingId={params.meetingId} />
     </ErrorBoundary>
   )
@@ -59,4 +62,4 @@ const Inner = ({ meetingId }) => {
   )
 }
 
-export default MeetingEdit
+export default MeetingRank
