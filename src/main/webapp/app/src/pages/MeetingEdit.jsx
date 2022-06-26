@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { useContext, useState } from 'react'
-import PageTitle from '../components/PageTitle'
 import { useParams } from 'react-router-dom'
 import ErrorFallback from '../components/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
-import CustomScheduleComponent from '../components/CustomScheduleComponent'
+import ScheduleEdit from '../components/ScheduleEdit'
 import useSWR from 'swr'
 import {
   CircularProgress,
   Divider,
-  FormHelperText,
-  Select, TextField, ToggleButton, ToggleButtonGroup
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material'
 import ajax from '../core/ajax'
 import InvitationGrid from '../components/InvitationGrid'
@@ -18,8 +18,6 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { API, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
-import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
 import EventSettingsTab from '../components/QuickMenuEventSettings'
 import BulkAddTab from '../components/QuickMenuBulkAdd'
 import BulkEditTab from '../components/QuickMenuBulkEdit'
@@ -40,7 +38,10 @@ const MeetingEdit = () => {
   const params = useParams()
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params, context]}>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      resetKeys={[params, context]}
+    >
       <Inner meetingId={params.meetingId} />
     </ErrorBoundary>
   )
@@ -133,7 +134,7 @@ const Inner = ({ meetingId }) => {
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <CustomScheduleComponent rosterPlan={data} />
+            <ScheduleEdit rosterPlan={data} />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
@@ -186,8 +187,13 @@ const Inner = ({ meetingId }) => {
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
-          <InvitationGrid rosterPlan={data} invitationGrid={{ readonly: false }} />
-          <Button variant='contained' color='success' onClick={handleGenerate}>Generate Roster</Button>
+          <InvitationGrid
+            rosterPlan={data}
+            invitationGrid={{ readonly: false }}
+          />
+          <Button variant='contained' color='success' onClick={handleGenerate}>Generate
+            Roster
+          </Button>
         </Grid>
       </Grid>
     </ErrorBoundary>
