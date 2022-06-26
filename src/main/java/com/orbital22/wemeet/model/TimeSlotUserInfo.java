@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 @Builder
@@ -20,7 +21,7 @@ public class TimeSlotUserInfo {
   @Column
   private int id;
 
-  @Builder.Default @Column private int rank = 0;
+  @Builder.Default @Column @PositiveOrZero private int rank = 0;
 
   @Builder.Default @Column private boolean picked = false;
 

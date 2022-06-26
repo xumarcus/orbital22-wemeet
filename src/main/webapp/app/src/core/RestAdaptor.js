@@ -1,6 +1,7 @@
 import { CustomDataAdaptor } from '@syncfusion/ej2-data'
 import { cookies, isContentTypeJson } from './ajax'
 import { StatusCodes } from 'http-status-codes'
+import _ from 'lodash'
 
 const createRequest = (method, url, option, handleRequest, data) => {
   const xhr = new XMLHttpRequest()
@@ -29,7 +30,8 @@ const getData = (url, map, option) => {
   const query = JSON.parse(option.data)
 
   createRequest('GET', join(url, query), option, (xhr, request) => {
-    if (xhr.status === StatusCodes.OK && isContentTypeJson(xhr.getResponseHeader('Content-Type'))) {
+    if (xhr.status === StatusCodes.OK &&
+      isContentTypeJson(xhr.getResponseHeader('Content-Type'))) {
       const resp = JSON.parse(xhr.responseText)
       option.onSuccess(map(resp), request)
     } else {
@@ -38,7 +40,7 @@ const getData = (url, map, option) => {
   })
 }
 
-const addRecordInternal = (crudUrl, option, data) => {
+const add = (crudUrl, option, data) => {
   createRequest('POST', crudUrl, option, (xhr, request) => {
     if (xhr.status === StatusCodes.CREATED) {
       option.onSuccess(JSON.parse(xhr.responseText), request)
@@ -50,15 +52,20 @@ const addRecordInternal = (crudUrl, option, data) => {
 
 const addRecord = (crudUrl, crudMap, option) => {
   const { value: data } = JSON.parse(option.data)
-  addRecordInternal(crudUrl, option, crudMap(data))
+  add(crudUrl, option, crudMap(data))
 }
 
 const batchUpdate = (crudUrl, crudMap, option) => {
   const { changed, added, deleted } = JSON.parse(option.data)
-  if (added !== null) {
+  if (!_.isEmpty(changed)) {
+    const [data] = changed
+    // TODO refactor to use PATCH request instead of setId in BE
+    add(crudUrl, option, crudMap(data))
+  }
+  if (!_.isEmpty(added)) {
     // Tutorial says `added` is singleton
     const [data] = added
-    addRecordInternal(crudUrl, option, crudMap(data))
+    add(crudUrl, option, crudMap(data))
   }
 }
 
@@ -67,14 +74,14 @@ class RestAdaptor extends CustomDataAdaptor {
     super({
       getData: (option) => getData(url, map, option),
       addRecord: (option) => addRecord(crudUrl, crudMap, option),
-      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option)
+      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option),
     })
   }
 
   static extendCounts (result) {
     return {
       result,
-      count: result.length
+      count: result.length,
     }
   }
 }

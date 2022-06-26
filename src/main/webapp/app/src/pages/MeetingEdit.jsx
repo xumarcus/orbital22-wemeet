@@ -1,16 +1,17 @@
 import * as React from 'react'
 import { useContext, useState } from 'react'
-import PageTitle from '../components/PageTitle'
 import { useParams } from 'react-router-dom'
 import ErrorFallback from '../components/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
-import CustomScheduleComponent from '../components/CustomScheduleComponent'
+import ScheduleEdit from '../components/ScheduleEdit'
 import useSWR from 'swr'
 import {
     CircularProgress,
     Divider,
     FormHelperText,
-    Select, TextField, ToggleButtonGroup
+    Select,
+    TextField,
+    ToggleButtonGroup,
 } from '@mui/material'
 import ajax from '../core/ajax'
 import InvitationGrid from '../components/InvitationGrid'
@@ -24,8 +25,8 @@ import QuickMenuEventSettings from '../components/QuickMenuEventSettings'
 import QuickMenuBulkAdd from '../components/QuickMenuBulkAdd'
 import QuickMenuBulkEdit from '../components/QuickMenuBulkEdit'
 import Box from '@mui/material/Box'
-import Button from "@mui/material/Button";
-import {ToggleButton} from "@mui/lab";
+import Button from '@mui/material/Button'
+import { ToggleButton } from '@mui/lab'
 
 /* TODO fetch rosterPlan from BE (cached request) with swr
     Then fetch time slots and infos... then everything
@@ -52,7 +53,7 @@ const Inner = ({ meetingId }) => {
         ['edit', 'Bulk Edit Events']
     ]
     const [currMenu, setCurrMenu] = useState(null)
-    const [meetingTitle, setMeetingTitle] = useState(data?.title)
+    const [meetingTitle, setMeetingTitle] = useState('test')
     const [mode, setMode] = useState('set')
 
     if (meetingId === undefined) {
@@ -68,7 +69,8 @@ const Inner = ({ meetingId }) => {
     }
 
     const handleMeetingTitleChange = (e) => {
-        setMode(e.target.value)
+        setMeetingTitle(e.target.value)
+
     }
 
     const handleModeChange = (e) => {
@@ -134,7 +136,7 @@ const Inner = ({ meetingId }) => {
                         <Typography variant='h5' sx={{ my: 2 }}>
                             Schedule
                         </Typography>
-                        <CustomScheduleComponent rosterPlan={data} />
+                        <ScheduleEdit rosterPlan={data} />
                     </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>

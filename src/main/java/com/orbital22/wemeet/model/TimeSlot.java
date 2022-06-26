@@ -1,6 +1,5 @@
 package com.orbital22.wemeet.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.orbital22.wemeet.annotation.DateTimeRangeConstraint;
 import com.orbital22.wemeet.util.HasDateTimeRange;
 import lombok.*;
@@ -34,18 +33,10 @@ public class TimeSlot implements HasDateTimeRange {
   @JoinColumn(name = "roster_plan_id")
   private RosterPlan rosterPlan;
 
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-      timezone = "UTC")
   @NotNull
   @Column
   private LocalDateTime startDateTime;
 
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-      timezone = "UTC")
   @NotNull
   @Column
   private LocalDateTime endDateTime;
