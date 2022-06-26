@@ -19,6 +19,7 @@ import ajax from '../core/ajax'
 import RetryAlert from './RetryAlert'
 
 import AppContext from '../core/AppContext'
+import { useNavigate } from 'react-router-dom'
 
 const style = {
   position: 'absolute',
@@ -33,6 +34,7 @@ const style = {
 }
 
 const SignUpModal = ({ visible, setVisible }) => {
+  const navigate = useNavigate()
   const { context, setContext } = useContext(AppContext)
 
   const [retryAlert, setRetryAlert] = useState(false)
@@ -52,6 +54,7 @@ const SignUpModal = ({ visible, setVisible }) => {
       const user = await ajax('POST', request)('/api/users')
       setContext({ ...context, user })
       handleClose()
+      navigate('/dashboard')
     } catch (e) {
       console.log(e.cause) // e.g. {errors: [{defaultMessage}], ...}
       setRetryAlert(true)

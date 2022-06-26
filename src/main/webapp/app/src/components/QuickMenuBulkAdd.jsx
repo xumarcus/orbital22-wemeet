@@ -10,6 +10,8 @@ import Button from '@mui/material/Button'
 
 const QuickMenuBulkAdd = () => {
   const [frequency, setFrequency] = React.useState('daily')
+  const [startDate, setStartDate] = React.useState(new Date())
+  const [endDate, setEndDate] = React.useState(new Date())
 
   const handleFrequencyChange = (e) => {
     setFrequency(e.target.value)
@@ -23,13 +25,21 @@ const QuickMenuBulkAdd = () => {
     setFrequency('daily')
   }
 
+  const handleStartDateChange = (e) => {
+    setStartDate(e.value)
+  }
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.value)
+  }
+
   return (
     <>
       <Typography variant='h6'>
         Bulk Add Available Slots
       </Typography>
-      <DatePickerComponent id='startDate' placeholder='Enter Start Date' />
-      <DatePickerComponent id='endDate' placeholder='Enter End Date' />
+      <DatePickerComponent value={startDate} onChange={handleStartDateChange} id='startDate' placeholder='Enter Start Date' />
+      <DatePickerComponent value={endDate} onChange={handleEndDateChange} id='endDate' placeholder='Enter End Date' />
       <FormControl fullWidth>
         <InputLabel id='frequency-label'>Frequency</InputLabel>
         <Select

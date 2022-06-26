@@ -1,9 +1,10 @@
 import FormControl from '@mui/material/FormControl'
-import { FormLabel, Select } from '@mui/material'
+import { FormLabel, Select, Switch } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import * as React from 'react'
 import { useState } from 'react'
+import FormControlLabel from '@mui/material/FormControlLabel'
 
 const QuickMenuEventSettings = () => {
   const [eventDuration, setEventDuration] = useState('60')
@@ -13,6 +14,12 @@ const QuickMenuEventSettings = () => {
   }
   return (
     <>
+      <FormControlLabel
+        value='All Slots Must be Filled'
+        control={<Switch color='primary' />}
+        label='Start'
+        labelPlacement='start'
+      />
       <FormControl fullWidth>
         <FormLabel>Event Duration</FormLabel>
         {/* <InputLabel id="demo-simple-select-label">Event Duration</InputLabel> */}
