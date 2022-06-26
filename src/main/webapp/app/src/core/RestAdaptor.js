@@ -74,14 +74,14 @@ class RestAdaptor extends CustomDataAdaptor {
     super({
       getData: (option) => getData(url, map, option),
       addRecord: (option) => addRecord(crudUrl, crudMap, option),
-      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option),
+      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option)
     })
   }
 
   static extendCounts (result) {
     return {
       result,
-      count: result.length,
+      count: result.length
     }
   }
 }

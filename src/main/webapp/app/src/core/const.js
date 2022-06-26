@@ -8,7 +8,7 @@ export const API = {
   ROSTER_PLAN_USER_INFO: '/api/rosterPlanUserInfo',
   TIME_SLOT: '/api/timeSlot',
   TIME_SLOT_ID: (id) => `/api/timeSlot/${id}`,
-  TIME_SLOT_USER_INFO: '/api/timeSlotUserInfo',
+  TIME_SLOT_USER_INFO: '/api/timeSlotUserInfo'
 }
 
 export const ROUTES = {

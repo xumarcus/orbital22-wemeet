@@ -35,6 +35,7 @@ const ScheduleRankEditorTemplate = (props) => {
           format='dd/MM/yy hh:mm a'
           id={name}
           data-name={name}
+          {...props}
         />
       </td>
     </tr>

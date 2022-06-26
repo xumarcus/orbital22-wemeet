@@ -19,9 +19,11 @@ const MeetingRank = () => {
   const params = useParams()
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}
-                   resetKeys={[params, context]}>
-      <Inner meetingId={params.meetingId}/>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      resetKeys={[params, context]}
+    >
+      <Inner meetingId={params.meetingId} />
     </ErrorBoundary>
   )
 }
@@ -33,24 +35,26 @@ const Inner = ({ meetingId }) => {
 
   const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
   if (error) throw new Error(error)
-  if (!data) return <CircularProgress/>
+  if (!data) return <CircularProgress />
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
-      <PageTitle pageTitle={data?.title}/>
+      <PageTitle pageTitle={data?.title} />
       <Grid container spacing={5}>
         <Grid item xs={12} lg={8}>
-          <Typography variant="h5" sx={{ my: 2 }}>
+          <Typography variant='h5' sx={{ my: 2 }}>
             Schedule
           </Typography>
-          <ScheduleRank rosterPlan={data}/>
+          <ScheduleRank rosterPlan={data} />
         </Grid>
         <Grid item xs={12} lg={4}>
-          <Typography variant="h5" sx={{ my: 2 }}>
+          <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
-          <InvitationGrid rosterPlan={data}
-                          invitationGrid={{ readonly: true }}/>
+          <InvitationGrid
+            rosterPlan={data}
+            invitationGrid={{ readonly: true }}
+          />
         </Grid>
       </Grid>
     </ErrorBoundary>

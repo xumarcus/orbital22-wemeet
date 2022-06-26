@@ -21,8 +21,8 @@ const ScheduleRank = ({ rosterPlan }) => {
     map: (resp) => resp._embedded.timeSlot,
     crudUrl: API.TIME_SLOT_USER_INFO,
     crudMap: (req) => {
-      if (_.isEmpty(req)) return null;
-      const { id: timeSlotId, rank } = req;
+      if (_.isEmpty(req)) return null
+      const { id: timeSlotId, rank } = req
       return {
         timeSlot: API.TIME_SLOT_ID(timeSlotId),
         rank
@@ -35,7 +35,7 @@ const ScheduleRank = ({ rosterPlan }) => {
   }
 
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams),
+    adaptor: new RestAdaptor(restAdaptorParams)
   })
 
   const eventSettings = {
@@ -44,15 +44,15 @@ const ScheduleRank = ({ rosterPlan }) => {
     fields: {
       startTime: { name: 'startDateTime' },
       endTime: { name: 'endDateTime' },
-      subject: { name: 'capacity' }, // FIXME Stand in
-    },
+      subject: { name: 'capacity' } // FIXME Stand in
+    }
   }
 
   return (
     <ScheduleComponent
       editorTemplate={ScheduleRankEditorTemplate}
       eventSettings={eventSettings}
-      height="80vh"
+      height='80vh'
     >
       <Inject
         services={[Day, Week, Month, Agenda]}
