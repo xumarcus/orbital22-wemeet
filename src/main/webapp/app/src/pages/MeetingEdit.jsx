@@ -7,10 +7,10 @@ import { ErrorBoundary } from 'react-error-boundary'
 import CustomScheduleComponent from '../components/CustomScheduleComponent'
 import useSWR from 'swr'
 import {
-    CircularProgress,
-    Divider,
-    FormHelperText,
-    Select, TextField, ToggleButtonGroup
+  CircularProgress,
+  Divider,
+  FormHelperText,
+  Select, TextField, ToggleButton, ToggleButtonGroup
 } from '@mui/material'
 import ajax from '../core/ajax'
 import InvitationGrid from '../components/InvitationGrid'
@@ -20,12 +20,13 @@ import { API, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
-import QuickMenuEventSettings from '../components/QuickMenuEventSettings'
-import QuickMenuBulkAdd from '../components/QuickMenuBulkAdd'
-import QuickMenuBulkEdit from '../components/QuickMenuBulkEdit'
+import EventSettingsTab from '../components/QuickMenuEventSettings'
+import BulkAddTab from '../components/QuickMenuBulkAdd'
+import BulkEditTab from '../components/QuickMenuBulkEdit'
 import Box from '@mui/material/Box'
-import Button from "@mui/material/Button";
-import {ToggleButton} from "@mui/lab";
+import Button from '@mui/material/Button'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import Tab from '@mui/material/Tab'
 
 /* TODO fetch rosterPlan from BE (cached request) with swr
     Then fetch time slots and infos... then everything
@@ -35,118 +36,162 @@ import {ToggleButton} from "@mui/lab";
 */
 
 const MeetingEdit = () => {
-    const { context } = useContext(AppContext)
-    const params = useParams()
+  const { context } = useContext(AppContext)
+  const params = useParams()
 
-    return (
-        <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params, context]}>
-            <Inner meetingId={params.meetingId} />
-        </ErrorBoundary>
-    )
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[params, context]}>
+      <Inner meetingId={params.meetingId} />
+    </ErrorBoundary>
+  )
 }
 
 const Inner = ({ meetingId }) => {
-    const menuPages = [
-        ['configurations', 'Meeting Configurations'],
-        ['add', 'Bulk Add Events'],
-        ['edit', 'Bulk Edit Events']
-    ]
-    const [currMenu, setCurrMenu] = useState(null)
-    const [meetingTitle, setMeetingTitle] = useState(data?.title)
-    const [mode, setMode] = useState('set')
+  const menuPages = [
+    ['configurations', 'Meeting Configurations'],
+    ['add', 'Bulk Add Events'],
+    ['edit', 'Bulk Edit Events']
+  ]
+  const [currMenu, setCurrMenu] = useState('configurations')
+  const [meetingTitle, setMeetingTitle] = useState(data?.title)
+  const [isTitleUpdated, setIsTitleUpdated] = useState(true)
+  const [mode, setMode] = useState('set')
+  const [currTab, setCurrTab] = useState('1')
 
-    if (meetingId === undefined) {
-        throw new Error(ERROR_MESSAGES.INVALID_URL)
-    }
+  if (meetingId === undefined) {
+    throw new Error(ERROR_MESSAGES.INVALID_URL)
+  }
 
-    const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
-    if (error) throw new Error(error)
-    if (!data) return <CircularProgress />
+  const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
+  if (error) throw new Error(error)
+  if (!data) return <CircularProgress />
 
-    const handleMenuChange = e => {
-        setCurrMenu(e.target.value)
-    }
+  const handleMenuChange = e => {
+    setCurrMenu(e.target.value)
+  }
 
-    const handleMeetingTitleChange = (e) => {
-        setMode(e.target.value)
-    }
+  const handleMeetingTitleChange = (e) => {
+    setMeetingTitle(e.target.value)
+    setIsTitleUpdated(false)
+  }
 
-    const handleModeChange = (e) => {
-        // TODO: - handle changing of meeting mode
-    }
+  const handleSaveMeetingTitle = () => {
+    // TODO: - handle saving of meeting title
+    setIsTitleUpdated(true)
+  }
 
-    const handleGenerate = (e) => {
-        // TODO: - handle generating of roster
-    }
+  const handleModeChange = (e) => {
+    setMode(e.target.value)
+    // TODO: - handle changing of meeting mode
+  }
 
-    return (
-        <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
-            {/*<PageTitle pageTitle={data?.title} />*/}
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}
-            >
-                <Typography variant='h4' sx={{ mx: 2 }}>
-                    Meeting Title:
-                </Typography>
-                <TextField
-                    id='outlined-basic'
-                    defaultValue={meetingTitle}
-                    variant='outlined'
-                    onChange={handleMeetingTitleChange}
-                />
-                <ToggleButtonGroup
-                    color='primary'
-                    value={mode}
-                    exclusive
-                    onChange={handleModeChange}
-                >
-                    <ToggleButton value='set'>Set Available Slots</ToggleButton>
-                    <ToggleButton value='review'>Review Time Slots</ToggleButton>
-                </ToggleButtonGroup>
+  const handleGenerate = (e) => {
+    // TODO: - handle generating of roster
+  }
+
+  const handleTabChange = (event, newValue) => {
+    setCurrTab(newValue)
+  }
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
+      {/* <PageTitle pageTitle={data?.title} /> */}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+      >
+        <Typography variant='h4' sx={{ mx: 2 }}>
+          Meeting Title:
+        </Typography>
+        <TextField
+          id='outlined-basic'
+          value={meetingTitle}
+          variant='outlined'
+          onChange={handleMeetingTitleChange}
+        />
+        {!isTitleUpdated &&
+          <Button variant='contained' onClick={handleSaveMeetingTitle}>
+            Update
+          </Button>}
+        <ToggleButtonGroup
+          color='primary'
+          value={mode}
+          exclusive
+          onChange={handleModeChange}
+          sx={{ ml: 3 }}
+        >
+          <ToggleButton value='set'>Set Available Slots</ToggleButton>
+          <ToggleButton value='review'>Review Time Slots</ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+      <Grid container spacing={5}>
+        <Grid item xs={12} lg={8}>
+          <Box>
+            <Typography variant='h5' sx={{ my: 2 }}>
+              Schedule
+            </Typography>
+            <CustomScheduleComponent rosterPlan={data} />
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Box>
+            {/* <Box sx={{ */}
+            {/*  display: 'flex', */}
+            {/*  flexDirection: 'row' */}
+            {/* }} */}
+            {/* > */}
+            {/*  <Typography variant='h5' sx={{ my: 2 }}> */}
+            {/*    Menu */}
+            {/*  </Typography> */}
+            {/*  <FormControl sx={{ mx: 1 }}> */}
+            {/*    <Select */}
+            {/*      value={currMenu} */}
+            {/*      onChange={handleMenuChange} */}
+            {/*    > */}
+            {/*      {menuPages.map(([value, description]) => <MenuItem key={value} value={value}>{description}</MenuItem>)} */}
+            {/*    </Select> */}
+            {/*  </FormControl> */}
+            {/* </Box> */}
+            {/* {currMenu === 'configurations' && <QuickMenuEventSettings />} */}
+            {/* {currMenu === 'add' && <QuickMenuBulkAdd />} */}
+            {/* {currMenu === 'edit' && <QuickMenuBulkEdit />} */}
+            <Typography variant='h5' sx={{ my: 2 }}>
+              Menu
+            </Typography>
+            <Box sx={{ width: '100%', typography: 'body1' }}>
+              <TabContext value={currTab}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <TabList onChange={handleTabChange} aria-label='menu tabs'>
+                    <Tab label='Configurations' value='1' />
+                    <Tab label='Bulk Add' value='2' />
+                    <Tab label='Bulk Edit' value='3' />
+                  </TabList>
+                </Box>
+                <TabPanel value='1'>
+                  <EventSettingsTab />
+                </TabPanel>
+                <TabPanel value='2'>
+                  <BulkAddTab />
+                </TabPanel>
+                <TabPanel value='3'>
+                  <BulkEditTab />
+                </TabPanel>
+              </TabContext>
             </Box>
-            <Grid container spacing={5}>
-                <Grid item xs={12} lg={8}>
-                    <Box>
-                        <Box sx={{ flexDirection: 'row' }}>
-                            <Typography variant='h5' sx={{ my: 2 }}>
-                                Quick Menu
-                            </Typography>
-                            <FormControl sx={{ mx: 1 }}>
-                                <Select
-                                    value={currMenu}
-                                    onChange={handleMenuChange}
-                                >
-                                    {menuPages.map(([value, description]) => <MenuItem key={value} value={value}>{description}</MenuItem>)}
-                                </Select>
-                                <FormHelperText>Without label</FormHelperText>
-                            </FormControl>
-                        </Box>
-                        {currMenu === 'configurations' && <QuickMenuEventSettings />}
-                        {currMenu === 'add' && <QuickMenuBulkAdd />}
-                        {currMenu === 'edit' && <QuickMenuBulkEdit />}
-                    </Box>
-                    <Divider variant='middle' />
-                    <Box>
-                        <Typography variant='h5' sx={{ my: 2 }}>
-                            Schedule
-                        </Typography>
-                        <CustomScheduleComponent rosterPlan={data} />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                    <Typography variant='h5' sx={{ my: 2 }}>
-                        Invitations
-                    </Typography>
-                    <InvitationGrid rosterPlan={data} invitationGrid={{ readonly: false }} />
-                    <Button variant='contained' color='success' onClick={handleGenerate}>Generate Roster</Button>
-                </Grid>
-            </Grid>
-        </ErrorBoundary>
-    )
+          </Box>
+          <Divider variant='middle' />
+          <Typography variant='h5' sx={{ my: 2 }}>
+            Invitations
+          </Typography>
+          <InvitationGrid rosterPlan={data} invitationGrid={{ readonly: false }} />
+          <Button variant='contained' color='success' onClick={handleGenerate}>Generate Roster</Button>
+        </Grid>
+      </Grid>
+    </ErrorBoundary>
+  )
 }
 
 export default MeetingEdit

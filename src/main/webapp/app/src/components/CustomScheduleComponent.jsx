@@ -42,6 +42,13 @@ const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
     }
   }
 
+  const onPopupOpen = args => {
+    if (args.type === 'Editor') {
+      const statusElement = args.element.querySelector('#EventType')
+      statusElement.setAttribute('name', 'EventType')
+    }
+  }
+
   const editorTemplate = props => {
     return (
       <><table className='custom-event-editor' style={{ width: '100%', cellpadding: '5' }}><tbody>
@@ -99,8 +106,7 @@ const CustomScheduleComponent = ({ rosterPlan, readonly }) => {
       editorTemplate={editorTemplate}
       eventSettings={eventSettings}
       height='80vh'
-      readonly={readonly}
-      showQuickInfo={false}
+      popupOpen={onPopupOpen}
     >
       <Inject
         services={readonly

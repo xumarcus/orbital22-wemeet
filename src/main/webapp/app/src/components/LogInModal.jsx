@@ -18,6 +18,7 @@ import RetryAlert from './RetryAlert'
 import ajax from '../core/ajax'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
+import { useNavigate } from 'react-router-dom'
 
 const style = {
   position: 'absolute',
@@ -32,6 +33,7 @@ const style = {
 }
 
 const LogInModal = ({ visible, setVisible }) => {
+  const navigate = useNavigate()
   const { context, setContext } = useContext(AppContext)
 
   const handleClose = () => {
@@ -56,6 +58,7 @@ const LogInModal = ({ visible, setVisible }) => {
       const user = await ajax('POST', formData)('/login')
       setContext({ ...context, user })
       handleClose()
+      navigate('/dashboard')
     } catch (e) {
       console.log(e) // FIXME
       setRetryAlert(true)
