@@ -110,4 +110,29 @@ class UserCreateIntegrationTest {
         .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
   }
+
+  @Test
+  public void givenRegisteredUser_whenRegister_thenBadRequest(
+      @Autowired UserRepository userRepository) throws Exception {
+    userRepository.save(
+        User.builder()
+            .id(1)
+            .email("user@wemeet.com")
+            .password("nil")
+            .enabled(true)
+            .registered(true)
+            .build());
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", "user@wemeet.com");
+    map.put("rawPassword", "password");
+
+    this.mockMvc
+        .perform(
+            post("/api/users")
+                .content(objectMapper.writeValueAsString(map))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andDo(document("post-users-registered-already-registered-error"));
+  }
 }

@@ -4,7 +4,7 @@ import com.orbital22.wemeet.dto.UserPostRequest;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
 import com.orbital22.wemeet.security.AclRegisterService;
-import com.orbital22.wemeet.util.ProjectUtils;
+import com.orbital22.wemeet.util.ExceptionHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,8 +47,8 @@ public class UserService {
             .map(
                 existingUser -> {
                   if (existingUser.isRegistered()) {
-                    throw ProjectUtils.from(
-                        existingUser, User.Fields.email, "USER_IS_ALREADY_REGISTERED");
+                    throw ExceptionHelper.from(
+                        existingUser, User.Fields.email, "user.post.is_already_registered");
                   }
                   return existingUser.getId();
                 })
