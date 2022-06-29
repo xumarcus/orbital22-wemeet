@@ -5,7 +5,7 @@ import {
   Edit,
   GridComponent,
   Inject,
-  Toolbar
+  Toolbar,
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
@@ -18,8 +18,7 @@ const PendingResponseGrid = () => {
   const { context } = useContext(AppContext)
 
   const restAdaptorParams = {
-    url: context.user._links.rosterPlanUserInfos.href
-      .replace('{?projection}', '?projection=rosterPlanUserInfoProjection'),
+    url: context.user._links.rosterPlanUserInfos.href,
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlanUserInfo),
     crudUrl: API.ROSTER_PLAN,
     crudMap: (req) => req

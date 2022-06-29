@@ -5,7 +5,7 @@ import {
   Edit,
   GridComponent,
   Inject,
-  Toolbar
+  Toolbar,
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
@@ -14,8 +14,7 @@ import Typography from '@mui/material/Typography'
 
 const InvitationGrid = ({ rosterPlan, invitationGrid: { readonly } }) => {
   const restAdaptorParams = {
-    url: rosterPlan._links.rosterPlanUserInfos.href
-      .replace('{?projection}', '?projection=rosterPlanUserInfoProjection'),
+    url: rosterPlan._links.rosterPlanUserInfos.href,
     map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlanUserInfo),
     crudUrl: API.ROSTER_PLAN_USER_INFO,
     crudMap: (req) => ({ ...req, rosterPlan: rosterPlan._links.self.href })

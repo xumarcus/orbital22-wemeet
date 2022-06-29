@@ -1,17 +1,17 @@
 package com.orbital22.wemeet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.jetbrains.annotations.Nullable;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Builder
 @Getter
 @Setter
+@FieldNameConstants
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,21 +31,15 @@ public class RosterPlanUserInfo {
 
   @ManyToOne
   @JoinColumn(name = "user_id")
-  @NonNull // For deserialization
+  @NotNull
   private User user;
 
   @Column(name = "has_responded") // TODO
   private boolean locked;
 
-  // For deserialization
-  @Transient
-  @Nullable
-  @Email
-  private String email;
-
-  @JsonIgnore
-  public String getTransientEmail() {
-    return email;
+  @JsonProperty
+  public String getEmail() {
+    return user.getEmail();
   }
 
   @Override

@@ -51,7 +51,6 @@ class UserCreateIntegrationTest {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "not-email");
     map.put("rawPassword", "password");
-    map.put("registered", true);
 
     this.mockMvc
         .perform(
@@ -67,7 +66,6 @@ class UserCreateIntegrationTest {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
     map.put("rawPassword", "invalid");
-    map.put("registered", true);
 
     this.mockMvc
         .perform(
@@ -79,28 +77,10 @@ class UserCreateIntegrationTest {
   }
 
   @Test
-  public void givenValidRequest_whenCreateUnregistered_thenCreated() throws Exception {
-    Map<String, Object> map = new HashMap<>();
-    map.put("email", "user@wemeet.com");
-    map.put("rawPassword", null);
-    map.put("registered", false);
-
-    this.mockMvc
-        .perform(
-            post("/api/users")
-                .content(objectMapper.writeValueAsString(map))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
-        .andDo(document("post-users-unregistered-success"));
-  }
-
-  @Test
   public void givenValidRequest_whenRegister_thenCreated() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
     map.put("rawPassword", "password");
-    map.put("registered", true);
 
     this.mockMvc
         .perform(
@@ -113,21 +93,21 @@ class UserCreateIntegrationTest {
   }
 
   @Test
-  public void givenUnregisteredUser_whenRegister_thenCreated(@Autowired UserRepository userRepository) throws Exception {
-    userRepository.justSave(User.ofUnregistered("user@wemeet.com"));
+  public void givenUnregisteredUser_whenRegister_thenCreated(
+      @Autowired UserRepository userRepository) throws Exception {
+    userRepository.save(User.ofUnregistered("user@wemeet.com"));
 
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
     map.put("rawPassword", "password");
-    map.put("registered", true);
 
     this.mockMvc
-            .perform(
-                    post("/api/users")
-                            .content(objectMapper.writeValueAsString(map))
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isCreated())
-            .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
-            .andDo(document("post-users-registered-success"));
+        .perform(
+            post("/api/users")
+                .content(objectMapper.writeValueAsString(map))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
+        .andDo(document("post-users-registered-success"));
   }
 }

@@ -7,10 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MeController {
+public class RedirectController {
   @GetMapping("/api/users/me")
   @PreAuthorize("#authentication != null and #authentication.isAuthenticated()")
   public String me(Authentication authentication) {
+    //noinspection SpringMVCViewInspection
     return "/api/users/" + ((CustomUser) authentication.getPrincipal()).getId();
   }
 }

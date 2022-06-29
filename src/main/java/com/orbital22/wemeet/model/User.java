@@ -1,24 +1,17 @@
 package com.orbital22.wemeet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NaturalId;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 
 @Builder
 @Getter
@@ -36,31 +29,24 @@ public class User {
   private int id;
 
   @NaturalId
-  @NotBlank
-  @Email
+  @NotNull
   @Column(unique = true)
   private String email;
 
   @JsonIgnore
-  @RestResource(exported = false)
+  @RestResource(exported = false) // internal
   @Builder.Default
   @NotNull
   @Column
   private String password = StringUtils.EMPTY;
 
+  @JsonIgnore
   @RestResource(exported = false) // internal
   @Builder.Default
   @Column
   private boolean enabled = true;
 
   @Builder.Default @Column private boolean registered = true;
-
-  // For deserialization
-  @JsonProperty(access = WRITE_ONLY)
-  @Transient
-  @Nullable
-  @Size(min = 8)
-  private String rawPassword;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(

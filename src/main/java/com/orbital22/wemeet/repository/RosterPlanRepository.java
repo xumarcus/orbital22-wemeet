@@ -1,7 +1,6 @@
 package com.orbital22.wemeet.repository;
 
 import com.orbital22.wemeet.model.RosterPlan;
-import com.orbital22.wemeet.model.User;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +15,7 @@ public interface RosterPlanRepository extends JpaRepository<RosterPlan, Integer>
   @RestResource
   @Override
   @NonNull
-  @PostAuthorize("returnObject.isEmpty() or hasPermission(returnObject.get(), 'READ')")
+  @PostAuthorize("hasPermission(returnObject.orElse(null), 'READ')")
   Optional<RosterPlan> findById(@NotNull Integer id);
 
   @RestResource

@@ -89,7 +89,7 @@ public class RosterPlanUpdateIntegrationTest {
   private void addCock() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("locked", false);
-    map.put("user", "/api/users/2");
+    map.put("email", "cock@wemeet.com");
     map.put("rosterPlan", "/api/rosterPlan/1");
 
     this.mockMvc
