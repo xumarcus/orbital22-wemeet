@@ -120,6 +120,23 @@ public class RosterPlanUpdateIntegrationTest {
   }
 
   @Test
+  public void givenInvalidRequest_whenAddTimeSlot_thenBadRequest() throws Exception {
+    Map<String, Object> map = new HashMap<>();
+    map.put("startDateTime", "2019-06-09T19:00:00.000Z");
+    map.put("endDateTime", "2019-06-09T18:00:00.000Z");
+    map.put("capacity", 3);
+    map.put("rosterPlan", "/api/rosterPlan/1");
+
+    this.mockMvc
+            .perform(
+                    post("/api/timeSlot")
+                            .with(user(talk.getEmail()))
+                            .content(objectMapper.writeValueAsString(map))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+  }
+
+  @Test
   public void givenNewUser_whenOwnerAddUserInfo_thenNewUserCanRead() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("title", "Talk Cock");
