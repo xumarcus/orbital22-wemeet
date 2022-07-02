@@ -24,19 +24,10 @@ const EventGrid = () => {
 
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({
-      GET: RestAdaptor.get(
-        url,
-        (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlan)
-      ),
-      POST: RestAdaptor.post(
-        API.ROSTER_PLAN,
-        (req) => req
-      ),
-      PUT: RestAdaptor.put(
-        API.ROSTER_PLAN,
-        (req) => req
-      ),
-      DELETE: RestAdaptor.delete(API.ROSTER_PLAN)
+      GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlan),
+      POST: RestAdaptor.post(API.ROSTER_PLAN),
+      PUT: RestAdaptor.put(API.ROSTER_PLAN),
+      DELETE: RestAdaptor.delete(API.ROSTER_PLAN),
     })
   })
 
