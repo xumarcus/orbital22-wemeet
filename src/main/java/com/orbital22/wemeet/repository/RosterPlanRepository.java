@@ -1,7 +1,6 @@
 package com.orbital22.wemeet.repository;
 
 import com.orbital22.wemeet.model.RosterPlan;
-import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -14,12 +13,20 @@ import java.util.Optional;
 public interface RosterPlanRepository extends JpaRepository<RosterPlan, Integer> {
   @RestResource
   @Override
-  @NonNull
+  @NotNull
   @PostAuthorize("hasPermission(returnObject.orElse(null), 'READ')")
   Optional<RosterPlan> findById(@NotNull Integer id);
 
   @RestResource
   @Override
-  @NonNull
-  <S extends RosterPlan> S save(@NonNull S RosterPlan);
+  @NotNull
+  <S extends RosterPlan> S save(@NotNull S RosterPlan);
+
+  @RestResource
+  @Override
+  void deleteById(@NotNull Integer id);
+
+  @RestResource
+  @Override
+  void delete(@NotNull RosterPlan rosterPlan);
 }
