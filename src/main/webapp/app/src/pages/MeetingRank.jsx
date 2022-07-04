@@ -51,10 +51,7 @@ const Inner = ({ meetingId }) => {
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
-          <InvitationGrid
-            rosterPlan={data}
-            invitationGrid={{ readonly: true }}
-          />
+          <InvitationGrid rosterPlan={data} readonly />
         </Grid>
       </Grid>
     </ErrorBoundary>

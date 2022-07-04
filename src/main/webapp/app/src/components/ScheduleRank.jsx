@@ -10,32 +10,30 @@ import * as React from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 import ScheduleRankEditorTemplate from './ScheduleRankEditorTemplate'
-import _ from 'lodash'
 import { API } from '../core/const'
 
 const ScheduleRank = ({ rosterPlan }) => {
-  // Overrides update behavior, no crudUrl
-  const restAdaptorParams = {
-    url: rosterPlan?._links?.timeSlots?.href
-      .replace('{?projection}', '?projection=timeSlotProjection'),
-    map: (resp) => resp._embedded.timeSlot,
-    crudUrl: API.TIME_SLOT_USER_INFO,
-    crudMap: (req) => {
-      if (_.isEmpty(req)) return null
-      const { id: timeSlotId, rank } = req
-      return {
-        timeSlot: API.TIME_SLOT_ID(timeSlotId),
-        rank
-      }
-    }
-  }
-
-  if (restAdaptorParams.url === null) {
+  const url = rosterPlan?._links?.timeSlots?.href
+    .replace('{?projection}', '?projection=timeSlotProjection')
+  if (url === null) {
     throw new Error('Meeting not found.')
   }
 
+  const map = ({ id: timeSlotId, rank }) => {
+    // if (_.isEmpty(req)) return null
+    return {
+      timeSlot: API.TIME_SLOT_ID(timeSlotId),
+      rank
+    }
+  }
+
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams)
+    adaptor: new RestAdaptor({
+      GET: RestAdaptor.get(url, resp => resp._embedded.timeSlot),
+      POST: RestAdaptor.post(API.TIME_SLOT_USER_INFO, map),
+      PUT: RestAdaptor.put(API.TIME_SLOT_USER_INFO, map),
+      DELETE: RestAdaptor.delete(API.TIME_SLOT_USER_INFO)
+    })
   })
 
   const eventSettings = {

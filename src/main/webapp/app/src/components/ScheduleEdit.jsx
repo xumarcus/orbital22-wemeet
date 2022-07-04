@@ -15,20 +15,21 @@ import { API } from '../core/const'
 import ScheduleEditEditorTemplate from './ScheduleEditEditorTemplate'
 
 const ScheduleEdit = ({ rosterPlan }) => {
-  const restAdaptorParams = {
-    url: rosterPlan?._links?.timeSlots?.href
-      .replace('{?projection}', '?projection=timeSlotProjection'),
-    map: (resp) => resp._embedded.timeSlot,
-    crudUrl: API.TIME_SLOT,
-    crudMap: (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
-  }
-
-  if (restAdaptorParams.url === null) {
+  const url = rosterPlan?._links?.timeSlots?.href
+    .replace('{?projection}', '?projection=timeSlotProjection')
+  if (url === null) {
     throw new Error('Meeting not found.')
   }
 
+  const map = (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
+
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams)
+    adaptor: new RestAdaptor({
+      GET: RestAdaptor.get(url, resp => resp._embedded.timeSlot),
+      POST: RestAdaptor.post(API.TIME_SLOT, map),
+      PUT: RestAdaptor.put(API.TIME_SLOT, map),
+      DELETE: RestAdaptor.delete(API.TIME_SLOT)
+    })
   })
 
   const eventSettings = {

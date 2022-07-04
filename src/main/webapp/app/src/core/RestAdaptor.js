@@ -1,30 +1,24 @@
 import { CustomDataAdaptor } from '@syncfusion/ej2-data'
 import { cookies, parseOrError } from './ajax'
 
-const handle = (option, promise) => {
-  promise.then(({ httpRequest, data }) => option.onSuccess(data,
-    { ...option, httpRequest })).
-    catch(({ httpRequest }) => option.onFailure({ ...option, httpRequest }))
+const handle = (option, { httpRequest, promise }) => {
+  return promise
+    .then((data) => option.onSuccess(data, { ...option, httpRequest }))
+    .catch(() => option.onFailure({ ...option, httpRequest }))
 }
 
-export const makeRequest = (method, url, data) => new Promise(
-  (resolve, reject) => {
-    const httpRequest = new XMLHttpRequest()
+export const makeRequest = (method, url, data) => {
+  const httpRequest = new XMLHttpRequest()
+  const promise = new Promise((resolve, reject) => {
     httpRequest.open(method, url, true)
     httpRequest.onload = () => {
       if (httpRequest.status >= 200 && httpRequest.status <= 299) {
-        resolve({
-          httpRequest,
-          data: parseOrError(httpRequest.responseText),
-        })
+        resolve(parseOrError(httpRequest.responseText))
       } else {
-        reject({
-          httpRequest,
-          data: parseOrError(httpRequest.responseText),
-        })
+        reject(parseOrError(httpRequest.responseText))
       }
     }
-    httpRequest.onerror = () => reject({ httpRequest })
+    httpRequest.onerror = () => reject()
 
     httpRequest.withCredentials = true
     httpRequest.setRequestHeader('X-XSRF-TOKEN', cookies()['XSRF-TOKEN'])
@@ -36,6 +30,8 @@ export const makeRequest = (method, url, data) => new Promise(
       httpRequest.send()
     }
   })
+  return { httpRequest, promise }
+}
 
 const of = (option) => JSON.parse(option.data)
 
@@ -57,7 +53,7 @@ class RestAdaptor extends CustomDataAdaptor {
 
         const [toDelete] = deleted
         if (toDelete) handle(option, DELETE(toDelete))
-      },
+      }
     })
   }
 
@@ -65,21 +61,19 @@ class RestAdaptor extends CustomDataAdaptor {
   static extendCounts (result) {
     return {
       result,
-      count: result.length,
+      count: result.length
     }
   }
-
-  // TODO expose promise instead of just map
 
   // TODO Map data to query string
   static get (url, f = (resp) => resp) {
     return (req) => {
       const g = req?.requiresCounts
         ? x => RestAdaptor.extendCounts(f(x))
-        : f;
+        : f
 
-      return makeRequest('GET', url)
-        .then(({ httpRequest, data }) => ({ httpRequest, data: g(data) }))
+      const { httpRequest, promise } = makeRequest('GET', url)
+      return { httpRequest, promise: promise.then(g) }
     }
   }
 
@@ -92,7 +86,7 @@ class RestAdaptor extends CustomDataAdaptor {
   }
 
   static delete (url) {
-    return ({ key }) => makeRequest('DELETE', `${url}/${key}`)
+    return (req) => makeRequest('DELETE', `${url}/${req.key}`)
   }
 }
 

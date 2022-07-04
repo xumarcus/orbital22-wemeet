@@ -16,7 +16,13 @@ export const ROUTES = {
   MEETING_RANK: (id) => `/meeting/${id}/rank`
 }
 
+// i18n support?
+
 export const ERROR_MESSAGES = {
   INVALID_URL: 'Invalid URL',
   PLEASE_SIGN_IN: 'Please sign in'
+}
+
+export const TEXT = {
+  YOURSELF: 'Yourself'
 }

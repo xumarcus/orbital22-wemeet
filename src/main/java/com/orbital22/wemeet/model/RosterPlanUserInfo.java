@@ -1,6 +1,5 @@
 package com.orbital22.wemeet.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
@@ -36,11 +35,6 @@ public class RosterPlanUserInfo {
 
   @Column(name = "has_responded") // TODO
   private boolean locked;
-
-  @JsonProperty
-  public String getEmail() {
-    return user.getEmail();
-  }
 
   @Override
   public boolean equals(Object o) {
