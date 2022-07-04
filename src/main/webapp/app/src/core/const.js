@@ -17,7 +17,7 @@ export const API = {
 export const ROUTES = {
   MEETING_EDIT: (id) => `/meeting/${id}/edit`,
   MEETING_RANK: (id) => `/meeting/${id}/rank`,
-  MEETING_VIEW_SOLUTION: (id) => `/meeting/${id}/view-solution`,
+  MEETING_VIEW_SOLUTION: (id) => `/meeting/${id}/view-solution`
 }
 
 // i18n support?
@@ -31,4 +31,4 @@ export const TEXT = {
   YOURSELF: 'Yourself'
 }
 
-export const SYSTEM_THEME = createTheme();
+export const SYSTEM_THEME = createTheme()

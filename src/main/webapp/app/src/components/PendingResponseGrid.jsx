@@ -13,15 +13,18 @@ import { API, ROUTES, TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
+import { fromTemplate } from '../core/util'
 
 const PendingResponseGrid = () => {
   const { context } = useContext(AppContext)
 
-  const url = context.user._links.rosterPlanUserInfos.href
-    .replace('{?projection}', '?projection=rosterPlanUserInfoProjection')
-  if (url === null) {
+  const template = context.user._links.rosterPlanUserInfos.href
+  if (template === null) {
     throw new Error('Please sign in.')
   }
+
+  const params = new URLSearchParams({ projection: 'rosterPlanUserInfoProjection' })
+  const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({

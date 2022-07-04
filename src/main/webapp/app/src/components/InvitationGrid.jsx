@@ -11,13 +11,16 @@ import RestAdaptor from '../core/RestAdaptor'
 
 import { API, TOOLBAR } from '../core/const'
 import Typography from '@mui/material/Typography'
+import { fromTemplate } from '../core/util'
 
 const InvitationGrid = ({ rosterPlan, readonly }) => {
-  const url = rosterPlan._links.rosterPlanUserInfos.href
-    .replace('{?projection}', '?projection=rosterPlanUserInfoProjection')
-  if (url === null) {
+  const template = rosterPlan._links.rosterPlanUserInfos.href
+  if (template === null) {
     throw new Error('Meeting not found.')
   }
+
+  const params = new URLSearchParams({ projection: 'rosterPlanUserInfoProjection' })
+  const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({

@@ -195,13 +195,13 @@ public class RosterPlanUpdateIntegrationTest {
         .perform(get("/api/users/3").with(user("suck@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(status().isNotFound());
 
-    Map<String, Object> map = new HashMap<>();
-    map.put("locked", false);
+    Map<String, Object> expected = new HashMap<>();
+    expected.put("locked", false);
+
+    Map<String, Object> map = new HashMap<>(expected);
     map.put("email", "suck@wemeet.com");
-
-    Map<String, Object> expected = new HashMap<>(map);
-
     map.put("rosterPlan", "/api/rosterPlan/1");
+
     this.mockMvc
         .perform(
             post("/api/rosterPlanUserInfo")

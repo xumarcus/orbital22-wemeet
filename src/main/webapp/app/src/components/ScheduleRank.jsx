@@ -13,15 +13,18 @@ import RestAdaptor from '../core/RestAdaptor'
 import ScheduleRankEditorTemplate from './ScheduleRankEditorTemplate'
 import { API, SYSTEM_THEME } from '../core/const'
 import AppContext from '../core/AppContext'
+import { fromTemplate } from '../core/util'
 
 const ScheduleRank = ({ rosterPlan }) => {
-  const { context } = useContext(AppContext);
+  const { context } = useContext(AppContext)
 
-  const url = rosterPlan?._links?.timeSlots?.href
-    .replace('{?projection}', '?projection=timeSlotProjection')
-  if (url === null) {
+  const template = rosterPlan?._links?.timeSlots?.href
+  if (template === null) {
     throw new Error('Meeting not found.')
   }
+
+  const params = new URLSearchParams({ projection: 'timeSlotProjection' })
+  const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const map = ({ id: timeSlotId, rank }) => {
     // if (_.isEmpty(req)) return null
@@ -51,9 +54,9 @@ const ScheduleRank = ({ rosterPlan }) => {
   }
 
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
-    const info = timeSlotUserInfos.find(({ picked, user: { id }}) => picked && id === context.user.id)
+    const info = timeSlotUserInfos.find(({ picked, user: { id } }) => picked && id === context.user.id)
     if (info) {
-      element.style.backgroundColor = SYSTEM_THEME.palette.success.main;
+      element.style.backgroundColor = SYSTEM_THEME.palette.success.main
     }
   }
 

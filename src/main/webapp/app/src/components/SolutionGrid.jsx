@@ -23,8 +23,8 @@ const SolutionGrid = ({ rosterPlan }) => {
 
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({
-      GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlan),
-    }),
+      GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlan)
+    })
   })
 
   const handleGenerate = async () => {
@@ -38,18 +38,22 @@ const SolutionGrid = ({ rosterPlan }) => {
 
   return (
     <>
-      <Button sx={{ my: 2 }} variant="contained" color="success"
-              onClick={handleGenerate}>Generate
+      <Button
+        sx={{ my: 2 }} variant='contained' color='success'
+        onClick={handleGenerate}
+      >Generate
         Roster
       </Button>
       <GridComponent dataSource={dataManager} ref={g => ref.current = g}>
         <ColumnsDirective>
-          <ColumnDirective field="id" headerText="ID" template={linkIDTemplate}
-                           width="120" textAlign="Center" isPrimaryKey
-                           isIdentity/>
-          <ColumnDirective field="title" headerText="Title" textAlign="Center"/>
+          <ColumnDirective
+            field='id' headerText='ID' template={linkIDTemplate}
+            width='120' textAlign='Center' isPrimaryKey
+            isIdentity
+          />
+          <ColumnDirective field='title' headerText='Title' textAlign='Center' />
         </ColumnsDirective>
-        <Inject services={[Edit, Toolbar]}/>
+        <Inject services={[Edit, Toolbar]} />
       </GridComponent>
     </>
   )

@@ -13,11 +13,12 @@ import { API, ROUTES, TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
+import { fromTemplate } from '../core/util'
 
 const EventGrid = () => {
   const { context } = useContext(AppContext)
 
-  const url = context.user._links.ownedRosterPlans.href
+  const url = fromTemplate(context.user._links.ownedRosterPlans.href).url
   if (url === null) {
     throw new Error('Please sign in.')
   }

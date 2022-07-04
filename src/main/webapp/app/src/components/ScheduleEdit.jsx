@@ -13,13 +13,16 @@ import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 import { API } from '../core/const'
 import ScheduleEditEditorTemplate from './ScheduleEditEditorTemplate'
+import { fromTemplate } from '../core/util'
 
 const ScheduleEdit = ({ rosterPlan }) => {
-  const url = rosterPlan?._links?.timeSlots?.href
-    .replace('{?projection}', '?projection=timeSlotProjection')
-  if (url === null) {
+  const template = rosterPlan?._links?.timeSlots?.href
+  if (template === null) {
     throw new Error('Meeting not found.')
   }
+
+  const params = new URLSearchParams({ projection: 'timeSlotProjection' })
+  const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const map = (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
 
