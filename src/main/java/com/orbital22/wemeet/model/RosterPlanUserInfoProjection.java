@@ -15,6 +15,6 @@ public interface RosterPlanUserInfoProjection {
 
   User getUser();
 
-  @Value("target.getUser().getEmail()")
+  @Value("#{target.getUser().getEmail()}")
   String getEmail();
 }

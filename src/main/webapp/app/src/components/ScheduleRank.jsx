@@ -7,12 +7,16 @@ import {
   Week,
 } from '@syncfusion/ej2-react-schedule'
 import * as React from 'react'
+import { useContext } from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 import ScheduleRankEditorTemplate from './ScheduleRankEditorTemplate'
-import { API } from '../core/const'
+import { API, SYSTEM_THEME } from '../core/const'
+import AppContext from '../core/AppContext'
 
 const ScheduleRank = ({ rosterPlan }) => {
+  const { context } = useContext(AppContext);
+
   const url = rosterPlan?._links?.timeSlots?.href
     .replace('{?projection}', '?projection=timeSlotProjection')
   if (url === null) {
@@ -46,11 +50,19 @@ const ScheduleRank = ({ rosterPlan }) => {
     }
   }
 
+  const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
+    const info = timeSlotUserInfos.find(({ picked, user: { id }}) => picked && id === context.user.id)
+    if (info) {
+      element.style.backgroundColor = SYSTEM_THEME.palette.success.main;
+    }
+  }
+
   return (
     <ScheduleComponent
       editorTemplate={ScheduleRankEditorTemplate}
       eventSettings={eventSettings}
       height='80vh'
+      eventRendered={onEventRendered}
     >
       <Inject
         services={[Day, Week, Month, Agenda]}

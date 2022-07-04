@@ -61,7 +61,7 @@ const ScheduleRankEditorTemplate = (props) => {
     >
       <tbody>
         <RankEditorRow
-          label='TimeSlotId' name='timeSlotId' type='number'
+          name='timeSlotId' type='number'
           value={timeSlotId} disabled hidden
         />
         <RankEditorRow

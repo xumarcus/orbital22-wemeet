@@ -21,6 +21,7 @@ import Wizard from './pages/Wizard'
 import { API } from './core/const'
 import ajax from './core/ajax'
 import MeetingRank from './pages/MeetingRank'
+import MeetingViewSolution from './pages/MeetingViewSolution'
 
 const App = () => {
   const [context, setContext] = useState(defaultAppContext)
@@ -53,6 +54,7 @@ const App = () => {
                 <Route path='meeting'>
                   <Route path=':meetingId/edit' element={<MeetingEdit />} />
                   <Route path=':meetingId/rank' element={<MeetingRank />} />
+                  <Route path=':meetingId/view-solution' element={<MeetingViewSolution />} />
                 </Route>
                 <Route path='profile' element={<Profile />} />
 

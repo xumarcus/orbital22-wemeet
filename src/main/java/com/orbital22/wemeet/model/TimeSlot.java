@@ -33,13 +33,9 @@ public class TimeSlot implements HasDateTimeRange {
   @JoinColumn(name = "roster_plan_id")
   private RosterPlan rosterPlan;
 
-  @NotNull
-  @Column
-  private LocalDateTime startDateTime;
+  @NotNull @Column private LocalDateTime startDateTime;
 
-  @NotNull
-  @Column
-  private LocalDateTime endDateTime;
+  @NotNull @Column private LocalDateTime endDateTime;
 
   @Positive @Column private int capacity;
 

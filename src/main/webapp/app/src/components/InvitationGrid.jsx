@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography'
 
 const InvitationGrid = ({ rosterPlan, readonly }) => {
   const url = rosterPlan._links.rosterPlanUserInfos.href
+    .replace('{?projection}', '?projection=rosterPlanUserInfoProjection')
   if (url === null) {
     throw new Error('Meeting not found.')
   }

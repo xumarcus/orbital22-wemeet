@@ -25,6 +25,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import Tab from '@mui/material/Tab'
+import SolutionGrid from '../components/SolutionGrid'
 
 const MeetingEdit = () => {
   const { context } = useContext(AppContext)
@@ -48,17 +49,17 @@ const Inner = ({ meetingId }) => {
   const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
   if (error) throw new Error(error)
   if (!data) return <CircularProgress />
-  return <InnerInner data={data} />
+  return <InnerInner rosterPlan={data} />
 }
 
-const InnerInner = ({ data }) => {
+const InnerInner = ({ rosterPlan }) => {
   const menuPages = [
     ['configurations', 'Meeting Configurations'],
     ['add', 'Bulk Add Events'],
     ['edit', 'Bulk Edit Events']
   ]
   const [currMenu, setCurrMenu] = useState('configurations')
-  const [meetingTitle, setMeetingTitle] = useState(data?.title)
+  const [meetingTitle, setMeetingTitle] = useState(rosterPlan?.title)
   const [isTitleUpdated, setIsTitleUpdated] = useState(true)
   const [mode, setMode] = useState('set')
   const [currTab, setCurrTab] = useState('1')
@@ -74,7 +75,7 @@ const InnerInner = ({ data }) => {
 
   const handleSaveMeetingTitle = async () => {
     // TODO: - handle saving of meeting title
-    await ajax('PATCH', { title: meetingTitle })(`${API.ROSTER_PLAN}/${data.id}`)
+    await ajax('PATCH', { title: meetingTitle })(`${API.ROSTER_PLAN}/${rosterPlan.id}`)
     setIsTitleUpdated(true)
   }
 
@@ -83,16 +84,12 @@ const InnerInner = ({ data }) => {
     // TODO: - handle changing of meeting mode
   }
 
-  const handleGenerate = (e) => {
-    // TODO: - handle generating of roster
-  }
-
   const handleTabChange = (event, newValue) => {
     setCurrTab(newValue)
   }
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
+    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[rosterPlan]}>
       {/* <PageTitle pageTitle={data?.title} /> */}
       <Box sx={{
         display: 'flex',
@@ -131,7 +128,7 @@ const InnerInner = ({ data }) => {
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <ScheduleEdit rosterPlan={data} />
+            <ScheduleEdit rosterPlan={rosterPlan} />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
@@ -164,10 +161,8 @@ const InnerInner = ({ data }) => {
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
-          <InvitationGrid rosterPlan={data} />
-          <Button sx={{ my: 2 }} variant='contained' color='success' onClick={handleGenerate}>Generate
-            Roster
-          </Button>
+          <InvitationGrid rosterPlan={rosterPlan} />
+          <SolutionGrid rosterPlan={rosterPlan} />
         </Grid>
       </Grid>
     </ErrorBoundary>

@@ -77,7 +77,7 @@ public class SolverService {
   @NotNull
   public void updateRosterPlanWith(RosterPlanSolution solution) {
     // `findById` requires authentication
-    userService.setSessionUser(solution.getOwner());
+    // userService.setSessionUser(solution.getOwner());
 
     // Update is async, new `RosterPlan` is safer even if it is supposed to be immutable.
     RosterPlan rosterPlan = rosterPlanRepository.findById(solution.getId()).orElseThrow();
