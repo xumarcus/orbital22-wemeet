@@ -29,7 +29,7 @@ const PendingResponseGrid = () => {
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({
       GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlanUserInfo),
-      DELETE: RestAdaptor.delete(API.ROSTER_PLAN)
+      DELETE: RestAdaptor.delete(API.ROSTER_PLAN, ({ key }) => key)
     })
   })
 

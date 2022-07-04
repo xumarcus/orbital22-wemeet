@@ -38,8 +38,7 @@ const ScheduleRank = ({ rosterPlan }) => {
     adaptor: new RestAdaptor({
       GET: RestAdaptor.get(url, resp => resp._embedded.timeSlot),
       POST: RestAdaptor.post(API.TIME_SLOT_USER_INFO, map),
-      PUT: RestAdaptor.put(API.TIME_SLOT_USER_INFO, map),
-      DELETE: RestAdaptor.delete(API.TIME_SLOT_USER_INFO)
+      PUT: RestAdaptor.put(API.TIME_SLOT_USER_INFO, map)
     })
   })
 

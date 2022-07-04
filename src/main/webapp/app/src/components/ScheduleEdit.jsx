@@ -31,7 +31,7 @@ const ScheduleEdit = ({ rosterPlan }) => {
       GET: RestAdaptor.get(url, resp => resp._embedded.timeSlot),
       POST: RestAdaptor.post(API.TIME_SLOT, map),
       PUT: RestAdaptor.put(API.TIME_SLOT, map),
-      DELETE: RestAdaptor.delete(API.TIME_SLOT)
+      DELETE: RestAdaptor.delete(API.TIME_SLOT, ({ id }) => id)
     })
   })
 

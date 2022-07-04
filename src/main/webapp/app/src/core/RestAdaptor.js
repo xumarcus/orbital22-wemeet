@@ -85,11 +85,8 @@ class RestAdaptor extends CustomDataAdaptor {
     return (req) => makeRequest('PUT', `${url}/${req.id}`, f ? f(req) : req)
   }
 
-  static delete (url) {
-    return (req) => {
-      console.log(req)
-      makeRequest('DELETE', `${url}/${req.key}`)
-    }
+  static delete (url, f) {
+    return (req) => makeRequest('DELETE', `${url}/${f(req)}`)
   }
 }
 

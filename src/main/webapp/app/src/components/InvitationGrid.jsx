@@ -27,7 +27,7 @@ const InvitationGrid = ({ rosterPlan, readonly }) => {
       GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlanUserInfo),
       POST: RestAdaptor.post(API.ROSTER_PLAN_USER_INFO,
         req => ({ ...req, rosterPlan: rosterPlan._links.self.href })),
-      DELETE: RestAdaptor.delete(API.ROSTER_PLAN_USER_INFO)
+      DELETE: RestAdaptor.delete(API.ROSTER_PLAN_USER_INFO, ({ key }) => key)
     })
   })
 

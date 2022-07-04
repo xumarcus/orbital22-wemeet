@@ -28,7 +28,7 @@ const EventGrid = () => {
       GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlan),
       POST: RestAdaptor.post(API.ROSTER_PLAN),
       PUT: RestAdaptor.put(API.ROSTER_PLAN),
-      DELETE: RestAdaptor.delete(API.ROSTER_PLAN)
+      DELETE: RestAdaptor.delete(API.ROSTER_PLAN, ({ key }) => key)
     })
   })
 
