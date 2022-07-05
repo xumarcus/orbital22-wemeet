@@ -31,7 +31,8 @@ export const ROUTES = {
 export const ERROR_MESSAGES = {
   DEFAULT_MESSAGE: 'An error has occurred',
   INVALID_URL: 'Invalid URL',
-  PLEASE_SIGN_IN: 'Please sign in'
+  PLEASE_SIGN_IN: 'Please sign in',
+  MEETING_NOT_FOUND: 'Meeting not found',
 }
 
 export const TEXT = {

@@ -9,11 +9,12 @@ import {
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
-import { API, ROUTES, TOOLBAR } from '../core/const'
+import { API, ROUTES, TEXT, TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
 import { fromTemplate } from '../core/util'
+import MaterialLink from '@mui/material/Link'
 
 const PendingResponseGrid = () => {
   const { context } = useContext(AppContext)
@@ -23,7 +24,7 @@ const PendingResponseGrid = () => {
     throw new Error('Please sign in.')
   }
 
-  const params = new URLSearchParams({ projection: 'rosterPlanUserInfoProjection' })
+  const params = new URLSearchParams({ projection: API.PROJECTIONS.ROSTER_PLAN_USER_INFO })
   const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const dataManager = new DataManager({
@@ -41,10 +42,7 @@ const PendingResponseGrid = () => {
     id && <Link to={ROUTES.MEETING_RANK(id)}>{id}</Link>
   )
 
-  const emailTemplate = (x) => {
-    console.log(x)
-    // return (id === context.user.id ? TEXT.YOURSELF : <Link to={`mailto:${email}`}>{email}</Link>)
-  }
+  const emailTemplate = ({ owner: { id, email } }) => id === context.user.id ? TEXT.YOURSELF : <MaterialLink to={`mailto:${email}`}>{email}</MaterialLink>
 
   return (
     <GridComponent dataSource={dataManager} editSettings={editSettings} toolbar={TOOLBAR}>
