@@ -35,7 +35,8 @@ export const ERROR_MESSAGES = {
 }
 
 export const TEXT = {
-  YOURSELF: 'Yourself'
+  YOURSELF: 'Yourself',
+  FOOTER: 'An Orbital 2022 Project',
 }
 
 export const SYSTEM_THEME = createTheme()
