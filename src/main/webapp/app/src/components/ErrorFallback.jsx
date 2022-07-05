@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import CenterWrapper from './CenterWrapper'
+import { ERROR_MESSAGES } from '../core/const'
 
 const ErrorFallback = ({ error }) => {
   return (
