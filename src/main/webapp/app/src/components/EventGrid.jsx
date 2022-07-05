@@ -13,15 +13,16 @@ import { API, ROUTES, TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
-import { fromTemplate } from '../core/util'
 
 const EventGrid = () => {
   const { context } = useContext(AppContext)
 
-  const url = fromTemplate(context.user._links.ownedRosterPlans.href).url
-  if (url === null) {
+  if (context?.user?._links?.self?.href === null) {
     throw new Error('Please sign in.')
   }
+
+  const url = API.ROSTER_PLAN_BY_PARENT_IS_NULL_AND_OWNER(
+    context?.user?._links?.self?.href)
 
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({

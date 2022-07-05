@@ -1,6 +1,7 @@
 package com.orbital22.wemeet.repository;
 
 import com.orbital22.wemeet.model.RosterPlan;
+import com.orbital22.wemeet.model.User;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -25,6 +26,10 @@ public interface RosterPlanRepository extends JpaRepository<RosterPlan, Integer>
   @RestResource
   @NotNull
   Collection<RosterPlan> findByParent(RosterPlan parent);
+
+  @RestResource
+  @NotNull
+  Collection<RosterPlan> findByParentIsNullAndOwner(User owner);
 
   @RestResource
   @Override
