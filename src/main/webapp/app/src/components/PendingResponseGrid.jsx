@@ -9,11 +9,12 @@ import {
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
-import { API, ROUTES, TOOLBAR } from '../core/const'
+import { API, ROUTES, TEXT, TOOLBAR } from '../core/const'
 import { useContext } from 'react'
 import AppContext from '../core/AppContext'
 import { Link } from 'react-router-dom'
 import { fromTemplate } from '../core/util'
+import MaterialLink from '@mui/material/Link'
 
 const PendingResponseGrid = () => {
   const { context } = useContext(AppContext)
@@ -41,8 +42,8 @@ const PendingResponseGrid = () => {
     id && <Link to={ROUTES.MEETING_RANK(id)}>{id}</Link>
   )
 
-  const emailTemplate = (x) => {
-    return (id === context.user.id ? TEXT.YOURSELF : <Link to={`mailto:${email}`}>{email}</Link>)
+  const emailTemplate = ({ owner: { id, email } }) => {
+    return (id === context.user.id ? TEXT.YOURSELF : <MaterialLink href={`mailto:${email}`}>{email}</MaterialLink>)
   }
 
   return (
@@ -50,7 +51,7 @@ const PendingResponseGrid = () => {
       <ColumnsDirective>
         <ColumnDirective field='rosterPlan.id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
         <ColumnDirective field='rosterPlan.title' headerText='Title' textAlign='Center' />
-        <ColumnDirective field='user.email' headerText='From' template={emailTemplate} textAlign='Center' />
+        <ColumnDirective field='owner.email' headerText='From' template={emailTemplate} textAlign='Center' />
       </ColumnsDirective>
       <Inject services={[Edit, Toolbar]} />
     </GridComponent>
