@@ -23,7 +23,7 @@ const ScheduleRank = ({ rosterPlan }) => {
     throw new Error('Meeting not found.')
   }
 
-  const params = new URLSearchParams({ projection: 'timeSlotProjection' })
+  const params = new URLSearchParams({ projection: API.PROJECTIONS.TIME_SLOT })
   const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const map = ({ id: timeSlotId, rank }) => {
