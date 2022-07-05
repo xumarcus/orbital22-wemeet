@@ -53,20 +53,18 @@ const Inner = ({ meetingId }) => {
 }
 
 const InnerInner = ({ rosterPlan }) => {
+  /*
   const menuPages = [
     ['configurations', 'Meeting Configurations'],
     ['add', 'Bulk Add Events'],
     ['edit', 'Bulk Edit Events']
   ]
   const [currMenu, setCurrMenu] = useState('configurations')
+   */
   const [meetingTitle, setMeetingTitle] = useState(rosterPlan?.title)
   const [isTitleUpdated, setIsTitleUpdated] = useState(true)
   const [mode, setMode] = useState('set')
   const [currTab, setCurrTab] = useState('1')
-
-  const handleMenuChange = e => {
-    setCurrMenu(e.target.value)
-  }
 
   const handleMeetingTitleChange = (e) => {
     setMeetingTitle(e.target.value)

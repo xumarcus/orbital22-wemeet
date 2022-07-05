@@ -16,7 +16,7 @@ export const API = {
 
   PROJECTIONS: {
     ROSTER_PLAN_USER_INFO: 'rosterPlanUserInfoProjection',
-    TIME_SLOT: 'timeSlotProjection',
+    TIME_SLOT: 'timeSlotProjection'
   }
 }
 
@@ -32,12 +32,12 @@ export const ERROR_MESSAGES = {
   DEFAULT_MESSAGE: 'An error has occurred',
   INVALID_URL: 'Invalid URL',
   PLEASE_SIGN_IN: 'Please sign in',
-  MEETING_NOT_FOUND: 'Meeting not found',
+  MEETING_NOT_FOUND: 'Meeting not found'
 }
 
 export const TEXT = {
   YOURSELF: 'Yourself',
-  FOOTER: 'An Orbital 2022 Project',
+  FOOTER: 'An Orbital 2022 Project'
 }
 
 export const SYSTEM_THEME = createTheme()
