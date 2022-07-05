@@ -21,7 +21,7 @@ const ScheduleEdit = ({ rosterPlan }) => {
     throw new Error('Meeting not found.')
   }
 
-  const params = new URLSearchParams({ projection: API.PROJECTIONS.TIME_SLOT })
+  const params = new URLSearchParams({ projection: 'timeSlotProjection' })
   const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const map = (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })

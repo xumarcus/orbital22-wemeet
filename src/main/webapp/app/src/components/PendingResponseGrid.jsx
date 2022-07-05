@@ -23,7 +23,7 @@ const PendingResponseGrid = () => {
     throw new Error('Please sign in.')
   }
 
-  const params = new URLSearchParams({ projection: API.PROJECTIONS.ROSTER_PLAN_USER_INFO })
+  const params = new URLSearchParams({ projection: 'rosterPlanUserInfoProjection' })
   const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const dataManager = new DataManager({
@@ -42,7 +42,8 @@ const PendingResponseGrid = () => {
   )
 
   const emailTemplate = (x) => {
-    return (id === context.user.id ? TEXT.YOURSELF : <Link to={`mailto:${email}`}>{email}</Link>)
+    console.log(x)
+    // return (id === context.user.id ? TEXT.YOURSELF : <Link to={`mailto:${email}`}>{email}</Link>)
   }
 
   return (

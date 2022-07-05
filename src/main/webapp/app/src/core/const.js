@@ -9,15 +9,9 @@ export const API = {
   ROSTER_PLAN_ID: (id) => `/api/rosterPlan/${id}`,
   ROSTER_PLAN_USER_INFO: '/api/rosterPlanUserInfo',
   ROSTER_PLAN_BY_PARENT: (parent) => `/api/rosterPlan/search/findByParent?parent=${parent}`,
-  ROSTER_PLAN_BY_PARENT_IS_NULL_AND_OWNER: (owner) => `/api/rosterPlan/search/findByParentIsNullAndOwner?owner=${owner}`,
   TIME_SLOT: '/api/timeSlot',
   TIME_SLOT_ID: (id) => `/api/timeSlot/${id}`,
-  TIME_SLOT_USER_INFO: '/api/timeSlotUserInfo',
-
-  PROJECTIONS: {
-    ROSTER_PLAN_USER_INFO: 'rosterPlanUserInfoProjection',
-    TIME_SLOT: 'timeSlotProjection',
-  }
+  TIME_SLOT_USER_INFO: '/api/timeSlotUserInfo'
 }
 
 export const ROUTES = {
@@ -29,33 +23,12 @@ export const ROUTES = {
 // i18n support?
 
 export const ERROR_MESSAGES = {
-  DEFAULT_MESSAGE: 'An error has occurred.',
   INVALID_URL: 'Invalid URL',
-  PLEASE_SIGN_IN: 'Please sign in',
-  MEETING_NOT_FOUND: 'Meeting not found',
+  PLEASE_SIGN_IN: 'Please sign in'
 }
 
 export const TEXT = {
-  YOURSELF: 'Yourself',
-  FOOTER: 'An Orbital 2022 Project',
-  LOCK_STATUS: {
-    LOCKED: '🔐',
-    NOT_LOCKED: '🔓'
-  }
-}
-
-export const ENUMS = {
-  QUICK_MENU_BULK_ADD: {
-    FREQUENCY: {
-      DAILY: 'daily',
-      WEEKDAYS: 'weekdays',
-      WEEKENDS: 'weekends',
-    }
-  },
-  NAVBAR: {
-    PAGES: {},
-    SETTINGS: {},
-  }
+  YOURSELF: 'Yourself'
 }
 
 export const SYSTEM_THEME = createTheme()
