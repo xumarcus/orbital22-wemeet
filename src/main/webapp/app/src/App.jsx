@@ -13,7 +13,6 @@ import './App.css'
 
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
-import Demo from './components/Demo'
 import Guide from './pages/Guide'
 import MeetingEdit from './pages/MeetingEdit'
 import Profile from './pages/Profile'
@@ -44,7 +43,6 @@ const App = () => {
 
                 {/* TODO <Route path='about' /> */}
                 <Route path='dashboard' element={<Dashboard />} />
-                <Route path='demo' element={<Demo />} />
 
                 {/* TODO <Route path='features' /> */}
 

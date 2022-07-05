@@ -9,15 +9,13 @@ import {
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
-import { API, TOOLBAR } from '../core/const'
+import { API, ERROR_MESSAGES, TEXT, TOOLBAR } from '../core/const'
 import Typography from '@mui/material/Typography'
 import { fromTemplate } from '../core/util'
 
 const InvitationGrid = ({ rosterPlan, readonly }) => {
   const template = rosterPlan._links.rosterPlanUserInfos.href
-  if (template === null) {
-    throw new Error('Meeting not found.')
-  }
+  if (template === null) throw new Error(ERROR_MESSAGES.MEETING_NOT_FOUND)
 
   const params = new URLSearchParams({ projection: 'rosterPlanUserInfoProjection' })
   const url = `${fromTemplate(template).url}?${params.toString()}`
@@ -38,7 +36,7 @@ const InvitationGrid = ({ rosterPlan, readonly }) => {
 
   const lockedTemplate = ({ locked }) => (
     <Typography variant='body'>
-      {locked ? '🔐' : '🔓'}
+      {locked ? TEXT.LOCK_STATUS.LOCKED : TEXT.LOCK_STATUS.NOT_LOCKED}
     </Typography>
   )
 

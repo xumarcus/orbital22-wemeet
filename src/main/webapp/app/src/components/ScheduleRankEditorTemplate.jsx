@@ -50,7 +50,6 @@ const ScheduleRankEditorTemplate = (props) => {
     timeSlotUserInfos
   } = props
 
-  // TODO refactor into BE
   const rank = timeSlotUserInfos.find(
     info => info.user.id === context.user.id)?.rank
 

@@ -1,15 +1,15 @@
 import * as React from 'react'
 import Typography from '@mui/material/Typography'
-import * as ReactDOM from 'react-dom'
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
 import FormControl from '@mui/material/FormControl'
 import { Select } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
+import { ENUMS } from '../core/const'
 
 const QuickMenuBulkAdd = () => {
-  const [frequency, setFrequency] = React.useState('daily')
+  const [frequency, setFrequency] = React.useState(ENUMS.QUICK_MENU_BULK_ADD.FREQUENCY.DAILY)
   const [startDate, setStartDate] = React.useState(new Date())
   const [endDate, setEndDate] = React.useState(new Date())
 

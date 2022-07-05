@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import CenterWrapper from './CenterWrapper'
+import { ERROR_MESSAGES } from '../core/const'
 
 const ErrorFallback = ({ error }) => {
   return (
@@ -9,7 +10,7 @@ const ErrorFallback = ({ error }) => {
         ⚠
       </Typography>
       <Typography variant='h5' align='center'>
-        {error?.message || 'An error has occurred.'}
+        {error?.message ?? ERROR_MESSAGES.DEFAULT_MESSAGE}
       </Typography>
     </CenterWrapper>
   )
