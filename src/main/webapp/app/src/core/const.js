@@ -23,6 +23,7 @@ export const ROUTES = {
 // i18n support?
 
 export const ERROR_MESSAGES = {
+  DEFAULT_MESSAGE: 'An error has occurred',
   INVALID_URL: 'Invalid URL',
   PLEASE_SIGN_IN: 'Please sign in'
 }

@@ -9,7 +9,7 @@ const ErrorFallback = ({ error }) => {
         ⚠
       </Typography>
       <Typography variant='h5' align='center'>
-        {error?.message || 'An error has occurred.'}
+        {error?.message ?? ERROR_MESSAGES.DEFAULT_MESSAGE}
       </Typography>
     </CenterWrapper>
   )
