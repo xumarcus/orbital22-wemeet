@@ -16,7 +16,7 @@ export const API = {
 
   PROJECTIONS: {
     ROSTER_PLAN_USER_INFO: 'rosterPlanUserInfoProjection',
-    TIME_SLOT: 'timeSlotProjection'
+    TIME_SLOT: 'timeSlotProjection',
   }
 }
 
@@ -32,7 +32,7 @@ export const ERROR_MESSAGES = {
   DEFAULT_MESSAGE: 'An error has occurred.',
   INVALID_URL: 'Invalid URL',
   PLEASE_SIGN_IN: 'Please sign in',
-  MEETING_NOT_FOUND: 'Meeting not found'
+  MEETING_NOT_FOUND: 'Meeting not found',
 }
 
 export const TEXT = {
@@ -49,12 +49,12 @@ export const ENUMS = {
     FREQUENCY: {
       DAILY: 'daily',
       WEEKDAYS: 'weekdays',
-      WEEKENDS: 'weekends'
+      WEEKENDS: 'weekends',
     }
   },
   NAVBAR: {
     PAGES: {},
-    SETTINGS: {}
+    SETTINGS: {},
   }
 }
 

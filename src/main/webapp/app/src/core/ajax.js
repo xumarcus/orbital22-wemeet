@@ -9,14 +9,13 @@ export const isContentTypeJson = (contentType) => /application\/([+\w]*)json/.ex
 
 // Exposes cookies including XSRF_TOKEN
 export const cookies = () => {
-  return document.cookie
-    ?.match(/(^|(?<=, ))[^=;,]+=[^;]+/g)
-    ?.map(cookie => cookie.split('=').map(v => v.trim()))
-    ?.filter(([k, v]) => k.length && v.length)
-    ?.reduce((builder, [k, v]) => {
+  return document.cookie.match(/(^|(?<=, ))[^=;,]+=[^;]+/g)
+    .map(cookie => cookie.split('=').map(v => v.trim()))
+    .filter(([k, v]) => k.length && v.length)
+    .reduce((builder, [k, v]) => {
       builder[k] = v
       return builder
-    }, {}) ?? {}
+    }, {})
 }
 
 export const parseOrError = (str) => _.attempt(JSON.parse.bind(null, str))
