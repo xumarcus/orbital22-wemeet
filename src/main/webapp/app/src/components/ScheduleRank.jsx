@@ -52,11 +52,50 @@ const ScheduleRank = ({ rosterPlan }) => {
     }
   }
 
-  const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
-    const info = timeSlotUserInfos.find(({ picked, user: { id } }) => picked && id === context.user.id)
-    if (info) {
-      element.style.backgroundColor = SYSTEM_THEME.palette.success.main
+  const getSelfInfoColor = (timeSlotUserInfos) => {
+    const info = timeSlotUserInfos.find(({ user: { id } }) => id === context.user.id)
+
+    if (!info) return SYSTEM_THEME.palette.primary.main
+    if (info.picked) return SYSTEM_THEME.palette.success.main
+    switch (info.rank) {
+      case 0:
+        return SYSTEM_THEME.palette.primary.main // Same as info === null
+      case 1:
+        return SYSTEM_THEME.palette.warning.light
+      case 2:
+        return SYSTEM_THEME.palette.warning.main
+      case 3:
+        return SYSTEM_THEME.palette.warning.dark
+      default:
+        return SYSTEM_THEME.palette.error.main
     }
+  }
+
+  const getInfoSummary = (timeSlotUserInfos) => {
+    // TODO? BE considers rank = 0 as definitely not going... for now
+    const infos = timeSlotUserInfos.filter(({ rank }) => rank > 0)
+
+    const [first] = infos
+    switch (infos.length) {
+      case 0:
+        return 'Be the first\nto pick this?'
+      case 1:
+        return `${first.user.email}\nis picking this`
+      default:
+        return `${first.user.email}\nand ${infos.length - 1} more...`
+    }
+  }
+
+  const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
+    element.style.backgroundColor = getSelfInfoColor(timeSlotUserInfos)
+
+    // Syncfusion name for elements
+    const [appointment] = element.children
+    const usersEl = document.createElement('div')
+    usersEl.style.fontSize = '10px'
+    usersEl.style.textAlign = 'right'
+    usersEl.innerText = getInfoSummary(timeSlotUserInfos)
+    appointment.append(usersEl)
   }
 
   return (
@@ -65,6 +104,7 @@ const ScheduleRank = ({ rosterPlan }) => {
       eventSettings={eventSettings}
       height='80vh'
       eventRendered={onEventRendered}
+      showQuickInfo={false}
     >
       <Inject
         services={[Day, Week, Month, Agenda]}

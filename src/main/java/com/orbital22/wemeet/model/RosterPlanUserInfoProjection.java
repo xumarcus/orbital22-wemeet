@@ -13,7 +13,8 @@ public interface RosterPlanUserInfoProjection {
 
   RosterPlan getRosterPlan();
 
-  User getUser();
+  @Value("#{target.getRosterPlan().getOwner()}")
+  User getOwner();
 
   @Value("#{target.getUser().getEmail()}")
   String getEmail();
