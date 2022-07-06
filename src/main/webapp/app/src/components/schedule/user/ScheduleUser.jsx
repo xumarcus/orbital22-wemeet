@@ -9,13 +9,14 @@ import {
 import * as React from 'react'
 import { useContext } from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
-import RestAdaptor from '../core/RestAdaptor'
-import ScheduleRankEditorTemplate from './ScheduleRankEditorTemplate'
-import { API, SYSTEM_THEME, TEXT } from '../core/const'
-import AppContext from '../core/AppContext'
-import { fromTemplate } from '../core/util'
+import RestAdaptor from '../../../core/RestAdaptor'
+import ScheduleUserEditorTemplate from './ScheduleUserEditorTemplate'
+import { API, SYSTEM_THEME } from '../../../core/const'
+import AppContext from '../../../core/AppContext'
+import { fromTemplate } from '../../../core/util'
+import ScheduleEventFooter from '../ScheduleEventFooter'
 
-const ScheduleRank = ({ rosterPlan }) => {
+const ScheduleUser = ({ rosterPlan }) => {
   const { context } = useContext(AppContext)
 
   const template = rosterPlan?._links?.timeSlots?.href
@@ -71,40 +72,16 @@ const ScheduleRank = ({ rosterPlan }) => {
     }
   }
 
-  const getInfoSummary = (timeSlotUserInfos) => {
-    // TODO? BE considers rank = 0 as definitely not going... for now
-    const infos = timeSlotUserInfos.filter(({ rank }) => rank > 0)
-
-    const [first] = infos
-    switch (infos.length) {
-      case 0:
-        return TEXT.INFO_SUMMARY.NONE
-      case 1:
-        return TEXT.INFO_SUMMARY.ONE(first.user.email)
-      default:
-        return TEXT.INFO_SUMMARY.MORE(first.user.email, infos.length - 1)
-    }
-  }
-
-  const eventUsersEl = (innerText) => {
-    const eventUsersEl = document.createElement('div')
-    eventUsersEl.style.fontSize = '10px'
-    eventUsersEl.style.textAlign = 'right'
-    eventUsersEl.innerText = innerText
-    return eventUsersEl
-  }
-
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
     element.style.backgroundColor = getSelfInfoColor(timeSlotUserInfos)
 
-    // Syncfusion name for elements
     const [appointment] = element.children
-    appointment.append(eventUsersEl(getInfoSummary(timeSlotUserInfos)))
+    appointment.append(ScheduleEventFooter(timeSlotUserInfos))
   }
 
   return (
     <ScheduleComponent
-      editorTemplate={ScheduleRankEditorTemplate}
+      editorTemplate={ScheduleUserEditorTemplate}
       eventSettings={eventSettings}
       height='80vh'
       eventRendered={onEventRendered}
@@ -117,4 +94,4 @@ const ScheduleRank = ({ rosterPlan }) => {
   )
 }
 
-export default ScheduleRank
+export default ScheduleUser

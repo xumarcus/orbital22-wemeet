@@ -7,11 +7,11 @@ import {
   Inject,
   Toolbar,
 } from '@syncfusion/ej2-react-grids'
-import RestAdaptor from '../core/RestAdaptor'
+import RestAdaptor from '../../core/RestAdaptor'
 
-import { API, ROUTES, TOOLBAR } from '../core/const'
+import { API, ROUTES, TOOLBAR } from '../../core/const'
 import { useContext } from 'react'
-import AppContext from '../core/AppContext'
+import AppContext from '../../core/AppContext'
 import { Link } from 'react-router-dom'
 
 const EventGrid = () => {

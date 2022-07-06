@@ -39,7 +39,7 @@ export const TEXT = {
   YOURSELF: 'Yourself',
   FOOTER: 'An Orbital 2022 Project',
   INFO_SUMMARY: {
-    NONE: 'Be the first\nto pick this?',
+    NONE: 'Nobody picked this',
     ONE: (email) => `${email}\nis picking this`,
     MORE: (email, remainingCount) => `${email}\nand ${remainingCount} more...`
   }

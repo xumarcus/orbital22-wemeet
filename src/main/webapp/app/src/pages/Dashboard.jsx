@@ -4,12 +4,12 @@ import { useContext } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import PageTitle from '../components/PageTitle'
-import EventGrid from '../components/EventGrid'
+import PageTitle from '../components/core/PageTitle'
+import EventGrid from '../components/dashboard/EventGrid'
 import AppContext from '../core/AppContext'
-import ErrorFallback from '../components/ErrorFallback'
+import ErrorFallback from '../components/core/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
-import PendingResponseGrid from '../components/PendingResponseGrid'
+import PendingResponseGrid from '../components/dashboard/PendingResponseGrid'
 
 const TabPanel = ({ children, value, index, ...other }) => (
   <div

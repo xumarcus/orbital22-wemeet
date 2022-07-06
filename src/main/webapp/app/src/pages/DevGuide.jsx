@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
-import CenterWrapper from '../components/CenterWrapper'
+import CenterWrapper from '../components/core/CenterWrapper'
 
 const DevGuide = () => {
   return (

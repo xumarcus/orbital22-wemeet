@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { useContext } from 'react'
-import PageTitle from '../components/PageTitle'
+import PageTitle from '../components/core/PageTitle'
 import { useParams } from 'react-router-dom'
-import ErrorFallback from '../components/ErrorFallback'
+import ErrorFallback from '../components/core/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
 import useSWR from 'swr'
 import { CircularProgress } from '@mui/material'
 import ajax from '../core/ajax'
-import InvitationGrid from '../components/InvitationGrid'
+import InvitationGrid from '../components/schedule/InvitationGrid'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { API, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
-import ScheduleRank from '../components/ScheduleRank'
+import ScheduleUser from '../components/schedule/user/ScheduleUser'
 
 // TODO
 const MeetingViewSolution = () => {
@@ -46,7 +46,7 @@ const Inner = ({ meetingId }) => {
           <Typography variant='h5' sx={{ my: 2 }}>
             Schedule
           </Typography>
-          <ScheduleRank rosterPlan={data} />
+          <ScheduleUser rosterPlan={data} />
         </Grid>
         <Grid item xs={12} lg={4}>
           <Typography variant='h5' sx={{ my: 2 }}>

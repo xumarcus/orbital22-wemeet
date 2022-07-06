@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import ErrorFallback from '../components/ErrorFallback'
+import ErrorFallback from '../components/core/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
-import ScheduleEdit from '../components/ScheduleEdit'
+import ScheduleOwner from '../components/schedule/owner/ScheduleOwner'
 import useSWR from 'swr'
 import {
   CircularProgress,
@@ -13,19 +13,22 @@ import {
   ToggleButtonGroup,
 } from '@mui/material'
 import ajax from '../core/ajax'
-import InvitationGrid from '../components/InvitationGrid'
+import InvitationGrid from '../components/schedule/InvitationGrid'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { API, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
-import EventSettingsTab from '../components/QuickMenuEventSettings'
-import BulkAddTab from '../components/QuickMenuBulkAdd'
-import BulkEditTab from '../components/QuickMenuBulkEdit'
+import EventSettingsTab
+  from '../components/schedule/owner/quick_menu/QuickMenuEventSettings'
+import BulkAddTab
+  from '../components/schedule/owner/quick_menu/QuickMenuBulkAdd'
+import BulkEditTab
+  from '../components/schedule/owner/quick_menu/QuickMenuBulkEdit'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import Tab from '@mui/material/Tab'
-import SolutionGrid from '../components/SolutionGrid'
+import SolutionGrid from '../components/schedule/owner/SolutionGrid'
 
 const MeetingEdit = () => {
   const { context } = useContext(AppContext)
@@ -126,7 +129,7 @@ const InnerInner = ({ rosterPlan }) => {
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <ScheduleEdit rosterPlan={rosterPlan} />
+            <ScheduleOwner rosterPlan={rosterPlan} />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>

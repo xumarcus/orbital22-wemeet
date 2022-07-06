@@ -1,7 +1,7 @@
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
-import { SYSTEM_THEME, TEXT } from '../core/const'
+import { SYSTEM_THEME, TEXT } from '../../core/const'
 
 const Footer = () => {
   return (
