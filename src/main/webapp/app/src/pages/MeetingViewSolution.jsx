@@ -59,7 +59,12 @@ const InnerInner = ({ rosterPlan }) => {
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
-          <Button onClick={handlePublish}>Publish</Button>
+          <Button
+            sx={{ my: 2 }} variant='contained' color='success'
+            onClick={handlePublish}
+          >
+            Publish
+          </Button>
           <Divider variant='middle' />
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
