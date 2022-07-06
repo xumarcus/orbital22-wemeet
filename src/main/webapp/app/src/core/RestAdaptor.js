@@ -1,5 +1,6 @@
 import { CustomDataAdaptor } from '@syncfusion/ej2-data'
 import { cookies, parseOrError } from './ajax'
+import { ERROR_MESSAGES } from './const'
 
 const handle = (option, { httpRequest, promise }) => {
   return promise
@@ -8,7 +9,7 @@ const handle = (option, { httpRequest, promise }) => {
 }
 
 export const makeRequest = (method, url, data) => {
-  const httpRequest = new XMLHttpRequest()
+  const httpRequest = new window.XMLHttpRequest()
   const promise = new Promise((resolve, reject) => {
     httpRequest.open(method, url, true)
     httpRequest.onload = () => {
@@ -18,7 +19,7 @@ export const makeRequest = (method, url, data) => {
         reject(parseOrError(httpRequest.responseText))
       }
     }
-    httpRequest.onerror = () => reject()
+    httpRequest.onerror = (ev) => reject(new Error(ERROR_MESSAGES.DEFAULT_MESSAGE, { cause: ev }))
 
     httpRequest.withCredentials = true
     httpRequest.setRequestHeader('X-XSRF-TOKEN', cookies()['XSRF-TOKEN'])

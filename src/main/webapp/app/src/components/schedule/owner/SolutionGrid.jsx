@@ -37,6 +37,10 @@ const SolutionGrid = ({ rosterPlan }) => {
     id && <Link to={ROUTES.MEETING_VIEW_SOLUTION(id)}>{id}</Link>
   )
 
+  const setRef = (g) => {
+    ref.current = g
+  }
+
   return (
     <>
       <Button
@@ -45,7 +49,7 @@ const SolutionGrid = ({ rosterPlan }) => {
       >Generate
         Roster
       </Button>
-      <GridComponent dataSource={dataManager} ref={g => ref.current = g}>
+      <GridComponent dataSource={dataManager} ref={setRef}>
         <ColumnsDirective>
           <ColumnDirective
             field='id' headerText='ID' template={linkIDTemplate}

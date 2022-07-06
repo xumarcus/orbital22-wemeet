@@ -30,7 +30,6 @@ const TabPanel = ({ children, value, index, ...other }) => (
 const a11yProps = (index) => (
   {
     id: `simple-tab-${index}`,
-    key: index,
     'aria-controls': `simple-tabpanel-${index}`
   }
 )
@@ -56,7 +55,7 @@ const Dashboard = () => {
         <Tabs
           value={index} onChange={(event, newIndex) => setIndex(newIndex)}
         >
-          {TABS.map((label, index) => <Tab label={label} {...a11yProps(index)} />)}
+          {TABS.map((label, index) => <Tab label={label} key={label} {...a11yProps(index)} />)}
         </Tabs>
 
         <Box sx={{ backgroundColor: '#efefef', height: '100vh' }}>

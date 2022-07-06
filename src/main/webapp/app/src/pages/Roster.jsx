@@ -26,8 +26,6 @@ const Roster = () => {
     console.log(startDate, endDate, frequency)
   }
 
-  const events = [{ title: 'today\'s event', date: new Date() }]
-
   return (
     <>
       <CenterWrapper>

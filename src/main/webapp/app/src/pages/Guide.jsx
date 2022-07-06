@@ -11,7 +11,7 @@ const Guide = () => {
   return (
     <>
       <CenterWrapper>
-        // button group
+        {/* button group */}
         <Typography variant='h3' align='center'>
           User / Developer Guide <br />
           Coming Soon{' '}

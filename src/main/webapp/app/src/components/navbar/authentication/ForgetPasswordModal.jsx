@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useContext } from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -9,16 +8,12 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
-import RetryAlert from './RetryAlert'
-import ajax from '../../core/ajax'
-import AppContext from '../../core/AppContext'
-import { useNavigate } from 'react-router-dom'
+// import ReCAPTCHA from "react-google-recaptcha";
+// need domain to use
 
 const style = {
   position: 'absolute',
@@ -32,43 +27,31 @@ const style = {
   p: 4
 }
 
-const LogInModal = ({ visible, setVisible }) => {
-  const navigate = useNavigate()
-  const { context, setContext } = useContext(AppContext)
+const ForgetPasswordModal = (prop) => {
+  const { visible, setVisible } = prop
+  const handleClose = () => setVisible('')
 
-  const handleClose = () => {
-    setRetryAlert(false)
-    setVisible('')
-  }
-
-  const [retryAlert, setRetryAlert] = React.useState(false)
-
-  const handleSwitchtoForgetPassword = () => {
-    setVisible('forgetPassword')
+  const handleSwitchtoSignIn = () => {
+    setVisible('signin')
   }
 
   const handleSwitchtoSignUp = () => {
     setVisible('signup')
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    try {
-      const user = await ajax('POST', formData)('/login')
-      setContext({ ...context, user })
-      handleClose()
-      navigate('/dashboard')
-    } catch (e) {
-      console.log(e) // FIXME
-      setRetryAlert(true)
-    }
+    const data = new window.FormData(event.currentTarget)
+    console.log({
+      email: data.get('email'),
+      password: data.get('password')
+    })
   }
 
   return (
     <Modal
       aria-labelledby='transition-modal-title'
-      open={visible === 'signin'}
+      open={visible === 'forgetPassword'}
       onClose={handleClose}
       // closeAfterTransition
       BackdropComponent={Backdrop}
@@ -77,9 +60,9 @@ const LogInModal = ({ visible, setVisible }) => {
       }}
       sx={{ width: '70%', left: '15%' }}
     >
-      <Fade in={visible === 'signin'}>
+      <Fade in={visible === 'forgetPassword'}>
         <Box sx={style}>
-          {retryAlert && <RetryAlert />}
+          {/* white box to hold form */}
           <Container component='main' maxWidth='xs'>
             <CssBaseline />
             <Box
@@ -97,7 +80,7 @@ const LogInModal = ({ visible, setVisible }) => {
                 component='h1'
                 variant='h5'
               >
-                Sign in
+                Reset Password
               </Typography>
               <Box
                 component='form'
@@ -115,35 +98,22 @@ const LogInModal = ({ visible, setVisible }) => {
                   autoComplete='email'
                   autoFocus
                 />
-                <TextField
-                  margin='normal'
-                  required
-                  fullWidth
-                  name='password'
-                  label='Password'
-                  type='password'
-                  id='password'
-                  autoComplete='current-password'
-                />
-                <FormControlLabel
-                  control={<Checkbox value='remember' color='primary' />}
-                  label='Remember me'
-                />
+
                 <Button
                   type='submit'
                   fullWidth
                   variant='contained'
                   sx={{ mt: 2, mb: 2 }}
                 >
-                  Sign In
+                  Send Recovery Email
                 </Button>
                 <Grid container>
                   <Grid item xs>
                     <Link
                       variant='body2'
-                      onClick={() => handleSwitchtoForgetPassword()}
+                      onClick={() => handleSwitchtoSignIn()}
                     >
-                      Forgot password?
+                      Sign In
                     </Link>
                   </Grid>
                   <Grid item>
@@ -151,7 +121,7 @@ const LogInModal = ({ visible, setVisible }) => {
                       variant='body2'
                       onClick={() => handleSwitchtoSignUp()}
                     >
-                      {'Don\'t have an account? Sign Up'}
+                      Don't have an account? Sign Up
                     </Link>
                   </Grid>
                 </Grid>
@@ -164,4 +134,4 @@ const LogInModal = ({ visible, setVisible }) => {
   )
 }
 
-export default LogInModal
+export default ForgetPasswordModal

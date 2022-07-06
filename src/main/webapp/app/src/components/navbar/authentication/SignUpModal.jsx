@@ -15,10 +15,10 @@ import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Container from '@mui/material/Container'
-import ajax from '../../core/ajax'
+import ajax from '../../../core/ajax'
 import RetryAlert from './RetryAlert'
 
-import AppContext from '../../core/AppContext'
+import AppContext from '../../../core/AppContext'
 import { useNavigate } from 'react-router-dom'
 
 const style = {
@@ -45,7 +45,7 @@ const SignUpModal = ({ visible, setVisible }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const formData = new FormData(event.currentTarget)
+    const formData = new window.FormData(event.currentTarget)
     const request = {
       email: formData.get('email'),
       rawPassword: formData.get('password')
