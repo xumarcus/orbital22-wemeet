@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Typography from '@mui/material/Typography'
-import * as ReactDOM from 'react-dom'
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
 import FormControl from '@mui/material/FormControl'
 import { Select } from '@mui/material'

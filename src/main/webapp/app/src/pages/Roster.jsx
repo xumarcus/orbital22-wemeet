@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
-import CenterWrapper from '../components/CenterWrapper'
+import CenterWrapper from '../components/core/CenterWrapper'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -25,8 +25,6 @@ const Roster = () => {
   const handleSubmit = () => {
     console.log(startDate, endDate, frequency)
   }
-
-  const events = [{ title: 'today\'s event', date: new Date() }]
 
   return (
     <>

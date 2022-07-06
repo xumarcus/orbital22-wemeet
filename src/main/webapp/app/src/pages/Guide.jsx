@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
-import CenterWrapper from '../components/CenterWrapper'
+import CenterWrapper from '../components/core/CenterWrapper'
 import UserGuide from './UserGuide'
 import DevGuide from './DevGuide'
 
@@ -11,7 +11,7 @@ const Guide = () => {
   return (
     <>
       <CenterWrapper>
-        // button group
+        {/* button group */}
         <Typography variant='h3' align='center'>
           User / Developer Guide <br />
           Coming Soon{' '}

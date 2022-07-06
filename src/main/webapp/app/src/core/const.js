@@ -37,7 +37,12 @@ export const ERROR_MESSAGES = {
 
 export const TEXT = {
   YOURSELF: 'Yourself',
-  FOOTER: 'An Orbital 2022 Project'
+  FOOTER: 'An Orbital 2022 Project',
+  INFO_SUMMARY: {
+    NONE: 'Nobody picked this',
+    ONE: (email) => `${email}\nis picking this`,
+    MORE: (email, remainingCount) => `${email}\nand ${remainingCount} more...`
+  }
 }
 
 export const SYSTEM_THEME = createTheme()

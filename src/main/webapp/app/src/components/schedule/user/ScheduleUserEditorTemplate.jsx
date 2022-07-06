@@ -2,9 +2,9 @@ import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars'
 import * as React from 'react'
 import { useContext } from 'react'
 import _ from 'lodash'
-import AppContext from '../core/AppContext'
+import AppContext from '../../../core/AppContext'
 
-const ScheduleRankEditorTemplate = (props) => {
+const ScheduleUserEditorTemplate = (props) => {
   const { context } = useContext(AppContext)
 
   if (_.isEmpty(props)) {
@@ -84,4 +84,4 @@ const ScheduleRankEditorTemplate = (props) => {
   )
 }
 
-export default ScheduleRankEditorTemplate
+export default ScheduleUserEditorTemplate

@@ -2,7 +2,7 @@ import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars'
 import * as React from 'react'
 
-const ScheduleEditEditorTemplate = (props) => {
+const ScheduleOwnerEditorTemplate = (props) => {
   return (
     <>
       <table
@@ -89,4 +89,4 @@ const ScheduleEditEditorTemplate = (props) => {
   )
 }
 
-export default ScheduleEditEditorTemplate
+export default ScheduleOwnerEditorTemplate
