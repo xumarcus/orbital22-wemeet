@@ -1,91 +1,129 @@
-import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars'
 import * as React from 'react'
+import _ from 'lodash'
+import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import Typography from '@mui/material/Typography'
+import { UI } from '../../../core/const'
 
 const ScheduleOwnerEditorTemplate = (props) => {
+  if (_.isEmpty(props)) {
+    return <div />
+  }
+
+  const FieldEditorRow = ({ label, name, ...props }) => (
+    <tr>
+      <td className='e-textlabel'>{label}</td>
+      <td colSpan={4}>
+        <input
+          className='e-field e-input'
+          id={name}
+          name={name}
+          style={{ width: '100%' }}
+          {...props}
+        />
+      </td>
+    </tr>
+  )
+
+  const FieldList = ({ label, items, ...props }) => {
+    const { SIZE } = UI.SCHEDULE.OWNER.EDITOR.AVATAR
+    return (
+      <tr>
+        <td
+          className='e-textlabel' style={{
+            paddingTop: SIZE / 2,
+            paddingBottom: SIZE / 2
+          }}
+        >
+          {label}
+        </td>
+        <td colSpan={4}>
+          {items.length > 0 && (
+            <List dense {...props}>
+              {items.map(item => (
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar
+                      sx={{
+                        width: SIZE,
+                        height: SIZE
+                      }}
+                      src='/avatar-does-not-exist'
+                    />
+                  </ListItemAvatar>
+                  <ListItemText>
+                    {item}
+                  </ListItemText>
+                </ListItem>
+              ))}
+            </List>
+          )}
+          {items.length === 0 && (
+            <Typography variant='body'>
+              No records to display
+            </Typography>
+          )}
+        </td>
+      </tr>
+    )
+  }
+
+  const DateTimePickerEditorRow = ({ label, name, ...props }) => (
+    <tr>
+      <td className='e-textlabel'>{label}</td>
+      <td colSpan={4}>
+        <DateTimePickerComponent
+          className='e-field'
+          format='dd/MM/yy hh:mm a'
+          id={name}
+          data-name={name}
+          {...props}
+        />
+      </td>
+    </tr>
+  )
+
+  const {
+    id: timeSlotId,
+    // Id: syncfusionId,
+    startDateTime,
+    endDateTime,
+    capacity,
+    timeSlotUserInfos
+  } = props
+
   return (
-    <>
-      <table
-        className='custom-event-editor'
-        style={{ width: '100%', cellpadding: '5' }}
-      >
-        <tbody>
-          <tr>
-            <td className='e-textlabel'>Title</td>
-            <td colSpan={4}>
-              <input
-                id='Title' className='e-field e-input' type='text'
-                name='title' style={{ width: '100%' }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className='e-textlabel'>Rank</td>
-            <td colSpan={4}>
-              <input
-                id='Rank' className='e-field e-input' type='number'
-                name='rank' style={{ width: '100%' }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className='e-textlabel'>Available Slots</td>
-            <td colSpan={4}>
-              <input
-                id='Occupancy' className='e-field e-input' type='number'
-                name='occupancy' style={{ width: '100%' }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className='e-textlabel'>Status</td>
-            <td colSpan={4}>
-              <DropDownListComponent
-                id='Status' placeholder='Choose status'
-                data-name='EventStatus' className='e-field'
-                style={{ width: '100%' }}
-                dataSource={['Open', 'Confirmed']}
-                value={props.EventType || null}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className='e-textlabel'>From</td>
-            <td colSpan={4}>
-              <DateTimePickerComponent
-                format='dd/MM/yy hh:mm a' id='StartTime'
-                data-name='StartTime' value={new Date(
-                  props.startTime || props.StartTime)} className='e-field'
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className='e-textlabel'>To</td>
-            <td colSpan={4}>
-              <DateTimePickerComponent
-                format='dd/MM/yy hh:mm a' id='EndTime'
-                data-name='EndTime' value={new Date(
-                  props.endTime || props.EndTime)} className='e-field'
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className='e-textlabel'>Attendee</td>
-            <td colSpan={4}>
-              <textarea
-                id='Attendee' className='e-field e-input' name='Attendee'
-                rows={3} cols={50} style={{
-                  width: '100%',
-                  height: '60px !important',
-                  resize: 'vertical'
-                }}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div />
-    </>
+    <table
+      className='custom-event-editor'
+      style={{ width: '100%', cellpadding: '5' }}
+    >
+      <tbody>
+        <FieldEditorRow
+          name='timeSlotId'
+          type='number' value={timeSlotId} disabled hidden
+        />
+        <FieldEditorRow
+          label='Capacity' name='capacity'
+          defaultValue={capacity} type='number'
+        />
+        <DateTimePickerEditorRow
+          label='From' name='startDateTime' value={startDateTime}
+        />
+        <DateTimePickerEditorRow
+          label='To' name='endDateTime' value={endDateTime}
+        />
+        <FieldList
+          label='Picked'
+          items={timeSlotUserInfos.map(info => info.user.email)}
+        />
+        <FieldList
+          label='Allocated'
+          items={timeSlotUserInfos.filter(({ picked }) => picked /* FIXME fieldName */)
+            .map(info => info.user.email)}
+        />
+      </tbody>
+    </table>
   )
 }
 

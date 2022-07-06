@@ -26,6 +26,20 @@ export const ROUTES = {
   MEETING_VIEW_SOLUTION: (id) => `/meeting/${id}/view-solution`
 }
 
+export const ENUMS = {
+  SCHEDULE: {
+    OWNER: {
+      CONFIGURER: {
+        DURATIONS: {
+          FIFTEEN: 15,
+          THIRTY: 30,
+          HOURLY: 60
+        }
+      }
+    }
+  }
+}
+
 // i18n support?
 
 export const ERROR_MESSAGES = {
@@ -39,9 +53,33 @@ export const TEXT = {
   YOURSELF: 'Yourself',
   FOOTER: 'An Orbital 2022 Project',
   INFO_SUMMARY: {
-    NONE: 'Nobody picked this',
+    NONE: 'Nobody\nis picking this',
     ONE: (email) => `${email}\nis picking this`,
     MORE: (email, remainingCount) => `${email}\nand ${remainingCount} more...`
+  },
+  SCHEDULE: {
+    OWNER: {
+      CONFIGURER: {
+        DURATIONS: [
+          { value: 15, label: '15 minutes' },
+          { value: 30, label: '30 minutes' },
+          { value: 60, label: '1 hour' }
+        ]
+      }
+    }
+  },
+  EVENT_DURATION: 'Default event duration'
+}
+
+export const UI = {
+  SCHEDULE: {
+    OWNER: {
+      EDITOR: {
+        AVATAR: {
+          SIZE: 32
+        }
+      }
+    }
   }
 }
 

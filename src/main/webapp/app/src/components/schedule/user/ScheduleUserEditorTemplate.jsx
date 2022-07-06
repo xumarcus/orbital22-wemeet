@@ -11,7 +11,7 @@ const ScheduleUserEditorTemplate = (props) => {
     return <div />
   }
 
-  const RankEditorRow = ({ label, name, ...props }) => (
+  const FieldEditorRow = ({ label, name, ...props }) => (
     <tr>
       <td className='e-textlabel'>{label}</td>
       <td colSpan={4}>
@@ -59,15 +59,15 @@ const ScheduleUserEditorTemplate = (props) => {
       style={{ width: '100%', cellpadding: '5' }}
     >
       <tbody>
-        <RankEditorRow
+        <FieldEditorRow
           name='timeSlotId' type='number'
           value={timeSlotId} disabled hidden
         />
-        <RankEditorRow
+        <FieldEditorRow
           label='Capacity' name='capacity' value={capacity}
           disabled
         />
-        <RankEditorRow
+        <FieldEditorRow
           label='Rank' name='rank' defaultValue={rank}
           type='number'
         />

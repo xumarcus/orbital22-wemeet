@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ErrorFallback from '../components/core/ErrorFallback'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -10,11 +10,13 @@ import ajax from '../core/ajax'
 import InvitationGrid from '../components/schedule/InvitationGrid'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { API, ERROR_MESSAGES } from '../core/const'
+import { API, ENUMS, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
 import Box from '@mui/material/Box'
 import PageTitle from '../components/core/PageTitle'
 import Button from '@mui/material/Button'
+import ScheduleOwnerConfigurer
+  from '../components/schedule/owner/ScheduleOwnerConfigurer'
 
 const MeetingViewSolution = () => {
   const { context } = useContext(AppContext)
@@ -42,6 +44,8 @@ const Inner = ({ meetingId }) => {
 }
 
 const InnerInner = ({ rosterPlan }) => {
+  const [eventDuration, setEventDuration] = useState(ENUMS.SCHEDULE.OWNER.CONFIGURER.DURATIONS.THIRTY)
+
   const handlePublish = () => {
     window.alert('To be implemented')
   }
@@ -55,10 +59,11 @@ const InnerInner = ({ rosterPlan }) => {
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <ScheduleOwner rosterPlan={rosterPlan} readOnly />
+            <ScheduleOwner rosterPlan={rosterPlan} eventDuration={eventDuration} readOnly />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
+          <ScheduleOwnerConfigurer eventDuration={eventDuration} setEventDuration={setEventDuration} readOnly />
           <Button
             sx={{ my: 2 }} variant='contained' color='success'
             onClick={handlePublish}
