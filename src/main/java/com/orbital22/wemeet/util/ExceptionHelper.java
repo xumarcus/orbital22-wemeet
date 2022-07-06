@@ -7,7 +7,7 @@ import org.springframework.validation.MapBindingResult;
 
 import java.util.HashMap;
 
-public interface ProjectUtils {
+public interface ExceptionHelper {
   static RepositoryConstraintViolationException from(
           Object object, @Nullable String field, String errorCode) {
     return from(object, field, errorCode, null);

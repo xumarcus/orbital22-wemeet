@@ -89,7 +89,7 @@ public class RosterPlanUpdateIntegrationTest {
   private void addCock() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("locked", false);
-    map.put("user", "/api/users/2");
+    map.put("email", "cock@wemeet.com");
     map.put("rosterPlan", "/api/rosterPlan/1");
 
     this.mockMvc
@@ -117,6 +117,23 @@ public class RosterPlanUpdateIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost/api/timeSlot/1"));
+  }
+
+  @Test
+  public void givenInvalidRequest_whenAddTimeSlot_thenBadRequest() throws Exception {
+    Map<String, Object> map = new HashMap<>();
+    map.put("startDateTime", "2019-06-09T19:00:00.000Z");
+    map.put("endDateTime", "2019-06-09T18:00:00.000Z");
+    map.put("capacity", 3);
+    map.put("rosterPlan", "/api/rosterPlan/1");
+
+    this.mockMvc
+            .perform(
+                    post("/api/timeSlot")
+                            .with(user(talk.getEmail()))
+                            .content(objectMapper.writeValueAsString(map))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -178,13 +195,13 @@ public class RosterPlanUpdateIntegrationTest {
         .perform(get("/api/users/3").with(user("suck@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(status().isNotFound());
 
-    Map<String, Object> map = new HashMap<>();
-    map.put("locked", false);
+    Map<String, Object> expected = new HashMap<>();
+    expected.put("locked", false);
+
+    Map<String, Object> map = new HashMap<>(expected);
     map.put("email", "suck@wemeet.com");
-
-    Map<String, Object> expected = new HashMap<>(map);
-
     map.put("rosterPlan", "/api/rosterPlan/1");
+
     this.mockMvc
         .perform(
             post("/api/rosterPlanUserInfo")

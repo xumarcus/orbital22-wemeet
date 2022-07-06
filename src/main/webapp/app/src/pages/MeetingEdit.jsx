@@ -25,13 +25,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import Tab from '@mui/material/Tab'
-
-/* TODO fetch rosterPlan from BE (cached request) with swr
-    Then fetch time slots and infos... then everything
-    Use DM to connect component to CRUD API
-    Include Grid of users invited
-    [Optimization] can use projection if too many requests
-*/
+import SolutionGrid from '../components/SolutionGrid'
 
 const MeetingEdit = () => {
   const { context } = useContext(AppContext)
@@ -48,17 +42,6 @@ const MeetingEdit = () => {
 }
 
 const Inner = ({ meetingId }) => {
-  const menuPages = [
-    ['configurations', 'Meeting Configurations'],
-    ['add', 'Bulk Add Events'],
-    ['edit', 'Bulk Edit Events']
-  ]
-  const [currMenu, setCurrMenu] = useState('configurations')
-  const [meetingTitle, setMeetingTitle] = useState(data?.title)
-  const [isTitleUpdated, setIsTitleUpdated] = useState(true)
-  const [mode, setMode] = useState('set')
-  const [currTab, setCurrTab] = useState('1')
-
   if (meetingId === undefined) {
     throw new Error(ERROR_MESSAGES.INVALID_URL)
   }
@@ -66,18 +49,31 @@ const Inner = ({ meetingId }) => {
   const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
   if (error) throw new Error(error)
   if (!data) return <CircularProgress />
+  return <InnerInner rosterPlan={data} />
+}
 
-  const handleMenuChange = e => {
-    setCurrMenu(e.target.value)
-  }
+const InnerInner = ({ rosterPlan }) => {
+  /*
+  const menuPages = [
+    ['configurations', 'Meeting Configurations'],
+    ['add', 'Bulk Add Events'],
+    ['edit', 'Bulk Edit Events']
+  ]
+  const [currMenu, setCurrMenu] = useState('configurations')
+   */
+  const [meetingTitle, setMeetingTitle] = useState(rosterPlan?.title)
+  const [isTitleUpdated, setIsTitleUpdated] = useState(true)
+  const [mode, setMode] = useState('set')
+  const [currTab, setCurrTab] = useState('1')
 
   const handleMeetingTitleChange = (e) => {
     setMeetingTitle(e.target.value)
     setIsTitleUpdated(false)
   }
 
-  const handleSaveMeetingTitle = () => {
+  const handleSaveMeetingTitle = async () => {
     // TODO: - handle saving of meeting title
+    await ajax('PATCH', { title: meetingTitle })(`${API.ROSTER_PLAN}/${rosterPlan.id}`)
     setIsTitleUpdated(true)
   }
 
@@ -86,16 +82,12 @@ const Inner = ({ meetingId }) => {
     // TODO: - handle changing of meeting mode
   }
 
-  const handleGenerate = (e) => {
-    // TODO: - handle generating of roster
-  }
-
   const handleTabChange = (event, newValue) => {
     setCurrTab(newValue)
   }
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
+    <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[rosterPlan]}>
       {/* <PageTitle pageTitle={data?.title} /> */}
       <Box sx={{
         display: 'flex',
@@ -134,31 +126,11 @@ const Inner = ({ meetingId }) => {
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <ScheduleEdit rosterPlan={data} />
+            <ScheduleEdit rosterPlan={rosterPlan} />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
           <Box>
-            {/* <Box sx={{ */}
-            {/*  display: 'flex', */}
-            {/*  flexDirection: 'row' */}
-            {/* }} */}
-            {/* > */}
-            {/*  <Typography variant='h5' sx={{ my: 2 }}> */}
-            {/*    Menu */}
-            {/*  </Typography> */}
-            {/*  <FormControl sx={{ mx: 1 }}> */}
-            {/*    <Select */}
-            {/*      value={currMenu} */}
-            {/*      onChange={handleMenuChange} */}
-            {/*    > */}
-            {/*      {menuPages.map(([value, description]) => <MenuItem key={value} value={value}>{description}</MenuItem>)} */}
-            {/*    </Select> */}
-            {/*  </FormControl> */}
-            {/* </Box> */}
-            {/* {currMenu === 'configurations' && <QuickMenuEventSettings />} */}
-            {/* {currMenu === 'add' && <QuickMenuBulkAdd />} */}
-            {/* {currMenu === 'edit' && <QuickMenuBulkEdit />} */}
             <Typography variant='h5' sx={{ my: 2 }}>
               Menu
             </Typography>
@@ -187,13 +159,8 @@ const Inner = ({ meetingId }) => {
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
-          <InvitationGrid
-            rosterPlan={data}
-            invitationGrid={{ readonly: false }}
-          />
-          <Button variant='contained' color='success' onClick={handleGenerate}>Generate
-            Roster
-          </Button>
+          <InvitationGrid rosterPlan={rosterPlan} />
+          <SolutionGrid rosterPlan={rosterPlan} />
         </Grid>
       </Grid>
     </ErrorBoundary>

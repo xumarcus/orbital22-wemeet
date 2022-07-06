@@ -13,7 +13,6 @@ import './App.css'
 
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
-import Demo from './components/Demo'
 import Guide from './pages/Guide'
 import MeetingEdit from './pages/MeetingEdit'
 import Profile from './pages/Profile'
@@ -21,6 +20,7 @@ import Wizard from './pages/Wizard'
 import { API } from './core/const'
 import ajax from './core/ajax'
 import MeetingRank from './pages/MeetingRank'
+import MeetingViewSolution from './pages/MeetingViewSolution'
 
 const App = () => {
   const [context, setContext] = useState(defaultAppContext)
@@ -43,7 +43,6 @@ const App = () => {
 
                 {/* TODO <Route path='about' /> */}
                 <Route path='dashboard' element={<Dashboard />} />
-                <Route path='demo' element={<Demo />} />
 
                 {/* TODO <Route path='features' /> */}
 
@@ -53,6 +52,7 @@ const App = () => {
                 <Route path='meeting'>
                   <Route path=':meetingId/edit' element={<MeetingEdit />} />
                   <Route path=':meetingId/rank' element={<MeetingRank />} />
+                  <Route path=':meetingId/view-solution' element={<MeetingViewSolution />} />
                 </Route>
                 <Route path='profile' element={<Profile />} />
 

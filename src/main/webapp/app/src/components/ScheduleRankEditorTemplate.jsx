@@ -50,7 +50,6 @@ const ScheduleRankEditorTemplate = (props) => {
     timeSlotUserInfos
   } = props
 
-  // TODO refactor into BE
   const rank = timeSlotUserInfos.find(
     info => info.user.id === context.user.id)?.rank
 
@@ -61,7 +60,7 @@ const ScheduleRankEditorTemplate = (props) => {
     >
       <tbody>
         <RankEditorRow
-          label='TimeSlotId' name='timeSlotId' type='number'
+          name='timeSlotId' type='number'
           value={timeSlotId} disabled hidden
         />
         <RankEditorRow

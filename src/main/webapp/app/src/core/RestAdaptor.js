@@ -1,88 +1,92 @@
 import { CustomDataAdaptor } from '@syncfusion/ej2-data'
-import { cookies, isContentTypeJson } from './ajax'
-import { StatusCodes } from 'http-status-codes'
-import _ from 'lodash'
+import { cookies, parseOrError } from './ajax'
 
-const createRequest = (method, url, option, handleRequest, data) => {
-  const xhr = new XMLHttpRequest()
-  xhr.onreadystatechange = function () {
-    if (this.readyState === 4) {
-      handleRequest(xhr, { ...option, httpRequest: xhr })
+const handle = (option, { httpRequest, promise }) => {
+  return promise
+    .then((data) => option.onSuccess(data, { ...option, httpRequest }))
+    .catch(() => option.onFailure({ ...option, httpRequest }))
+}
+
+export const makeRequest = (method, url, data) => {
+  const httpRequest = new XMLHttpRequest()
+  const promise = new Promise((resolve, reject) => {
+    httpRequest.open(method, url, true)
+    httpRequest.onload = () => {
+      if (httpRequest.status >= 200 && httpRequest.status <= 299) {
+        resolve(parseOrError(httpRequest.responseText))
+      } else {
+        reject(parseOrError(httpRequest.responseText))
+      }
     }
-  }
-  xhr.open(method, url, true)
-  xhr.withCredentials = true
-  xhr.setRequestHeader('X-XSRF-TOKEN', cookies()['XSRF-TOKEN'])
-  if (method !== 'GET') {
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send(JSON.stringify(data))
-  } else {
-    xhr.send()
-  }
-}
+    httpRequest.onerror = () => reject()
 
-// TODO
-const join = (url, query) => {
-  return url
-}
+    httpRequest.withCredentials = true
+    httpRequest.setRequestHeader('X-XSRF-TOKEN', cookies()['XSRF-TOKEN'])
 
-const getData = (url, map, option) => {
-  const query = JSON.parse(option.data)
-
-  createRequest('GET', join(url, query), option, (xhr, request) => {
-    if (xhr.status === StatusCodes.OK &&
-      isContentTypeJson(xhr.getResponseHeader('Content-Type'))) {
-      const resp = JSON.parse(xhr.responseText)
-      option.onSuccess(map(resp), request)
+    if (data) {
+      httpRequest.setRequestHeader('Content-Type', 'application/json')
+      httpRequest.send(JSON.stringify(data))
     } else {
-      option.onFailure(request)
+      httpRequest.send()
     }
   })
+  return { httpRequest, promise }
 }
 
-const add = (crudUrl, option, data) => {
-  createRequest('POST', crudUrl, option, (xhr, request) => {
-    if (xhr.status === StatusCodes.CREATED) {
-      option.onSuccess(JSON.parse(xhr.responseText), request)
-    } else {
-      option.onFailure(request)
-    }
-  }, data)
-}
-
-const addRecord = (crudUrl, crudMap, option) => {
-  const { value: data } = JSON.parse(option.data)
-  add(crudUrl, option, crudMap(data))
-}
-
-const batchUpdate = (crudUrl, crudMap, option) => {
-  const { changed, added, deleted } = JSON.parse(option.data)
-  if (!_.isEmpty(changed)) {
-    const [data] = changed
-    // TODO refactor to use PATCH request instead of setId in BE
-    add(crudUrl, option, crudMap(data))
-  }
-  if (!_.isEmpty(added)) {
-    // Tutorial says `added` is singleton
-    const [data] = added
-    add(crudUrl, option, crudMap(data))
-  }
-}
+const of = (option) => JSON.parse(option.data)
 
 class RestAdaptor extends CustomDataAdaptor {
-  constructor ({ url, map, crudUrl, crudMap }) {
+  constructor ({ GET, POST, PUT, DELETE }) {
     super({
-      getData: (option) => getData(url, map, option),
-      addRecord: (option) => addRecord(crudUrl, crudMap, option),
-      batchUpdate: (option) => batchUpdate(crudUrl, crudMap, option)
+      getData: (option) => handle(option, GET(of(option))),
+      addRecord: (option) => handle(option, POST(of(option).value)),
+      updateRecord: (option) => handle(option, PUT(of(option).value)),
+      deleteRecord: (option) => handle(option, DELETE(of(option))),
+      batchUpdate: (option) => {
+        const { changed, added, deleted } = of(option)
+
+        const [toChange] = changed
+        if (toChange) handle(option, PUT(toChange))
+
+        const [toAdd] = added
+        if (toAdd) handle(option, POST(toAdd))
+
+        const [toDelete] = deleted
+        if (toDelete) handle(option, DELETE(toDelete))
+      }
     })
   }
 
+  // Convenience
   static extendCounts (result) {
     return {
       result,
       count: result.length
     }
+  }
+
+  // TODO Map data to query string
+  static get (url, f = (resp) => resp) {
+    return (req) => {
+      const g = req?.requiresCounts
+        ? x => RestAdaptor.extendCounts(f(x))
+        : f
+
+      const { httpRequest, promise } = makeRequest('GET', url)
+      return { httpRequest, promise: promise.then(g) }
+    }
+  }
+
+  static post (url, f) {
+    return (req) => makeRequest('POST', url, f ? f(req) : req)
+  }
+
+  static put (url, f) {
+    return (req) => makeRequest('PUT', `${url}/${req.id}`, f ? f(req) : req)
+  }
+
+  static delete (url, f) {
+    return (req) => makeRequest('DELETE', `${url}/${f(req)}`)
   }
 }
 

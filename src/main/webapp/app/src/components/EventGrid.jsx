@@ -5,7 +5,7 @@ import {
   Edit,
   GridComponent,
   Inject,
-  Toolbar
+  Toolbar,
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../core/RestAdaptor'
 
@@ -17,23 +17,26 @@ import { Link } from 'react-router-dom'
 const EventGrid = () => {
   const { context } = useContext(AppContext)
 
-  const restAdaptorParams = {
-    url: context.user._links.ownedRosterPlans.href,
-    map: (resp) => RestAdaptor.extendCounts(resp._embedded.rosterPlan),
-    crudUrl: API.ROSTER_PLAN,
-    crudMap: (req) => req
-  }
-
-  if (restAdaptorParams.url === null) {
+  if (context?.user?._links?.self?.href === null) {
     throw new Error('Please sign in.')
   }
 
+  const url = API.ROSTER_PLAN_BY_PARENT_IS_NULL_AND_OWNER(
+    context?.user?._links?.self?.href)
+
   const dataManager = new DataManager({
-    adaptor: new RestAdaptor(restAdaptorParams)
+    adaptor: new RestAdaptor({
+      GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlan),
+      POST: RestAdaptor.post(API.ROSTER_PLAN),
+      PUT: RestAdaptor.put(API.ROSTER_PLAN),
+      DELETE: RestAdaptor.delete(API.ROSTER_PLAN, ({ key }) => key)
+    })
   })
 
   const editSettings = {
-    allowAdding: true
+    allowAdding: true,
+    allowEditing: true,
+    allowDeleting: true
   }
 
   const linkIDTemplate = ({ id }) => (

@@ -14,5 +14,6 @@ public interface TimeSlotUserInfoAssignmentMapper {
   @Mapping(target = "considered", ignore = true)
   Assignment timeSlotUserInfoToAssignment(TimeSlotUserInfo timeSlotUserInfo);
 
+  @Mapping(source = "considered", target = "picked")
   TimeSlotUserInfo assignmentToTimeSlotUserInfo(Assignment assignment);
 }

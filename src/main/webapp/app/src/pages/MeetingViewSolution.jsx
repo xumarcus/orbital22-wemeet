@@ -14,7 +14,8 @@ import { API, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
 import ScheduleRank from '../components/ScheduleRank'
 
-const MeetingRank = () => {
+// TODO
+const MeetingViewSolution = () => {
   const { context } = useContext(AppContext)
   const params = useParams()
 
@@ -58,4 +59,4 @@ const Inner = ({ meetingId }) => {
   )
 }
 
-export default MeetingRank
+export default MeetingViewSolution
