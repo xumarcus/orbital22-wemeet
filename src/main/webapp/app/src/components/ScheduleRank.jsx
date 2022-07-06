@@ -11,7 +11,7 @@ import { useContext } from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../core/RestAdaptor'
 import ScheduleRankEditorTemplate from './ScheduleRankEditorTemplate'
-import { API, SYSTEM_THEME } from '../core/const'
+import { API, SYSTEM_THEME, TEXT } from '../core/const'
 import AppContext from '../core/AppContext'
 import { fromTemplate } from '../core/util'
 
@@ -78,12 +78,20 @@ const ScheduleRank = ({ rosterPlan }) => {
     const [first] = infos
     switch (infos.length) {
       case 0:
-        return 'Be the first\nto pick this?'
+        return TEXT.INFO_SUMMARY.NONE
       case 1:
-        return `${first.user.email}\nis picking this`
+        return TEXT.INFO_SUMMARY.ONE(first.user.email)
       default:
-        return `${first.user.email}\nand ${infos.length - 1} more...`
+        return TEXT.INFO_SUMMARY.MORE(first.user.email, infos.length - 1)
     }
+  }
+
+  const eventUsersEl = (innerText) => {
+    const eventUsersEl = document.createElement('div')
+    eventUsersEl.style.fontSize = '10px'
+    eventUsersEl.style.textAlign = 'right'
+    eventUsersEl.innerText = innerText
+    return eventUsersEl
   }
 
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
@@ -91,11 +99,7 @@ const ScheduleRank = ({ rosterPlan }) => {
 
     // Syncfusion name for elements
     const [appointment] = element.children
-    const usersEl = document.createElement('div')
-    usersEl.style.fontSize = '10px'
-    usersEl.style.textAlign = 'right'
-    usersEl.innerText = getInfoSummary(timeSlotUserInfos)
-    appointment.append(usersEl)
+    appointment.append(eventUsersEl(getInfoSummary(timeSlotUserInfos)))
   }
 
   return (
