@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @FieldNameConstants
