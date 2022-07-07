@@ -25,10 +25,7 @@ const ScheduleOwnerConfigurer = ({ eventDuration, setEventDuration }) => {
               fullWidth
             >
               {TEXT.SCHEDULE.OWNER.CONFIGURER.DURATIONS.map(
-                ({ value, label }) => <MenuItem
-                  value={value}
-                                      >{label}
-                </MenuItem>)}
+                ({ value, label }) => <MenuItem value={value}>{label}</MenuItem>)}
             </Select>
 }
           label={TEXT.EVENT_DURATION}
