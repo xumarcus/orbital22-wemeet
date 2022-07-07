@@ -1,13 +1,14 @@
 package com.orbital22.wemeet.service;
 
+import com.orbital22.wemeet.dto.RosterPlanPublishRequest;
 import com.orbital22.wemeet.model.RosterPlan;
-import com.orbital22.wemeet.model.RosterPlanUserInfo;
 import com.orbital22.wemeet.model.TimeSlot;
 import com.orbital22.wemeet.model.TimeSlotUserInfo;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
 import com.orbital22.wemeet.repository.TimeSlotRepository;
 import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
+import com.orbital22.wemeet.util.ExceptionHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,9 @@ public class RosterPlanService {
 
   public void deepCopy(RosterPlan source, RosterPlan target) {
     assert (source != null);
+    assert (target != null);
 
+    timeSlotRepository.deleteAll(target.getTimeSlots());
     target.setTimeSlots(
         new HashSet<>(
             timeSlotRepository.saveAll(
@@ -35,15 +38,9 @@ public class RosterPlanService {
                     source.getTimeSlots().stream()
                         .map(
                             timeSlot -> {
-                              // No aspect (yet)
                               TimeSlot cloned =
                                   timeSlotRepository.save(
-                                      TimeSlot.builder()
-                                          .rosterPlan(target)
-                                          .startDateTime(timeSlot.getStartDateTime())
-                                          .endDateTime(timeSlot.getEndDateTime())
-                                          .capacity(timeSlot.getCapacity())
-                                          .build());
+                                      timeSlot.toBuilder().id(0).rosterPlan(target).build());
                               Set<TimeSlotUserInfo> timeSlotUserInfos =
                                   new HashSet<>(
                                       timeSlotUserInfoRepository.saveAll(
@@ -51,10 +48,9 @@ public class RosterPlanService {
                                               timeSlot.getTimeSlotUserInfos().stream()
                                                   .map(
                                                       timeSlotUserInfo ->
-                                                          TimeSlotUserInfo.builder()
+                                                          timeSlotUserInfo.toBuilder()
+                                                              .id(0)
                                                               .timeSlot(cloned)
-                                                              .user(timeSlotUserInfo.getUser())
-                                                              .rank(timeSlotUserInfo.getRank())
                                                               .build())
                                                   .iterator()));
                               cloned.setTimeSlotUserInfos(timeSlotUserInfos);
@@ -62,6 +58,7 @@ public class RosterPlanService {
                             })
                         .iterator())));
 
+    rosterPlanUserInfoRepository.deleteAll(target.getRosterPlanUserInfos());
     target.setRosterPlanUserInfos(
         new HashSet<>(
             rosterPlanUserInfoRepository.saveAll(
@@ -69,14 +66,34 @@ public class RosterPlanService {
                     source.getRosterPlanUserInfos().stream()
                         .map(
                             rosterPlanUserInfo ->
-                                RosterPlanUserInfo.builder()
-                                    .rosterPlan(target)
-                                    .user(rosterPlanUserInfo.getUser())
-                                    .locked(rosterPlanUserInfo.isLocked())
-                                    .build())
+                                rosterPlanUserInfo.toBuilder().id(0).rosterPlan(target).build())
                         .iterator())));
   }
 
+  /**
+   * Overwrites child info to parent
+   * Attaching calls DB twice, which is not ideal even if cached
+   * @return parent
+   */
+  public RosterPlan publish(RosterPlan child) {
+    // Attach entity
+    child = rosterPlanRepository.findById(child.getId()).orElseThrow();
+
+    if (child.getParent() == null) {
+      throw ExceptionHelper.from(
+          child,
+          RosterPlanPublishRequest.Fields.child,
+          "rosterPlan.publish.does_not_have_a_parent");
+    }
+
+    // Attach entity
+    RosterPlan parent = rosterPlanRepository.findById(child.getParent().getId()).orElseThrow();
+
+    deepCopy(child, parent);
+    return parent;
+  }
+
+  @Deprecated
   public RosterPlan justSave(RosterPlan rosterPlan) {
     return rosterPlanRepository.saveAll(Collections.singleton(rosterPlan)).get(0);
   }
