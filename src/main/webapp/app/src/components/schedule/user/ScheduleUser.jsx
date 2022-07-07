@@ -4,7 +4,7 @@ import {
   Inject,
   Month,
   ScheduleComponent,
-  Week,
+  Week
 } from '@syncfusion/ej2-react-schedule'
 import * as React from 'react'
 import { useContext } from 'react'

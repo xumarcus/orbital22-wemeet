@@ -5,7 +5,7 @@ import {
   Edit,
   GridComponent,
   Inject,
-  Toolbar,
+  Toolbar
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../../core/RestAdaptor'
 
