@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @ToString
@@ -40,7 +40,7 @@ public class TimeSlot implements HasDateTimeRange {
   @Positive @Column private int capacity;
 
   @NotNull
-  @OneToMany(mappedBy = "timeSlot")
+  @OneToMany(mappedBy = "timeSlot", cascade = CascadeType.ALL)
   @Builder.Default
   private Set<TimeSlotUserInfo> timeSlotUserInfos = Collections.emptySet();
 
