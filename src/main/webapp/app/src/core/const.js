@@ -7,16 +7,19 @@ export const API = {
   ME: '/api/users/me',
   ROSTER_PLAN: '/api/rosterPlan',
   ROSTER_PLAN_ID: (id) => `/api/rosterPlan/${id}`,
+  ROSTER_PLAN_ID_WITH_PROJECTION: (id, projection) => `/api/rosterPlan/${id}?projection=${projection}`,
   ROSTER_PLAN_USER_INFO: '/api/rosterPlanUserInfo',
   ROSTER_PLAN_BY_PARENT: (parent) => `/api/rosterPlan/search/findByParent?parent=${parent}`,
   ROSTER_PLAN_BY_PARENT_IS_NULL_AND_OWNER: (owner) => `/api/rosterPlan/search/findByParentIsNullAndOwner?owner=${owner}`,
+  ROSTER_PLAN_PUBLISH: '/api/rosterPlan/publish',
   TIME_SLOT: '/api/timeSlot',
   TIME_SLOT_ID: (id) => `/api/timeSlot/${id}`,
   TIME_SLOT_USER_INFO: '/api/timeSlotUserInfo',
 
   PROJECTIONS: {
     ROSTER_PLAN_USER_INFO: 'rosterPlanUserInfoProjection',
-    TIME_SLOT: 'timeSlotProjection'
+    TIME_SLOT: 'timeSlotProjection',
+    ROSTER_PLAN: 'rosterPlanProjection'
   }
 }
 
@@ -68,7 +71,12 @@ export const TEXT = {
       }
     }
   },
-  EVENT_DURATION: 'Default event duration'
+  EVENT_DURATION: 'Default event duration',
+  MEETING: {
+    VIEW_SOLUTION: {
+      PUBLISHED_SUCCESSFULLY: 'Published successfully'
+    }
+  }
 }
 
 export const UI = {
