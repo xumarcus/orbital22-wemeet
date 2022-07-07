@@ -10,8 +10,11 @@ import com.orbital22.wemeet.repository.TimeSlotRepository;
 import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import com.orbital22.wemeet.util.ExceptionHelper;
 import lombok.AllArgsConstructor;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,6 +28,9 @@ public class RosterPlanService {
   private final RosterPlanUserInfoRepository rosterPlanUserInfoRepository;
   private final TimeSlotRepository timeSlotRepository;
   private final TimeSlotUserInfoRepository timeSlotUserInfoRepository;
+
+  @PersistenceContext
+  EntityManager entityManager;
 
   public void deepCopy(RosterPlan source, RosterPlan target) {
     assert (source != null);
@@ -70,27 +76,24 @@ public class RosterPlanService {
                         .iterator())));
   }
 
-  /**
+  /*
    * Overwrites child info to parent
    * Attaching calls DB twice, which is not ideal even if cached
-   * @return parent
    */
-  public RosterPlan publish(RosterPlan child) {
-    // Attach entity
-    child = rosterPlanRepository.findById(child.getId()).orElseThrow();
-
-    if (child.getParent() == null) {
+  public void publish(RosterPlan child) {
+    RosterPlan parent = child.getParent();
+    if (parent == null) {
       throw ExceptionHelper.from(
-          child,
-          RosterPlanPublishRequest.Fields.child,
-          "rosterPlan.publish.does_not_have_a_parent");
+              child,
+              RosterPlanPublishRequest.Fields.child,
+              "rosterPlan.publish.does_not_have_a_parent");
     }
 
-    // Attach entity
-    RosterPlan parent = rosterPlanRepository.findById(child.getParent().getId()).orElseThrow();
-
-    deepCopy(child, parent);
-    return parent;
+    try (Session session = entityManager.unwrap(Session.class)) {
+      session.update(child);
+      session.update(parent);
+      deepCopy(child, parent);
+    }
   }
 
   @Deprecated

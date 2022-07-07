@@ -187,8 +187,7 @@ public class SolverIntegrationTest {
                 .with(user(talk.getEmail()))
                 .content(objectMapper.writeValueAsString(req))
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(forwardedUrl("http://localhost/api/rosterPlan/1"));
+        .andExpect(status().isOk());
 
     Map<String, Object> resp = new HashMap<>();
     resp.put("picked", true);
