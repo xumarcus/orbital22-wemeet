@@ -141,6 +141,11 @@ public class SolverIntegrationTest {
         .andExpect(redirectedUrl("http://localhost/api/rosterPlan/2"));
   }
 
+  private void waitForSolver() throws InterruptedException {
+    // Solver terminates in 1s
+    Thread.sleep(2000);
+  }
+
   @Test
   public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns() throws Exception {
     easy();
@@ -154,8 +159,7 @@ public class SolverIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(content().json(objectMapper.writeValueAsString(resp)));
 
-    // Solver terminates in 1s
-    Thread.sleep(2000);
+    waitForSolver();
 
     ArgumentCaptor<RosterPlanSolution> arg = ArgumentCaptor.forClass(RosterPlanSolution.class);
     Mockito.verify(solverService).updateRosterPlanWith(arg.capture());
@@ -164,6 +168,32 @@ public class SolverIntegrationTest {
     resp.replace("solved", true);
     this.mockMvc
         .perform(get("/api/rosterPlan/2").with(user(talk.getEmail())))
+        .andExpect(status().isOk())
+        .andExpect(content().json(objectMapper.writeValueAsString(resp)));
+  }
+
+  @Test
+  public void givenValidRequest_whenPublish_thenUpdatedAndReturned() throws Exception {
+    easy();
+
+    waitForSolver();
+
+    Map<String, Object> req = new HashMap<>();
+    req.put("child", "/api/rosterPlan/2");
+
+    this.mockMvc
+        .perform(
+            post("/api/rosterPlan/publish")
+                .with(user(talk.getEmail()))
+                .content(objectMapper.writeValueAsString(req))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(forwardedUrl("http://localhost/api/rosterPlan/1"));
+
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("picked", true);
+    this.mockMvc
+        .perform(get("/api/timeSlotUserInfo/7").with(user(talk.getEmail())))
         .andExpect(status().isOk())
         .andExpect(content().json(objectMapper.writeValueAsString(resp)));
   }
