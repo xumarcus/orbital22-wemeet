@@ -25,7 +25,7 @@ const Cover = () => {
   }
 
   return (
-    <Box sx={{ height: '180px', width:"100%", overflow: 'hidden' }}>
+    <Box sx={{ height: '275px', width:"100%", overflow: 'hidden' }}>
        <Box
           component="img"
           sx={{

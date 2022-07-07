@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 const ProfileBody = () => {
     return (
-        <Box  display="flex" justifyContent = "space-between">
+        <Box  display="flex" justifyContent = "space-around">
             <Sidebar />
             <Content />
         </Box>
