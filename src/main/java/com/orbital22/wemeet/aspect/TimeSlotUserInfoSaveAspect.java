@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.security.acls.domain.BasePermission.*;
 
+// TODO timeSlotUserInfo should be PUT instead of POST
 @Aspect
 @Component
 @AllArgsConstructor

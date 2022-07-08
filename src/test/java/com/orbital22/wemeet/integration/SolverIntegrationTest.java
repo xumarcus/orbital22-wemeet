@@ -2,12 +2,8 @@ package com.orbital22.wemeet.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orbital22.wemeet.model.*;
-import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
-import com.orbital22.wemeet.repository.TimeSlotRepository;
-import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
-import com.orbital22.wemeet.repository.UserRepository;
+import com.orbital22.wemeet.repository.*;
 import com.orbital22.wemeet.security.AclRegisterService;
-import com.orbital22.wemeet.service.RosterPlanService;
 import com.orbital22.wemeet.service.SolverService;
 import com.orbital22.wemeet.service.UserService;
 import com.orbital22.wemeet.solver.RosterPlanSolution;
@@ -62,9 +58,9 @@ public class SolverIntegrationTest {
   @BeforeEach
   public void setUp(
       @Autowired UserRepository userRepository,
+      @Autowired RosterPlanRepository rosterPlanRepository,
       @Autowired RosterPlanUserInfoRepository rosterPlanUserInfoRepository,
       @Autowired UserService userService,
-      @Autowired RosterPlanService rosterPlanService,
       @Autowired AclRegisterService aclRegisterService) {
     List<User> users =
         userRepository.saveAll(
@@ -76,7 +72,7 @@ public class SolverIntegrationTest {
     cock = users.get(1);
     suck = users.get(2);
     rosterPlan =
-        rosterPlanService.justSave(RosterPlan.builder().title("Talk Cock").owner(talk).build());
+        rosterPlanRepository.save(RosterPlan.builder().title("Talk Cock").owner(talk).build());
 
     rosterPlanUserInfoRepository.saveAll(
         () ->
@@ -102,7 +98,7 @@ public class SolverIntegrationTest {
   @Test
   public void contextLoads() {}
 
-  private void easy() throws Exception {
+  private void stubEasy() {
     TimeSlot t1 =
         timeSlotRepository.save(
             TimeSlot.builder()
@@ -126,19 +122,6 @@ public class SolverIntegrationTest {
             TimeSlotUserInfo.builder().timeSlot(t1).user(talk).rank(1).build(),
             TimeSlotUserInfo.builder().timeSlot(t2).user(cock).rank(2).build(),
             TimeSlotUserInfo.builder().timeSlot(t2).user(suck).rank(3).build()));
-
-    Map<String, Object> map = new HashMap<>();
-    map.put("title", "Talk Cock Suck");
-    map.put("parent", "/api/rosterPlan/1");
-
-    this.mockMvc
-        .perform(
-            post("/api/rosterPlan")
-                .with(user(talk.getEmail()))
-                .content(objectMapper.writeValueAsString(map))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost/api/rosterPlan/2"));
   }
 
   private void waitForSolver() throws InterruptedException {
@@ -146,9 +129,26 @@ public class SolverIntegrationTest {
     Thread.sleep(2000);
   }
 
+  private void postToStartSolver() throws Exception {
+    stubEasy();
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("title", "Talk Cock Suck");
+    map.put("parent", "/api/rosterPlan/1");
+
+    this.mockMvc
+            .perform(
+                    post("/api/rosterPlan")
+                            .with(user(talk.getEmail()))
+                            .content(objectMapper.writeValueAsString(map))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(forwardedUrl("/api/rosterPlan/2"));
+  }
+
   @Test
-  public void givenTimeSlotUserInfos_whenAddChild_thenSolverRuns() throws Exception {
-    easy();
+  public void testSolverRunsAfterCreation() throws Exception {
+    postToStartSolver();
 
     Map<String, Object> resp = new HashMap<>();
     resp.put("title", "Talk Cock Suck");
@@ -174,7 +174,7 @@ public class SolverIntegrationTest {
 
   @Test
   public void givenValidRequest_whenPublish_thenUpdatedAndReturned() throws Exception {
-    easy();
+    postToStartSolver();
 
     waitForSolver();
 

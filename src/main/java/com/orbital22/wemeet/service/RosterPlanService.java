@@ -1,13 +1,16 @@
 package com.orbital22.wemeet.service;
 
+import com.orbital22.wemeet.dto.RosterPlanPostRequest;
 import com.orbital22.wemeet.dto.RosterPlanPublishRequest;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.TimeSlot;
 import com.orbital22.wemeet.model.TimeSlotUserInfo;
+import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
 import com.orbital22.wemeet.repository.TimeSlotRepository;
 import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
+import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.util.ExceptionHelper;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
@@ -16,9 +19,10 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.springframework.security.acls.domain.BasePermission.*;
 
 @Service
 @Transactional
@@ -29,8 +33,10 @@ public class RosterPlanService {
   private final TimeSlotRepository timeSlotRepository;
   private final TimeSlotUserInfoRepository timeSlotUserInfoRepository;
 
-  @PersistenceContext
-  EntityManager entityManager;
+  private final UserService userService;
+  private final AclRegisterService aclRegisterService;
+
+  @PersistenceContext EntityManager entityManager;
 
   public void deepCopy(RosterPlan source, RosterPlan target) {
     assert (source != null);
@@ -84,9 +90,9 @@ public class RosterPlanService {
     RosterPlan parent = child.getParent();
     if (parent == null) {
       throw ExceptionHelper.from(
-              child,
-              RosterPlanPublishRequest.Fields.child,
-              "rosterPlan.publish.does_not_have_a_parent");
+          child,
+          RosterPlanPublishRequest.Fields.child,
+          "rosterPlan.publish.does_not_have_a_parent");
     }
 
     try (Session session = entityManager.unwrap(Session.class)) {
@@ -96,8 +102,26 @@ public class RosterPlanService {
     }
   }
 
-  @Deprecated
-  public RosterPlan justSave(RosterPlan rosterPlan) {
-    return rosterPlanRepository.saveAll(Collections.singleton(rosterPlan)).get(0);
+  // TODO consider splitting RosterPlan into Meeting and Solution
+  // TODO consider making `owner` not null
+  public RosterPlan post(RosterPlanPostRequest request) {
+    User owner = request.getOwner();
+    if (owner == null) {
+      owner = userService.me().orElseThrow();
+    }
+
+    Boolean solved = request.getParent() != null ? Boolean.FALSE : null;
+
+    RosterPlan rosterPlan =
+        rosterPlanRepository.save(
+            RosterPlan.builder()
+                .title(request.getTitle())
+                .parent(request.getParent())
+                .owner(owner)
+                .solved(solved)
+                .build());
+    aclRegisterService.register(rosterPlan, rosterPlan.getOwner().getEmail(), READ, WRITE, DELETE);
+
+    return rosterPlan;
   }
 }

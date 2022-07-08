@@ -25,7 +25,6 @@ public class SolverService {
   private final RosterPlanUserInfoRepository rosterPlanUserInfoRepository;
   private final TimeSlotUserInfoRepository timeSlotUserInfoRepository;
   private final RosterPlanService rosterPlanService;
-  private final UserService userService;
   private final SolverManager<RosterPlanSolution, Integer> solverManager;
 
   @NotNull
@@ -86,7 +85,7 @@ public class SolverService {
     lockUsersWithPicks(solution, rosterPlan);
 
     rosterPlan.setSolved(true);
-    rosterPlanService.justSave(rosterPlan);
+    rosterPlanRepository.save(rosterPlan);
   }
 
   public void solve(RosterPlan rosterPlan) {
