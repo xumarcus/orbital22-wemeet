@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
-import static org.springframework.security.acls.domain.BasePermission.*;
-
 @Service
 @Transactional
 @AllArgsConstructor
@@ -24,23 +22,19 @@ public class RosterPlanUserInfoService {
 
   @NotNull
   public RosterPlanUserInfo post(RosterPlanUserInfoPostRequest request) {
-    RosterPlanUserInfo rosterPlanUserInfo =
-        rosterPlanUserInfoRepository.save(
-            RosterPlanUserInfo.builder()
-                .rosterPlan(request.getRosterPlan())
-                .user(
-                    userRepository
-                        .findByEmail(request.getEmail())
-                        .orElseGet(
-                            () -> userRepository.save(User.ofUnregistered(request.getEmail()))))
-                .locked(request.isLocked())
-                .build());
+    // TODO register acl for unregistered user
+    // aclRegisterService.register(rosterPlanUserInfo.getRosterPlan(), request.getEmail(), READ);
+    // aclRegisterService.register(rosterPlanUserInfo, request.getEmail(), READ, WRITE, DELETE);
 
-    aclRegisterService.register(rosterPlanUserInfo.getRosterPlan(), request.getEmail(), READ);
-
-    // TODO
-    aclRegisterService.register(rosterPlanUserInfo, request.getEmail(), READ, WRITE, DELETE);
-
-    return rosterPlanUserInfo;
+    return rosterPlanUserInfoRepository.save(
+        RosterPlanUserInfo.builder()
+            .rosterPlan(request.getRosterPlan())
+            .user(
+                userRepository
+                    .findByEmail(request.getEmail())
+                    .orElseGet(
+                        () -> userRepository.save(User.ofUnregistered(request.getEmail()))))
+            .locked(request.isLocked())
+            .build());
   }
 }

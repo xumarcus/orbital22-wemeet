@@ -27,6 +27,8 @@ public class UserController {
   @PostMapping("/users")
   String post(@RequestBody @Valid UserPostRequest request) {
     User user = userService.post(request);
-    return "/api/users/" + user.getId();
+
+    // FIXME registration
+    return String.format("redirect:/api/users/%d", user.getId());
   }
 }

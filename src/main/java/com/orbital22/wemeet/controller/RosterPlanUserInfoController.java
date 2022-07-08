@@ -5,6 +5,8 @@ import com.orbital22.wemeet.model.RosterPlanUserInfo;
 import com.orbital22.wemeet.service.RosterPlanUserInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class RosterPlanUserInfoController {
   private final LocalValidatorFactoryBean validator;
+  private final RepositoryEntityLinks repositoryEntityLinks;
   private final RosterPlanUserInfoService rosterPlanUserInfoService;
 
   @InitBinder
@@ -25,8 +28,12 @@ public class RosterPlanUserInfoController {
   }
 
   @PostMapping("/rosterPlanUserInfo") // PUT?
-  String post(@RequestBody @Valid RosterPlanUserInfoPostRequest request) {
+  ResponseEntity<?> post(@RequestBody @Valid RosterPlanUserInfoPostRequest request) {
     RosterPlanUserInfo rosterPlanUserInfo = rosterPlanUserInfoService.post(request);
-    return "/api/rosterPlanUserInfo" + rosterPlanUserInfo.getId();
+    return ResponseEntity.created(
+            repositoryEntityLinks
+                .linkToItemResource(rosterPlanUserInfo, RosterPlanUserInfo::getId)
+                .toUri())
+        .build();
   }
 }
