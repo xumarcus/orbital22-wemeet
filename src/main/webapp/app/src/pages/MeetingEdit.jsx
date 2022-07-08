@@ -165,7 +165,8 @@ const Menu = () => {
 }
 
 const InnerInner = ({ rosterPlan }) => {
-  const [eventDuration, setEventDuration] = useState(ENUMS.SCHEDULE.OWNER.CONFIGURER.DURATIONS.THIRTY)
+  const [eventDuration, setEventDuration] = useState(
+    ENUMS.SCHEDULE.OWNER.CONFIGURER.DURATIONS.THIRTY)
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[rosterPlan]}>
       {/* <PageTitle pageTitle={data?.title} /> */}
@@ -186,17 +187,31 @@ const InnerInner = ({ rosterPlan }) => {
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <ScheduleOwner rosterPlan={rosterPlan} eventDuration={eventDuration} />
+            <ScheduleOwner
+              rosterPlan={rosterPlan}
+              eventDuration={eventDuration}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
-          <ScheduleOwnerConfigurer eventDuration={eventDuration} setEventDuration={setEventDuration} />
-          <Menu />
+          <Typography variant='h5' sx={{ my: 2 }}>
+            Configurations
+          </Typography>
+          <ScheduleOwnerConfigurer
+            rosterPlan={rosterPlan}
+            eventDuration={eventDuration}
+            setEventDuration={setEventDuration}
+          />
+          {/* <Menu /> */}
           <Divider variant='middle' />
+
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
           <InvitationGrid rosterPlan={rosterPlan} />
+
+          <Divider variant='middle' />
+
           <Typography variant='h5' sx={{ my: 2 }}>
             Solutions
           </Typography>

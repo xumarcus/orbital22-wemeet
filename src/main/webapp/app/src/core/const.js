@@ -67,11 +67,12 @@ export const TEXT = {
           { value: 15, label: '15 minutes' },
           { value: 30, label: '30 minutes' },
           { value: 60, label: '1 hour' }
-        ]
+        ],
+        EVENT_DURATION: 'Default event duration',
+        NUMBER_OF_SLOTS: 'Number of slots per user'
       }
     }
   },
-  EVENT_DURATION: 'Default event duration',
   MEETING: {
     VIEW_SOLUTION: {
       PUBLISHED_SUCCESSFULLY: 'Published successfully'
@@ -85,6 +86,19 @@ export const UI = {
       EDITOR: {
         AVATAR: {
           SIZE: 32
+        }
+      }
+    }
+  }
+}
+
+export const CONFIG = {
+  SCHEDULE: {
+    OWNER: {
+      CONFIGURER: {
+        NUMBER_OF_SLOTS: {
+          MIN: 1,
+          MAX: 10
         }
       }
     }
