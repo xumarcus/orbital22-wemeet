@@ -47,6 +47,7 @@ public class SolverIntegrationTest {
   @Autowired MockMvc mockMvc;
   @Autowired TimeSlotRepository timeSlotRepository;
   @Autowired TimeSlotUserInfoRepository timeSlotUserInfoRepository;
+  @Autowired RosterPlanRepository rosterPlanRepository;
 
   @SpyBean SolverService solverService;
 
@@ -58,7 +59,6 @@ public class SolverIntegrationTest {
   @BeforeEach
   public void setUp(
       @Autowired UserRepository userRepository,
-      @Autowired RosterPlanRepository rosterPlanRepository,
       @Autowired RosterPlanUserInfoRepository rosterPlanUserInfoRepository,
       @Autowired UserService userService,
       @Autowired AclRegisterService aclRegisterService) {
@@ -99,6 +99,10 @@ public class SolverIntegrationTest {
   public void contextLoads() {}
 
   private void stubEasy() {
+    rosterPlan.setMinAllocationCount(1);
+    rosterPlan.setMaxAllocationCount(1);
+    rosterPlan = rosterPlanRepository.save(rosterPlan);
+
     TimeSlot t1 =
         timeSlotRepository.save(
             TimeSlot.builder()

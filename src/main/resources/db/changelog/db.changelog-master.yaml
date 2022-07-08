@@ -259,7 +259,8 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
-  # Both YAML like above or SQL work
+
+  # From Spring Security documentation
   - changeSet:
       id: spring-acl-schema
       author: xumarcus
@@ -267,6 +268,7 @@ databaseChangeLog:
         - sqlFile:
             dbms: all
             path: db/changelog/spring-acl-schema.sql
+
   - changeSet:
       id: spring-acl-schema-add-class-id-type
       author: xumarcus
@@ -338,5 +340,45 @@ databaseChangeLog:
                   name: picked
                   type: boolean
                   defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: roster_plan_add_min_allocation_count
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: min_allocation_count
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: min_allocation_count
+                  type: int
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: roster_plan_add_max_allocation_count
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: max_allocation_count
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: max_allocation_count
+                  type: int
+                  defaultValueNumeric: 1
                   constraints:
                     nullable: false

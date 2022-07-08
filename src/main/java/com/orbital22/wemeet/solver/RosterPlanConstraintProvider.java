@@ -9,8 +9,10 @@ import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import java.util.Objects;
 
 public class RosterPlanConstraintProvider implements ConstraintProvider {
-  private static final int MIN = 1; // FIXME
-  private static final int MAX = 1; // FIXME
+  private static int fromBoolean(Boolean x) {
+    assert (x != null);
+    return x ? 1 : 0;
+  }
 
   @Override
   public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
@@ -34,14 +36,15 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
         .forEach(Assignment.class)
         .groupBy(
             Assignment::getUser,
-            ConstraintCollectors.sum(
-                assignment ->
-                    Objects.requireNonNull(assignment.getConsidered(), "Must be initialized")
-                        ? 1
-                        : 0))
-        .filter((user, count) -> !(MIN <= count && count <= MAX))
-        .penalize(
-            String.format("User must have %d to %d time slots", MIN, MAX), HardSoftScore.ONE_HARD);
+            ConstraintCollectors.sum(assignment -> fromBoolean(assignment.getConsidered())))
+        .join(RosterPlanSolution.RosterPlanSolutionConfiguration.class)
+        .filter(
+            (user, count, config) -> {
+              System.out.println(config.getMinAllocationCount());
+              return !(config.getMinAllocationCount() <= count
+                  && count <= config.getMaxAllocationCount());
+            })
+        .penalize("Number of time slots for user must be in range", HardSoftScore.ONE_HARD);
   }
 
   private Constraint timeSlotCapacityConstraint(ConstraintFactory constraintFactory) {
@@ -52,6 +55,6 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
         .groupBy(Assignment::getTimeSlot, ConstraintCollectors.count())
         .groupBy(((timeSlot, count) -> count - timeSlot.getCapacity()))
         .filter(exceed -> exceed > 0)
-        .penalize("Full timeSlot", HardSoftScore.ONE_HARD);
+        .penalize("Full timeslot", HardSoftScore.ONE_HARD);
   }
 }

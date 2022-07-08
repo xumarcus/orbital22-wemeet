@@ -56,6 +56,12 @@ public class RosterPlan {
   @Column
   private Boolean solved;
 
+  @Column
+  private int minAllocationCount;
+
+  @Column
+  private int maxAllocationCount;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

@@ -9,11 +9,11 @@ import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
 import com.orbital22.wemeet.solver.Assignment;
 import com.orbital22.wemeet.solver.RosterPlanSolution;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -39,12 +39,18 @@ public class SolverService {
                 .flatMap(
                     user ->
                         timeSlotUserInfoRepository
+                            // TODO Optimize DB call
                             .findByRosterPlanAndUser(rosterPlan, user)
                             .stream()
                             .map(
                                 TimeSlotUserInfoAssignmentMapper.INSTANCE
                                     ::timeSlotUserInfoToAssignment))
                 .collect(Collectors.toSet()))
+        .rosterPlanSolutionConfiguration(
+            RosterPlanSolution.RosterPlanSolutionConfiguration.builder()
+                .minAllocationCount(rosterPlan.getMinAllocationCount())
+                .maxAllocationCount(rosterPlan.getMaxAllocationCount())
+                .build())
         .build();
   }
 
@@ -73,22 +79,24 @@ public class SolverService {
                 .iterator());
   }
 
-  @NotNull
   public void updateRosterPlanWith(RosterPlanSolution solution) {
     // `findById` requires authentication
     // userService.setSessionUser(solution.getOwner());
 
-    // Update is async, new `RosterPlan` is safer even if it is supposed to be immutable.
+    // Attach entity.
     RosterPlan rosterPlan = rosterPlanRepository.findById(solution.getId()).orElseThrow();
 
     updateFromAssignments(solution);
     lockUsersWithPicks(solution, rosterPlan);
 
     rosterPlan.setSolved(true);
+    rosterPlan.setMinAllocationCount(solution.getRosterPlanSolutionConfiguration().getMinAllocationCount());
+    rosterPlan.setMaxAllocationCount(solution.getRosterPlanSolutionConfiguration().getMaxAllocationCount());
     rosterPlanRepository.save(rosterPlan);
   }
 
-  public void solve(RosterPlan rosterPlan) {
+  public void solve(@NotNull RosterPlan rosterPlan) {
+    assert rosterPlan.getParent() != null;
     rosterPlanService.deepCopy(rosterPlan.getParent(), rosterPlan);
     RosterPlanSolution problem = createRosterPlanSolutionFrom(rosterPlan);
     solverManager.solve(rosterPlan.getId(), problem, this::updateRosterPlanWith);

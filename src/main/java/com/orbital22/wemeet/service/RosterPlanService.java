@@ -14,12 +14,14 @@ import com.orbital22.wemeet.security.AclRegisterService;
 import com.orbital22.wemeet.util.ExceptionHelper;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.springframework.security.acls.domain.BasePermission.*;
@@ -38,10 +40,7 @@ public class RosterPlanService {
 
   @PersistenceContext EntityManager entityManager;
 
-  public void deepCopy(RosterPlan source, RosterPlan target) {
-    assert (source != null);
-    assert (target != null);
-
+  public void deepCopy(@NotNull RosterPlan source, @NotNull RosterPlan target) {
     timeSlotRepository.deleteAll(target.getTimeSlots());
     target.setTimeSlots(
         new HashSet<>(
@@ -80,6 +79,9 @@ public class RosterPlanService {
                             rosterPlanUserInfo ->
                                 rosterPlanUserInfo.toBuilder().id(0).rosterPlan(target).build())
                         .iterator())));
+
+    target.setMinAllocationCount(source.getMinAllocationCount());
+    target.setMaxAllocationCount(source.getMaxAllocationCount());
   }
 
   /*
@@ -110,7 +112,20 @@ public class RosterPlanService {
       owner = userService.me().orElseThrow();
     }
 
+    // TODO to be refactored through splitting
     Boolean solved = request.getParent() != null ? Boolean.FALSE : null;
+    int minAllocationCount =
+        Optional.ofNullable(request.getMinAllocationCount())
+            .or(
+                () ->
+                    Optional.ofNullable(request.getParent()).map(RosterPlan::getMinAllocationCount))
+            .orElse(1);
+    int maxAllocationCount =
+        Optional.ofNullable(request.getMinAllocationCount())
+            .or(
+                () ->
+                    Optional.ofNullable(request.getParent()).map(RosterPlan::getMaxAllocationCount))
+            .orElse(1);
 
     RosterPlan rosterPlan =
         rosterPlanRepository.save(
@@ -119,6 +134,8 @@ public class RosterPlanService {
                 .parent(request.getParent())
                 .owner(owner)
                 .solved(solved)
+                .minAllocationCount(minAllocationCount)
+                .maxAllocationCount(maxAllocationCount)
                 .build());
     aclRegisterService.register(rosterPlan, rosterPlan.getOwner().getEmail(), READ, WRITE, DELETE);
 

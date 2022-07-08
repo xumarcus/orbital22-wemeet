@@ -21,4 +21,8 @@ public interface RosterPlanProjection {
   Set<RosterPlanUserInfoProjection> getRosterPlanUserInfos();
 
   Boolean getSolved();
+
+  int getMinAllocationCount();
+
+  int getMaxAllocationCount();
 }

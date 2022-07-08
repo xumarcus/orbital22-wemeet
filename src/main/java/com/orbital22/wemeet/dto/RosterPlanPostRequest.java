@@ -7,7 +7,9 @@ import lombok.experimental.FieldNameConstants;
 import org.jetbrains.annotations.Nullable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
+// TODO can factor constraints on allocationCount into entity after redesign?
 @Data
 @FieldNameConstants
 public class RosterPlanPostRequest {
@@ -19,4 +21,12 @@ public class RosterPlanPostRequest {
 
   @Nullable
   private User owner;
+
+  @Nullable
+  @Positive
+  private Integer minAllocationCount;
+
+  @Nullable
+  @Positive
+  private Integer maxAllocationCount;
 }
