@@ -26,7 +26,12 @@ export const makeRequest = (method, url, data) => {
 
     if (data) {
       httpRequest.setRequestHeader('Content-Type', 'application/json')
-      httpRequest.send(JSON.stringify(data))
+      try {
+        const json = JSON.stringify(data)
+        httpRequest.send(json)
+      } catch (e) {
+        throw new Error('RestAdaptor attempts to send non JSON data')
+      }
     } else {
       httpRequest.send()
     }
