@@ -16,7 +16,7 @@ import ajax from '../core/ajax'
 import InvitationGrid from '../components/schedule/InvitationGrid'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { API, ERROR_MESSAGES } from '../core/const'
+import { API, ENUMS, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
 import EventSettingsTab
   from '../components/schedule/owner/quick_menu/QuickMenuEventSettings'
@@ -29,6 +29,12 @@ import Button from '@mui/material/Button'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import Tab from '@mui/material/Tab'
 import SolutionGrid from '../components/schedule/owner/SolutionGrid'
+import ScheduleOwnerConfigurer
+  from '../components/schedule/owner/ScheduleOwnerConfigurer'
+
+/*
+  Can move some components to components/?
+ */
 
 const MeetingEdit = () => {
   const { context } = useContext(AppContext)
@@ -55,7 +61,65 @@ const Inner = ({ meetingId }) => {
   return <InnerInner rosterPlan={data} />
 }
 
-const InnerInner = ({ rosterPlan }) => {
+const TitleEdit = ({ rosterPlan }) => {
+  const [title, setTitle] = useState(rosterPlan.title)
+  const [isTitleUpdated, setIsTitleUpdated] = useState(false)
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value)
+    setIsTitleUpdated(true)
+  }
+
+  const handleTitleSave = async () => {
+    await ajax('PATCH', { title })(
+      `${API.ROSTER_PLAN}/${rosterPlan.id}`)
+    setIsTitleUpdated(false)
+  }
+
+  return (
+    <>
+      <Typography variant='h4' sx={{ mx: 2 }}>
+        Meeting Title:
+      </Typography>
+      <TextField
+        id='outlined-basic'
+        value={title}
+        variant='outlined'
+        onChange={handleTitleChange}
+      />
+      {isTitleUpdated &&
+        <Button variant='contained' onClick={handleTitleSave}>
+          Update
+        </Button>}
+    </>
+  )
+}
+
+// FIXME Purpose?
+// TODO const.ENUMS
+const SetReviewToggle = () => {
+  const [mode, setMode] = useState('set')
+
+  const handleModeChange = (e) => {
+    setMode(e.target.value)
+    // TODO: - handle changing of meeting mode
+  }
+
+  return (
+    <ToggleButtonGroup
+      color='primary'
+      value={mode}
+      exclusive
+      onChange={handleModeChange}
+      sx={{ ml: 3 }}
+    >
+      <ToggleButton value='set'>Set Available Slots</ToggleButton>
+      <ToggleButton value='review'>Review Time Slots</ToggleButton>
+    </ToggleButtonGroup>
+  )
+}
+
+const Menu = () => {
   /*
   const menuPages = [
     ['configurations', 'Meeting Configurations'],
@@ -63,32 +127,46 @@ const InnerInner = ({ rosterPlan }) => {
     ['edit', 'Bulk Edit Events']
   ]
   const [currMenu, setCurrMenu] = useState('configurations')
+
    */
-  const [meetingTitle, setMeetingTitle] = useState(rosterPlan?.title)
-  const [isTitleUpdated, setIsTitleUpdated] = useState(true)
-  const [mode, setMode] = useState('set')
   const [currTab, setCurrTab] = useState('1')
-
-  const handleMeetingTitleChange = (e) => {
-    setMeetingTitle(e.target.value)
-    setIsTitleUpdated(false)
-  }
-
-  const handleSaveMeetingTitle = async () => {
-    // TODO: - handle saving of meeting title
-    await ajax('PATCH', { title: meetingTitle })(`${API.ROSTER_PLAN}/${rosterPlan.id}`)
-    setIsTitleUpdated(true)
-  }
-
-  const handleModeChange = (e) => {
-    setMode(e.target.value)
-    // TODO: - handle changing of meeting mode
-  }
 
   const handleTabChange = (event, newValue) => {
     setCurrTab(newValue)
   }
 
+  return (
+    <Box>
+      <Typography variant='h5' sx={{ my: 2 }}>
+        Menu
+      </Typography>
+      <Box sx={{ width: '100%', typography: 'body1' }}>
+        <TabContext value={currTab}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabList onChange={handleTabChange} aria-label='menu tabs'>
+              <Tab label='Configurations' value='1' />
+              <Tab label='Bulk Add' value='2' />
+              <Tab label='Bulk Edit' value='3' />
+            </TabList>
+          </Box>
+          <TabPanel value='1'>
+            <EventSettingsTab />
+          </TabPanel>
+          <TabPanel value='2'>
+            <BulkAddTab />
+          </TabPanel>
+          <TabPanel value='3'>
+            <BulkEditTab />
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </Box>
+  )
+}
+
+const InnerInner = ({ rosterPlan }) => {
+  const [eventDuration, setEventDuration] = useState(
+    ENUMS.SCHEDULE.OWNER.CONFIGURER.DURATIONS.THIRTY)
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[rosterPlan]}>
       {/* <PageTitle pageTitle={data?.title} /> */}
@@ -99,70 +177,44 @@ const InnerInner = ({ rosterPlan }) => {
         alignItems: 'center'
       }}
       >
-        <Typography variant='h4' sx={{ mx: 2 }}>
-          Meeting Title:
-        </Typography>
-        <TextField
-          id='outlined-basic'
-          value={meetingTitle}
-          variant='outlined'
-          onChange={handleMeetingTitleChange}
-        />
-        {!isTitleUpdated &&
-          <Button variant='contained' onClick={handleSaveMeetingTitle}>
-            Update
-          </Button>}
-        <ToggleButtonGroup
-          color='primary'
-          value={mode}
-          exclusive
-          onChange={handleModeChange}
-          sx={{ ml: 3 }}
-        >
-          <ToggleButton value='set'>Set Available Slots</ToggleButton>
-          <ToggleButton value='review'>Review Time Slots</ToggleButton>
-        </ToggleButtonGroup>
+        <TitleEdit rosterPlan={rosterPlan} />
+        <SetReviewToggle />
       </Box>
+
       <Grid container spacing={5}>
         <Grid item xs={12} lg={8}>
           <Box>
             <Typography variant='h5' sx={{ my: 2 }}>
               Schedule
             </Typography>
-            <ScheduleOwner rosterPlan={rosterPlan} />
+            <ScheduleOwner
+              rosterPlan={rosterPlan}
+              eventDuration={eventDuration}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
-          <Box>
-            <Typography variant='h5' sx={{ my: 2 }}>
-              Menu
-            </Typography>
-            <Box sx={{ width: '100%', typography: 'body1' }}>
-              <TabContext value={currTab}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <TabList onChange={handleTabChange} aria-label='menu tabs'>
-                    <Tab label='Configurations' value='1' />
-                    <Tab label='Bulk Add' value='2' />
-                    <Tab label='Bulk Edit' value='3' />
-                  </TabList>
-                </Box>
-                <TabPanel value='1'>
-                  <EventSettingsTab />
-                </TabPanel>
-                <TabPanel value='2'>
-                  <BulkAddTab />
-                </TabPanel>
-                <TabPanel value='3'>
-                  <BulkEditTab />
-                </TabPanel>
-              </TabContext>
-            </Box>
-          </Box>
+          <Typography variant='h5' sx={{ my: 2 }}>
+            Configurations
+          </Typography>
+          <ScheduleOwnerConfigurer
+            rosterPlan={rosterPlan}
+            eventDuration={eventDuration}
+            setEventDuration={setEventDuration}
+          />
+          {/* <Menu /> */}
           <Divider variant='middle' />
+
           <Typography variant='h5' sx={{ my: 2 }}>
             Invitations
           </Typography>
           <InvitationGrid rosterPlan={rosterPlan} />
+
+          <Divider variant='middle' />
+
+          <Typography variant='h5' sx={{ my: 2 }}>
+            Solutions
+          </Typography>
           <SolutionGrid rosterPlan={rosterPlan} />
         </Grid>
       </Grid>

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -77,7 +77,7 @@ class UserCreateIntegrationTest {
   }
 
   @Test
-  public void givenValidRequest_whenRegister_thenCreated() throws Exception {
+  public void givenValidRequest_whenRegister_thenCreatedAndReturned() throws Exception {
     Map<String, Object> map = new HashMap<>();
     map.put("email", "user@wemeet.com");
     map.put("rawPassword", "password");
@@ -87,13 +87,13 @@ class UserCreateIntegrationTest {
             post("/api/users")
                 .content(objectMapper.writeValueAsString(map))
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
+        .andExpect(status().isOk())
+        .andExpect(forwardedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
   }
 
   @Test
-  public void givenUnregisteredUser_whenRegister_thenCreated(
+  public void givenUnregisteredUser_whenRegister_thenCreatedAndReturned(
       @Autowired UserRepository userRepository) throws Exception {
     userRepository.save(User.ofUnregistered("user@wemeet.com"));
 
@@ -106,8 +106,8 @@ class UserCreateIntegrationTest {
             post("/api/users")
                 .content(objectMapper.writeValueAsString(map))
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
+        .andExpect(status().isOk())
+        .andExpect(forwardedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
   }
 

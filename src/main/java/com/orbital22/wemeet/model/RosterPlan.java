@@ -5,7 +5,6 @@ import lombok.*;
 import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Objects;
@@ -27,7 +26,7 @@ public class RosterPlan {
   @Column
   private int id;
 
-  @NotBlank @Column private String title;
+  @Column private String title;
 
   @ToString.Exclude
   @ManyToOne
@@ -35,11 +34,9 @@ public class RosterPlan {
   @Nullable
   private RosterPlan parent;
 
-  // needed?
   @JsonProperty(access = READ_ONLY)
   @ManyToOne
   @JoinColumn(name = "owner_id")
-  @NonNull // Serialization
   private User owner;
 
   @JsonProperty(access = READ_ONLY)
@@ -58,6 +55,12 @@ public class RosterPlan {
   @Nullable // not applicable to parent
   @Column
   private Boolean solved;
+
+  @Column
+  private int minAllocationCount;
+
+  @Column
+  private int maxAllocationCount;
 
   @Override
   public boolean equals(Object o) {

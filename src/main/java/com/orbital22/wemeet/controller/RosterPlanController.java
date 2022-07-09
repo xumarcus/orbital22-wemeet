@@ -1,8 +1,9 @@
 package com.orbital22.wemeet.controller;
 
-import com.orbital22.wemeet.dto.RosterPlanUserInfoPostRequest;
-import com.orbital22.wemeet.model.RosterPlanUserInfo;
-import com.orbital22.wemeet.service.RosterPlanUserInfoService;
+import com.orbital22.wemeet.dto.RosterPlanPostRequest;
+import com.orbital22.wemeet.model.RosterPlan;
+import com.orbital22.wemeet.service.RosterPlanService;
+import com.orbital22.wemeet.service.SolverService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
@@ -17,23 +18,27 @@ import javax.validation.Valid;
 
 @RepositoryRestController
 @AllArgsConstructor
-public class RosterPlanUserInfoController {
+public class RosterPlanController {
   private final LocalValidatorFactoryBean validator;
   private final RepositoryEntityLinks repositoryEntityLinks;
-  private final RosterPlanUserInfoService rosterPlanUserInfoService;
+  private final RosterPlanService rosterPlanService;
+  private final SolverService solverService;
 
   @InitBinder
   protected void initBinder(WebDataBinder binder) {
     binder.addValidators(validator);
   }
 
-  @PostMapping("/rosterPlanUserInfo") // PUT?
-  ResponseEntity<?> post(@RequestBody @Valid RosterPlanUserInfoPostRequest request) {
-    RosterPlanUserInfo rosterPlanUserInfo = rosterPlanUserInfoService.post(request);
+  @PostMapping("/rosterPlan")
+  ResponseEntity<?> post(@RequestBody @Valid RosterPlanPostRequest request) {
+    RosterPlan rosterPlan = rosterPlanService.post(request);
+
+    if (rosterPlan.getParent() != null) {
+      solverService.solve(rosterPlan);
+    }
+
     return ResponseEntity.created(
-            repositoryEntityLinks
-                .linkToItemResource(rosterPlanUserInfo, RosterPlanUserInfo::getId)
-                .toUri())
+            repositoryEntityLinks.linkToItemResource(rosterPlan, RosterPlan::getId).toUri())
         .build();
   }
 }

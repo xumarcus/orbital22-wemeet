@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class CustomUser extends org.springframework.security.core.userdetails.User {
-  private final int id;
+  private final User user;
 
   public CustomUser(User user) {
     super(
@@ -16,6 +16,10 @@ public class CustomUser extends org.springframework.security.core.userdetails.Us
         true,
         true,
         user.getAuthorities());
-    this.id = user.getId();
+    this.user = user;
+  }
+
+  public int getId() {
+    return user.getId();
   }
 }

@@ -16,7 +16,7 @@ import ScheduleOwnerEditorTemplate from './ScheduleOwnerEditorTemplate'
 import { fromTemplate } from '../../../core/util'
 import ScheduleEventFooter from '../ScheduleEventFooter'
 
-const ScheduleOwner = ({ rosterPlan }) => {
+const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
   const template = rosterPlan?._links?.timeSlots?.href
   if (template === null) {
     throw new Error('Meeting not found.')
@@ -25,7 +25,17 @@ const ScheduleOwner = ({ rosterPlan }) => {
   const params = new URLSearchParams({ projection: API.PROJECTIONS.TIME_SLOT })
   const url = `${fromTemplate(template).url}?${params.toString()}`
 
-  const map = (req) => ({ ...req, rosterPlan: rosterPlan?._links?.self.href })
+  const map = ({
+    capacity,
+    startDateTime,
+    endDateTime,
+    ..._rest
+  }) => ({
+    capacity,
+    startDateTime,
+    endDateTime,
+    rosterPlan: rosterPlan?._links?.self.href
+  })
 
   const dataManager = new DataManager({
     adaptor: new RestAdaptor({
@@ -48,20 +58,31 @@ const ScheduleOwner = ({ rosterPlan }) => {
   }
 
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
-    const [appointment] = element.children
+    // If Resize is injected, resize helper is prepended to element.children
+    const appointment = element.children[readOnly ? 0 : 1]
     appointment.append(ScheduleEventFooter(timeSlotUserInfos))
+  }
+
+  const services = readOnly
+    ? [Day, Week, Month, Agenda]
+    : [Day, Week, Month, Agenda, Resize, DragAndDrop]
+
+  const timeScale = {
+    enabled: true,
+    interval: 60,
+    slotCount: 60 / eventDuration
   }
 
   return (
     <ScheduleComponent
+      cssClass='schedule-cell-dimension'
       editorTemplate={ScheduleOwnerEditorTemplate}
+      eventRendered={onEventRendered}
       eventSettings={eventSettings}
       height='80vh'
-      eventRendered={onEventRendered}
+      timeScale={timeScale}
     >
-      <Inject
-        services={[Day, Week, Month, Agenda, Resize, DragAndDrop]}
-      />
+      <Inject services={services} />
     </ScheduleComponent>
   )
 }

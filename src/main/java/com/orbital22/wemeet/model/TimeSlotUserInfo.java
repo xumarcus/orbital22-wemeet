@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @ToString
