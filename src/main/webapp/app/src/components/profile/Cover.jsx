@@ -12,35 +12,39 @@ const Cover = () => {
   }
 
   const handleChangeCover = event => {
-      const ALLOWED_TYPES = ['image/png', 'image/jpg', 'image/jpeg'];
-      const selectedImage = event.target.files[0];
+    const ALLOWED_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
+    const selectedImage = event.target.files[0]
 
-      if (selectedImage && ALLOWED_TYPES.includes(selectedImage.type)) {
-          let reader = new FileReader();
-          reader.onloadend = () => {
-              setCoverImage(reader.result);
-          }
-          return reader.readAsDataURL(selectedImage);
+    if (selectedImage && ALLOWED_TYPES.includes(selectedImage.type)) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setCoverImage(reader.result)
       }
+      return reader.readAsDataURL(selectedImage)
+    }
   }
 
   return (
-    <Box sx={{ height: '275px', width:"100%", overflow: 'hidden' }}>
-       <Box
-          component="img"
-          sx={{
-              width: "100%"
-          }}
-          alt="Cover2"
-          src={coverImage ? coverImage : 'cover_img.png'}
-       />
+    <Box sx={{ height: '275px', width: '100%', overflow: 'hidden', position: 'relative' }}>
+      <Box
+        component='img'
+        sx={{
+          width: '100%'
+        }}
+        alt='Cover Image'
+        src={coverImage || './images/profile_page_background.jpeg'}
+      />
 
-       <Button variant="contained" sx={{position:"absolute", top:90, right:40}} onClick={openChooseFile}>
-          Button
-          <input ref={inputRef} type="file" onChange={handleChangeCover} hidden />
-       </Button>
+      <Button
+        variant='contained'
+        onClick={openChooseFile}
+        sx={{ position: 'absolute', top: 25, right: 30, backgroundColor: 'rgba(128, 128, 128, 0.5)' }}
+      >
+        Change Cover
+        <input ref={inputRef} type='file' onChange={handleChangeCover} hidden />
+      </Button>
     </Box>
   )
 }
 
-export default Cover;
+export default Cover
