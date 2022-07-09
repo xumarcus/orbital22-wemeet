@@ -39,11 +39,9 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
             ConstraintCollectors.sum(assignment -> fromBoolean(assignment.getConsidered())))
         .join(RosterPlanSolution.RosterPlanSolutionConfiguration.class)
         .filter(
-            (user, count, config) -> {
-              System.out.println(config.getMinAllocationCount());
-              return !(config.getMinAllocationCount() <= count
-                  && count <= config.getMaxAllocationCount());
-            })
+            (user, count, config) ->
+                !(config.getMinAllocationCount() <= count
+                    && count <= config.getMaxAllocationCount()))
         .penalize("Number of time slots for user must be in range", HardSoftScore.ONE_HARD);
   }
 

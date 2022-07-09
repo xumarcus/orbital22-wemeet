@@ -146,8 +146,8 @@ public class SolverIntegrationTest {
                             .with(user(talk.getEmail()))
                             .content(objectMapper.writeValueAsString(map))
                             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(forwardedUrl("/api/rosterPlan/2"));
+            .andExpect(status().isCreated())
+            .andExpect(redirectedUrl("http://localhost/api/rosterPlan/2"));
   }
 
   @Test
