@@ -53,8 +53,6 @@ const ScheduleUser = ({ rosterPlan }) => {
     }
   }
 
-
-
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
     element.style.backgroundColor = getSelfInfoColor(context.user, timeSlotUserInfos)
 

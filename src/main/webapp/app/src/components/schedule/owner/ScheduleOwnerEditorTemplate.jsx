@@ -6,7 +6,7 @@ import EditorListWithAvatar from '../editor/EditorListWithAvatar'
 
 const ScheduleOwnerEditorTemplate = (props) => {
   if (_.isEmpty(props)) {
-    return <div />  // Throw?
+    return <div /> // Throw?
   }
 
   const {

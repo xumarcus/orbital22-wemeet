@@ -388,10 +388,9 @@ databaseChangeLog:
       author: xumarcus
       preConditions:
         - onFail: HALT  # How to add check for null?
-        - not:
-            - columnExists:
-                tableName: time_slot_user_info
-                columnName: rank
+        - columnExists:
+            tableName: time_slot_user_info
+            columnName: rank
       changes:
         - dropNotNullConstraint:
             tableName: time_slot_user_info

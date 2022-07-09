@@ -10,9 +10,9 @@ const EditorListWithAvatar = ({ label, items, ...props }) => {
     <tr>
       <td
         className='e-textlabel' style={{
-        paddingTop: SIZE / 2,
-        paddingBottom: SIZE / 2
-      }}
+          paddingTop: SIZE / 2,
+          paddingBottom: SIZE / 2
+        }}
       >
         {label}
       </td>

@@ -10,7 +10,7 @@ const ScheduleUserEditorTemplate = (props) => {
   const { context } = useContext(AppContext)
 
   if (_.isEmpty(props)) {
-    return <div/> // Throw?
+    return <div /> // Throw?
   }
 
   // const syncfusionId = props.Id
@@ -28,7 +28,7 @@ const Inner = ({
   endDateTime,
   capacity,
   available,
-  rank,
+  rank
 }) => {
   const [isRankDisabled, setIsRankDisabled] = useState(!available)
 
@@ -38,34 +38,34 @@ const Inner = ({
 
   return (
     <table
-      className="custom-event-editor"
+      className='custom-event-editor'
       style={{ width: '100%', cellpadding: '5' }}
     >
       <tbody>
-      <FieldEditorRow
-        name="timeSlotId" type="number" value={timeSlotId}
-        disabled hidden
-      />
-      <FieldEditorRow
-        label="Capacity" name="capacity" value={capacity}
-        disabled
-      />
-      <SwitchEditorRow
-        label="Available" name="available" checked={available}
-        change={onAvailableChange}
-      />
-      <FieldEditorRow
-        label="Rank" name="rank" defaultValue={rank}
-        type="number" disabled={isRankDisabled}
-      />
-      <DateTimePickerEditorRow
-        label="From" name="startDateTime" value={startDateTime}
-        disabled
-      />
-      <DateTimePickerEditorRow
-        label="To" name="endDateTime" value={endDateTime}
-        disabled
-      />
+        <FieldEditorRow
+          name='timeSlotId' type='number' value={timeSlotId}
+          disabled hidden
+        />
+        <FieldEditorRow
+          label='Capacity' name='capacity' value={capacity}
+          disabled
+        />
+        <SwitchEditorRow
+          label='Available' name='available' checked={available}
+          change={onAvailableChange}
+        />
+        <FieldEditorRow
+          label='Rank' name='rank' defaultValue={rank}
+          type='number' disabled={isRankDisabled}
+        />
+        <DateTimePickerEditorRow
+          label='From' name='startDateTime' value={startDateTime}
+          disabled
+        />
+        <DateTimePickerEditorRow
+          label='To' name='endDateTime' value={endDateTime}
+          disabled
+        />
       </tbody>
     </table>
   )
