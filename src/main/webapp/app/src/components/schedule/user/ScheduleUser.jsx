@@ -11,10 +11,10 @@ import { useContext } from 'react'
 import { DataManager } from '@syncfusion/ej2-data'
 import RestAdaptor from '../../../core/RestAdaptor'
 import ScheduleUserEditorTemplate from './ScheduleUserEditorTemplate'
-import { API, SYSTEM_THEME } from '../../../core/const'
+import { API } from '../../../core/const'
 import AppContext from '../../../core/AppContext'
 import { fromTemplate } from '../../../core/util'
-import ScheduleEventFooter from '../ScheduleEventFooter'
+import { getSelfInfoColor, makeScheduleEventFooter } from '../appearance'
 
 const ScheduleUser = ({ rosterPlan }) => {
   const { context } = useContext(AppContext)
@@ -53,30 +53,13 @@ const ScheduleUser = ({ rosterPlan }) => {
     }
   }
 
-  const getSelfInfoColor = (timeSlotUserInfos) => {
-    const info = timeSlotUserInfos.find(({ user: { id } }) => id === context.user.id)
 
-    if (!info) return SYSTEM_THEME.palette.primary.main
-    if (info.picked) return SYSTEM_THEME.palette.success.main
-    switch (info.rank) {
-      case 0:
-        return SYSTEM_THEME.palette.primary.main // Same as info === null
-      case 1:
-        return SYSTEM_THEME.palette.warning.light
-      case 2:
-        return SYSTEM_THEME.palette.warning.main
-      case 3:
-        return SYSTEM_THEME.palette.warning.dark
-      default:
-        return SYSTEM_THEME.palette.error.main
-    }
-  }
 
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
-    element.style.backgroundColor = getSelfInfoColor(timeSlotUserInfos)
+    element.style.backgroundColor = getSelfInfoColor(context.user, timeSlotUserInfos)
 
     const [appointment] = element.children
-    appointment.append(ScheduleEventFooter(timeSlotUserInfos))
+    appointment.append(makeScheduleEventFooter(timeSlotUserInfos))
   }
 
   return (
