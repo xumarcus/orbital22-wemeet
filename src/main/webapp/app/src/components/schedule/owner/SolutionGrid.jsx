@@ -37,8 +37,8 @@ const SolutionGrid = ({ rosterPlan }) => {
     id && <Link to={ROUTES.MEETING_VIEW_SOLUTION(id)}>{id}</Link>
   )
 
-  const setRef = (g) => {
-    ref.current = g
+  const setRef = (scope) => {
+    ref.current = scope
   }
 
   return (
