@@ -382,3 +382,37 @@ databaseChangeLog:
                   defaultValueNumeric: 1
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: time_slot_user_info_alter_rank_nullable
+      author: xumarcus
+      preConditions:
+        - onFail: HALT  # How to add check for null?
+        - not:
+            - columnExists:
+                tableName: time_slot_user_info
+                columnName: rank
+      changes:
+        - dropNotNullConstraint:
+            tableName: time_slot_user_info
+            columnName: rank
+
+  - changeSet:
+      id: time_slot_user_info_add_available
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: time_slot_user_info
+                columnName: available
+      changes:
+        - addColumn:
+            tableName: time_slot_user_info
+            columns:
+              - column:
+                  name: available
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false

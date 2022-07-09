@@ -1,6 +1,7 @@
 package com.orbital22.wemeet.model;
 
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,9 +22,12 @@ public class TimeSlotUserInfo {
   @Column
   private int id;
 
-  @Builder.Default @Column @PositiveOrZero private int rank = 0;
+  @Column @PositiveOrZero @Nullable
+  private Integer rank;
 
   @Builder.Default @Column private boolean picked = false;
+
+  @Builder.Default @Column private boolean available = true;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
