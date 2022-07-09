@@ -14,6 +14,6 @@ public class DateTimeRangeValidator
     implements ConstraintValidator<DateTimeRangeConstraint, HasDateTimeRange> {
   @Override
   public boolean isValid(HasDateTimeRange dateTimeRange, ConstraintValidatorContext ctx) {
-    return HasDateTimeRange.isValid(dateTimeRange);
+    return dateTimeRange.isValid();
   }
 }

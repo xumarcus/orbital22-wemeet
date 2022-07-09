@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.Range;
 import org.jetbrains.annotations.NotNull;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
@@ -44,5 +45,9 @@ public class RosterPlanSolution {
   public static class RosterPlanSolutionConfiguration {
     private int minAllocationCount;
     private int maxAllocationCount;
+
+    public Range<Integer> getAllocationCountRange() {
+      return Range.between(getMinAllocationCount(), getMaxAllocationCount());
+    }
   }
 }

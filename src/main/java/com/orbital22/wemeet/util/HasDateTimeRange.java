@@ -1,8 +1,12 @@
 package com.orbital22.wemeet.util;
 
 import lombok.NonNull;
+import org.apache.commons.lang3.Range;
 
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
+
+import static org.apache.commons.lang3.Range.between;
 
 public interface HasDateTimeRange {
   @NonNull
@@ -11,12 +15,11 @@ public interface HasDateTimeRange {
   @NonNull
   LocalDateTime getEndDateTime();
 
-  static boolean isValid(HasDateTimeRange dateTimeRange) {
-    return dateTimeRange.getStartDateTime().isBefore(dateTimeRange.getEndDateTime());
+  default boolean isValid() {
+    return getStartDateTime().isBefore(getEndDateTime());
   }
 
-  default boolean containsRange(HasDateTimeRange other) {
-    return getStartDateTime().isBefore(other.getStartDateTime())
-        && getEndDateTime().isAfter(other.getEndDateTime());
+  default Range<ChronoLocalDateTime<?>> getChronoLocalDateTimeRange() {
+    return between(getStartDateTime(), getEndDateTime());
   }
 }
