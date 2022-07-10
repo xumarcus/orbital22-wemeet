@@ -1,4 +1,4 @@
-import {DataManager} from '@syncfusion/ej2-data';
+import { DataManager } from '@syncfusion/ej2-data'
 import {
   ColumnDirective,
   ColumnsDirective,
@@ -6,13 +6,13 @@ import {
   GridComponent,
   Inject,
   Toolbar
-} from '@syncfusion/ej2-react-grids';
-import RestAdaptor from '../../core/RestAdaptor';
+} from '@syncfusion/ej2-react-grids'
+import RestAdaptor from '../../core/RestAdaptor'
 
-import {API, ROUTES, TOOLBAR} from '../../core/const';
-import {useContext} from 'react';
-import AppContext from '../../core/AppContext';
-import {Link} from 'react-router-dom';
+import { API, ROUTES, TOOLBAR } from '../../core/const'
+import { useContext } from 'react'
+import AppContext from '../../core/AppContext'
+import { Link } from 'react-router-dom'
 
 const EventGrid = () => {
   const { context } = useContext(AppContext)
@@ -50,13 +50,13 @@ const EventGrid = () => {
     >
       <ColumnsDirective>
         <ColumnDirective
-          field='id' headerText='ID' template={linkIDTemplate}
-          width='120' textAlign='Center' isPrimaryKey
+          field="id" headerText="ID" template={linkIDTemplate}
+          width="120" textAlign="Center" isPrimaryKey
           isIdentity
         />
-        <ColumnDirective field='title' headerText='Title' textAlign='Center' />
+        <ColumnDirective field="title" headerText="Title" textAlign="Center"/>
       </ColumnsDirective>
-      <Inject services={[Edit, Toolbar]} />
+      <Inject services={[Edit, Toolbar]}/>
     </GridComponent>
   )
 }

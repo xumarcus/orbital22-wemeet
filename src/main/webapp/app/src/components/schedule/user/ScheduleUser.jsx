@@ -5,16 +5,16 @@ import {
   Month,
   ScheduleComponent,
   Week
-} from '@syncfusion/ej2-react-schedule';
-import * as React from 'react';
-import {useContext} from 'react';
-import {DataManager} from '@syncfusion/ej2-data';
-import RestAdaptor from '../../../core/RestAdaptor';
-import ScheduleUserEditorTemplate from './ScheduleUserEditorTemplate';
-import {API, SYSTEM_THEME} from '../../../core/const';
-import AppContext from '../../../core/AppContext';
-import {fromTemplate} from '../../../core/util';
-import ScheduleEventFooter from '../ScheduleEventFooter';
+} from '@syncfusion/ej2-react-schedule'
+import * as React from 'react'
+import { useContext } from 'react'
+import { DataManager } from '@syncfusion/ej2-data'
+import RestAdaptor from '../../../core/RestAdaptor'
+import ScheduleUserEditorTemplate from './ScheduleUserEditorTemplate'
+import { API, SYSTEM_THEME } from '../../../core/const'
+import AppContext from '../../../core/AppContext'
+import { fromTemplate } from '../../../core/util'
+import ScheduleEventFooter from '../ScheduleEventFooter'
 
 const ScheduleUser = ({ rosterPlan }) => {
   const { context } = useContext(AppContext)

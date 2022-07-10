@@ -1,36 +1,36 @@
-import * as React from 'react';
-import {useContext, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import ErrorFallback from '../components/core/ErrorFallback';
-import {ErrorBoundary} from 'react-error-boundary';
-import ScheduleOwner from '../components/schedule/owner/ScheduleOwner';
-import useSWR from 'swr';
+import * as React from 'react'
+import { useContext, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import ErrorFallback from '../components/core/ErrorFallback'
+import { ErrorBoundary } from 'react-error-boundary'
+import ScheduleOwner from '../components/schedule/owner/ScheduleOwner'
+import useSWR from 'swr'
 import {
   CircularProgress,
   Divider,
   TextField,
   ToggleButton,
   ToggleButtonGroup
-} from '@mui/material';
-import ajax from '../core/ajax';
-import InvitationGrid from '../components/schedule/InvitationGrid';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import {API, ENUMS, ERROR_MESSAGES} from '../core/const';
-import AppContext from '../core/AppContext';
+} from '@mui/material'
+import ajax from '../core/ajax'
+import InvitationGrid from '../components/schedule/InvitationGrid'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { API, ENUMS, ERROR_MESSAGES } from '../core/const'
+import AppContext from '../core/AppContext'
 import EventSettingsTab
-  from '../components/schedule/owner/quick_menu/QuickMenuEventSettings';
+  from '../components/schedule/owner/quick_menu/QuickMenuEventSettings'
 import BulkAddTab
-  from '../components/schedule/owner/quick_menu/QuickMenuBulkAdd';
+  from '../components/schedule/owner/quick_menu/QuickMenuBulkAdd'
 import BulkEditTab
-  from '../components/schedule/owner/quick_menu/QuickMenuBulkEdit';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import {TabContext, TabList, TabPanel} from '@mui/lab';
-import Tab from '@mui/material/Tab';
-import SolutionGrid from '../components/schedule/owner/SolutionGrid';
+  from '../components/schedule/owner/quick_menu/QuickMenuBulkEdit'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import Tab from '@mui/material/Tab'
+import SolutionGrid from '../components/schedule/owner/SolutionGrid'
 import ScheduleOwnerConfigurer
-  from '../components/schedule/owner/ScheduleOwnerConfigurer';
+  from '../components/schedule/owner/ScheduleOwnerConfigurer'
 
 /*
   Can move some components to components/?

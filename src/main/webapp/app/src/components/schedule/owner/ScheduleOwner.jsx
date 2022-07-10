@@ -7,14 +7,14 @@ import {
   Resize,
   ScheduleComponent,
   Week
-} from '@syncfusion/ej2-react-schedule';
-import * as React from 'react';
-import {DataManager} from '@syncfusion/ej2-data';
-import RestAdaptor from '../../../core/RestAdaptor';
-import {API} from '../../../core/const';
-import ScheduleOwnerEditorTemplate from './ScheduleOwnerEditorTemplate';
-import {fromTemplate} from '../../../core/util';
-import ScheduleEventFooter from '../ScheduleEventFooter';
+} from '@syncfusion/ej2-react-schedule'
+import * as React from 'react'
+import { DataManager } from '@syncfusion/ej2-data'
+import RestAdaptor from '../../../core/RestAdaptor'
+import { API } from '../../../core/const'
+import ScheduleOwnerEditorTemplate from './ScheduleOwnerEditorTemplate'
+import { fromTemplate } from '../../../core/util'
+import ScheduleEventFooter from '../ScheduleEventFooter'
 
 const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
   const template = rosterPlan?._links?.timeSlots?.href
