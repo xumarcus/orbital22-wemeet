@@ -8,7 +8,7 @@ import java.time.chrono.ChronoLocalDateTime;
 
 import static org.apache.commons.lang3.Range.between;
 
-public interface HasDateTimeRange {
+public interface IDateTimeRange {
   @NonNull
   LocalDateTime getStartDateTime();
 
