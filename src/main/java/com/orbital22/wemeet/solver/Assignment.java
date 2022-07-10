@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
@@ -18,9 +19,9 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 @PlanningEntity
 public class Assignment {
   @PlanningId private int id;
-  private User user;
-  private TimeSlot timeSlot;
-  private int rank;
+  @NotNull private User user;
+  @NotNull private TimeSlot timeSlot;
+  @Nullable private Integer rank;
 
   @PlanningVariable(valueRangeProviderRefs = "booleanValueRange")
   @Builder.Default

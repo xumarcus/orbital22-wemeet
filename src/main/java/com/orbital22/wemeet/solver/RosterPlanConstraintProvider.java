@@ -28,7 +28,13 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
         .forEach(Assignment.class)
         .filter(
             assignment -> Objects.requireNonNull(assignment.getConsidered(), "Must be initialized"))
-        .penalize("User rank timeslot", HardSoftScore.ONE_SOFT, Assignment::getRank);
+        .penalize(
+            "User rank timeslot",
+            HardSoftScore.ONE_SOFT,
+            assignment -> {
+              Integer rank = assignment.getRank();
+              return rank != null ? rank : 10; // TODO
+            });
   }
 
   private Constraint userSizeConstraint(ConstraintFactory constraintFactory) {
