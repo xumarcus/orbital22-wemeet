@@ -50,13 +50,13 @@ const EventGrid = () => {
     >
       <ColumnsDirective>
         <ColumnDirective
-          field="id" headerText="ID" template={linkIDTemplate}
-          width="120" textAlign="Center" isPrimaryKey
+          field='id' headerText='ID' template={linkIDTemplate}
+          width='120' textAlign='Center' isPrimaryKey
           isIdentity
         />
-        <ColumnDirective field="title" headerText="Title" textAlign="Center"/>
+        <ColumnDirective field='title' headerText='Title' textAlign='Center' />
       </ColumnsDirective>
-      <Inject services={[Edit, Toolbar]}/>
+      <Inject services={[Edit, Toolbar]} />
     </GridComponent>
   )
 }
