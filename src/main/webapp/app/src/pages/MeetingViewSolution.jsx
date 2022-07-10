@@ -83,6 +83,7 @@ const InnerInner = ({ rosterPlan }) => {
         </Grid>
         <Grid item xs={12} lg={4}>
           <ScheduleOwnerConfigurer
+            rosterPlan={rosterPlan}
             eventDuration={eventDuration}
             setEventDuration={setEventDuration}
             readOnly

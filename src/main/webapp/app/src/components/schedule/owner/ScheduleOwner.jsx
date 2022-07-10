@@ -6,7 +6,7 @@ import {
   Month,
   Resize,
   ScheduleComponent,
-  Week,
+  Week
 } from '@syncfusion/ej2-react-schedule'
 import * as React from 'react'
 import { DataManager } from '@syncfusion/ej2-data'

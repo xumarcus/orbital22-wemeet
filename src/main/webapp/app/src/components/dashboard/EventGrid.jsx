@@ -5,7 +5,7 @@ import {
   Edit,
   GridComponent,
   Inject,
-  Toolbar,
+  Toolbar
 } from '@syncfusion/ej2-react-grids'
 import RestAdaptor from '../../core/RestAdaptor'
 
@@ -44,9 +44,16 @@ const EventGrid = () => {
   )
 
   return (
-    <GridComponent dataSource={dataManager} editSettings={editSettings} toolbar={TOOLBAR}>
+    <GridComponent
+      dataSource={dataManager} editSettings={editSettings}
+      toolbar={TOOLBAR}
+    >
       <ColumnsDirective>
-        <ColumnDirective field='id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
+        <ColumnDirective
+          field='id' headerText='ID' template={linkIDTemplate}
+          width='120' textAlign='Center' isPrimaryKey
+          isIdentity
+        />
         <ColumnDirective field='title' headerText='Title' textAlign='Center' />
       </ColumnsDirective>
       <Inject services={[Edit, Toolbar]} />
