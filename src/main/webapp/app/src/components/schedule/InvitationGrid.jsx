@@ -1,17 +1,17 @@
-import { DataManager } from '@syncfusion/ej2-data'
+import {DataManager} from '@syncfusion/ej2-data';
 import {
   ColumnDirective,
   ColumnsDirective,
   Edit,
   GridComponent,
   Inject,
-  Toolbar,
-} from '@syncfusion/ej2-react-grids'
-import RestAdaptor from '../../core/RestAdaptor'
+  Toolbar
+} from '@syncfusion/ej2-react-grids';
+import RestAdaptor from '../../core/RestAdaptor';
 
-import { API, ERROR_MESSAGES, TOOLBAR } from '../../core/const'
-import Typography from '@mui/material/Typography'
-import { fromTemplate } from '../../core/util'
+import {API, ERROR_MESSAGES, TOOLBAR} from '../../core/const';
+import Typography from '@mui/material/Typography';
+import {fromTemplate} from '../../core/util';
 
 const InvitationGrid = ({ rosterPlan, readonly }) => {
   const template = rosterPlan._links.rosterPlanUserInfos.href

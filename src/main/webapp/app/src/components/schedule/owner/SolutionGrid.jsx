@@ -1,20 +1,20 @@
-import { DataManager } from '@syncfusion/ej2-data'
+import {DataManager} from '@syncfusion/ej2-data';
 import {
   ColumnDirective,
   ColumnsDirective,
   Edit,
   GridComponent,
   Inject,
-  Toolbar,
-} from '@syncfusion/ej2-react-grids'
-import RestAdaptor from '../../../core/RestAdaptor'
+  Toolbar
+} from '@syncfusion/ej2-react-grids';
+import RestAdaptor from '../../../core/RestAdaptor';
 
-import { API, ROUTES } from '../../../core/const'
-import { Link } from 'react-router-dom'
-import Button from '@mui/material/Button'
-import * as React from 'react'
-import { useRef } from 'react'
-import ajax from '../../../core/ajax'
+import {API, ROUTES} from '../../../core/const';
+import {Link} from 'react-router-dom';
+import Button from '@mui/material/Button';
+import * as React from 'react';
+import {useRef} from 'react';
+import ajax from '../../../core/ajax';
 
 const SolutionGrid = ({ rosterPlan }) => {
   const ref = useRef(null)

@@ -1,20 +1,20 @@
-import { DataManager } from '@syncfusion/ej2-data'
+import {DataManager} from '@syncfusion/ej2-data';
 import {
   ColumnDirective,
   ColumnsDirective,
   Edit,
   GridComponent,
   Inject,
-  Toolbar,
-} from '@syncfusion/ej2-react-grids'
-import RestAdaptor from '../../core/RestAdaptor'
+  Toolbar
+} from '@syncfusion/ej2-react-grids';
+import RestAdaptor from '../../core/RestAdaptor';
 
-import { API, ROUTES, TEXT, TOOLBAR } from '../../core/const'
-import { useContext } from 'react'
-import AppContext from '../../core/AppContext'
-import { Link } from 'react-router-dom'
-import { fromTemplate } from '../../core/util'
-import MaterialLink from '@mui/material/Link'
+import {API, ROUTES, TEXT, TOOLBAR} from '../../core/const';
+import {useContext} from 'react';
+import AppContext from '../../core/AppContext';
+import {Link} from 'react-router-dom';
+import {fromTemplate} from '../../core/util';
+import MaterialLink from '@mui/material/Link';
 
 const PendingResponseGrid = () => {
   const { context } = useContext(AppContext)
