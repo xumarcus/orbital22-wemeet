@@ -14,12 +14,15 @@ const ScheduleUserEditorTemplate = (props) => {
   }
 
   // const syncfusionId = props.Id
-  props.rank = props
-    ?.timeSlotUserInfos
-    ?.find(info => info.user.id === context.user.id)
-    ?.rank
+  const innerProps = {
+    rank: props
+      ?.timeSlotUserInfos
+      ?.find(info => info.user.id === context.user.id)
+      ?.rank,
+    ...props
+  }
 
-  return <Inner {...props} />
+  return <Inner {...innerProps} />
 }
 
 const Inner = ({
