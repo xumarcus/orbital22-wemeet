@@ -10,7 +10,7 @@ import {
   Divider,
   TextField,
   ToggleButton,
-  ToggleButtonGroup,
+  ToggleButtonGroup
 } from '@mui/material'
 import ajax from '../core/ajax'
 import InvitationGrid from '../components/schedule/InvitationGrid'
