@@ -15,4 +15,4 @@ const DateTimePickerEditorRow = ({ label, name, ...props }) => (
   </EditorRow>
 )
 
-export default  DateTimePickerEditorRow
+export default DateTimePickerEditorRow
