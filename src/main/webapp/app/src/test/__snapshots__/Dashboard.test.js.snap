@@ -1,5 +1,185 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dashboard should render correctly 1`] = `"<div class=\\"MuiTypography-root MuiTypography-h3 css-ugw3x7-MuiTypography-root\\">Dashboard</div><div class=\\"MuiBox-root css-11n9b3d\\"><div class=\\"MuiTabs-root css-1ujnqem-MuiTabs-root\\"><div class=\\"MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller\\" style=\\"overflow: hidden; margin-bottom: 0px;\\"><div class=\\"MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer\\" role=\\"tablist\\"><button class=\\"MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root\\" tabindex=\\"0\\" type=\\"button\\" role=\\"tab\\" aria-selected=\\"true\\" id=\\"simple-tab-0\\" aria-controls=\\"simple-tabpanel-0\\">Events<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button><button class=\\"MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root\\" tabindex=\\"-1\\" type=\\"button\\" role=\\"tab\\" aria-selected=\\"false\\" id=\\"simple-tab-1\\" aria-controls=\\"simple-tabpanel-1\\">Pending Response<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button></div><span class=\\"MuiTabs-indicator css-1aquho2-MuiTabs-indicator\\" style=\\"left: 0px; width: 0px;\\"></span></div></div><div class=\\"MuiBox-root css-18gompf\\"><div role=\\"tabpanel\\" id=\\"simple-tabpanel-0\\" aria-labelledby=\\"simple-tab-0\\"><div class=\\"MuiBox-root css-19kzrtu\\"><p class=\\"MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root\\"><div class=\\"MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-l6hioc-MuiGrid-root\\" style=\\"min-height: 80vh;\\"><div class=\\"MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root\\"><h1 class=\\"MuiTypography-root MuiTypography-h1 MuiTypography-alignCenter css-sqoje6-MuiTypography-root\\">⚠</h1><h5 class=\\"MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-ph2xsj-MuiTypography-root\\">Please sign in.</h5></div></div></p></div></div><div role=\\"tabpanel\\" hidden=\\"\\" id=\\"simple-tabpanel-1\\" aria-labelledby=\\"simple-tab-1\\"></div></div></div>"`;
+exports[`Dashboard should render correctly when no throw 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiTypography-root MuiTypography-h3 css-ugw3x7-MuiTypography-root"
+  >
+    Dashboard
+  </div>
+  <div
+    class="MuiBox-root css-11n9b3d"
+  >
+    <div
+      class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+    >
+      <div
+        class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+        style="overflow: hidden; margin-bottom: 0px;"
+      >
+        <div
+          class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+          role="tablist"
+        >
+          <button
+            aria-controls="simple-tabpanel-0"
+            aria-selected="true"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            id="simple-tab-0"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            Events
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-controls="simple-tabpanel-1"
+            aria-selected="false"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            id="simple-tab-1"
+            role="tab"
+            tabindex="-1"
+            type="button"
+          >
+            Pending Response
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+        <span
+          class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+          style="left: 0px; width: 0px;"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-18gompf"
+    >
+      <div
+        aria-labelledby="simple-tab-0"
+        id="simple-tabpanel-0"
+        role="tabpanel"
+      >
+        <div
+          class="MuiBox-root css-19kzrtu"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="simple-tab-1"
+        hidden=""
+        id="simple-tabpanel-1"
+        role="tabpanel"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
 
-exports[`Dashboard should render correctly when not signed in 1`] = `"<div class=\\"MuiTypography-root MuiTypography-h3 css-ugw3x7-MuiTypography-root\\">Dashboard</div><div class=\\"MuiBox-root css-11n9b3d\\"><div class=\\"MuiTabs-root css-1ujnqem-MuiTabs-root\\"><div class=\\"MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller\\" style=\\"overflow: hidden; margin-bottom: 0px;\\"><div class=\\"MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer\\" role=\\"tablist\\"><button class=\\"MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root\\" tabindex=\\"0\\" type=\\"button\\" role=\\"tab\\" aria-selected=\\"true\\" id=\\"simple-tab-0\\" aria-controls=\\"simple-tabpanel-0\\">Events<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button><button class=\\"MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root\\" tabindex=\\"-1\\" type=\\"button\\" role=\\"tab\\" aria-selected=\\"false\\" id=\\"simple-tab-1\\" aria-controls=\\"simple-tabpanel-1\\">Pending Response<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button></div><span class=\\"MuiTabs-indicator css-1aquho2-MuiTabs-indicator\\" style=\\"left: 0px; width: 0px;\\"></span></div></div><div class=\\"MuiBox-root css-18gompf\\"><div role=\\"tabpanel\\" id=\\"simple-tabpanel-0\\" aria-labelledby=\\"simple-tab-0\\"><div class=\\"MuiBox-root css-19kzrtu\\"><p class=\\"MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root\\"><div class=\\"MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-l6hioc-MuiGrid-root\\" style=\\"min-height: 80vh;\\"><div class=\\"MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root\\"><h1 class=\\"MuiTypography-root MuiTypography-h1 MuiTypography-alignCenter css-sqoje6-MuiTypography-root\\">⚠</h1><h5 class=\\"MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-ph2xsj-MuiTypography-root\\">Please sign in.</h5></div></div></p></div></div><div role=\\"tabpanel\\" hidden=\\"\\" id=\\"simple-tabpanel-1\\" aria-labelledby=\\"simple-tab-1\\"></div></div></div>"`;
+exports[`Dashboard should render correctly when throws 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiTypography-root MuiTypography-h3 css-ugw3x7-MuiTypography-root"
+  >
+    Dashboard
+  </div>
+  <div
+    class="MuiBox-root css-11n9b3d"
+  >
+    <div
+      class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+    >
+      <div
+        class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+        style="overflow: hidden; margin-bottom: 0px;"
+      >
+        <div
+          class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+          role="tablist"
+        >
+          <button
+            aria-controls="simple-tabpanel-0"
+            aria-selected="true"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            id="simple-tab-0"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            Events
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-controls="simple-tabpanel-1"
+            aria-selected="false"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            id="simple-tab-1"
+            role="tab"
+            tabindex="-1"
+            type="button"
+          >
+            Pending Response
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+        <span
+          class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+          style="left: 0px; width: 0px;"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-18gompf"
+    >
+      <div
+        aria-labelledby="simple-tab-0"
+        id="simple-tabpanel-0"
+        role="tabpanel"
+      >
+        <div
+          class="MuiBox-root css-19kzrtu"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          />
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-l6hioc-MuiGrid-root"
+            style="min-height: 80vh;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+            >
+              <h1
+                class="MuiTypography-root MuiTypography-h1 MuiTypography-alignCenter css-sqoje6-MuiTypography-root"
+              >
+                ⚠
+              </h1>
+              <h5
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-ph2xsj-MuiTypography-root"
+              />
+            </div>
+          </div>
+          <p />
+        </div>
+      </div>
+      <div
+        aria-labelledby="simple-tab-1"
+        hidden=""
+        id="simple-tabpanel-1"
+        role="tabpanel"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,22 +1,23 @@
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
-import Dashboard from '../pages/Dashboard'
+import { render } from '@testing-library/react'
+
+import { DashboardInner } from '../pages/Dashboard'
+import ErrorComponent from './ErrorComponent'
 
 describe('Dashboard', () => {
-  it('should render correctly when not signed in', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
+  it('should render correctly when no throw', () => {
+    const { asFragment } = render(<DashboardInner
+      eventGridComponent={null}
+      pendingResponseGridComponent={null}
+    />)
+    expect(asFragment()).toMatchSnapshot()
+  })
 
-    act(() => {
-      render(<Dashboard />, container)
-    })
-
-    expect(container.innerHTML).toMatchSnapshot()
-
-    unmountComponentAtNode(container)
-    container.remove()
+  it('should render correctly when throws', () => {
+    const { asFragment } = render(<DashboardInner
+      eventGridComponent={<ErrorComponent />}
+      pendingResponseGridComponent={null}
+    />)
+    expect(asFragment()).toMatchSnapshot()
   })
 })
-
-

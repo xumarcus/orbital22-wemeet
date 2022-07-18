@@ -14,9 +14,7 @@ import { useContext } from 'react'
 import AppContext from '../../core/AppContext'
 import { Link } from 'react-router-dom'
 
-const EventGrid = () => {
-  const { context } = useContext(AppContext)
-
+export const getEventGridDataManager = (context) => {
   if (context?.user?._links?.self?.href === null) {
     throw new Error('Please sign in.')
   }
@@ -24,7 +22,7 @@ const EventGrid = () => {
   const url = API.ROSTER_PLAN_BY_PARENT_IS_NULL_AND_OWNER(
     context?.user?._links?.self?.href)
 
-  const dataManager = new DataManager({
+  return new DataManager({
     adaptor: new RestAdaptor({
       GET: RestAdaptor.get(url, resp => resp._embedded.rosterPlan),
       POST: RestAdaptor.post(API.ROSTER_PLAN),
@@ -32,7 +30,9 @@ const EventGrid = () => {
       DELETE: RestAdaptor.delete(API.ROSTER_PLAN, ({ key }) => key)
     })
   })
+}
 
+export const EventGridInner = ({ dataSource }) => {
   const editSettings = {
     allowAdding: true,
     allowEditing: true,
@@ -45,7 +45,7 @@ const EventGrid = () => {
 
   return (
     <GridComponent
-      dataSource={dataManager} editSettings={editSettings}
+      dataSource={dataSource} editSettings={editSettings}
       toolbar={TOOLBAR}
     >
       <ColumnsDirective>
@@ -59,6 +59,11 @@ const EventGrid = () => {
       <Inject services={[Edit, Toolbar]} />
     </GridComponent>
   )
+}
+
+const EventGrid = () => {
+  const { context } = useContext(AppContext)
+  return <EventGridInner dataSource={getEventGridDataManager(context)} />
 }
 
 export default EventGrid
