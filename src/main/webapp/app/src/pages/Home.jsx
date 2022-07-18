@@ -18,10 +18,9 @@ const Home = () => (
       </Box>
       <Box sx={{ m: 5 }}>
         <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat.
+          WeMeet is an orbital project meant to fulfil the need for a more
+          personalised scheduling experience. Offering a unique "Rank" based
+          system which results in more fine tuned results.
         </Typography>
       </Box>
     </Grid>
@@ -30,40 +29,36 @@ const Home = () => (
     </Grid>
     <Grid item md={4}>
       <Typography align='center' variant='h5'>
-        Item 1?
+        Why use WeMeet?
       </Typography>
       <Box sx={{ m: 5 }}>
         <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat.
+          Unlike existing solutions that offer binary selection of available,
+          WeMeet aims to provide a better solution through the use of ranked
+          selections. The user interface is also simple and easy to use.
         </Typography>
       </Box>
     </Grid>
     <Grid item md={4}>
       <Typography align='center' variant='h5'>
-        Item 2?
+        What can WeMeet Do?
       </Typography>
       <Box sx={{ m: 5 }}>
         <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat.
+          Create a schedule for your team, or for yourself. Plan meetups with
+          friends and family. The options are endless.
         </Typography>
       </Box>
     </Grid>
     <Grid item md={4}>
       <Typography align='center' variant='h5'>
-        Item 3?
+        Our Technology
       </Typography>
       <Box sx={{ m: 5 }}>
         <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat.
+          WeMeet is hosted on Heroku and is built with React, Material-UI, and
+          the Spring framework. Processing is done using the powerful
+          OptaPlanner AI.
         </Typography>
       </Box>
     </Grid>
