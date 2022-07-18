@@ -38,7 +38,7 @@ const PendingResponseGrid = () => {
   return <PendingResponseGridInner dataManager={dataManager} selfUserId={context.user.id} />
 }
 
-export const PendingResponseGridInner = ({ dataManager, selfUserId }) => {
+export const PendingResponseGridInner = ({ dataSource, selfUserId }) => {
   const editSettings = {
     allowDeleting: true
   }
@@ -50,11 +50,11 @@ export const PendingResponseGridInner = ({ dataManager, selfUserId }) => {
   const emailTemplate = ({ owner: { id, email } }) => id === selfUserId ? TEXT.YOURSELF : <MaterialLink to={`mailto:${email}`}>{email}</MaterialLink>
 
   return (
-    <GridComponent dataSource={dataManager} editSettings={editSettings} toolbar={TOOLBAR}>
+    <GridComponent dataSource={dataSource} editSettings={editSettings} toolbar={TOOLBAR}>
       <ColumnsDirective>
         <ColumnDirective field='rosterPlan.id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
         <ColumnDirective field='rosterPlan.title' headerText='Title' textAlign='Center' />
-        <ColumnDirective field='user.email' headerText='From' template={emailTemplate} textAlign='Center' />
+        <ColumnDirective field='email' headerText='From' template={emailTemplate} textAlign='Center' />
       </ColumnsDirective>
       <Inject services={[Edit, Toolbar]} />
     </GridComponent>
