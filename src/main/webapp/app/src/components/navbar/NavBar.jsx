@@ -12,13 +12,13 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { useContext, useState } from 'react'
-import logo from './logo_banner.png'
 import { Link, useNavigate } from 'react-router-dom'
 import LogInModal from './authentication/LogInModal'
 import ForgetPasswordModel from './authentication/ForgetPasswordModal'
 import SignUpModal from './authentication/SignUpModal'
 import AppContext, { defaultAppContext } from '../../core/AppContext'
 import ajax from '../../core/ajax'
+import WeMeetLogo from './WeMeetLogo'
 
 const pages = [
   ['Features', 'features'],
@@ -84,18 +84,7 @@ const NavBar = () => {
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
             <Link to='/'>
-              <Box
-                component='img'
-                sx={{
-                  display: { xs: 'none', md: 'flex' },
-                  my: 3,
-                  mx: 2,
-                  maxHeight: { xs: 320, md: 250 },
-                  maxWidth: { xs: 350, md: 300 }
-                }}
-                alt='WeMeet'
-                src={logo}
-              />
+              <WeMeetLogo />
             </Link>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton

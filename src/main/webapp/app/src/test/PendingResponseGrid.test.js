@@ -4,16 +4,13 @@ import { BrowserRouter } from 'react-router-dom'
 import {
   PendingResponseGridInner
 } from '../components/dashboard/PendingResponseGrid'
+import { setupForSyncfusionTest } from './core/util'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 describe('PendingResponseGrid', () => {
   // Syncfusion
-  beforeAll(() => {
-    const { getComputedStyle } = global.window
-    window.crypto = { getRandomValues: jest.fn() }
-    window.getComputedStyle = (elem, select) => getComputedStyle(elem, select)
-  })
+  beforeAll(setupForSyncfusionTest)
 
   it('should render correctly without data', () => {
     const { asFragment } = render(<PendingResponseGridInner dataSource={[]}
