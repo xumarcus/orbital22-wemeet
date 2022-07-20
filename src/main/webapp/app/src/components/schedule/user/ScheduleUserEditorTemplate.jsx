@@ -1,57 +1,43 @@
-import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars'
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import _ from 'lodash'
 import AppContext from '../../../core/AppContext'
+import FieldEditorRow from '../editor/FieldEditorRow'
+import SwitchEditorRow from '../editor/SwitchEditorRow'
+import DateTimePickerEditorRow from '../editor/DateTimePickerEditorRow'
 
 const ScheduleUserEditorTemplate = (props) => {
   const { context } = useContext(AppContext)
 
   if (_.isEmpty(props)) {
-    return <div />
+    return <div /> // Throw?
   }
 
-  const FieldEditorRow = ({ label, name, ...props }) => (
-    <tr>
-      <td className='e-textlabel'>{label}</td>
-      <td colSpan={4}>
-        <input
-          className='e-field e-input'
-          id={name}
-          name={name}
-          style={{ width: '100%' }}
-          {...props}
-        />
-      </td>
-    </tr>
-  )
+  // const syncfusionId = props.Id
+  const innerProps = {
+    rank: props
+      ?.timeSlotUserInfos
+      ?.find(info => info.user.id === context.user.id)
+      ?.rank,
+    ...props
+  }
 
-  const DateTimePickerEditorRow = ({ label, name, ...props }) => (
-    <tr>
-      <td className='e-textlabel'>{label}</td>
-      <td colSpan={4}>
-        <DateTimePickerComponent
-          className='e-field'
-          format='dd/MM/yy hh:mm a'
-          id={name}
-          data-name={name}
-          {...props}
-        />
-      </td>
-    </tr>
-  )
+  return <Inner {...innerProps} />
+}
 
-  const {
-    id: timeSlotId,
-    // Id: syncfusionId,
-    startDateTime,
-    endDateTime,
-    capacity,
-    timeSlotUserInfos
-  } = props
+const Inner = ({
+  id: timeSlotId,
+  startDateTime,
+  endDateTime,
+  capacity,
+  available,
+  rank
+}) => {
+  const [isRankDisabled, setIsRankDisabled] = useState(!available)
 
-  const rank = timeSlotUserInfos.find(
-    info => info.user.id === context.user.id)?.rank
+  const onAvailableChange = ({ checked }) => {
+    setIsRankDisabled(!checked)
+  }
 
   return (
     <table
@@ -60,16 +46,20 @@ const ScheduleUserEditorTemplate = (props) => {
     >
       <tbody>
         <FieldEditorRow
-          name='timeSlotId' type='number'
-          value={timeSlotId} disabled hidden
+          name='timeSlotId' type='number' value={timeSlotId}
+          disabled hidden
         />
         <FieldEditorRow
           label='Capacity' name='capacity' value={capacity}
           disabled
         />
+        <SwitchEditorRow
+          label='Available' name='available' checked={available}
+          change={onAvailableChange}
+        />
         <FieldEditorRow
           label='Rank' name='rank' defaultValue={rank}
-          type='number'
+          type='number' disabled={isRankDisabled}
         />
         <DateTimePickerEditorRow
           label='From' name='startDateTime' value={startDateTime}

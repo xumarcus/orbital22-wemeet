@@ -41,6 +41,7 @@ public class RosterPlanController {
     }
 
     EntityModel<Object> resource = assembler.toFullResource(rosterPlan);
+
     return ResponseEntity.created(resource.getLink(IanaLinkRelations.SELF).orElseThrow().toUri())
         .body(resource);
   }

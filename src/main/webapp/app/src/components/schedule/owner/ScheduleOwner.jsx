@@ -14,7 +14,7 @@ import RestAdaptor from '../../../core/RestAdaptor'
 import { API } from '../../../core/const'
 import ScheduleOwnerEditorTemplate from './ScheduleOwnerEditorTemplate'
 import { fromTemplate } from '../../../core/util'
-import ScheduleEventFooter from '../ScheduleEventFooter'
+import { makeScheduleEventFooter } from '../appearance'
 
 const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
   const template = rosterPlan?._links?.timeSlots?.href
@@ -60,7 +60,7 @@ const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
   const onEventRendered = ({ data: { timeSlotUserInfos }, element }) => {
     // If Resize is injected, resize helper is prepended to element.children
     const appointment = element.children[readOnly ? 0 : 1]
-    appointment.append(ScheduleEventFooter(timeSlotUserInfos))
+    appointment.append(makeScheduleEventFooter(timeSlotUserInfos))
   }
 
   const services = readOnly

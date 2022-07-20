@@ -1,7 +1,7 @@
 package com.orbital22.wemeet.model;
 
 import com.orbital22.wemeet.annotation.DateTimeRangeConstraint;
-import com.orbital22.wemeet.util.HasDateTimeRange;
+import com.orbital22.wemeet.util.IDateTimeRange;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "time_slot")
 @DateTimeRangeConstraint
-public class TimeSlot implements HasDateTimeRange {
+public class TimeSlot implements IDateTimeRange {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column

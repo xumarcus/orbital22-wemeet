@@ -14,6 +14,6 @@ public class UserMeController {
   @PreAuthorize("#authentication != null and #authentication.isAuthenticated()")
   String me(Authentication authentication) {
     CustomUser customUser = (CustomUser) authentication.getPrincipal();
-    return "/api/users/" + customUser.getUser().getId();
+    return String.format("forward:/api/users/%d", customUser.getUser().getId());
   }
 }

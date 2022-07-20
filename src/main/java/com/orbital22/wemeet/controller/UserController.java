@@ -4,7 +4,11 @@ import com.orbital22.wemeet.dto.UserPostRequest;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -25,10 +29,11 @@ public class UserController {
   }
 
   @PostMapping("/users")
-  String post(@RequestBody @Valid UserPostRequest request) {
+  ResponseEntity<?> post(
+      @RequestBody @Valid UserPostRequest request, PersistentEntityResourceAssembler assembler) {
     User user = userService.post(request);
-
-    // FIXME registration
-    return String.format("redirect:/api/users/%d", user.getId());
+    EntityModel<Object> resource = assembler.toFullResource(user);
+    return ResponseEntity.created(resource.getLink(IanaLinkRelations.SELF).orElseThrow().toUri())
+        .body(resource);
   }
 }

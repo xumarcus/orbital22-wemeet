@@ -28,7 +28,13 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
         .forEach(Assignment.class)
         .filter(
             assignment -> Objects.requireNonNull(assignment.getConsidered(), "Must be initialized"))
-        .penalize("User rank timeslot", HardSoftScore.ONE_SOFT, Assignment::getRank);
+        .penalize(
+            "User rank timeslot",
+            HardSoftScore.ONE_SOFT,
+            assignment -> {
+              Integer rank = assignment.getRank();
+              return rank != null ? rank : 10; // TODO
+            });
   }
 
   private Constraint userSizeConstraint(ConstraintFactory constraintFactory) {
@@ -38,12 +44,7 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
             Assignment::getUser,
             ConstraintCollectors.sum(assignment -> fromBoolean(assignment.getConsidered())))
         .join(RosterPlanSolution.RosterPlanSolutionConfiguration.class)
-        .filter(
-            (user, count, config) -> {
-              System.out.println(config.getMinAllocationCount());
-              return !(config.getMinAllocationCount() <= count
-                  && count <= config.getMaxAllocationCount());
-            })
+        .filter((user, count, config) -> !config.getAllocationCountRange().contains(count))
         .penalize("Number of time slots for user must be in range", HardSoftScore.ONE_HARD);
   }
 

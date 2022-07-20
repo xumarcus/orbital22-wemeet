@@ -22,7 +22,7 @@ import java.util.Map;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -87,8 +87,8 @@ class UserCreateIntegrationTest {
             post("/api/users")
                 .content(objectMapper.writeValueAsString(map))
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(forwardedUrl("http://localhost:8080/api/users/1"))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
   }
 
@@ -106,8 +106,8 @@ class UserCreateIntegrationTest {
             post("/api/users")
                 .content(objectMapper.writeValueAsString(map))
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(forwardedUrl("http://localhost:8080/api/users/1"))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
   }
 

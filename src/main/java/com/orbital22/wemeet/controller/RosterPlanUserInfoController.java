@@ -4,8 +4,11 @@ import com.orbital22.wemeet.dto.RosterPlanUserInfoPostRequest;
 import com.orbital22.wemeet.model.RosterPlanUserInfo;
 import com.orbital22.wemeet.service.RosterPlanUserInfoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.WebDataBinder;
@@ -28,12 +31,12 @@ public class RosterPlanUserInfoController {
   }
 
   @PostMapping("/rosterPlanUserInfo") // PUT?
-  ResponseEntity<?> post(@RequestBody @Valid RosterPlanUserInfoPostRequest request) {
+  ResponseEntity<?> post(
+      @RequestBody @Valid RosterPlanUserInfoPostRequest request,
+      PersistentEntityResourceAssembler assembler) {
     RosterPlanUserInfo rosterPlanUserInfo = rosterPlanUserInfoService.post(request);
-    return ResponseEntity.created(
-            repositoryEntityLinks
-                .linkToItemResource(rosterPlanUserInfo, RosterPlanUserInfo::getId)
-                .toUri())
-        .build();
+    EntityModel<Object> resource = assembler.toFullResource(rosterPlanUserInfo);
+    return ResponseEntity.created(resource.getLink(IanaLinkRelations.SELF).orElseThrow().toUri())
+        .body(resource);
   }
 }

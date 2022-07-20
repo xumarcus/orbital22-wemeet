@@ -13,6 +13,7 @@
     "@syncfusion/ej2-base": "20.1",
     "@syncfusion/ej2-data": "20.1",
     "@syncfusion/ej2-grids": "20.1",
+    "@syncfusion/ej2-react-buttons": "^20.2.36",
     "@syncfusion/ej2-react-calendars": "20.1",
     "@syncfusion/ej2-react-dropdowns": "20.1",
     "@syncfusion/ej2-react-grids": "20.1",

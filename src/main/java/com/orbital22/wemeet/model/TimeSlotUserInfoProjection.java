@@ -13,4 +13,6 @@ public interface TimeSlotUserInfoProjection {
   boolean isPicked();
 
   User getUser();
+
+  boolean isAvailable();
 }

@@ -3,6 +3,7 @@ package com.orbital22.wemeet.service;
 import com.orbital22.wemeet.mapper.TimeSlotUserInfoAssignmentMapper;
 import com.orbital22.wemeet.model.RosterPlan;
 import com.orbital22.wemeet.model.RosterPlanUserInfo;
+import com.orbital22.wemeet.model.TimeSlotUserInfo;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
 import com.orbital22.wemeet.repository.TimeSlotUserInfoRepository;
@@ -42,6 +43,7 @@ public class SolverService {
                             // TODO Optimize DB call
                             .findByRosterPlanAndUser(rosterPlan, user)
                             .stream()
+                            .filter(TimeSlotUserInfo::isAvailable)
                             .map(
                                 TimeSlotUserInfoAssignmentMapper.INSTANCE
                                     ::timeSlotUserInfoToAssignment))
@@ -83,15 +85,17 @@ public class SolverService {
     // `findById` requires authentication
     // userService.setSessionUser(solution.getOwner());
 
-    // Attach entity.
+    // Attach entity
     RosterPlan rosterPlan = rosterPlanRepository.findById(solution.getId()).orElseThrow();
 
     updateFromAssignments(solution);
     lockUsersWithPicks(solution, rosterPlan);
 
     rosterPlan.setSolved(true);
-    rosterPlan.setMinAllocationCount(solution.getRosterPlanSolutionConfiguration().getMinAllocationCount());
-    rosterPlan.setMaxAllocationCount(solution.getRosterPlanSolutionConfiguration().getMaxAllocationCount());
+    rosterPlan.setMinAllocationCount(
+        solution.getRosterPlanSolutionConfiguration().getMinAllocationCount());
+    rosterPlan.setMaxAllocationCount(
+        solution.getRosterPlanSolutionConfiguration().getMaxAllocationCount());
     rosterPlanRepository.save(rosterPlan);
   }
 
