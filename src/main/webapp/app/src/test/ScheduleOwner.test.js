@@ -14,8 +14,10 @@ describe('ScheduleOwner', () => {
   beforeAll(setupForSyncfusionTest)
 
   it('should render correctly without data', () => {
-    const { asFragment } = render(<ScheduleOwnerInner dataSource={[]}
-                                                      eventDuration={30} />)
+    const { asFragment } = render(<ScheduleOwnerInner
+      dataSource={[]}
+      eventDuration={30}
+                                  />)
     expect(asFragment()).toMatchSnapshot()
   })
 

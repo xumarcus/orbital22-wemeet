@@ -18,7 +18,9 @@ describe('EventGrid', () => {
   it('should render correctly with data', async () => {
     const { asFragment, getByText } = render(
       <BrowserRouter><EventGridInner
-        dataSource={[{ id: 1, title: 'Hi' }]} /></BrowserRouter>)
+        dataSource={[{ id: 1, title: 'Hi' }]}
+                     />
+      </BrowserRouter>)
     await sleep(500)
     expect(asFragment()).toMatchSnapshot()
     expect(getByText('Hi')).toBeInTheDocument()

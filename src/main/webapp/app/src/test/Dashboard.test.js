@@ -9,7 +9,7 @@ describe('Dashboard', () => {
     const { asFragment } = render(<DashboardInner
       eventGridComponent={null}
       pendingResponseGridComponent={null}
-    />)
+                                  />)
     expect(asFragment()).toMatchSnapshot()
   })
 
@@ -17,7 +17,7 @@ describe('Dashboard', () => {
     const { asFragment } = render(<DashboardInner
       eventGridComponent={<ErrorComponent />}
       pendingResponseGridComponent={null}
-    />)
+                                  />)
     expect(asFragment()).toMatchSnapshot()
   })
 })

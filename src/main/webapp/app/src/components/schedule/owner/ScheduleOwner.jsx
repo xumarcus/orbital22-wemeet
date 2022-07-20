@@ -90,8 +90,12 @@ export const ScheduleOwnerInner = ({ dataSource, eventDuration, readOnly, select
 }
 
 const ScheduleOwner = ({ rosterPlan, eventDuration, readOnly }) => {
-  return <ScheduleOwnerInner dataSource={getScheduleOwnerDataManager(
-    rosterPlan)} eventDuration={eventDuration} readOnly={readOnly}  />
+  return (
+    <ScheduleOwnerInner
+      dataSource={getScheduleOwnerDataManager(
+        rosterPlan)} eventDuration={eventDuration} readOnly={readOnly}
+    />
+  )
 }
 
 export default ScheduleOwner

@@ -13,8 +13,10 @@ describe('PendingResponseGrid', () => {
   beforeAll(setupForSyncfusionTest)
 
   it('should render correctly without data', () => {
-    const { asFragment } = render(<PendingResponseGridInner dataSource={[]}
-                                                            selfUserId={null} />)
+    const { asFragment } = render(<PendingResponseGridInner
+      dataSource={[]}
+      selfUserId={null}
+                                  />)
     expect(asFragment()).toMatchSnapshot()
   })
 
@@ -32,7 +34,8 @@ describe('PendingResponseGrid', () => {
               owner: { id: 4, email: 'not-test@test.com' }
             }
           ]}
-          selfUserId={3} />
+          selfUserId={3}
+        />
       </BrowserRouter>
     )
     await sleep(500)
