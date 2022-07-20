@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import { DashboardInner } from '../pages/Dashboard'
-import ErrorComponent from './core/ErrorComponent'
+import { DashboardInner } from '../../pages/Dashboard'
+import ErrorComponent from '../test-core/ErrorComponent'
 
 describe('Dashboard', () => {
   it('should render correctly when no throw', () => {

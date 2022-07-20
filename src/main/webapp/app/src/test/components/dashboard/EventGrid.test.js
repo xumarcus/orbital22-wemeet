@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { EventGridInner } from '../components/dashboard/EventGrid'
+import { EventGridInner } from '../../../components/dashboard/EventGrid'
 import { BrowserRouter } from 'react-router-dom'
-import { setupForSyncfusionTest } from './core/util'
+import { setupForSyncfusionTest } from '../../test-core/util'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 

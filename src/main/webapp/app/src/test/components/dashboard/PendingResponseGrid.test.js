@@ -3,8 +3,8 @@ import { render } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import {
   PendingResponseGridInner
-} from '../components/dashboard/PendingResponseGrid'
-import { setupForSyncfusionTest } from './core/util'
+} from '../../../components/dashboard/PendingResponseGrid'
+import { setupForSyncfusionTest } from '../../test-core/util'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
