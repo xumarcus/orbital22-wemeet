@@ -2,12 +2,9 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { EventGridInner } from '../../../components/dashboard/EventGrid'
 import { BrowserRouter } from 'react-router-dom'
-import { setupForSyncfusionTest } from '../../test-core/util'
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+import { setupForSyncfusionTest, sleep } from '../../test-core/util'
 
 describe('EventGrid', () => {
-  // Syncfusion
   beforeAll(setupForSyncfusionTest)
 
   it('should render correctly without data', () => {
@@ -19,7 +16,7 @@ describe('EventGrid', () => {
     const { asFragment, getByText } = render(
       <BrowserRouter><EventGridInner
         dataSource={[{ id: 1, title: 'Hi' }]}
-                     />
+      />
       </BrowserRouter>)
     await sleep(500)
     expect(asFragment()).toMatchSnapshot()

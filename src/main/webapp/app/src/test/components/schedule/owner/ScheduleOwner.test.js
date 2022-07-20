@@ -5,13 +5,6 @@ import {
   ScheduleOwnerInner
 } from '../../../../components/schedule/owner/ScheduleOwner'
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-const CAPACITY = 1337
-const TUESDAY = new Date(2019, 6, 6, 12, 0, 0)
-const FRIDAY_START = new Date(2019, 6, 9, 14, 20, 0)
-const FRIDAY_END = new Date(2019, 6, 9, 22, 0, 0)
-
 describe('ScheduleOwner', () => {
   beforeAll(setupForSyncfusionTest)
 

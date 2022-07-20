@@ -3,3 +3,5 @@ export const setupForSyncfusionTest = () => {
   window.crypto = { getRandomValues: jest.fn() }
   window.getComputedStyle = (elem, select) => getComputedStyle(elem, select)
 }
+
+export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))

@@ -20,7 +20,7 @@ const EditorListWithAvatar = ({ label, items, ...props }) => {
         {items.length > 0 && (
           <List dense {...props}>
             {items.map(item => (
-              <ListItem>
+              <ListItem key={item}>
                 <ListItemAvatar>
                   <Avatar
                     sx={{

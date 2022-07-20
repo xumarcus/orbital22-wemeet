@@ -4,12 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import {
   PendingResponseGridInner
 } from '../../../components/dashboard/PendingResponseGrid'
-import { setupForSyncfusionTest } from '../../test-core/util'
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+import { setupForSyncfusionTest, sleep } from '../../test-core/util'
 
 describe('PendingResponseGrid', () => {
-  // Syncfusion
   beforeAll(setupForSyncfusionTest)
 
   it('should render correctly without data', () => {
