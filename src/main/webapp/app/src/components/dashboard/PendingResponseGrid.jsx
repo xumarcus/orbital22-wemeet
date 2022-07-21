@@ -24,7 +24,8 @@ const PendingResponseGrid = () => {
     throw new Error('Please sign in.')
   }
 
-  const params = new URLSearchParams({ projection: API.PROJECTIONS.ROSTER_PLAN_USER_INFO })
+  const params = new URLSearchParams(
+    { projection: API.PROJECTIONS.ROSTER_PLAN_USER_INFO })
   const url = `${fromTemplate(template).url}?${params.toString()}`
 
   const dataManager = new DataManager({
@@ -34,6 +35,10 @@ const PendingResponseGrid = () => {
     })
   })
 
+  return <PendingResponseGridInner dataManager={dataManager} selfUserId={context.user.id} />
+}
+
+export const PendingResponseGridInner = ({ dataSource, selfUserId }) => {
   const editSettings = {
     allowDeleting: true
   }
@@ -42,14 +47,14 @@ const PendingResponseGrid = () => {
     id && <Link to={ROUTES.MEETING_RANK(id)}>{id}</Link>
   )
 
-  const emailTemplate = ({ owner: { id, email } }) => id === context.user.id ? TEXT.YOURSELF : <MaterialLink to={`mailto:${email}`}>{email}</MaterialLink>
+  const emailTemplate = ({ owner: { id, email } }) => id === selfUserId ? TEXT.YOURSELF : <MaterialLink to={`mailto:${email}`}>{email}</MaterialLink>
 
   return (
-    <GridComponent dataSource={dataManager} editSettings={editSettings} toolbar={TOOLBAR}>
+    <GridComponent dataSource={dataSource} editSettings={editSettings} toolbar={TOOLBAR}>
       <ColumnsDirective>
         <ColumnDirective field='rosterPlan.id' headerText='ID' template={linkIDTemplate} width='120' textAlign='Center' isPrimaryKey isIdentity />
         <ColumnDirective field='rosterPlan.title' headerText='Title' textAlign='Center' />
-        <ColumnDirective field='user.email' headerText='From' template={emailTemplate} textAlign='Center' />
+        <ColumnDirective field='email' headerText='From' template={emailTemplate} textAlign='Center' />
       </ColumnsDirective>
       <Inject services={[Edit, Toolbar]} />
     </GridComponent>

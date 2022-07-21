@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import App from '../App'
+import NavBar from '../../../components/navbar/NavBar'
+import { BrowserRouter } from 'react-router-dom'
 
 /*
   There is not much point of unit testing when there is not much
@@ -8,10 +9,9 @@ import App from '../App'
   far more useful, but (...) asks us to have these tests anyway...
  */
 
-describe('Main page', () => {
+describe('NavBar', () => {
   it('should render correctly', () => {
-    const { asFragment, getByText } = render(<App />)
+    const { asFragment } = render(<BrowserRouter><NavBar /></BrowserRouter>)
     expect(asFragment()).toMatchSnapshot()
-    expect(getByText('Easy')).toBeInTheDocument()
   })
 })

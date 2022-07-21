@@ -16,7 +16,7 @@ import ScheduleOwnerEditorTemplate from './ScheduleOwnerEditorTemplate'
 import { fromTemplate } from '../../../core/util'
 import { makeScheduleEventFooter } from '../appearance'
 
-const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
+const getScheduleOwnerDataManager = (rosterPlan) => {
   const template = rosterPlan?._links?.timeSlots?.href
   if (template === null) {
     throw new Error('Meeting not found.')
@@ -37,7 +37,7 @@ const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
     rosterPlan: rosterPlan?._links?.self.href
   })
 
-  const dataManager = new DataManager({
+  return new DataManager({
     adaptor: new RestAdaptor({
       GET: RestAdaptor.get(url, resp => resp._embedded.timeSlot),
       POST: RestAdaptor.post(API.TIME_SLOT, map),
@@ -45,11 +45,12 @@ const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
       DELETE: RestAdaptor.delete(API.TIME_SLOT, ({ id }) => id)
     })
   })
+}
 
+export const ScheduleOwnerInner = ({ dataSource, eventDuration, readOnly, selectedDate }) => {
   const eventSettings = {
-    dataSource: dataManager,
+    dataSource,
 
-    // TODO backend refactoring
     fields: {
       startTime: { name: 'startDateTime' },
       endTime: { name: 'endDateTime' },
@@ -80,10 +81,20 @@ const ScheduleOwner = ({ rosterPlan, readOnly, eventDuration }) => {
       eventRendered={onEventRendered}
       eventSettings={eventSettings}
       height='80vh'
+      selectedDate={selectedDate}
       timeScale={timeScale}
     >
       <Inject services={services} />
     </ScheduleComponent>
+  )
+}
+
+const ScheduleOwner = ({ rosterPlan, eventDuration, readOnly }) => {
+  return (
+    <ScheduleOwnerInner
+      dataSource={getScheduleOwnerDataManager(
+        rosterPlan)} eventDuration={eventDuration} readOnly={readOnly}
+    />
   )
 }
 
