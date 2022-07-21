@@ -1,14 +1,6 @@
-import Typography from '@mui/material/Typography'
-import * as React from 'react'
-import { useState } from 'react'
-import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import Button from '@mui/material/Button'
-import LoadingButton from '@mui/lab/LoadingButton'
-import { Link } from 'react-router-dom'
+const Wizard = () => {}
 
-// FIXME remove?
-const Wizard = () => {
+  /*
   const [rosterBtnLoading, setRosterBtnLoading] = useState(false)
 
   const handleClick = () => {
@@ -72,5 +64,6 @@ const Wizard = () => {
     </>
   )
 }
+*/
 
 export default Wizard
