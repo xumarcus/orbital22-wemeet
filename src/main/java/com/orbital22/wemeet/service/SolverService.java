@@ -1,8 +1,8 @@
 package com.orbital22.wemeet.service;
 
+import com.orbital22.wemeet.mapper.RosterPlanRosterPlanSolutionConfigurationMapper;
 import com.orbital22.wemeet.mapper.TimeSlotUserInfoAssignmentMapper;
 import com.orbital22.wemeet.model.RosterPlan;
-import com.orbital22.wemeet.model.RosterPlanUserInfo;
 import com.orbital22.wemeet.model.TimeSlotUserInfo;
 import com.orbital22.wemeet.repository.RosterPlanRepository;
 import com.orbital22.wemeet.repository.RosterPlanUserInfoRepository;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,29 +31,31 @@ public class SolverService {
 
   @NotNull
   private RosterPlanSolution createRosterPlanSolutionFrom(RosterPlan rosterPlan) {
+    Set<Assignment> assignments =
+        rosterPlan.getRosterPlanUserInfos().stream()
+            .flatMap(
+                rosterPlanUserInfo ->
+                    // TODO Optimize (N+1) DB calls?
+
+                    timeSlotUserInfoRepository
+                        .findByRosterPlanAndUser(rosterPlan, rosterPlanUserInfo.getUser())
+                        .stream()
+                        .filter(TimeSlotUserInfo::isAvailable)
+                        .map(
+                            TimeSlotUserInfoAssignmentMapper.INSTANCE::timeSlotUserInfoToAssignment)
+                        .peek(
+                            assignment ->
+                                assignment.setUserLockedForRosterPlan(
+                                    rosterPlanUserInfo.isLocked())))
+            .collect(Collectors.toSet());
+
     return RosterPlanSolution.builder()
         .id(rosterPlan.getId())
         .owner(rosterPlan.getOwner())
-        .assignments(
-            rosterPlan.getRosterPlanUserInfos().stream()
-                .filter(rosterPlanUserInfo -> !rosterPlanUserInfo.isLocked())
-                .map(RosterPlanUserInfo::getUser)
-                .flatMap(
-                    user ->
-                        timeSlotUserInfoRepository
-                            // TODO Optimize DB call
-                            .findByRosterPlanAndUser(rosterPlan, user)
-                            .stream()
-                            .filter(TimeSlotUserInfo::isAvailable)
-                            .map(
-                                TimeSlotUserInfoAssignmentMapper.INSTANCE
-                                    ::timeSlotUserInfoToAssignment))
-                .collect(Collectors.toSet()))
+        .assignments(assignments)
         .rosterPlanSolutionConfiguration(
-            RosterPlanSolution.RosterPlanSolutionConfiguration.builder()
-                .minAllocationCount(rosterPlan.getMinAllocationCount())
-                .maxAllocationCount(rosterPlan.getMaxAllocationCount())
-                .build())
+            RosterPlanRosterPlanSolutionConfigurationMapper.INSTANCE
+                .rosterPlanToRosterPlanSolutionConfiguration(rosterPlan))
         .build();
   }
 

@@ -27,4 +27,7 @@ public class Assignment {
   @Builder.Default
   @Nullable
   private Boolean considered = null;
+
+  private boolean isPreviouslyAllocated;
+  private boolean isUserLockedForRosterPlan;
 }
