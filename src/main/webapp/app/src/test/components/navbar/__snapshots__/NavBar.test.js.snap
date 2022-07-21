@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar should render correctly 1`] = `
+<DocumentFragment>
+  <header
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-uv47wz-MuiPaper-root-MuiAppBar-root"
+  >
+    <div
+      class="MuiContainer-root MuiContainer-maxWidthXl css-19r6kue-MuiContainer-root"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular css-r6ewbb-MuiToolbar-root"
+      >
+        <a
+          href="/"
+        >
+          <img
+            alt="WeMeet"
+            class="MuiBox-root css-1pgf9wo"
+            src="logo_banner.png"
+          />
+        </a>
+        <div
+          class="MuiBox-root css-1lvtzne"
+        >
+          <button
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            aria-label="account of current user"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary MuiIconButton-sizeLarge css-1f88mc5-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="MenuIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiBox-root css-wfg4so"
+        >
+          <button
+            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            features
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            guide
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            about
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiBox-root css-2uchni"
+        >
+          <button
+            aria-label="Open settings"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-av538e-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="MuiAvatar-root MuiAvatar-circular css-1wlk0hk-MuiAvatar-root"
+            >
+              <img
+                alt="Anonymous"
+                class="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+                src="/avatar-does-not-exist"
+              />
+            </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiBox-root css-n085mf"
+        >
+          <button
+            class="MuiButton-root MuiButton-contained MuiButton-containedSuccess MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root  css-mkazzp-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            Start Now
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+</DocumentFragment>
+`;
