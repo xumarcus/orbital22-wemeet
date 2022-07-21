@@ -29,7 +29,7 @@ describe('ScheduleUserEditorTemplate', () => {
       }])}
       available
       {...SAMPLE_EVENT}
-                                             />)
+                                                 />)
     expect(queryByTestId('rank')?.getAttribute('value')).toEqual('1989')
     expect(asFragment()).toMatchSnapshot()
   })
@@ -43,7 +43,7 @@ describe('ScheduleUserEditorTemplate', () => {
       }])}
       available
       {...SAMPLE_EVENT}
-                                               />)
+                                                 />)
     expect(queryByTestId('rank')?.getAttribute('value')).toBeFalsy()
     expect(asFragment()).toMatchSnapshot()
   })
