@@ -39,7 +39,7 @@ const TABS = [
   'Pending Response'
 ]
 
-const Dashboard = () => {
+export const DashboardInner = ({ eventGridComponent, pendingResponseGridComponent }) => {
   const { context } = useContext(AppContext)
   const [index, setIndex] = React.useState(0)
 
@@ -61,12 +61,12 @@ const Dashboard = () => {
         <Box sx={{ backgroundColor: '#efefef', height: '100vh' }}>
           <TabPanel value={index} index={0}>
             <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[context]}>
-              <EventGrid />
+              {eventGridComponent}
             </ErrorBoundary>
           </TabPanel>
           <TabPanel value={index} index={1}>
             <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[context]}>
-              <PendingResponseGrid />
+              {pendingResponseGridComponent}
             </ErrorBoundary>
           </TabPanel>
         </Box>
@@ -74,5 +74,7 @@ const Dashboard = () => {
     </>
   )
 }
+
+const Dashboard = () => <DashboardInner eventGridComponent={<EventGrid />} pendingResponseGridComponent={<PendingResponseGrid />} />
 
 export default Dashboard

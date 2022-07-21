@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { render } from 'react-dom'
 import reportWebVitals from './reportWebVitals'
 import { registerLicense } from '@syncfusion/ej2-base'
 
@@ -9,11 +9,11 @@ import { SYNCFUSION_LICENSE_KEY } from './core/const'
 
 registerLicense(SYNCFUSION_LICENSE_KEY)
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
+render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 )
 
 // If you want to start measuring performance in your app, pass a function

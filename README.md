@@ -112,8 +112,14 @@ liquibase update --changelog-file
 Review apps will test your migrations from scratch.
 
 ## Notes
-- No idea what magic `src/main/resources/liquibase.properties` is doing...
-- Is Spring Boot LTS `2.6.3`?
-- Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`
 - `user` is a keyword in Postgres. Breaking change in migration changelog is needed to rectify.
 - Even without `release` migrations are run when the application boots. Just for the UI/UX.
+- Whenever possible, use `Set` in models to avoid `MultipleBagFetchException`
+
+## Tech debt
+- No idea what magic `src/main/resources/liquibase.properties` is doing...
+- Spring Boot `2.6.7` doesn't work? For our Java version?
+- Bidirectional JPA is a hassle
+- `picked` actually means *allocated* by solver
+- `available` actually means *picked* by user
+

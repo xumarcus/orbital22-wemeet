@@ -1,0 +1,614 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduleUserEditorTemplate should render correctly with info from self 1`] = `
+<DocumentFragment>
+  <table
+    class="custom-event-editor"
+    style="width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="e-textlabel"
+        />
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            hidden=""
+            id="timeSlotId"
+            name="timeSlotId"
+            style="width: 100%;"
+            type="number"
+            value="1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Capacity
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            id="capacity"
+            name="capacity"
+            style="width: 100%;"
+            value="1337"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Available
+        </td>
+        <td
+          colspan="4"
+        >
+          <div
+            aria-checked="true"
+            class="e-switch-wrapper e-wrapper"
+          >
+            <input
+              class="e-field e-control e-switch e-lib"
+              data-name="available"
+              id="available"
+              type="checkbox"
+            />
+            <span
+              class="e-switch-inner e-switch-active"
+            >
+              <span
+                class="e-switch-on"
+              />
+              <span
+                class="e-switch-off"
+              />
+            </span>
+            <span
+              class="e-switch-handle e-switch-active"
+            />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Rank
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            id="rank"
+            name="rank"
+            style="width: 100%;"
+            type="number"
+            value="1989"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          From
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-disabled e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="true"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="startDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-disabled e-keyboard"
+              data-name="startDateTime"
+              disabled="disabled"
+              id="startDateTime"
+              name="startDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="-1"
+              value="09/06/19 02:20 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          To
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-disabled e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="true"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="endDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-disabled e-keyboard"
+              data-name="endDateTime"
+              disabled="disabled"
+              id="endDateTime"
+              name="endDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="-1"
+              value="09/06/19 10:00 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`ScheduleUserEditorTemplate should render correctly with info not from self 1`] = `
+<DocumentFragment>
+  <table
+    class="custom-event-editor"
+    style="width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="e-textlabel"
+        />
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            hidden=""
+            id="timeSlotId"
+            name="timeSlotId"
+            style="width: 100%;"
+            type="number"
+            value="1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Capacity
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            id="capacity"
+            name="capacity"
+            style="width: 100%;"
+            value="1337"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Available
+        </td>
+        <td
+          colspan="4"
+        >
+          <div
+            aria-checked="true"
+            class="e-switch-wrapper e-wrapper"
+          >
+            <input
+              class="e-field e-control e-switch e-lib"
+              data-name="available"
+              id="available"
+              type="checkbox"
+            />
+            <span
+              class="e-switch-inner e-switch-active"
+            >
+              <span
+                class="e-switch-on"
+              />
+              <span
+                class="e-switch-off"
+              />
+            </span>
+            <span
+              class="e-switch-handle e-switch-active"
+            />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Rank
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            id="rank"
+            name="rank"
+            style="width: 100%;"
+            type="number"
+            value=""
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          From
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-disabled e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="true"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="startDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-disabled e-keyboard"
+              data-name="startDateTime"
+              disabled="disabled"
+              id="startDateTime"
+              name="startDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="-1"
+              value="09/06/19 02:20 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          To
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-disabled e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="true"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="endDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-disabled e-keyboard"
+              data-name="endDateTime"
+              disabled="disabled"
+              id="endDateTime"
+              name="endDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="-1"
+              value="09/06/19 10:00 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`ScheduleUserEditorTemplate should render correctly without rank 1`] = `
+<DocumentFragment>
+  <table
+    class="custom-event-editor"
+    style="width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="e-textlabel"
+        />
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            hidden=""
+            id="timeSlotId"
+            name="timeSlotId"
+            style="width: 100%;"
+            type="number"
+            value="1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Capacity
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            id="capacity"
+            name="capacity"
+            style="width: 100%;"
+            value="1337"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Available
+        </td>
+        <td
+          colspan="4"
+        >
+          <div
+            aria-checked="false"
+            class="e-switch-wrapper e-wrapper"
+          >
+            <input
+              class="e-field e-control e-switch e-lib"
+              data-name="available"
+              id="available"
+              type="checkbox"
+            />
+            <span
+              class="e-switch-inner"
+            >
+              <span
+                class="e-switch-on"
+              />
+              <span
+                class="e-switch-off"
+              />
+            </span>
+            <span
+              class="e-switch-handle"
+            />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Rank
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            disabled=""
+            id="rank"
+            name="rank"
+            style="width: 100%;"
+            type="number"
+            value=""
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          From
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-disabled e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="true"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="startDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-disabled e-keyboard"
+              data-name="startDateTime"
+              disabled="disabled"
+              id="startDateTime"
+              name="startDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="-1"
+              value="09/06/19 02:20 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          To
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-disabled e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="true"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="endDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-disabled e-keyboard"
+              data-name="endDateTime"
+              disabled="disabled"
+              id="endDateTime"
+              name="endDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="-1"
+              value="09/06/19 10:00 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;

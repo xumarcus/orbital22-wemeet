@@ -40,7 +40,7 @@ const ScheduleOwnerEditorTemplate = (props) => {
         />
         <EditorListWithAvatar
           label='Picked'
-          items={timeSlotUserInfos.filter(({ available }) => available)
+          items={timeSlotUserInfos.filter(({ available }) => available /* FIXME fieldName */)
             .map(info => info.user.email)}
         />
         <EditorListWithAvatar
