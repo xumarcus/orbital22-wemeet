@@ -299,7 +299,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <target>
-                                <copy toDir="${project.build.directory}/classes/public">
+                                <copy toDir="${project.build.outputDirectory}/public">
                                     <fileset dir="${project.basedir}/src/main/webapp/app/build"/>
                                 </copy>
                             </target>
@@ -347,8 +347,9 @@
                 </dependencies>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -358,7 +359,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>
-                                ${project.build.outputDirectory}/static/docs
+                                ${project.build.outputDirectory}/public/static/docs
                             </outputDirectory>
                             <resources>
                                 <resource>

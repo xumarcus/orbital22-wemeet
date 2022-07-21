@@ -1,26 +1,19 @@
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import CenterWrapper from '../components/core/CenterWrapper'
-import UserGuide from './UserGuide'
-import DevGuide from './DevGuide'
+import Link from '@mui/material/Link'
 
-const Guide = () => {
-  const [userGuideVisible, setUserGuideVisible] = React.useState(true)
-  const devGuideVisible = !userGuideVisible
+const Guide = () => (
+  <CenterWrapper>
+    {/* button group */}
+    <Typography variant='h3' align='center'>
+      User Guide Coming Soon
+    </Typography>
 
-  return (
-    <>
-      <CenterWrapper>
-        {/* button group */}
-        <Typography variant='h3' align='center'>
-          User / Developer Guide <br />
-          Coming Soon{' '}
-        </Typography>
-        {userGuideVisible && <UserGuide />}
-        {devGuideVisible && <DevGuide />}
-      </CenterWrapper>
-    </>
-  )
-}
+    <Link variant='h3' align='center' href='/static/docs/index.html'>
+      Developer Guide
+    </Link>
+  </CenterWrapper>
+)
 
 export default Guide

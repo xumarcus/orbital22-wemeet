@@ -6,6 +6,9 @@ import FieldEditorRow from '../editor/FieldEditorRow'
 import SwitchEditorRow from '../editor/SwitchEditorRow'
 import DateTimePickerEditorRow from '../editor/DateTimePickerEditorRow'
 
+export const getSelfRank = (self, timeSlotUserInfos) =>
+  timeSlotUserInfos?.find(info => info.user.id === self.id)?.rank
+
 const ScheduleUserEditorTemplate = (props) => {
   const { context } = useContext(AppContext)
 
@@ -15,17 +18,14 @@ const ScheduleUserEditorTemplate = (props) => {
 
   // const syncfusionId = props.Id
   const innerProps = {
-    rank: props
-      ?.timeSlotUserInfos
-      ?.find(info => info.user.id === context.user.id)
-      ?.rank,
+    rank: getSelfRank(context.user, props?.timeSlotUserInfos),
     ...props
   }
 
-  return <Inner {...innerProps} />
+  return <ScheduleUserEditorTemplateInner {...innerProps} />
 }
 
-const Inner = ({
+export const ScheduleUserEditorTemplateInner = ({
   id: timeSlotId,
   startDateTime,
   endDateTime,
@@ -58,8 +58,8 @@ const Inner = ({
           change={onAvailableChange}
         />
         <FieldEditorRow
-          label='Rank' name='rank' defaultValue={rank}
-          type='number' disabled={isRankDisabled}
+          label='Rank' type='number' name='rank'
+          defaultValue={rank} disabled={isRankDisabled}
         />
         <DateTimePickerEditorRow
           label='From' name='startDateTime' value={startDateTime}

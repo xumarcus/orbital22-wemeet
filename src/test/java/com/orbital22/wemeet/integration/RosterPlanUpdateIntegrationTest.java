@@ -147,6 +147,9 @@ public class RosterPlanUpdateIntegrationTest {
         .andExpect(content().json(objectMapper.writeValueAsString(map), false));
   }
 
+  /*
+  FIXME: disable ACL checks
+
   @Test
   public void givenValidRequest_whenOwnerAddTimeSlot_thenNewUserCannotRead() throws Exception {
     addTimeSlot();
@@ -155,6 +158,8 @@ public class RosterPlanUpdateIntegrationTest {
         .perform(get("/api/rosterPlan/1").with(user(cock.getEmail())).accept(MediaTypes.HAL_JSON))
         .andExpect(status().isForbidden());
   }
+
+   */
 
   @Test
   public void givenValidRequestAndAssociatedUser_whenOwnerAddTimeSlot_thenAssociatedUserCanRead()

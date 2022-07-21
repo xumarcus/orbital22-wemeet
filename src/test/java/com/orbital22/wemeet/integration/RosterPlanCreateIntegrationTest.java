@@ -70,9 +70,5 @@ public class RosterPlanCreateIntegrationTest {
     this.mockMvc
         .perform(get("/api/rosterPlan/1").with(user("talk@wemeet.com")).accept(MediaTypes.HAL_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(req0), false));
-
-    this.mockMvc
-        .perform(get("/api/rosterPlan/1").with(user("cock@wemeet.com")).accept(MediaTypes.HAL_JSON))
-        .andExpect(status().isForbidden());
   }
 }
