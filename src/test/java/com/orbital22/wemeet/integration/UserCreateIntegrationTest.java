@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -21,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,6 +93,10 @@ class UserCreateIntegrationTest {
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
         .andDo(document("post-users-registered-success"));
+
+    this.mockMvc
+        .perform(get("/api/users/1").with(user("talk@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .andDo(document("get-users-success"));
   }
 
   @Test
@@ -108,7 +115,7 @@ class UserCreateIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrl("http://localhost:8080/api/users/1"))
-        .andDo(document("post-users-registered-success"));
+        .andDo(document("post-users-from-unregistered-registered-success"));
   }
 
   @Test
