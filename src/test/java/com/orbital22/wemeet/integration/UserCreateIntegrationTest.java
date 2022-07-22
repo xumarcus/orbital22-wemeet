@@ -3,6 +3,7 @@ package com.orbital22.wemeet.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orbital22.wemeet.model.User;
 import com.orbital22.wemeet.repository.UserRepository;
+import com.orbital22.wemeet.security.CustomUser;
 import de.cronn.testutils.h2.H2Util;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +26,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -95,8 +95,21 @@ class UserCreateIntegrationTest {
         .andDo(document("post-users-registered-success"));
 
     this.mockMvc
-        .perform(get("/api/users/1").with(user("talk@wemeet.com")).accept(MediaTypes.HAL_JSON))
+        .perform(
+            get("/api/users/1")
+                .with(user("authenticated-user@wemeet.com"))
+                .accept(MediaTypes.HAL_JSON))
+        .andExpect(status().isOk())
         .andDo(document("get-users-success"));
+
+    this.mockMvc
+        .perform(
+            get("/api/users/me")
+                .with(user(new CustomUser(User.builder().email("user@wemeet.com").id(1).build())))
+                .accept(MediaTypes.HAL_JSON))
+        .andExpect(status().isOk())
+        .andExpect(forwardedUrl("/api/users/1"))
+        .andDo(document("get-users-me-success"));
   }
 
   @Test
