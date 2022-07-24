@@ -22,8 +22,8 @@ import { L10n } from '@syncfusion/ej2-base'
 
 L10n.load({
   'en-US': {
-    'schedule': {
-      'addTitle': 'Enter capacity here'
+    schedule: {
+      addTitle: 'Enter capacity here'
     }
   }
 })
