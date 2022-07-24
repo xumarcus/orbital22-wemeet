@@ -130,7 +130,7 @@ const NavBar = () => {
               sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, pr: 2 }}
               justifyContent='flex-end'
             >
-              {/*pages.map((page) => (
+              {/* pages.map((page) => (
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu.bind(this, page[1])}
@@ -143,7 +143,7 @@ const NavBar = () => {
                 >
                   {page[1]}
                 </Button>
-              ))*/}
+              )) */}
               <Button
                 sx={{
                   my: 2,
@@ -151,7 +151,9 @@ const NavBar = () => {
                   fontWeight: 'bold',
                   display: 'block'
                 }}
-                href='/static/docs/index.html'>Guide</Button>
+                href='/static/docs/index.html'
+              >Guide
+              </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
