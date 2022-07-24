@@ -17,6 +17,7 @@ import Guide from './pages/Guide'
 import MeetingEdit from './pages/MeetingEdit'
 import Profile from './pages/Profile'
 import Wizard from './pages/Wizard'
+import Features from './pages/Features'
 import { API } from './core/const'
 import ajax from './core/ajax'
 import MeetingRank from './pages/MeetingRank'
@@ -43,8 +44,8 @@ const App = () => {
 
                 {/* TODO <Route path='about' /> */}
                 <Route path='dashboard' element={<Dashboard />} />
+                <Route path='features' element={<Features />} />
 
-                {/* TODO <Route path='features' /> */}
 
                 {/* TODO WIP */}
                 <Route path='guide' element={<Guide />} />
@@ -56,9 +57,6 @@ const App = () => {
                          element={<MeetingViewSolution />} />
                 </Route>
                 <Route path='profile' element={<Profile />} />
-
-                {/* TODO is this needed? */}
-                <Route path='wizard' element={<Wizard />} />
                 <Route path='*' element={<ErrorFallback />} />
               </Routes>
             </ErrorBoundary>
