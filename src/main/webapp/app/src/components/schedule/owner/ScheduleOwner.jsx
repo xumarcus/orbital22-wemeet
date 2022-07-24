@@ -81,6 +81,7 @@ export const ScheduleOwnerInner = ({ dataSource, eventDuration, readOnly, select
       eventRendered={onEventRendered}
       eventSettings={eventSettings}
       height='80vh'
+      locale='en-US'
       selectedDate={selectedDate}
       timeScale={timeScale}
     >

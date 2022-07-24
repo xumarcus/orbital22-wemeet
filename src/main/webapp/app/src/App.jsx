@@ -18,6 +18,15 @@ import { API } from './core/const'
 import ajax from './core/ajax'
 import MeetingRank from './pages/MeetingRank'
 import MeetingViewSolution from './pages/MeetingViewSolution'
+import { L10n } from '@syncfusion/ej2-base'
+
+L10n.load({
+  'en-US': {
+    'schedule': {
+      'addTitle': 'Enter capacity here'
+    }
+  }
+})
 
 const App = () => {
   const [context, setContext] = useState(defaultAppContext)
