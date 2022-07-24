@@ -14,7 +14,6 @@ import * as React from 'react'
 import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import LogInModal from './authentication/LogInModal'
-import ForgetPasswordModel from './authentication/ForgetPasswordModal'
 import SignUpModal from './authentication/SignUpModal'
 import AppContext, { defaultAppContext } from '../../core/AppContext'
 import ajax from '../../core/ajax'
@@ -28,7 +27,7 @@ const pages = [
 
 const settings = [
   ['Dashboard', 'dashboard'],
-  ['Profile', 'profile'],
+  // TODO ['Profile', 'profile'],
   ['Log out', 'logout']
 ]
 
@@ -75,10 +74,12 @@ const NavBar = () => {
   return (
     <>
       <LogInModal visible={ModalVisible} setVisible={setModalVisible} />
+      {/* TODO add forget password support
       <ForgetPasswordModel
         visible={ModalVisible}
         setVisible={setModalVisible}
       />
+      */}
       <SignUpModal visible={ModalVisible} setVisible={setModalVisible} />
       <AppBar position='static' sx={{ bgcolor: 'white', boxShadow: '0' }}>
         <Container maxWidth='xl'>
@@ -115,21 +116,21 @@ const NavBar = () => {
                   display: { xs: 'block', md: 'none' }
                 }}
               >
-                {pages.map((page) => (
+                {/* pages.map((page) => (
                   <MenuItem
-                    key={page}
+                    key={page[1]}
                     onClick={handleCloseNavMenu.bind(this, page[1])}
                   >
                     <Typography textAlign='center'>{page[0]}</Typography>
                   </MenuItem>
-                ))}
+                )) */}
               </Menu>
             </Box>
             <Box
               sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, pr: 2 }}
               justifyContent='flex-end'
             >
-              {pages.map((page) => (
+              {/* pages.map((page) => (
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu.bind(this, page[1])}
@@ -142,13 +143,23 @@ const NavBar = () => {
                 >
                   {page[1]}
                 </Button>
-              ))}
+              )) */}
+              <Button
+                sx={{
+                  my: 2,
+                  color: 'black',
+                  fontWeight: 'bold',
+                  display: 'block'
+                }}
+                href='/static/docs/index.html'
+              >Guide
+              </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* FIXME */}
+                  {/* TODO add avatar support */}
                   <Avatar
                     alt={context.user?._links.self.href ?? 'Anonymous'}
                     src='/avatar-does-not-exist'

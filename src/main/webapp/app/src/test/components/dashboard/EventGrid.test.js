@@ -16,7 +16,7 @@ describe('EventGrid', () => {
     const { asFragment, getByText } = render(
       <BrowserRouter><EventGridInner
         dataSource={[{ id: 1, title: 'Hi' }]}
-      />
+                     />
       </BrowserRouter>)
     await sleep(500)
     expect(asFragment()).toMatchSnapshot()

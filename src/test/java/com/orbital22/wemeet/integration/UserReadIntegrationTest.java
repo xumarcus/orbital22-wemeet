@@ -62,7 +62,7 @@ class UserReadIntegrationTest {
   public void contextLoads() {}
 
   @Test
-  public void givenUnauthenticatedUser_whenGetMe_thenBadRequest() throws Exception {
+  public void givenUnauthenticatedUser_whenGetMe_thenRedirectToLogin() throws Exception {
     this.mockMvc
         .perform(get("/api/users/me"))
         .andExpect(status().isFound())

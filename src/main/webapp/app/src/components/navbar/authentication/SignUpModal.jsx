@@ -9,8 +9,6 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
@@ -102,6 +100,7 @@ const SignUpModal = ({ visible, setVisible }) => {
                 sx={{ mt: 3 }}
               >
                 <Grid container spacing={2}>
+                  {/* TODO add first/last names support
                   <Grid item xs={12} sm={6}>
                     <TextField
                       autoComplete='given-name'
@@ -123,6 +122,7 @@ const SignUpModal = ({ visible, setVisible }) => {
                       autoComplete='family-name'
                     />
                   </Grid>
+                  */}
                   <Grid item xs={12}>
                     <TextField
                       required
@@ -142,14 +142,6 @@ const SignUpModal = ({ visible, setVisible }) => {
                       type='password'
                       id='password'
                       autoComplete='new-password'
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox value='allowExtraEmails' color='primary' />
-                      }
-                      label='I want to receive inspiration, marketing promotions and updates via email.'
                     />
                   </Grid>
                 </Grid>

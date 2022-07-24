@@ -12,6 +12,8 @@ public interface TimeSlotUserInfoAssignmentMapper {
       Mappers.getMapper(TimeSlotUserInfoAssignmentMapper.class);
 
   @Mapping(target = "considered", ignore = true)
+  @Mapping(source = "picked", target = "isPreviouslyAllocated")
+  @Mapping(target = "isUserLockedForRosterPlan", ignore = true)
   Assignment timeSlotUserInfoToAssignment(TimeSlotUserInfo timeSlotUserInfo);
 
   @Mapping(source = "considered", target = "picked")

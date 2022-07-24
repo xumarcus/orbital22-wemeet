@@ -13,10 +13,7 @@ import './App.css'
 
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
-import Guide from './pages/Guide'
 import MeetingEdit from './pages/MeetingEdit'
-import Profile from './pages/Profile'
-import Wizard from './pages/Wizard'
 import { API } from './core/const'
 import ajax from './core/ajax'
 import MeetingRank from './pages/MeetingRank'
@@ -26,7 +23,7 @@ const App = () => {
   const [context, setContext] = useState(defaultAppContext)
 
   useEffect(() => {
-    ajax('GET')(API.ME).then(user => setContext({ ...context, user }))
+    ajax('GET')(API.ME).then(user => setContext(c => ({ ...c, user })))
   }, [])
 
   return (
@@ -40,24 +37,15 @@ const App = () => {
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <Routes>
                 <Route path='' element={<Home />} />
-
-                {/* TODO <Route path='about' /> */}
                 <Route path='dashboard' element={<Dashboard />} />
-
-                {/* TODO <Route path='features' /> */}
-
-                {/* TODO WIP */}
-                <Route path='guide' element={<Guide />} />
-
                 <Route path='meeting'>
                   <Route path=':meetingId/edit' element={<MeetingEdit />} />
                   <Route path=':meetingId/rank' element={<MeetingRank />} />
-                  <Route path=':meetingId/view-solution' element={<MeetingViewSolution />} />
+                  <Route
+                    path=':meetingId/view-solution'
+                    element={<MeetingViewSolution />}
+                  />
                 </Route>
-                <Route path='profile' element={<Profile />} />
-
-                {/* TODO is this needed? */}
-                <Route path='wizard' element={<Wizard />} />
                 <Route path='*' element={<ErrorFallback />} />
               </Routes>
             </ErrorBoundary>

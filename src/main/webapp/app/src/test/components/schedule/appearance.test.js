@@ -1,8 +1,7 @@
 import React from 'react'
 import {
   getInfoSummary,
-  getSelfInfoColor,
-  makeScheduleEventFooter
+  getSelfInfoColor
 } from '../../../components/schedule/appearance'
 import { SYSTEM_THEME, TEXT } from '../../../core/const'
 
@@ -25,8 +24,8 @@ describe('Schedule appearance', () => {
             email: 'test@test.com'
           },
           rank: 1
-        }])).toEqual("test@test.com\n" +
-        "is picking this")
+        }])).toEqual('test@test.com\n' +
+        'is picking this')
     })
 
     it('should render correctly with multiple entries', () => {
@@ -54,15 +53,15 @@ describe('Schedule appearance', () => {
             email: 'yet-another-test@test.com'
           },
           rank: 4
-        }])).toEqual("another-test@test.com\n" +
-        "and 1 more...")
+        }])).toEqual('another-test@test.com\n' +
+        'and 1 more...')
     })
   })
 
   describe('event color', () => {
     it('should render correctly without data', () => {
-      expect(getSelfInfoColor({ id: 1 }, [])).
-        toEqual(SYSTEM_THEME.palette.primary.main)
+      expect(getSelfInfoColor({ id: 1 }, []))
+        .toEqual(SYSTEM_THEME.palette.primary.main)
     })
 
     it('should render correctly with ranks', () => {
@@ -132,8 +131,8 @@ describe('Schedule appearance', () => {
             email: 'yet-another-test@test.com'
           },
           rank: 4
-        }])).
-        toEqual(SYSTEM_THEME.palette.primary.main)
+        }]))
+        .toEqual(SYSTEM_THEME.palette.primary.main)
     })
   })
 })

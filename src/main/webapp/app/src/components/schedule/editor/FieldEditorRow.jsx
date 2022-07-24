@@ -6,6 +6,7 @@ const FieldEditorRow = ({ label, name, ...props }) => (
     <input
       className='e-field e-input'
       id={name}
+      data-testid={name}
       name={name}
       style={{ width: '100%' }}
       {...props}

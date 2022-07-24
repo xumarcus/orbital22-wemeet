@@ -12,7 +12,8 @@ describe('ScheduleOwnerEditorTemplate', () => {
     const { asFragment } = render(<ScheduleOwnerEditorTemplate
       id={1}
       timeSlotUserInfos={[]}
-      {...SAMPLE_EVENT} />)
+      {...SAMPLE_EVENT}
+                                  />)
     expect(asFragment()).toMatchSnapshot()
   })
 
@@ -20,7 +21,8 @@ describe('ScheduleOwnerEditorTemplate', () => {
     const { asFragment, getByText } = render(<ScheduleOwnerEditorTemplate
       id={1}
       timeSlotUserInfos={[{ available: true, user: { email: 'test@test.com' } }]}
-      {...SAMPLE_EVENT} />)
+      {...SAMPLE_EVENT}
+                                             />)
     expect(getByText('test@test.com')).toBeInTheDocument()
     expect(asFragment()).toMatchSnapshot()
   })
@@ -33,7 +35,8 @@ describe('ScheduleOwnerEditorTemplate', () => {
           picked: true,
           user: { email: 'test@test.com' }
         }]}
-      {...SAMPLE_EVENT} />)
+      {...SAMPLE_EVENT}
+                                             />)
     expect(getByText('test@test.com')).toBeInTheDocument()
     expect(asFragment()).toMatchSnapshot()
   })

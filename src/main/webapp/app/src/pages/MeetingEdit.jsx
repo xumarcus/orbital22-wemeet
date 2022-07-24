@@ -18,16 +18,8 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { API, ENUMS, ERROR_MESSAGES } from '../core/const'
 import AppContext from '../core/AppContext'
-import EventSettingsTab
-  from '../components/schedule/owner/quick_menu/QuickMenuEventSettings'
-import BulkAddTab
-  from '../components/schedule/owner/quick_menu/QuickMenuBulkAdd'
-import BulkEditTab
-  from '../components/schedule/owner/quick_menu/QuickMenuBulkEdit'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import Tab from '@mui/material/Tab'
 import SolutionGrid from '../components/schedule/owner/SolutionGrid'
 import ScheduleOwnerConfigurer
   from '../components/schedule/owner/ScheduleOwnerConfigurer'
@@ -45,12 +37,12 @@ const MeetingEdit = () => {
       FallbackComponent={ErrorFallback}
       resetKeys={[params, context]}
     >
-      <Inner meetingId={params.meetingId} />
+      <MeetingEditInner meetingId={params.meetingId} />
     </ErrorBoundary>
   )
 }
 
-const Inner = ({ meetingId }) => {
+const MeetingEditInner = ({ meetingId }) => {
   if (meetingId === undefined) {
     throw new Error(ERROR_MESSAGES.INVALID_URL)
   }
@@ -58,7 +50,7 @@ const Inner = ({ meetingId }) => {
   const { data, error } = useSWR(API.ROSTER_PLAN_ID(meetingId), ajax('GET'))
   if (error) throw new Error(error)
   if (!data) return <CircularProgress />
-  return <InnerInner rosterPlan={data} />
+  return <MeetingEditNestedInner rosterPlan={data} />
 }
 
 const TitleEdit = ({ rosterPlan }) => {
@@ -119,8 +111,8 @@ const SetReviewToggle = () => {
   )
 }
 
+/*
 const Menu = () => {
-  /*
   const menuPages = [
     ['configurations', 'Meeting Configurations'],
     ['add', 'Bulk Add Events'],
@@ -128,7 +120,6 @@ const Menu = () => {
   ]
   const [currMenu, setCurrMenu] = useState('configurations')
 
-   */
   const [currTab, setCurrTab] = useState('1')
 
   const handleTabChange = (event, newValue) => {
@@ -163,8 +154,9 @@ const Menu = () => {
     </Box>
   )
 }
+ */
 
-const InnerInner = ({ rosterPlan }) => {
+const MeetingEditNestedInner = ({ rosterPlan }) => {
   const [eventDuration, setEventDuration] = useState(
     ENUMS.SCHEDULE.OWNER.CONFIGURER.DURATIONS.THIRTY)
   return (

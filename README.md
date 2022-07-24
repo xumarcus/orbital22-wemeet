@@ -40,12 +40,13 @@ heroku git:remote -a orbital22-wemeet-dev -r heroku-dev
 heroku git:remote -a orbital22-wemeet-staging -r heroku
 ```
 
-- Settings &rarr; Plugins &rarr; `EnvFile 3.2` &rarr; Install
+- For remote connection:
+  - Settings &rarr; Plugins &rarr; `EnvFile 3.2` &rarr; Install
+  - Check database connection (see above)
 - `Main` Configuration:
   - Application
   - `com.orbital22.wemeet.Main`
 - View &rarr; Maven &rarr; Lifecycle &rarr; Install
-- Check database connection (see above)
 - Build &rarr; Check `localhost:5000`
 
 ## Debugging

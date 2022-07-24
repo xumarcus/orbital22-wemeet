@@ -17,10 +17,22 @@ public class RosterPlanConstraintProvider implements ConstraintProvider {
   @Override
   public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
     return new Constraint[] {
+      assignmentUserLockedConstraint(constraintFactory),
       assignmentRankConstraint(constraintFactory),
       userSizeConstraint(constraintFactory),
       timeSlotCapacityConstraint(constraintFactory)
     };
+  }
+
+  private Constraint assignmentUserLockedConstraint(ConstraintFactory constraintFactory) {
+    return constraintFactory
+        .forEach(Assignment.class)
+        .filter(
+            assignment ->
+                !Objects.requireNonNull(assignment.getConsidered(), "Must be initialized")
+                    && assignment.isPreviouslyAllocated()
+                    && assignment.isUserLockedForRosterPlan())
+        .penalize("User locked in timeslot", HardSoftScore.ONE_HARD);
   }
 
   private Constraint assignmentRankConstraint(ConstraintFactory constraintFactory) {
