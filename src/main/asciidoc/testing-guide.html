@@ -446,8 +446,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_unit_testing">Unit testing</a></li>
-<li><a href="#_integration_testing">Integration testing</a></li>
+<li><a href="#_unit_testing">Unit testing</a>
+<ul class="sectlevel2">
+<li><a href="#_dashboard">Dashboard</a></li>
+<li><a href="#_event_grid">Event Grid</a></li>
+<li><a href="#_pending_response_grid">Pending Response Grid</a></li>
+<li><a href="#_navigation_bar">Navigation bar</a></li>
+<li><a href="#_scheduler">Scheduler</a></li>
+</ul>
+</li>
+<li><a href="#_integration_testing">Integration testing</a>
+<ul class="sectlevel2">
+<li><a href="#_user">User</a></li>
+<li><a href="#_meeting">Meeting</a></li>
+<li><a href="#_solution">Solution</a></li>
+</ul>
+</li>
 <li><a href="#_system_testing">System testing</a></li>
 </ul>
 </div>
@@ -456,15 +470,142 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Refer to source code for latest tests. This document is primarily for Orbital requirement.</p>
+<p>Refer to source code for latest tests. Our test coverage currently has much room for improvement. This document is primarily for Orbital requirement.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_unit_testing">Unit testing</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>TODO</p>
+<div class="sect2">
+<h3 id="_dashboard">Dashboard</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Without error, grid renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With error, grid renders as specified in snapshot and renders error message.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_event_grid">Event Grid</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Without data, grid renders as specified in snapshot and renders no data.</p>
+</li>
+<li>
+<p>With data, grid renders as specified in snapshot and renders data.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pending_response_grid">Pending Response Grid</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Without data, grid renders as specified in snapshot and renders no data.</p>
+</li>
+<li>
+<p>With data, grid renders as specified in snapshot and renders data.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If owner is same as current user renders 'Yourself'</p>
+</li>
+<li>
+<p>Otherwise renders owner&#8217;s email.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_navigation_bar">Navigation bar</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Renders as specified in snapshot.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scheduler">Scheduler</h3>
+<div class="ulist">
+<div class="title">Appearance of time slots</div>
+<ul>
+<li>
+<p>Without data, renders as specified in snapshot and renders correct description.</p>
+</li>
+<li>
+<p>With single datum, renders as specified in snapshot and renders correct description.</p>
+</li>
+<li>
+<p>With multiple entries, renders as specified in snapshot and renders correct description.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Edit view</div>
+<ul>
+<li>
+<p>Without data, renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With data, renders as specified in snapshot. (Failed to implement, to be tested in system testing for now)</p>
+</li>
+<li>
+<p>Editor component</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Without data, renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With user picks (mocked, assumed provided by server), renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With solver allocations (mocked, assumed provided by server), renders as specified in snapshot.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Rank view</div>
+<ul>
+<li>
+<p>Without data, renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With data, renders as specified in snapshot. (Failed to implement, to be tested in system testing for now)</p>
+</li>
+<li>
+<p>Editor component</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Without data, renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With user picks (mocked, assumed provided by server), renders as specified in snapshot.</p>
+</li>
+<li>
+<p>With solver allocations (mocked, assumed provided by server), renders as specified in snapshot.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -474,12 +615,44 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>We tested out the following API for backend.</p>
 </div>
+<div class="sect2">
+<h3 id="_user">User</h3>
 <div class="ulist">
-<div class="title">Meeting</div>
+<div class="title">Creation</div>
 <ul>
 <li>
-<p>Creation</p>
+<p>Given request with invalid email, when client <code>POST</code>, then server responds with <code>400 Bad Request</code>.</p>
+</li>
+<li>
+<p>Given request with invalid password of length less than 8, when client <code>POST</code>, then server responds with <code>400 Bad Request</code>.</p>
+</li>
+<li>
+<p>Given valid request, when client <code>POST</code>, then a user is created.</p>
+</li>
+<li>
+<p>Given valid request and existing unregistered user, when client <code>POST</code>, then a user is registered.</p>
+</li>
+<li>
+<p>Given valid request and existing registered user, when client <code>POST</code>, then server responds with <code>400 Bad Request</code>.</p>
+</li>
+</ul>
+</div>
 <div class="ulist">
+<div class="title">Read</div>
+<ul>
+<li>
+<p>Given anonymous user, when client <code>GET /api/users/me</code>, then server redirects to login page.</p>
+</li>
+<li>
+<p>Given authenticated user, when client <code>GET /api/users/me</code>, then server responds with <code>200 OK</code> with the correct user information.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_meeting">Meeting</h3>
+<div class="ulist">
+<div class="title">Creation</div>
 <ul>
 <li>
 <p>Given valid request, when client <code>POST</code>, then an empty meeting is created.</p>
@@ -488,14 +661,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Given invalid request, when client <code>POST</code>, then server responds with <code>400 Bad Request</code>.</p>
 </li>
 <li>
-<p>Given anonymous user, when client <code>POST</code>, then server redirects to login.</p>
+<p>Given anonymous user, when client <code>POST</code>, then server redirects to login page.</p>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p>Update</p>
 <div class="ulist">
+<div class="title">Update</div>
 <ul>
 <li>
 <p>User info for meeting</p>
@@ -541,8 +712,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_solution">Solution</h3>
+<div class="ulist">
+<div class="title">Creation</div>
+<ul>
+<li>
+<p>Given valid request, when client <code>POST</code>, then solver starts running.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Before solver terminates, when client <code>GET</code>, then server responds with <code>200 OK</code> with <code>solved</code> set to <code>false</code></p>
+</li>
+<li>
+<p>After solver terminates, when client <code>GET</code>, then server responds with <code>200 OK</code> with <code>solved</code> set to <code>true</code> and response contains valid solution.</p>
 </li>
 </ul>
+</div>
+</li>
+<li>
+<p>Given valid request, when client <code>POST /api/rosterPlan/publish</code>, then server responds with <code>200 OK</code> and overrides original <code>rosterPlan</code>.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -557,7 +750,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-24 17:01:11 +0800
+Last updated 2022-07-24 17:28:48 +0800
 </div>
 </div>
 </body>
