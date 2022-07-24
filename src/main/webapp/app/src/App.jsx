@@ -26,7 +26,7 @@ const App = () => {
   const [context, setContext] = useState(defaultAppContext)
 
   useEffect(() => {
-    ajax('GET')(API.ME).then(user => setContext({ ...context, user }))
+    ajax('GET')(API.ME).then(user => setContext(c => ({ ...c, user })))
   }, [])
 
   return (
@@ -52,7 +52,8 @@ const App = () => {
                 <Route path='meeting'>
                   <Route path=':meetingId/edit' element={<MeetingEdit />} />
                   <Route path=':meetingId/rank' element={<MeetingRank />} />
-                  <Route path=':meetingId/view-solution' element={<MeetingViewSolution />} />
+                  <Route path=':meetingId/view-solution'
+                         element={<MeetingViewSolution />} />
                 </Route>
                 <Route path='profile' element={<Profile />} />
 

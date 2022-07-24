@@ -45,30 +45,30 @@ export const ScheduleUserEditorTemplateInner = ({
       style={{ width: '100%', cellpadding: '5' }}
     >
       <tbody>
-      <FieldEditorRow
-        name='timeSlotId' type='number' value={timeSlotId}
-        disabled hidden
-      />
-      <FieldEditorRow
-        label='Capacity' name='capacity' value={capacity}
-        disabled
-      />
-      <SwitchEditorRow
-        label='Available' name='available' checked={available}
-        change={onAvailableChange}
-      />
-      <FieldEditorRow
-        label='Rank' type='number' name='rank'
-        defaultValue={rank} disabled={isRankDisabled}
-      />
-      <DateTimePickerEditorRow
-        label='From' name='startDateTime' value={startDateTime}
-        disabled
-      />
-      <DateTimePickerEditorRow
-        label='To' name='endDateTime' value={endDateTime}
-        disabled
-      />
+        <FieldEditorRow
+          name='timeSlotId' type='number' value={timeSlotId}
+          disabled hidden
+        />
+        <FieldEditorRow
+          label='Capacity' name='capacity' value={capacity}
+          disabled
+        />
+        <SwitchEditorRow
+          label='Available' name='available' checked={available}
+          change={onAvailableChange}
+        />
+        <FieldEditorRow
+          label='Rank' type='number' name='rank'
+          defaultValue={rank} disabled={isRankDisabled}
+        />
+        <DateTimePickerEditorRow
+          label='From' name='startDateTime' value={startDateTime}
+          disabled
+        />
+        <DateTimePickerEditorRow
+          label='To' name='endDateTime' value={endDateTime}
+          disabled
+        />
       </tbody>
     </table>
   )

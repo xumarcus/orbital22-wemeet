@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Main page should render correctly 1`] = `
+exports[`NavBar should render correctly 1`] = `
 <DocumentFragment>
   <header
     class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-uv47wz-MuiPaper-root-MuiAppBar-root"
@@ -122,111 +122,5 @@ exports[`Main page should render correctly 1`] = `
       </div>
     </div>
   </header>
-  <div
-    class="MuiContainer-root MuiContainer-maxWidthXl css-19r6kue-MuiContainer-root"
-  >
-    <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5 css-1ld3b9g-MuiGrid-root"
-    >
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
-      >
-        <div
-          class="MuiBox-root css-z1460q"
-        >
-          <h3
-            class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-47suzj-MuiTypography-root"
-          >
-            Scheduling 
-            <br />
-            Made 
-            <strong>
-              Easy
-            </strong>
-          </h3>
-        </div>
-        <div
-          class="MuiBox-root css-1qapnz0"
-        >
-          <span
-            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
-          >
-            WeMeet is an orbital project meant to fulfil the need for a more personalised scheduling experience. Offering a unique "Rank" based system which results in more fine tuned results.
-          </span>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
-      >
-        <img
-          class="MuiBox-root css-8atqhb"
-          src="cover_img.png"
-        />
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4 css-1ube6tp-MuiGrid-root"
-      >
-        <h5
-          class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-ph2xsj-MuiTypography-root"
-        >
-          Why use WeMeet?
-        </h5>
-        <div
-          class="MuiBox-root css-1qapnz0"
-        >
-          <span
-            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
-          >
-            Unlike existing solutions that offer binary selection of available, WeMeet aims to provide a better solution through the use of ranked selections. The user interface is also simple and easy to use.
-          </span>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4 css-1ube6tp-MuiGrid-root"
-      >
-        <h5
-          class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-ph2xsj-MuiTypography-root"
-        >
-          What can WeMeet Do?
-        </h5>
-        <div
-          class="MuiBox-root css-1qapnz0"
-        >
-          <span
-            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
-          >
-            Create a schedule for your team, or for yourself. Plan meetups with friends and family. The options are endless.
-          </span>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4 css-1ube6tp-MuiGrid-root"
-      >
-        <h5
-          class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-ph2xsj-MuiTypography-root"
-        >
-          Our Technology
-        </h5>
-        <div
-          class="MuiBox-root css-1qapnz0"
-        >
-          <span
-            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
-          >
-            WeMeet is hosted on Heroku and is built with React, Material-UI, and the Spring framework. Processing is done using the powerful OptaPlanner AI.
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-iz63q-MuiToolbar-root"
-  >
-    <p
-      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-1uwgr7b-MuiTypography-root"
-    >
-      An Orbital 2022 Project
-    </p>
-  </div>
 </DocumentFragment>
 `;

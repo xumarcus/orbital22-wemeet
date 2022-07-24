@@ -16,6 +16,7 @@ exports[`ScheduleUserEditorTemplate should render correctly with info from self 
         >
           <input
             class="e-field e-input"
+            data-testid="timeSlotId"
             disabled=""
             hidden=""
             id="timeSlotId"
@@ -37,6 +38,7 @@ exports[`ScheduleUserEditorTemplate should render correctly with info from self 
         >
           <input
             class="e-field e-input"
+            data-testid="capacity"
             disabled=""
             id="capacity"
             name="capacity"
@@ -91,6 +93,7 @@ exports[`ScheduleUserEditorTemplate should render correctly with info from self 
         >
           <input
             class="e-field e-input"
+            data-testid="rank"
             id="rank"
             name="rank"
             style="width: 100%;"
@@ -220,6 +223,7 @@ exports[`ScheduleUserEditorTemplate should render correctly with info not from s
         >
           <input
             class="e-field e-input"
+            data-testid="timeSlotId"
             disabled=""
             hidden=""
             id="timeSlotId"
@@ -241,6 +245,7 @@ exports[`ScheduleUserEditorTemplate should render correctly with info not from s
         >
           <input
             class="e-field e-input"
+            data-testid="capacity"
             disabled=""
             id="capacity"
             name="capacity"
@@ -295,6 +300,7 @@ exports[`ScheduleUserEditorTemplate should render correctly with info not from s
         >
           <input
             class="e-field e-input"
+            data-testid="rank"
             id="rank"
             name="rank"
             style="width: 100%;"
@@ -424,6 +430,7 @@ exports[`ScheduleUserEditorTemplate should render correctly without rank 1`] = `
         >
           <input
             class="e-field e-input"
+            data-testid="timeSlotId"
             disabled=""
             hidden=""
             id="timeSlotId"
@@ -445,6 +452,7 @@ exports[`ScheduleUserEditorTemplate should render correctly without rank 1`] = `
         >
           <input
             class="e-field e-input"
+            data-testid="capacity"
             disabled=""
             id="capacity"
             name="capacity"
@@ -499,6 +507,7 @@ exports[`ScheduleUserEditorTemplate should render correctly without rank 1`] = `
         >
           <input
             class="e-field e-input"
+            data-testid="rank"
             disabled=""
             id="rank"
             name="rank"

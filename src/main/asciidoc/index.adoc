@@ -1,24 +1,16 @@
-== User management
+= WeMeet 0.3.0 Documentation
+Marcus Xu;
 
-If `registered` is true (default), send `password` with at least 8 characters.
+WeMeet allows user to CRUD a meeting, invite other users to rank preferences to said meeting, and generate allocations to time slots that satisfy these preferences as much as possible.
 
-include::{snippets}/post-users-registered-success/http-request.adoc[]
+Release:
+https://orbital22-wemeet-staging.herokuapp.com/
 
-Counterexample
+Nightly:
+https://orbital22-wemeet-dev.herokuapp.com/
 
-include::{snippets}/post-users-registered-password-error/http-request.adoc[]
-include::{snippets}/post-users-registered-password-error/http-response.adoc[]
-
-The `email` field is validated.
-
-include::{snippets}/post-users-registered-email-error/http-request.adoc[]
-include::{snippets}/post-users-registered-email-error/http-response.adoc[]
-
-Otherwise, `password` must be `null` or `undefined`.
-
-include::{snippets}/post-users-unregistered-success/http-request.adoc[]
-
-If successful, return `201 Created` with `Location` set to `/api/users/:id`, registered or not.
-
-include::{snippets}/post-users-registered-success/http-response.adoc[]
-include::{snippets}/post-users-unregistered-success/http-response.adoc[]
+.Sections
+* xref:getting-started.adoc[Getting Started]
+* xref:developer-guide.adoc[Developer Guide]
+* xref:testing-guide.adoc[Testing Guide]
+* xref:api-reference.adoc[API Reference]

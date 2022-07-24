@@ -15,6 +15,7 @@ import com.orbital22.wemeet.util.ExceptionHelper;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -106,6 +107,7 @@ public class RosterPlanService {
 
   // TODO consider splitting RosterPlan into Meeting and Solution
   // TODO consider making `owner` not null
+  @PreAuthorize("isAuthenticated()")
   public RosterPlan post(RosterPlanPostRequest request) {
     User owner = request.getOwner();
     if (owner == null) {
