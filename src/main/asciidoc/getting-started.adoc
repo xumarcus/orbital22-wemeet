@@ -1,0 +1,26 @@
+= WeMeet 0.3.0 Getting Started
+Marcus Xu;
+:toc:
+
+Refer to `README.md` for latest instructions.
+
+== Prerequisites
+* https://www.postgresql.org/download/[PostgresSQL 14] (Comes with `pgAdmin4`)
+* NodeJS 16.15.0 (Comes with `npm`)
+* Recommended IDE: Intellij IDEA Ultimate
+
+== Compilation
+* `Main` Configuration:
+** Application
+** Path: `com.orbital22.wemeet.Main`
+* View &rarr; Maven &rarr; Lifecycle &rarr; Install
+* Run the app
+* Open `localhost:5000`
+** Hot loading is not enabled by default
+
+== Coding style
+* Frontend (Javascript): Standard JS
+** By default, `npm run start` formats code
+* Backend (Java): Google Code Format
+** Install Intellij plugin `google-code-format`
+* There is nothing to configure.
