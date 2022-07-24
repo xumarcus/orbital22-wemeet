@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -32,6 +33,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.security.acls.domain.BasePermission.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
+@AutoConfigureRestDocs
 @Import(H2Util.class)
 public class SolverIntegrationTest {
   @Autowired ObjectMapper objectMapper;
@@ -147,7 +150,8 @@ public class SolverIntegrationTest {
                             .content(objectMapper.writeValueAsString(map))
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isCreated())
-            .andExpect(redirectedUrl("http://localhost/api/rosterPlan/2"));
+            .andExpect(redirectedUrl("http://localhost:8080/api/rosterPlan/2"))
+            .andDo(document("post-solution-success"));
   }
 
   @Test
@@ -161,7 +165,8 @@ public class SolverIntegrationTest {
     this.mockMvc
         .perform(get("/api/rosterPlan/2").with(user(talk.getEmail())))
         .andExpect(status().isOk())
-        .andExpect(content().json(objectMapper.writeValueAsString(resp)));
+        .andExpect(content().json(objectMapper.writeValueAsString(resp)))
+            .andDo(document("get-solution-before-solver-runs-success"));
 
     waitForSolver();
 
@@ -173,7 +178,8 @@ public class SolverIntegrationTest {
     this.mockMvc
         .perform(get("/api/rosterPlan/2").with(user(talk.getEmail())))
         .andExpect(status().isOk())
-        .andExpect(content().json(objectMapper.writeValueAsString(resp)));
+        .andExpect(content().json(objectMapper.writeValueAsString(resp)))
+            .andDo(document("get-solution-after-solver-runs-success"));
   }
 
   @Test
@@ -191,7 +197,8 @@ public class SolverIntegrationTest {
                 .with(user(talk.getEmail()))
                 .content(objectMapper.writeValueAsString(req))
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+            .andDo(document("post-solution-publish-success"));
 
     Map<String, Object> resp = new HashMap<>();
     resp.put("picked", true);
