@@ -48,6 +48,20 @@ exports[`NavBar should render correctly 1`] = `
           </button>
         </div>
         <div
+          class="MuiBox-root css-wfg4so"
+        >
+          <a
+            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
+            href="/static/docs/index.html"
+            tabindex="0"
+          >
+            Guide
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </a>
+        </div>
+        <div
           class="MuiBox-root css-2uchni"
         >
           <button
