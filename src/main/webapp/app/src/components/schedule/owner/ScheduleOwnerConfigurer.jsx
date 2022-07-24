@@ -44,11 +44,14 @@ const ScheduleOwnerConfigurer = ({
           value={eventDuration}
         >
           {TEXT.SCHEDULE.OWNER.CONFIGURER.DURATIONS.map(
-            ({ value, label }) => <MenuItem
-              key={value}
-              value={value}
-                                  >{label}
-            </MenuItem>)}
+            ({ value, label }) => (
+              <MenuItem
+                key={value}
+                value={value}
+              >
+                {label}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
 
