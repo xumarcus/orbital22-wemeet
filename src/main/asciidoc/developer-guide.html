@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
 <meta name="author" content="Marcus Xu">
-<title>WeMeet 0.3.0 Documentation</title>
+<title>WeMeet 0.3.0 Developer Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,36 +439,243 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>WeMeet 0.3.0 Documentation</h1>
+<h1>WeMeet 0.3.0 Developer Guide</h1>
 <div class="details">
 <span id="author" class="author">Marcus Xu</span><br>
 </div>
-</div>
-<div id="content">
-<div class="paragraph">
-<p>WeMeet allows user to CRUD a meeting, invite other users to rank preferences to said meeting, and generate allocations to time slots that satisfy these preferences as much as possible.</p>
-</div>
-<div class="ulist">
-<div class="title">Sections</div>
-<ul>
-<li>
-<p><a href="getting-started.html">Getting Started</a></p>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_architecture">Architecture</a></li>
+<li><a href="#_ui">UI</a></li>
+<li><a href="#_controller">Controller</a></li>
+<li><a href="#_service">Service</a></li>
+<li><a href="#_repository">Repository</a>
+<ul class="sectlevel2">
+<li><a href="#_schema_design">Schema design</a></li>
+<li><a href="#_choice_of_database">Choice of database</a></li>
+<li><a href="#_choice_of_orm">Choice of ORM</a></li>
+</ul>
 </li>
-<li>
-<p><a href="developer-guide.html">Developer Guide</a></p>
-</li>
-<li>
-<p><a href="testing-guide.html">Testing Guide</a></p>
-</li>
-<li>
-<p><a href="api-reference.html">API Reference</a></p>
+<li><a href="#_tech_stack">Tech stack</a>
+<ul class="sectlevel2">
+<li><a href="#_frontend">Frontend</a></li>
+<li><a href="#_backend">Backend</a></li>
+</ul>
 </li>
 </ul>
 </div>
 </div>
+<div id="content">
+<div class="sect1">
+<h2 id="_architecture">Architecture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Standard monolith model.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Client calls API</p>
+</li>
+<li>
+<p>Controller intercepts and validates request</p>
+</li>
+<li>
+<p>Forward request to service layer</p>
+</li>
+<li>
+<p>Service sends queries to repositories</p>
+</li>
+<li>
+<p>Controller formats response</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ui">UI</h2>
+<div class="sectionbody">
+<div class="ulist">
+<div class="title">Pages</div>
+<ul>
+<li>
+<p>Dashboard: Display the meetings that the current user manages and that invite current user. (Pending response is a misnomer)</p>
+</li>
+<li>
+<p>Home: Main page</p>
+</li>
+<li>
+<p>MeetingEdit: Edit the meeting that the current user manages. Use <code>Generate Roster</code> button to generate solution.</p>
+</li>
+<li>
+<p>MeetingRank: Provide rank preferences to time slots in meeting that invites current user</p>
+</li>
+<li>
+<p>MeetingViewSolution: View the solution generated from rank preferences. Publishing overwrites meeting allocations with those from the solution.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">File structure</div>
+<ul>
+<li>
+<p><code>components</code></p>
+</li>
+<li>
+<p><code>core</code>: Utilities and React Context</p>
+</li>
+<li>
+<p><code>pages</code>: Routed by React Router. Assembled from components.</p>
+</li>
+<li>
+<p><code>test</code>: Jest unit tests</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_controller">Controller</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_service">Service</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_repository">Repository</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_schema_design">Schema design</h3>
+<div class="paragraph">
+<p>Standard relational schema.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="db.png" alt="db">
+</div>
+<div class="title">Figure 1. Database schema</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>password</code> in the <code>users</code> table are <code>bcrypt</code> hashes. Associations are shown in the diagram and in code.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_choice_of_database">Choice of database</h3>
+<div class="paragraph">
+<p>We chose PostgresSQL because it comes with Heroku. Definitely <a href="http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/">not MongoDB</a> though. Especially at our scale that&#8217;s just premature optimization.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_choice_of_orm">Choice of ORM</h3>
+<div class="paragraph">
+<p>Spring Boot comes with Hibernate. Enough said.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tech_stack">Tech stack</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Check <code>package.json</code> for frontend libraries and <code>pom.xml</code> for backend libraries.</p>
+</div>
+<div class="sect2">
+<h3 id="_frontend">Frontend</h3>
+<div class="sect3">
+<h4 id="_react">React</h4>
+<div class="paragraph">
+<p>We chose React since it helps with component reuse. And we both only know React for UI.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_react_router">React Router</h4>
+<div class="paragraph">
+<p>For routing.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_material_ui">Material UI</h4>
+<div class="paragraph">
+<p>Provides most of the UI components.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_syncfusion">Syncfusion</h4>
+<div class="paragraph">
+<p>Provides scheduler and data grid component that send requests to backend whenever user manipulates them. Requires community license.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_backend">Backend</h3>
+<div class="sect3">
+<h4 id="_postgressql">PostgresSQL</h4>
+<div class="paragraph">
+<p>See above.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_spring_boot">Spring Boot</h4>
+<div class="paragraph">
+<p>An opinionated framework that configures Spring, the web application framework.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_spring_security">Spring Security</h4>
+<div class="paragraph">
+<p>Handles authentication and access control checks.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_optaplanner">OptaPlanner</h4>
+<div class="paragraph">
+<p>AI Constraint solver. Generates solutions for meeting schedules given ranks.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_liquibase">Liquibase</h4>
+<div class="paragraph">
+<p>Handles database migrations. Synchronize DB schemas among developers.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_h2_database">H2 Database</h4>
+<div class="paragraph">
+<p>In memory database for integration tests.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lombok">Lombok</h4>
+<div class="paragraph">
+<p>Generates boilerplate code like getters and setters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_spring_data_rest">Spring Data Rest</h4>
+<div class="paragraph">
+<p>Generates RESTful API from repositories. Ensure API discoverability, uniformity and RESTfulness.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_spring_rest_docs">Spring Rest Docs</h4>
+<div class="paragraph">
+<p>Generates the requests and responses from integration tests for API reference.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-24 16:36:57 +0800
+Last updated 2022-07-24 16:36:08 +0800
 </div>
 </div>
 </body>

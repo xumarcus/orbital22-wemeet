@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
 <meta name="author" content="Marcus Xu">
-<title>WeMeet 0.3.0 Documentation</title>
+<title>WeMeet 0.3.0 Getting Started</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,36 +439,119 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>WeMeet 0.3.0 Documentation</h1>
+<h1>WeMeet 0.3.0 Getting Started</h1>
 <div class="details">
 <span id="author" class="author">Marcus Xu</span><br>
 </div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_prerequisites">Prerequisites</a></li>
+<li><a href="#_compilation">Compilation</a></li>
+<li><a href="#_coding_style">Coding style</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>WeMeet allows user to CRUD a meeting, invite other users to rank preferences to said meeting, and generate allocations to time slots that satisfy these preferences as much as possible.</p>
+<p>Refer to <code>README.md</code> for latest instructions.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites">Prerequisites</h2>
+<div class="sectionbody">
 <div class="ulist">
-<div class="title">Sections</div>
 <ul>
 <li>
-<p><a href="getting-started.html">Getting Started</a></p>
+<p><a href="https://www.postgresql.org/download/">PostgresSQL 14</a> (Comes with <code>pgAdmin4</code>)</p>
 </li>
 <li>
-<p><a href="developer-guide.html">Developer Guide</a></p>
+<p>NodeJS 16.15.0 (Comes with <code>npm</code>)</p>
 </li>
 <li>
-<p><a href="testing-guide.html">Testing Guide</a></p>
-</li>
-<li>
-<p><a href="api-reference.html">API Reference</a></p>
+<p>Recommended IDE: Intellij IDEA Ultimate</p>
 </li>
 </ul>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_compilation">Compilation</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><code>Main</code> Configuration:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Application</p>
+</li>
+<li>
+<p>Path: <code>com.orbital22.wemeet.Main</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>View &rarr; Maven &rarr; Lifecycle &rarr; Install</p>
+</li>
+<li>
+<p>Run the app</p>
+</li>
+<li>
+<p>Open <code>localhost:5000</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Hot loading is not enabled by default</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_coding_style">Coding style</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Frontend (Javascript): Standard JS</p>
+<div class="ulist">
+<ul>
+<li>
+<p>By default, <code>npm run start</code> formats code</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Backend (Java): Google Code Format</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Install Intellij plugin <code>google-code-format</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>There is nothing to configure.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-24 16:36:57 +0800
+Last updated 2022-07-24 16:33:36 +0800
 </div>
 </div>
 </body>
