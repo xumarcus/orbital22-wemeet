@@ -448,8 +448,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_architecture">Architecture</a></li>
 <li><a href="#_ui">UI</a></li>
-<li><a href="#_controller">Controller</a></li>
-<li><a href="#_service">Service</a></li>
 <li><a href="#_repository">Repository</a>
 <ul class="sectlevel2">
 <li><a href="#_schema_design">Schema design</a></li>
@@ -461,6 +459,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_frontend">Frontend</a></li>
 <li><a href="#_backend">Backend</a></li>
+</ul>
+</li>
+<li><a href="#_client_implementation">Client implementation</a>
+<ul class="sectlevel2">
+<li><a href="#_context_store">Context store</a></li>
+<li><a href="#_navigation">Navigation</a></li>
+<li><a href="#_account_management">Account management</a></li>
+<li><a href="#_syncfusion_integration">Syncfusion integration</a></li>
+<li><a href="#_dashboard">Dashboard</a></li>
+<li><a href="#_scheduling">Scheduling</a></li>
+<li><a href="#_server_implementation">Server implementation</a></li>
+<li><a href="#_security">Security</a></li>
 </ul>
 </li>
 </ul>
@@ -537,18 +547,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_controller">Controller</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_service">Service</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
 <h2 id="_repository">Repository</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -569,7 +567,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_choice_of_database">Choice of database</h3>
 <div class="paragraph">
-<p>We chose PostgresSQL because it comes with Heroku. Definitely <a href="http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/">not MongoDB</a> though. Especially at our scale that&#8217;s just premature optimization.</p>
+<p>We chose PostgresSQL because it comes with Heroku. Definitely <a href="http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/">not MongoDB</a> though. Especially at our scale that&#8217;s just premature optimization. Relational databases are easier to iterate since data duplication is avoided.</p>
 </div>
 </div>
 <div class="sect2">
@@ -672,10 +670,165 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_client_implementation">Client implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a high level view of how we implement our UI. This means we won&#8217;t include details like</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Upon submission, the details entered by the user are sent to the backend server using an axios POST request.</p>
+</div>
+</blockquote>
+</div>
+<div class="sect2">
+<h3 id="_context_store">Context store</h3>
+<div class="paragraph">
+<p>We use React context to persist user information in browser cache, to avoid repeated calls to server.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_navigation">Navigation</h3>
+<div class="paragraph">
+<p>Handled by React Router. A navigation bar is provided for convenience. The avatar (changing which is to be implemented) opens a menu for profile related actions such as logging out.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_account_management">Account management</h3>
+<div class="paragraph">
+<p>The user clicks on "Get Started" and that opens a modal containing forms to log in or register. Then when user submits using buttons, <code>POST</code> requests are sent to different routes.</p>
+</div>
+<div class="sect3">
+<h4 id="_registration">Registration</h4>
+<div class="paragraph">
+<p>Server response is persisted in context store.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_login">Login</h4>
+<div class="paragraph">
+<p>Server response is persisted in context store.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logout">Logout</h4>
+<div class="paragraph">
+<p>Clears context store.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_forgot_password">Forgot password</h4>
+<div class="paragraph">
+<p>To be implemented.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_syncfusion_integration">Syncfusion integration</h3>
+<div class="paragraph">
+<p>For Syncfusion components to work with our existing API, some glue code has to be written (which is the hard part). Once written,</p>
+</div>
+<div class="paragraph">
+<p>First define the data source</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span style="color:#080;font-weight:bold">return</span> <span style="color:#080;font-weight:bold">new</span> DataManager({
+    <span style="color:#606">adaptor</span>: <span style="color:#080;font-weight:bold">new</span> RestAdaptor({
+      <span style="color:#606">GET</span>: RestAdaptor.get(url, resp =&gt; resp._embedded.rosterPlan),
+      <span style="color:#606">POST</span>: RestAdaptor.post(API.ROSTER_PLAN),
+      <span style="color:#606">PUT</span>: RestAdaptor.put(API.ROSTER_PLAN),
+      <span style="color:#606">DELETE</span>: RestAdaptor.<span style="color:#080;font-weight:bold">delete</span>(API.ROSTER_PLAN, ({ key }) =&gt; key)
+    })
+})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then provide data source and fields</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span style="color:#070;font-weight:bold">&lt;GridComponent</span>
+  <span style="color:#b48">dataSource</span>=<span style="color:#F00;background-color:#FAA">{</span><span style="color:#700">dataSource</span><span style="color:#F00;background-color:#FAA">}</span>
+  <span style="color:#b48">editSettings</span>=<span style="color:#F00;background-color:#FAA">{</span><span style="color:#700">editSettings</span><span style="color:#F00;background-color:#FAA">}</span>
+  <span style="color:#b48">toolbar</span>=<span style="color:#F00;background-color:#FAA">{</span><span style="color:#700">TOOLBAR</span><span style="color:#F00;background-color:#FAA">}</span>
+<span style="color:#070;font-weight:bold">&gt;</span>
+  <span style="color:#070;font-weight:bold">&lt;ColumnsDirective&gt;</span>
+    <span style="color:#070;font-weight:bold">&lt;ColumnDirective</span>
+      <span style="color:#b48">field</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">id</span><span style="color:#710">'</span></span> <span style="color:#b48">headerText</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">ID</span><span style="color:#710">'</span></span> <span style="color:#b48">template</span>=<span style="color:#F00;background-color:#FAA">{</span><span style="color:#700">linkIDTemplate</span><span style="color:#F00;background-color:#FAA">}</span>
+      <span style="color:#b48">width</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">120</span><span style="color:#710">'</span></span> <span style="color:#b48">textAlign</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Center</span><span style="color:#710">'</span></span> <span style="color:#b48">isPrimaryKey</span>
+      <span style="color:#b48">isIdentity</span>
+    <span style="color:#070;font-weight:bold">/&gt;</span>
+    <span style="color:#070;font-weight:bold">&lt;ColumnDirective</span> <span style="color:#b48">field</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">title</span><span style="color:#710">'</span></span> <span style="color:#b48">headerText</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Title</span><span style="color:#710">'</span></span> <span style="color:#b48">textAlign</span>=<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Center</span><span style="color:#710">'</span></span> <span style="color:#070;font-weight:bold">/&gt;</span>
+  <span style="color:#070;font-weight:bold">&lt;/ColumnsDirective&gt;</span>
+  <span style="color:#070;font-weight:bold">&lt;Inject</span> <span style="color:#b48">services</span>=<span style="color:#F00;background-color:#FAA">{</span><span style="color:#F00;background-color:#FAA">[</span><span style="color:#700">Edit</span><span style="color:#F00;background-color:#FAA">,</span> <span style="color:#b48">Toolbar</span><span style="color:#F00;background-color:#FAA">]</span><span style="color:#F00;background-color:#FAA">}</span> <span style="color:#070;font-weight:bold">/&gt;</span>
+<span style="color:#070;font-weight:bold">&lt;/GridComponent&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Done. CRUD operations are now fully integrated. You can use the UI to CRUD and results will be persisted in database. See <code>RestAdaptor.js</code> for glue code, which we will gladly share. This is still a work in progress, as paging, filtering and sorting are yet to be integrated.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard">Dashboard</h3>
+<div class="paragraph">
+<p>Displays meetings managed by user and those that invite current user. Both tabs are handled by Syncfusion data grids and fully integrate with our API for CRUD actions.</p>
+</div>
+<div class="paragraph">
+<p>Each item contains a hyperlink on the ID field which brings user to respective meeting management pages. This is implemented using Syncfusion&#8217;s custom template feature.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scheduling">Scheduling</h3>
+<div class="paragraph">
+<p>There are three views: <code>Edit</code>, <code>Rank</code>, and <code>ViewSolution</code>. Each uses Syncfusion Scheduler component, but calls different API and have different access control checks (to be implemented).  Under the hood, the scheduler fully integrates with our API (as described above). Custom editor UI for time slots are also provided and integrated (as described above). In <code>Edit</code> mode the user can CRUD time slots, invited users, meeting title and other configurations. In <code>Rank</code> mode the user can provide ranking preferences. In <code>ViewSolution</code> mode the user can view results and publish them. More details are provided below.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_server_implementation">Server implementation</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_security">Security</h3>
+<div class="paragraph">
+<p>Handled by Spring Security. Session is persisted through cookies. CSRF protection is enabled, so the token is refreshed per request. Validation is for now only done server side.</p>
+</div>
+<div class="paragraph">
+<p>In addition, we have set up a firewall to deny unauthenticated users most API calls. Access control checks will likely be in next release.</p>
+</div>
+<div class="sect3">
+<h4 id="_registration_2">Registration</h4>
+<div class="paragraph">
+<p>Once server receives <code>POST</code> request to <code>/api/users</code> route, we validate and persist user details into the database. Password is <code>bcrypt</code> hashed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_login_2">Login</h4>
+<div class="paragraph">
+<p>Handled by Spring Security.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logout_2">Logout</h4>
+<div class="paragraph">
+<p>Handled by Spring Security.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_forgot_password_2">Forgot password</h4>
+<div class="paragraph">
+<p>To be implemented.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-24 16:36:08 +0800
+Last updated 2022-07-24 23:06:26 +0800
 </div>
 </div>
 </body>

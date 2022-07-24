@@ -3,6 +3,12 @@ Marcus Xu;
 
 WeMeet allows user to CRUD a meeting, invite other users to rank preferences to said meeting, and generate allocations to time slots that satisfy these preferences as much as possible.
 
+Release:
+https://orbital22-wemeet-staging.herokuapp.com/
+
+Nightly:
+https://orbital22-wemeet-dev.herokuapp.com/
+
 .Sections
 * xref:getting-started.adoc[Getting Started]
 * xref:developer-guide.adoc[Developer Guide]
