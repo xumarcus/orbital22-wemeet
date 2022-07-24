@@ -1,0 +1,92 @@
+= WeMeet 0.3.0 Developer Guide
+Marcus Xu;
+:toc:
+
+== Architecture
+Standard monolith model.
+
+. Client calls API
+. Controller intercepts and validates request
+. Forward request to service layer
+. Service sends queries to repositories
+. Controller formats response
+
+== UI
+.Pages
+* Dashboard: Display the meetings that the current user manages and that invite current user. (Pending response is a misnomer)
+* Home: Main page
+* MeetingEdit: Edit the meeting that the current user manages. Use `Generate Roster` button to generate solution.
+* MeetingRank: Provide rank preferences to time slots in meeting that invites current user
+* MeetingViewSolution: View the solution generated from rank preferences. Publishing overwrites meeting allocations with those from the solution.
+
+.File structure
+* `components`
+* `core`: Utilities and React Context
+* `pages`: Routed by React Router. Assembled from components.
+* `test`: Jest unit tests
+
+== Controller
+
+== Service
+
+== Repository
+
+=== Schema design
+Standard relational schema.
+
+.Database schema
+image::db.png[]
+
+Note that `password` in the `users` table are `bcrypt` hashes. Associations are shown in the diagram and in code.
+
+=== Choice of database
+We chose PostgresSQL because it comes with Heroku. Definitely http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/[not MongoDB] though. Especially at our scale that's just premature optimization.
+
+=== Choice of ORM
+Spring Boot comes with Hibernate. Enough said.
+
+== Tech stack
+Check `package.json` for frontend libraries and `pom.xml` for backend libraries.
+
+=== Frontend
+
+==== React
+We chose React since it helps with component reuse. And we both only know React for UI.
+
+==== React Router
+For routing.
+
+==== Material UI
+Provides most of the UI components.
+
+==== Syncfusion
+Provides scheduler and data grid component that send requests to backend whenever user manipulates them. Requires community license.
+
+=== Backend
+
+==== PostgresSQL
+See above.
+
+==== Spring Boot
+An opinionated framework that configures Spring, the web application framework.
+
+==== Spring Security
+Handles authentication and access control checks.
+
+==== OptaPlanner
+AI Constraint solver. Generates solutions for meeting schedules given ranks.
+
+==== Liquibase
+Handles database migrations. Synchronize DB schemas among developers.
+
+==== H2 Database
+In memory database for integration tests.
+
+==== Lombok
+Generates boilerplate code like getters and setters.
+
+==== Spring Data Rest
+Generates RESTful API from repositories. Ensure API discoverability, uniformity and RESTfulness.
+
+==== Spring Rest Docs
+Generates the requests and responses from integration tests for API reference.
