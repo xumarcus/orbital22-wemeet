@@ -208,3 +208,5 @@ Handled by Spring Security.
 
 ==== Forgot password
 To be implemented.
+
+=== Scheduling
