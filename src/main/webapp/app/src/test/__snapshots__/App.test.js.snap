@@ -48,40 +48,6 @@ exports[`Main page should render correctly 1`] = `
           </button>
         </div>
         <div
-          class="MuiBox-root css-wfg4so"
-        >
-          <button
-            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            features
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            guide
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-17e5olp-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            about
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-        </div>
-        <div
           class="MuiBox-root css-2uchni"
         >
           <button
