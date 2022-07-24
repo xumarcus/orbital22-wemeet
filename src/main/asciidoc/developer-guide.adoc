@@ -41,18 +41,32 @@ Standard monolith model.
 == Repository
 
 === Schema design
-Standard relational schema.
+Standard relational 3NF normalized schema. Schema changes (migrations) are managed by Liquibase.
 
 .Database schema
 image::db.png[]
 
 Note that `password` in the `users` table are `bcrypt` hashes. Associations are shown in the diagram and in code.
 
+.Entities
+* `User` (`users` table)
+* `RosterPlan` (`roster_plan` table)
+** `owner` the `User` who creates it
+** `title`
+** `solved`
+*** `null` if not generated from solver
+*** `false` if still in solver queue
+*** `true` if processed by solver
+** `parent` from which this `RosterPlan` is generated
+* `TimeSlot` (`time_slot` table)
+* `RosterPlanUserInfo` (`roster_plan_user_info` table): association between `User` and `RosterPlan`
+* `TimeSlotUserInfo` (`time_slot_user_info` table): association between `User` and `TimeSlot`
+
 === Choice of database
-We chose PostgresSQL because it comes with Heroku. Definitely http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/[not MongoDB] though. Especially at our scale that's just premature optimization. Relational databases are easier to iterate since data duplication is avoided.
+We chose PostgresSQL because it comes with Heroku. That being said, another major factor is that relational databases are easier to iterate since data duplication is avoided. Especially at our scale NoSQL databases are just premature optimization. See http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/[why you should never use MongoDB] for more justification.
 
 === Choice of ORM
-Spring Boot comes with Hibernate. Enough said.
+Spring Boot comes with Hibernate. Hibernate ORM enables developers to more easily write applications whose data outlives the application process.
 
 == Tech stack
 Check `package.json` for frontend libraries and `pom.xml` for backend libraries.
