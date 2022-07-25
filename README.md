@@ -1,4 +1,4 @@
-# orbital22-wemeet (0.2.0)
+# orbital22-wemeet (0.3.0)
 
 ## Database
 - [PostgresSQL 14](https://www.postgresql.org/download/) (Comes with `pgAdmin4`)
@@ -111,6 +111,15 @@ liquibase update --changelog-file
   --url jdbc:postgresql://{DATABASE_URL}:5432/{DATABASE_NAME}
 ```
 Review apps will test your migrations from scratch.
+
+## Versioning
+Update
+- `package.json`
+- `pom.xml`
+- `Procfile`
+- `README.md`
+
+TODO write a release script.
 
 ## Notes
 - `user` is a keyword in Postgres. Breaking change in migration changelog is needed to rectify.
