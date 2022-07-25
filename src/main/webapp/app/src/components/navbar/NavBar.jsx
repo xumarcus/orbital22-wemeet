@@ -18,12 +18,16 @@ import SignUpModal from './authentication/SignUpModal'
 import AppContext, { defaultAppContext } from '../../core/AppContext'
 import ajax from '../../core/ajax'
 import WeMeetLogo from './WeMeetLogo'
+import MaterialLink from '@mui/material/Link'
 
+/*
 const pages = [
   ['Features', 'features'],
   ['Guide', 'guide'],
   ['About Us', 'about']
 ]
+
+ */
 
 const settings = [
   ['Dashboard', 'dashboard'],
@@ -116,7 +120,8 @@ const NavBar = () => {
                   display: { xs: 'block', md: 'none' }
                 }}
               >
-                {/* pages.map((page) => (
+                {/* FIXME comment out
+                pages.map((page) => (
                   <MenuItem
                     key={page[1]}
                     onClick={handleCloseNavMenu.bind(this, page[1])}
@@ -124,13 +129,17 @@ const NavBar = () => {
                     <Typography textAlign='center'>{page[0]}</Typography>
                   </MenuItem>
                 )) */}
+                <MenuItem>
+                  <MaterialLink href='/static/docs/index.html'>Guide</MaterialLink>
+                </MenuItem>
               </Menu>
             </Box>
             <Box
               sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, pr: 2 }}
               justifyContent='flex-end'
             >
-              {/* pages.map((page) => (
+              {/* FIXME comment out
+              pages.map((page) => (
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu.bind(this, page[1])}

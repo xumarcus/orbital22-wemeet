@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals'
+
 export const setupForSyncfusionTest = () => {
   const { getComputedStyle } = global.window
   window.crypto = { getRandomValues: jest.fn() }

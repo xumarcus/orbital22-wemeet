@@ -4,6 +4,7 @@ import { setupForSyncfusionTest } from '../../../test-core/util'
 import {
   ScheduleOwnerInner
 } from '../../../../components/schedule/owner/ScheduleOwner'
+import { beforeAll, describe, expect, it } from '@jest/globals'
 
 describe('ScheduleOwner', () => {
   beforeAll(setupForSyncfusionTest)

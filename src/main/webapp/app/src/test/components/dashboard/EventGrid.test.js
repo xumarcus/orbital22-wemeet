@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { EventGridInner } from '../../../components/dashboard/EventGrid'
 import { BrowserRouter } from 'react-router-dom'
 import { setupForSyncfusionTest, sleep } from '../../test-core/util'
+import { beforeAll, describe, expect, it } from '@jest/globals'
 
 describe('EventGrid', () => {
   beforeAll(setupForSyncfusionTest)

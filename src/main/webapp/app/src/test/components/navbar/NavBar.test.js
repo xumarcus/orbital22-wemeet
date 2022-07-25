@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import NavBar from '../../../components/navbar/NavBar'
 import { BrowserRouter } from 'react-router-dom'
+import { describe, expect, it } from '@jest/globals'
 
 /*
   There is not much point of unit testing when there is not much

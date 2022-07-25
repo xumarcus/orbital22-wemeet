@@ -4,6 +4,7 @@ import { SAMPLE_EVENT } from '../../../mocks/events'
 import { setupForSyncfusionTest } from '../../../test-core/util'
 import ScheduleOwnerEditorTemplate
   from '../../../../components/schedule/owner/ScheduleOwnerEditorTemplate'
+import { beforeAll, describe, expect, it } from '@jest/globals'
 
 describe('ScheduleOwnerEditorTemplate', () => {
   beforeAll(setupForSyncfusionTest)

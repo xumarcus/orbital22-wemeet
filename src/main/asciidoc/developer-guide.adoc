@@ -57,7 +57,7 @@ Spring Boot comes with Hibernate. Hibernate ORM enables developers to more easil
 Standard relational 3NF normalized schema. Schema changes (migrations) are managed by Liquibase.
 
 .Database schema
-image::db.png[]
+image::images/db.png[]
 
 Note that `password` in the `users` table are `bcrypt` hashes. Associations are shown in the diagram and in code.
 

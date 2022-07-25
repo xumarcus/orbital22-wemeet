@@ -1,15 +1,11 @@
-import React from 'react'
 import {
   getInfoSummary,
   getSelfInfoColor
 } from '../../../components/schedule/appearance'
 import { SYSTEM_THEME, TEXT } from '../../../core/const'
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+import { describe, expect, it } from '@jest/globals'
 
 describe('Schedule appearance', () => {
-  // beforeAll(setupForSyncfusionTest)
-
   describe('event footer', () => {
     it('should render correctly without data', () => {
       expect(getInfoSummary([])).toEqual(TEXT.INFO_SUMMARY.NONE)

@@ -107,7 +107,7 @@ Within the Google Form, users will follow action based instruction and conduct t
 . Overall feedback
 
 === Sample of User Testing Question
-image::user-testing.png[]
+image::images/user-testing.png[]
 
 === Rationale
 

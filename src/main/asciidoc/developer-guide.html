@@ -446,16 +446,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_overview">Overview</a></li>
+<li><a href="#_workflow">Workflow</a></li>
 <li><a href="#_architecture">Architecture</a></li>
-<li><a href="#_ui">UI</a></li>
-<li><a href="#_repository">Repository</a>
+<li><a href="#_design_choices">Design choices</a>
 <ul class="sectlevel2">
-<li><a href="#_schema_design">Schema design</a></li>
-<li><a href="#_choice_of_database">Choice of database</a></li>
-<li><a href="#_choice_of_orm">Choice of ORM</a></li>
+<li><a href="#_programming_language">Programming language</a></li>
+<li><a href="#_ui_framework">UI framework</a></li>
+<li><a href="#_database">Database</a></li>
+<li><a href="#_orm">ORM</a></li>
 </ul>
 </li>
+<li><a href="#_ui">UI</a></li>
+<li><a href="#_database_schema_design">Database schema design</a></li>
 <li><a href="#_tech_stack">Tech stack</a>
 <ul class="sectlevel2">
 <li><a href="#_frontend">Frontend</a></li>
@@ -470,23 +472,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_syncfusion_integration">Syncfusion integration</a></li>
 <li><a href="#_dashboard">Dashboard</a></li>
 <li><a href="#_scheduling">Scheduling</a></li>
-<li><a href="#_server_implementation">Server implementation</a></li>
+</ul>
+</li>
+<li><a href="#_server_implementation">Server implementation</a>
+<ul class="sectlevel2">
 <li><a href="#_security">Security</a></li>
 <li><a href="#_scheduling_2">Scheduling</a></li>
 </ul>
 </li>
+<li><a href="#_documentation">Documentation</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_overview">Overview</h2>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Scheduling is a NP-hard problem. Essentially, our project provides a simple interface to CRUD a meeting (FE) / roster plan (BE) with some scheduling constraints, push it into the AI solver&#8217;s task queue, and display them to the user for manual adjustments.</p>
+<p>Scheduling is a NP-hard problem. Essentially, our project provides a simple interface to CRUD a meeting (FE) / roster plan (BE) with some scheduling constraints, push it into the AI solver&#8217;s task queue, and display them to the user to refine.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workflow">Workflow</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>We chose Java, as our AI solver is JVM based. This means we stick to Java’s most common Spring Boot web framework. Throughout the project we aim to automate our development process as much as possible to reduce mistakes. at the cost of a higher learning curve than more beginner friendly tech stacks such as MEAN. For instance, for a typical CRUD operation,</p>
+<p>Throughout the project we aim to automate our development process as much as possible to reduce mistakes. at the cost of a higher learning curve than more beginner-friendly tech stacks such as MEAN. For instance, for a typical CRUD operation,</p>
 </div>
 <div class="ulist">
 <ul>
@@ -538,13 +548,45 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 </div>
 </div>
 <div class="sect1">
+<h2 id="_design_choices">Design choices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>See <a href="#_tech_stack">Tech stack</a> for a more exhaustive list of libraries we have picked.</p>
+</div>
+<div class="sect2">
+<h3 id="_programming_language">Programming language</h3>
+<div class="paragraph">
+<p>We choose Java, as our AI solver is JVM based. This means we stick to Java’s most common Spring Boot web framework.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_framework">UI framework</h3>
+<div class="paragraph">
+<p>We choose Material UI because it has excellent React integration, it has many components, and it is free. We choose Syncfusion (even though it has poor React integration) because it has commercial-grade Data Grid and Scheduler components that are free under community license.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database">Database</h3>
+<div class="paragraph">
+<p>We choose PostgresSQL because it comes with Heroku. That being said, another major factor is that relational databases are easier to iterate since data duplication is avoided. Especially at our scale NoSQL databases are just premature optimization. See <a href="http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/">why you should never use MongoDB</a> for more justification.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orm">ORM</h3>
+<div class="paragraph">
+<p>Spring Boot comes with Hibernate. Hibernate ORM enables developers to more easily write applications whose data outlives the application process.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_ui">UI</h2>
 <div class="sectionbody">
 <div class="ulist">
 <div class="title">Pages</div>
 <ul>
 <li>
-<p>Dashboard: Display the meetings that the current user manages and that invite current user. (Pending response is a misnomer)</p>
+<p>Dashboard: Display the meetings that the current user manages and that invite current user.</p>
 </li>
 <li>
 <p>Home: Main page</p>
@@ -580,16 +622,14 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_repository">Repository</h2>
+<h2 id="_database_schema_design">Database schema design</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_schema_design">Schema design</h3>
 <div class="paragraph">
 <p>Standard relational 3NF normalized schema. Schema changes (migrations) are managed by Liquibase.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="db.png" alt="db">
+<img src="images/db.png" alt="db">
 </div>
 <div class="title">Figure 1. Database schema</div>
 </div>
@@ -631,32 +671,55 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 <li>
 <p><code>parent</code> from which this <code>RosterPlan</code> is generated</p>
 </li>
+<li>
+<p><code>minAllocationCount</code> the minimum number of time slots a user has to be allocated to</p>
+</li>
+<li>
+<p><code>maxAllocationCount</code> the maximum number of time slots a user has to be allocated to</p>
+</li>
 </ul>
 </div>
 </li>
 <li>
 <p><code>TimeSlot</code> (<code>time_slot</code> table)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>startDateTime</code></p>
 </li>
 <li>
-<p><code>RosterPlanUserInfo</code> (<code>roster_plan_user_info</code> table): association between <code>User</code> and <code>RosterPlan</code></p>
+<p><code>endDateTime</code></p>
 </li>
 <li>
-<p><code>TimeSlotUserInfo</code> (<code>time_slot_user_info</code> table): association between <code>User</code> and <code>TimeSlot</code></p>
+<p><code>capacity</code></p>
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p><code>RosterPlanUserInfo</code> (<code>roster_plan_user_info</code> table): association between <code>User</code> and <code>RosterPlan</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>locked</code> if the user has locked in their preferences</p>
+</li>
+</ul>
 </div>
-<div class="sect2">
-<h3 id="_choice_of_database">Choice of database</h3>
-<div class="paragraph">
-<p>We chose PostgresSQL because it comes with Heroku. That being said, another major factor is that relational databases are easier to iterate since data duplication is avoided. Especially at our scale NoSQL databases are just premature optimization. See <a href="http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/">why you should never use MongoDB</a> for more justification.</p>
+</li>
+<li>
+<p><code>TimeSlotUserInfo</code> (<code>time_slot_user_info</code> table): association between <code>User</code> and <code>TimeSlot</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rank</code> the rank a user assigns to a time slot</p>
+</li>
+<li>
+<p><code>available</code> if the user is available for the time slot</p>
+</li>
+</ul>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_choice_of_orm">Choice of ORM</h3>
-<div class="paragraph">
-<p>Spring Boot comes with Hibernate. Hibernate ORM enables developers to more easily write applications whose data outlives the application process.</p>
-</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -671,7 +734,7 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 <div class="sect3">
 <h4 id="_react">React</h4>
 <div class="paragraph">
-<p>We chose React since it helps with component reuse. And we both only know React for UI.</p>
+<p>We chose React since it helps with component reuse.</p>
 </div>
 </div>
 <div class="sect3">
@@ -689,7 +752,7 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 <div class="sect3">
 <h4 id="_syncfusion">Syncfusion</h4>
 <div class="paragraph">
-<p>Provides scheduler and data grid component that send requests to backend whenever user manipulates them. Requires community license.</p>
+<p>Provides scheduler and data grid component. Requires community license.</p>
 </div>
 </div>
 </div>
@@ -894,10 +957,11 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 <p>Under the hood, the scheduler fully integrates with our API (as described above). Custom editor UI for time slots are also provided and integrated (as described above).</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_server_implementation">Server implementation</h3>
-
 </div>
+</div>
+<div class="sect1">
+<h2 id="_server_implementation">Server implementation</h2>
+<div class="sectionbody">
 <div class="sect2">
 <h3 id="_security">Security</h3>
 <div class="paragraph">
@@ -933,14 +997,187 @@ HATEOAS stands for Hypermedia as the Engine of Application State. This provides 
 </div>
 <div class="sect2">
 <h3 id="_scheduling_2">Scheduling</h3>
+<div class="paragraph">
+<p>Handled by OptaPlanner.</p>
+</div>
+<div class="sect3">
+<h4 id="_process">Process</h4>
+<div class="paragraph">
+<p>Essentially a persistent queue design.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Once server receives <code>POST</code> request to <code>/api/rosterPlan</code> route with a valid <code>parent</code>, it will deep clone <code>parent</code> and persist the copy.</p>
+</li>
+<li>
+<p>The copy will be labeled unsolved.</p>
+</li>
+<li>
+<p>Then it will push the copy into a task queue.</p>
+</li>
+<li>
+<p>Eventually a solution will be found in another thread.</p>
+</li>
+<li>
+<p>Once it is solved, the AI allocations are persisted in the copy which will be labeled solved.</p>
+</li>
+<li>
+<p>User can view the result in <code>ViewSolution</code> mode.</p>
+</li>
+<li>
+<p>User can publish the result which overwrites the source with allocations from the result.</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Advantages</div>
+<ul>
+<li>
+<p>Correctness. If any user modify their preferences or meeting configurations, the server will not overwrite these changes after the solver task is completed.</p>
+</li>
+<li>
+<p>Durability. If the task is still being solved, when the server fails, it will still be marked unsolved and can be handled later without data loss.</p>
+</li>
+<li>
+<p>Scalability. It may take a long time for the solver to solve meeting schedules with many users and rank preferences.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Disadvantages</div>
+<ul>
+<li>
+<p>Persistence is expensive.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_constraint_programming">Constraint programming</h4>
+<div class="paragraph">
+<p>We need to specify constraints such that the AI knows how to optimize allocations. In OptaPlanner, constraints are given hard and soft penalties. The solver optimizes towards a solution that has minimum soft penalties and no hard penalties. However, we have only implemented four constraints and have yet to adjust their weights, and handle the case where solver cannot find a solution with no hard penalties.</p>
+</div>
+<div class="paragraph">
+<p>The solver looks into all the (<code>User</code>, <code>TimeSlot</code>) pairs where the user is available for that time slot. Then it will consider</p>
+</div>
+<div class="ulist">
+<div class="title">List of constraints implemented</div>
+<ul>
+<li>
+<p><code>assignmentUserLockedConstraint</code>: If the user locked in the time slot, removing the user from the time slot will be hard-penalized.</p>
+</li>
+<li>
+<p><code>assignmentRankConstraint</code>: If the user rank <code>n</code> for that time slot, assigning the user to the time slot will be soft-penalized by <code>n</code>.</p>
+</li>
+<li>
+<p><code>userSizeConstraint</code>: If the user cannot be assigned a number of time slots within the limits specified in the configuration, the schedule will be hard-penalized.</p>
+</li>
+<li>
+<p><code>timeSlotCapacityConstraint</code>: If assignments to the time slot exceeds its capacity, the schedule will be hard-penalized.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the future, we plan to refine these weights and constraints to make it more fair.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_documentation">Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Documentation is written in <code>.adoc</code> format, a Markdown dialect. We choose this because it integrates well with Spring Rest Docs.</p>
+</div>
+<div class="paragraph">
+<p>In this example, we specified an integration test and a path where the input and output should be documented.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span style="color:#007">@SpringBootTest</span>
+<span style="color:#007">@AutoConfigureMockMvc</span>
+<span style="color:#007">@AutoConfigureTestDatabase</span>
+<span style="color:#007">@AutoConfigureRestDocs</span>
+<span style="color:#007">@Import</span>(H2Util.class)
+<span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">UserCreateIntegrationTest</span> {
+  <span style="color:#007">@Autowired</span> ObjectMapper objectMapper;
+  <span style="color:#007">@Autowired</span> MockMvc mockMvc;
 
+  <span style="color:#007">@AfterEach</span>
+  <span style="color:#088;font-weight:bold">public</span> <span style="color:#339;font-weight:bold">void</span> tearDown(<span style="color:#007">@Autowired</span> H2Util h2Util, <span style="color:#007">@Autowired</span> CacheManager cacheManager) {
+    <span style="color:#777">// ...</span>
+  }
+
+  <span style="color:#007">@Test</span>
+  <span style="color:#088;font-weight:bold">public</span> <span style="color:#339;font-weight:bold">void</span> givenRequestWithInvalidEmail_whenRegister_thenBadRequest() <span style="color:#088;font-weight:bold">throws</span> <span style="color:#C00;font-weight:bold">Exception</span> {
+    <span style="color:#0a8;font-weight:bold">Map</span>&lt;<span style="color:#0a8;font-weight:bold">String</span>, <span style="color:#0a8;font-weight:bold">Object</span>&gt; map = <span style="color:#080;font-weight:bold">new</span> <span style="color:#0a8;font-weight:bold">HashMap</span>&lt;&gt;();
+    map.put(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">email</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">not-email</span><span style="color:#710">&quot;</span></span>);
+    map.put(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">rawPassword</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">password</span><span style="color:#710">&quot;</span></span>);
+
+    <span style="color:#950">this</span>.mockMvc
+        .perform(
+            post(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">/api/users</span><span style="color:#710">&quot;</span></span>)
+                .content(objectMapper.writeValueAsString(map))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andDo(document(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">post-users-registered-email-error</span><span style="color:#710">&quot;</span></span>));
+  }
+
+  <span style="color:#777">// ...</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is included in <a href="api-reference.html">API Reference</a> as follows</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Counterexamples
+// include::{snippets}/post-users-registered-password-error/http-request.adoc[]
+// include::{snippets}/post-users-registered-password-error/http-response.adoc[]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>which generates developer-friendly, human-readable output like</p>
+</div>
+<div class="paragraph">
+<p>Counterexamples</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 51
+Host: localhost:8080
+
+{&quot;rawPassword&quot;:&quot;invalid&quot;,&quot;email&quot;:&quot;user@wemeet.com&quot;}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Moreover, if the tests failed the output is not generated. This ensures that the API is always in a correctly described state.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-25 19:01:40 +0800
+Last updated 2022-07-25 21:27:40 +0800
 </div>
 </div>
 </body>
