@@ -37,6 +37,7 @@ include::{snippets}/post-users-registered-email-error/http-request.adoc[]
 include::{snippets}/post-users-registered-email-error/http-response.adoc[]
 
 === Read
+
 include::{snippets}/get-users-success/http-request.adoc[]
 include::{snippets}/get-users-success/http-response.adoc[]
 
