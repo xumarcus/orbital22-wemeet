@@ -448,7 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_user_api">User API</a>
 <ul class="sectlevel2">
-<li><a href="#_creation">Creation</a></li>
+<li><a href="#_create">Create</a></li>
 <li><a href="#_read">Read</a></li>
 <li><a href="#_update">Update</a></li>
 <li><a href="#_delete">Delete</a></li>
@@ -456,37 +456,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_roster_plan_api">Roster Plan API</a>
 <ul class="sectlevel2">
-<li><a href="#_creation_2">Creation</a></li>
-<li><a href="#_create_solution">Create solution</a></li>
-<li><a href="#_read_solution">Read solution</a></li>
-<li><a href="#_publish_solution">Publish solution</a></li>
+<li><a href="#_create_2">Create</a></li>
 <li><a href="#_read_2">Read</a></li>
 <li><a href="#_update_2">Update</a></li>
 <li><a href="#_delete_2">Delete</a></li>
 </ul>
 </li>
-<li><a href="#_time_slot_api">Time Slot API</a>
+<li><a href="#_solution_api">Solution API</a>
 <ul class="sectlevel2">
-<li><a href="#_creation_3">Creation</a></li>
+<li><a href="#_create_3">Create</a></li>
 <li><a href="#_read_3">Read</a></li>
 <li><a href="#_update_3">Update</a></li>
 <li><a href="#_delete_3">Delete</a></li>
+<li><a href="#_publish">Publish</a></li>
 </ul>
 </li>
-<li><a href="#_roster_plan_user_info_api">Roster Plan User Info API</a>
+<li><a href="#_time_slot_api">Time Slot API</a>
 <ul class="sectlevel2">
-<li><a href="#_creation_4">Creation</a></li>
+<li><a href="#_create_4">Create</a></li>
 <li><a href="#_read_4">Read</a></li>
 <li><a href="#_update_4">Update</a></li>
 <li><a href="#_delete_4">Delete</a></li>
 </ul>
 </li>
-<li><a href="#_time_slot_user_info_api">Time Slot User Info API</a>
+<li><a href="#_roster_plan_user_info_api">Roster Plan User Info API</a>
 <ul class="sectlevel2">
-<li><a href="#_creation_5">Creation</a></li>
+<li><a href="#_create_5">Create</a></li>
 <li><a href="#_read_5">Read</a></li>
 <li><a href="#_update_5">Update</a></li>
 <li><a href="#_delete_5">Delete</a></li>
+</ul>
+</li>
+<li><a href="#_time_slot_user_info_api">Time Slot User Info API</a>
+<ul class="sectlevel2">
+<li><a href="#_create_6">Create</a></li>
+<li><a href="#_read_6">Read</a></li>
+<li><a href="#_update_6">Update</a></li>
+<li><a href="#_delete_6">Delete</a></li>
 </ul>
 </li>
 </ul>
@@ -502,7 +508,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Supported HTTP Methods</div>
 <ul>
 <li>
-<p><code>POST /api/:resource</code> for creation</p>
+<p><code>POST /api/:resource</code> for Create</p>
 </li>
 <li>
 <p><code>GET /api/:resource/:id</code> for read</p>
@@ -525,6 +531,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Note that some validation in update APIs could be missing. This is to be implemented in later versions.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -534,7 +543,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Users can be initially unregistered (created through invitations). The API is identical regardless of this.</p>
 </div>
 <div class="sect2">
-<h3 id="_creation">Creation</h3>
+<h3 id="_create">Create</h3>
 <div class="paragraph">
 <p>Send <code>rawPassword</code> with at least 8 characters.</p>
 </div>
@@ -579,12 +588,12 @@ Content-Length: 712
     &quot;user&quot; : {
       &quot;href&quot; : &quot;http://localhost:8080/api/users/1&quot;
     },
-    &quot;timeSlotUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/users/1/timeSlotUserInfos{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
     &quot;ownedRosterPlans&quot; : {
       &quot;href&quot; : &quot;http://localhost:8080/api/users/1/ownedRosterPlans{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;timeSlotUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/users/1/timeSlotUserInfos{?projection}&quot;,
       &quot;templated&quot; : true
     },
     &quot;rosterPlanUserInfos&quot; : {
@@ -686,12 +695,12 @@ Content-Length: 712
     &quot;user&quot; : {
       &quot;href&quot; : &quot;http://localhost:8080/api/users/1&quot;
     },
-    &quot;timeSlotUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/users/1/timeSlotUserInfos{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
     &quot;ownedRosterPlans&quot; : {
       &quot;href&quot; : &quot;http://localhost:8080/api/users/1/ownedRosterPlans{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;timeSlotUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/users/1/timeSlotUserInfos{?projection}&quot;,
       &quot;templated&quot; : true
     },
     &quot;rosterPlanUserInfos&quot; : {
@@ -737,7 +746,7 @@ Host: localhost:8080</code></pre>
 <p>The current API stores meeting metadata in the entity <code>rosterPlan</code>. Generated solutions are stored in a new instance of <code>rosterPlan</code> To be refactored in later versions.</p>
 </div>
 <div class="sect2">
-<h3 id="_creation_2">Creation</h3>
+<h3 id="_create_2">Create</h3>
 <div class="paragraph">
 <p><code>title</code> cannot be blank.</p>
 </div>
@@ -788,234 +797,19 @@ Content-Length: 859
       &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/parent{?projection}&quot;,
       &quot;templated&quot; : true
     },
-    &quot;timeSlots&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/timeSlots{?projection}&quot;,
+    &quot;rosterPlanUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/rosterPlanUserInfos{?projection}&quot;,
       &quot;templated&quot; : true
     },
     &quot;owner&quot; : {
       &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/owner&quot;
     },
-    &quot;rosterPlanUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/rosterPlanUserInfos{?projection}&quot;,
-      &quot;templated&quot; : true
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_create_solution">Create solution</h3>
-<div class="paragraph">
-<p>This API will be deprecated.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/rosterPlan HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 55
-Host: localhost:8080
-
-{&quot;parent&quot;:&quot;/api/rosterPlan/1&quot;,&quot;title&quot;:&quot;Talk Cock Suck&quot;}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Location: http://localhost:8080/api/rosterPlan/2
-Content-Type: application/hal+json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 865
-
-{
-  &quot;id&quot; : 2,
-  &quot;title&quot; : &quot;Talk Cock Suck&quot;,
-  &quot;solved&quot; : false,
-  &quot;minAllocationCount&quot; : 1,
-  &quot;maxAllocationCount&quot; : 1,
-  &quot;_links&quot; : {
-    &quot;self&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2&quot;
-    },
-    &quot;rosterPlan&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;parent&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/parent{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;owner&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/owner&quot;
-    },
     &quot;timeSlots&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;rosterPlanUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}&quot;,
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/timeSlots{?projection}&quot;,
       &quot;templated&quot; : true
     }
   }
 }</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_read_solution">Read solution</h3>
-<div class="paragraph">
-<p>This API will be deprecated.</p>
-</div>
-<div class="paragraph">
-<p>Before solver completes,</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/rosterPlan/2 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/hal+json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 865
-
-{
-  &quot;id&quot; : 2,
-  &quot;title&quot; : &quot;Talk Cock Suck&quot;,
-  &quot;solved&quot; : false,
-  &quot;minAllocationCount&quot; : 1,
-  &quot;maxAllocationCount&quot; : 1,
-  &quot;_links&quot; : {
-    &quot;self&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2&quot;
-    },
-    &quot;rosterPlan&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;parent&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/parent{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;owner&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/owner&quot;
-    },
-    &quot;timeSlots&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;rosterPlanUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}&quot;,
-      &quot;templated&quot; : true
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>After solver completes,</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/rosterPlan/2 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/hal+json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 864
-
-{
-  &quot;id&quot; : 2,
-  &quot;title&quot; : &quot;Talk Cock Suck&quot;,
-  &quot;solved&quot; : true,
-  &quot;minAllocationCount&quot; : 1,
-  &quot;maxAllocationCount&quot; : 1,
-  &quot;_links&quot; : {
-    &quot;self&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2&quot;
-    },
-    &quot;rosterPlan&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;parent&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/parent{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;owner&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/owner&quot;
-    },
-    &quot;timeSlots&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}&quot;,
-      &quot;templated&quot; : true
-    },
-    &quot;rosterPlanUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}&quot;,
-      &quot;templated&quot; : true
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_publish_solution">Publish solution</h3>
-<div class="paragraph">
-<p>This API will be deprecated.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/rosterPlan/publish HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 29
-Host: localhost:8080
-
-{&quot;child&quot;:&quot;/api/rosterPlan/2&quot;}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
@@ -1125,15 +919,15 @@ Content-Length: 859
       &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/parent{?projection}&quot;,
       &quot;templated&quot; : true
     },
-    &quot;timeSlots&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/timeSlots{?projection}&quot;,
+    &quot;rosterPlanUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/rosterPlanUserInfos{?projection}&quot;,
       &quot;templated&quot; : true
     },
     &quot;owner&quot; : {
       &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/owner&quot;
     },
-    &quot;rosterPlanUserInfos&quot; : {
-      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/rosterPlanUserInfos{?projection}&quot;,
+    &quot;timeSlots&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/1/timeSlots{?projection}&quot;,
       &quot;templated&quot; : true
     }
   }
@@ -1156,13 +950,245 @@ Content-Length: 859
 </div>
 </div>
 <div class="sect1">
+<h2 id="_solution_api">Solution API</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_3">Create</h3>
+<div class="paragraph">
+<p>This API will be deprecated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/rosterPlan HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 55
+Host: localhost:8080
+
+{&quot;parent&quot;:&quot;/api/rosterPlan/1&quot;,&quot;title&quot;:&quot;Talk Cock Suck&quot;}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Location: http://localhost:8080/api/rosterPlan/2
+Content-Type: application/hal+json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 865
+
+{
+  &quot;id&quot; : 2,
+  &quot;title&quot; : &quot;Talk Cock Suck&quot;,
+  &quot;solved&quot; : false,
+  &quot;minAllocationCount&quot; : 1,
+  &quot;maxAllocationCount&quot; : 1,
+  &quot;_links&quot; : {
+    &quot;self&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2&quot;
+    },
+    &quot;rosterPlan&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;owner&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/owner&quot;
+    },
+    &quot;rosterPlanUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;parent&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/parent{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;timeSlots&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}&quot;,
+      &quot;templated&quot; : true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_read_3">Read</h3>
+<div class="paragraph">
+<p>This API will be deprecated.</p>
+</div>
+<div class="paragraph">
+<p>Before solver completes,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/rosterPlan/2 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/hal+json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 865
+
+{
+  &quot;id&quot; : 2,
+  &quot;title&quot; : &quot;Talk Cock Suck&quot;,
+  &quot;solved&quot; : false,
+  &quot;minAllocationCount&quot; : 1,
+  &quot;maxAllocationCount&quot; : 1,
+  &quot;_links&quot; : {
+    &quot;self&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2&quot;
+    },
+    &quot;rosterPlan&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;owner&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/owner&quot;
+    },
+    &quot;rosterPlanUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;parent&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/parent{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;timeSlots&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}&quot;,
+      &quot;templated&quot; : true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After solver completes,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/rosterPlan/2 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/hal+json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 864
+
+{
+  &quot;id&quot; : 2,
+  &quot;title&quot; : &quot;Talk Cock Suck&quot;,
+  &quot;solved&quot; : true,
+  &quot;minAllocationCount&quot; : 1,
+  &quot;maxAllocationCount&quot; : 1,
+  &quot;_links&quot; : {
+    &quot;self&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2&quot;
+    },
+    &quot;rosterPlan&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;owner&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/owner&quot;
+    },
+    &quot;rosterPlanUserInfos&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;parent&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/parent{?projection}&quot;,
+      &quot;templated&quot; : true
+    },
+    &quot;timeSlots&quot; : {
+      &quot;href&quot; : &quot;http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}&quot;,
+      &quot;templated&quot; : true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_3">Update</h3>
+<div class="paragraph">
+<p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delete_3">Delete</h3>
+<div class="paragraph">
+<p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_publish">Publish</h3>
+<div class="paragraph">
+<p>This API will be deprecated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/rosterPlan/publish HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 29
+Host: localhost:8080
+
+{&quot;child&quot;:&quot;/api/rosterPlan/2&quot;}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_time_slot_api">Time Slot API</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Sub-resource of Roster Plan</p>
 </div>
 <div class="sect2">
-<h3 id="_creation_3">Creation</h3>
+<h3 id="_create_4">Create</h3>
 <div class="ulist">
 <div class="title">Validation</div>
 <ul>
@@ -1244,19 +1270,19 @@ Content-Length: 13
 </div>
 </div>
 <div class="sect2">
-<h3 id="_read_3">Read</h3>
+<h3 id="_read_4">Read</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_update_3">Update</h3>
+<h3 id="_update_4">Update</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_3">Delete</h3>
+<h3 id="_delete_4">Delete</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
@@ -1270,7 +1296,7 @@ Content-Length: 13
 <p>Sub-resource of Roster Plan</p>
 </div>
 <div class="sect2">
-<h3 id="_creation_4">Creation</h3>
+<h3 id="_create_5">Create</h3>
 <div class="ulist">
 <div class="title">Validation</div>
 <ul>
@@ -1349,19 +1375,19 @@ Content-Length: 530
 </div>
 </div>
 <div class="sect2">
-<h3 id="_read_4">Read</h3>
+<h3 id="_read_5">Read</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_update_4">Update</h3>
+<h3 id="_update_5">Update</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_4">Delete</h3>
+<h3 id="_delete_5">Delete</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
@@ -1375,7 +1401,7 @@ Content-Length: 530
 <p>Sub-resource of Time Slot</p>
 </div>
 <div class="sect2">
-<h3 id="_creation_5">Creation</h3>
+<h3 id="_create_6">Create</h3>
 <div class="ulist">
 <div class="title">Validation</div>
 <ul>
@@ -1417,19 +1443,19 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_read_5">Read</h3>
+<h3 id="_read_6">Read</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_update_5">Update</h3>
+<h3 id="_update_6">Update</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_5">Delete</h3>
+<h3 id="_delete_6">Delete</h3>
 <div class="paragraph">
 <p>See <a href="#supported_http_methods">Supported HTTP Methods</a></p>
 </div>
@@ -1439,7 +1465,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-24 17:11:06 +0800
+Last updated 2022-07-25 00:43:41 +0800
 </div>
 </div>
 </body>
