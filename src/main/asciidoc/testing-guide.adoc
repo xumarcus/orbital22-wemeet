@@ -86,8 +86,7 @@ We tested out the following API for backend.
 ** After solver terminates, when client `GET`, then server responds with `200 OK` with `solved` set to `true` and response contains valid solution.
 * Given valid request, when client `POST /api/rosterPlan/publish`, then server responds with `200 OK` and overrides original `rosterPlan`.
 
-== System testing
-TODO
+
 
 == User testing
 === Google Form Link for User Testing
@@ -96,7 +95,7 @@ https://forms.gle/mv4PmppxTaHfbwBq6[https://forms.gle/mv4PmppxTaHfbwBq6]
 
 === Methodology
 
-Testing will be done with a  Google Form which systematically guides the user through each feature of WeMeet while collecting their comments. As WeMeet is meant to be a general scheduling platform, we will be doing our user testing on the general public. Emails and text messages with the user testing link were sent to friends and family. We will be conducting one round of internal testing followed by 3 rounds of user testing. As testing rounds occur, we will also be refining the features of WeMeet and making small additions to the user testing form to include them. Email addresses of respondents are collected to ensure all responses collected are legitimate.
+Testing was done with a  Google Form which systematically guides the user through each feature of WeMeet while collecting their comments. As WeMeet is meant to be a general scheduling platform, we will be doing our user testing on the general public. Emails and text messages with the user testing link were sent to friends and family. We will be conducting one round of internal testing followed by 3 rounds of user testing. As testing rounds occur, we will also be refining the features of WeMeet and making small additions to the user testing form to include them. Email addresses of respondents are collected to ensure all responses collected are legitimate.
 
 === Testing Process
 
@@ -117,6 +116,46 @@ This approach of a guided Google Form allows us to systematically test every fea
 === Timeline
 
 11th - 14th July: First round  +
+14th - 15th July: Review first round feedback +
 15th - 18th July: Second round  +
+18th - 19th July: Review second round feedback +
 19th - 22nd July: Third round
+22nd - 24th July: Review third round feedback
+
 Analysing, adapting to feedback will happen as a manner of continuous deployment. This approach takes inspiration from the Design Thinking Methodology : Create, Test, Improve, Iterate.
+
+=== First Round Feedback
+
+The first round of user testing was conducted from 11th to 14th July with 4 responses.
+|===
+|*Section*|*Feedback Received*|*Action Taken*
+
+|Account registration and authentication|There should be a way to reset the password.|Addition of a reset password feature via email will add additional complexity. We will schedule it to be released in the future.
+|Overall feedback|The “Features” and “About” tabs were confusing.|Aforementioned tabs will be removed and replaced with a single “Guide” tab
+|===
+
+
+=== Second Round Feedback
+
+The second round of user testing was conducted from 15th to 18th July with 4 responses.
+|===
+|*Section*|*Feedback Received*|*Action Taken*
+
+|General web page navigation|The web page is slow to load when initially accessing it.|Heroku only “spins up” the server when users access the page which leads to the initial startup time. We will explore the pricing options for faster page loading.
+|Scheduler functionality|The quick prompt shows “Add Title” when I am supposed to enter the time slot capacity|We have replaced it with “Add Capacity” to reduce confusion.
+|===
+
+=== Third Round Feedback
+
+The third round of user testing was conducted from 19th to 22nd July with 5 responses.
+|===
+|*Section*|*Feedback Received*|*Action Taken*
+
+|Scheduler functionality|The scheduler lacks more advanced features such as calendar integration.|We will include more advanced features in future updates.
+|===
+
+
+== System testing
+System testing was conducted manually after each major revision (e.g. before each round of user testing). A developer will use
+the user testing questions as a guide to test each and every functionality of the webapp to ensure that
+it is functioning as expected.
