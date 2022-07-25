@@ -159,3 +159,4 @@ The third round of user testing was conducted from 19th to 22nd July with 5 resp
 System testing was conducted manually after each major revision (e.g. before each round of user testing). A developer will use
 the user testing questions as a guide to test each and every functionality of the webapp to ensure that
 it is functioning as expected.
+During the process, general webpage navigation, account authentication and scheduler functionality is tested. More specifically, we follow the user testing google forms which have detailed tasks such as creating a account, logging into an account, creating an event etc.
