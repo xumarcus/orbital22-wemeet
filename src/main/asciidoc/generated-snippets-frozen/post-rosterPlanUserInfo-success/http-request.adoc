@@ -1,0 +1,10 @@
+[source,http,options="nowrap"]
+----
+POST /api/rosterPlanUserInfo HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/hal+json
+Content-Length: 75
+Host: localhost:8080
+
+{"rosterPlan":"/api/rosterPlan/1","locked":false,"email":"cock@wemeet.com"}
+----

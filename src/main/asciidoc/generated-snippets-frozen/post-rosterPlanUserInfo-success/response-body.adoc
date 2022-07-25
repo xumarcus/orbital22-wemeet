@@ -1,0 +1,23 @@
+[source,options="nowrap"]
+----
+{
+  "id" : 1,
+  "locked" : false,
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/rosterPlanUserInfo/1"
+    },
+    "rosterPlanUserInfo" : {
+      "href" : "http://localhost:8080/api/rosterPlanUserInfo/1{?projection}",
+      "templated" : true
+    },
+    "rosterPlan" : {
+      "href" : "http://localhost:8080/api/rosterPlanUserInfo/1/rosterPlan{?projection}",
+      "templated" : true
+    },
+    "user" : {
+      "href" : "http://localhost:8080/api/rosterPlanUserInfo/1/user"
+    }
+  }
+}
+----

@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ echo '{"rosterPlan":"/api/rosterPlan/1","locked":false,"email":"cock@wemeet.com"}' | http POST 'http://localhost:8080/api/rosterPlanUserInfo' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/hal+json'
+----

@@ -1,0 +1,48 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Location: http://localhost:8080/api/rosterPlan/2
+Content-Type: application/hal+json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 865
+
+{
+  "id" : 2,
+  "title" : "Talk Cock Suck",
+  "solved" : false,
+  "minAllocationCount" : 1,
+  "maxAllocationCount" : 1,
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/rosterPlan/2"
+    },
+    "rosterPlan" : {
+      "href" : "http://localhost:8080/api/rosterPlan/2{?projection}",
+      "templated" : true
+    },
+    "parent" : {
+      "href" : "http://localhost:8080/api/rosterPlan/2/parent{?projection}",
+      "templated" : true
+    },
+    "rosterPlanUserInfos" : {
+      "href" : "http://localhost:8080/api/rosterPlan/2/rosterPlanUserInfos{?projection}",
+      "templated" : true
+    },
+    "owner" : {
+      "href" : "http://localhost:8080/api/rosterPlan/2/owner"
+    },
+    "timeSlots" : {
+      "href" : "http://localhost:8080/api/rosterPlan/2/timeSlots{?projection}",
+      "templated" : true
+    }
+  }
+}
+----

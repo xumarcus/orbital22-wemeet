@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"parent":"/api/rosterPlan/1","title":"Talk Cock Suck"}' | http POST 'http://localhost:8080/api/rosterPlan' \
+    'Content-Type:application/json;charset=UTF-8'
+----

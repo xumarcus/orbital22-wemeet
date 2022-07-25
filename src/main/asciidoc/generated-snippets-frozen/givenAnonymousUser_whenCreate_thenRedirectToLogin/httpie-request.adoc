@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"title":"Talk Cock"}' | http POST 'http://localhost:8080/api/rosterPlan' \
+    'Content-Type:application/json;charset=UTF-8'
+----

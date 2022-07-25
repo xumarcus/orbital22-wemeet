@@ -1,0 +1,9 @@
+[source,http,options="nowrap"]
+----
+POST /api/rosterPlan/publish HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 29
+Host: localhost:8080
+
+{"child":"/api/rosterPlan/2"}
+----

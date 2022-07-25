@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"timeSlot":"/api/timeSlot/1","rank":1}' | http POST 'http://localhost:8080/api/timeSlotUserInfo' \
+    'Content-Type:application/json;charset=UTF-8'
+----

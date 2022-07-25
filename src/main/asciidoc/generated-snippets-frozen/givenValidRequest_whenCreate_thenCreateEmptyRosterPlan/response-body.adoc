@@ -1,0 +1,34 @@
+[source,options="nowrap"]
+----
+{
+  "id" : 1,
+  "title" : "Talk Cock",
+  "solved" : null,
+  "minAllocationCount" : 1,
+  "maxAllocationCount" : 1,
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/rosterPlan/1"
+    },
+    "rosterPlan" : {
+      "href" : "http://localhost:8080/api/rosterPlan/1{?projection}",
+      "templated" : true
+    },
+    "timeSlots" : {
+      "href" : "http://localhost:8080/api/rosterPlan/1/timeSlots{?projection}",
+      "templated" : true
+    },
+    "rosterPlanUserInfos" : {
+      "href" : "http://localhost:8080/api/rosterPlan/1/rosterPlanUserInfos{?projection}",
+      "templated" : true
+    },
+    "owner" : {
+      "href" : "http://localhost:8080/api/rosterPlan/1/owner"
+    },
+    "parent" : {
+      "href" : "http://localhost:8080/api/rosterPlan/1/parent{?projection}",
+      "templated" : true
+    }
+  }
+}
+----
