@@ -1,5 +1,5 @@
 = WeMeet 0.3.0 User's Guide
-Marcus Xu;
+Tan Jun Wei;
 :toc:
 
 
@@ -9,25 +9,25 @@ An account is required to access WeMeet’s features. A prompt to log in will ap
 
 To access the sign up/log in modal, simply click on the empty avatar or the “Start Now” button on the top right of any page.
 
-image::start-now-btn.png[]
+image::images/start-now-btn.png[]
 
 === Creating an account +
 Fill in your _First Name, Last Name, Email Address and Password_ to sign up for an account. +
 From the sign up modal, you are also able to switch to the sign in option by clicking on _“Already have an account? Sign In”._
 
-image::sign-up.png[]
+image::images/sign-up.png[]
 
 === Logging into your account
 
 Fill in your _Email address and password to sign in_. +
 From the sign up modal, you are also able to switch to the sign up option by clicking on _“Don’t have an account? Sign Up”._
 
-image::sign-in.png[]
+image::images/sign-in.png[]
 
 == Scheduler
 To start using the scheduler, navigate to the dashboard page. You have to be logged in to access the page.
 
-image::dashboard.png[]
+image::images/dashboard.png[]
 
 === Creating a Meeting
 
