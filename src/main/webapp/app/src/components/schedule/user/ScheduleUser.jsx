@@ -63,9 +63,10 @@ const ScheduleUser = ({ rosterPlan }) => {
   return (
     <ScheduleComponent
       editorTemplate={ScheduleUserEditorTemplate}
+      eventRendered={onEventRendered}
       eventSettings={eventSettings}
       height='80vh'
-      eventRendered={onEventRendered}
+      locale='en-US'
       showQuickInfo={false}
     >
       <Inject

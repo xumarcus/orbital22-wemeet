@@ -32,7 +32,7 @@
   },
   "scripts": {
     "format": "standard --fix",
-    "prestart": "npm run format & react-scripts test",
+    "prestart": "npm run format",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
