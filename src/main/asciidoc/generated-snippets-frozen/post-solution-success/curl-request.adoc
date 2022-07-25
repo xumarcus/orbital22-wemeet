@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/rosterPlan' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{"parent":"/api/rosterPlan/1","title":"Talk Cock Suck"}'
+----

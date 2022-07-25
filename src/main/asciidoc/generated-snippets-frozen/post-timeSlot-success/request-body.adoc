@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"startDateTime":"2019-06-09T18:00:00.000Z","rosterPlan":"/api/rosterPlan/1","endDateTime":"2019-06-09T19:00:00.000Z","capacity":2}
+----

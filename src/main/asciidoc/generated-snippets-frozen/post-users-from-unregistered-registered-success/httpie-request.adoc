@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"rawPassword":"password","email":"user@wemeet.com"}' | http POST 'http://localhost:8080/api/users' \
+    'Content-Type:application/json;charset=UTF-8'
+----

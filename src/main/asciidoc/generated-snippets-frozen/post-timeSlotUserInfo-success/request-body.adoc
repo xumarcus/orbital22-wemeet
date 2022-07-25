@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"timeSlot":"/api/timeSlot/1","rank":1}
+----

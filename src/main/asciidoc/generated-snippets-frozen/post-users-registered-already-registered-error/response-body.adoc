@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"errors":[{"entity":"com.orbital22.wemeet.model.User","property":"email","invalidValue":null,"message":"User is already registered."}]}
+----

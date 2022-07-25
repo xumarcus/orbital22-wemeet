@@ -1,0 +1,42 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/hal+json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 712
+
+{
+  "id" : 1,
+  "email" : "user@wemeet.com",
+  "registered" : true,
+  "authorities" : [ ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/users/1"
+    },
+    "user" : {
+      "href" : "http://localhost:8080/api/users/1"
+    },
+    "rosterPlanUserInfos" : {
+      "href" : "http://localhost:8080/api/users/1/rosterPlanUserInfos{?projection}",
+      "templated" : true
+    },
+    "timeSlotUserInfos" : {
+      "href" : "http://localhost:8080/api/users/1/timeSlotUserInfos{?projection}",
+      "templated" : true
+    },
+    "ownedRosterPlans" : {
+      "href" : "http://localhost:8080/api/users/1/ownedRosterPlans{?projection}",
+      "templated" : true
+    }
+  }
+}
+----
