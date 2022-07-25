@@ -95,7 +95,7 @@ https://forms.gle/mv4PmppxTaHfbwBq6[https://forms.gle/mv4PmppxTaHfbwBq6]
 
 === Methodology
 
-Testing was done with a  Google Form which systematically guides the user through each feature of WeMeet while collecting their comments. As WeMeet is meant to be a general scheduling platform, we will be doing our user testing on the general public. Emails and text messages with the user testing link were sent to friends and family. We will be conducting one round of internal testing followed by 3 rounds of user testing. As testing rounds occur, we will also be refining the features of WeMeet and making small additions to the user testing form to include them. Email addresses of respondents are collected to ensure all responses collected are legitimate.
+Testing was done with a Google Form which systematically guides the user through each feature of WeMeet while collecting their comments. As WeMeet is meant to be a general scheduling platform, we will be doing our user testing on the general public. Emails and text messages with the user testing link were sent to friends and family. We will be conducting one round of internal testing followed by 3 rounds of user testing. As testing rounds occur, we will also be refining the features of WeMeet and making small additions to the user testing form to include them. Email addresses of respondents are collected to ensure all responses collected are legitimate.
 
 === Testing Process
 
