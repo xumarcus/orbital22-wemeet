@@ -122,7 +122,7 @@ This approach of a guided Google Form allows us to systematically test every fea
 19th - 22nd July: Third round
 22nd - 24th July: Review third round feedback
 
-Analysing, adapting to feedback will happen as a manner of continuous deployment. This approach takes inspiration from the Design Thinking Methodology : Create, Test, Improve, Iterate.
+We continuously analyze and adapt to feedback, taking inspiration from the Design Thinking Methodology : Create, Test, Improve, Iterate.
 
 === First Round Feedback
 
