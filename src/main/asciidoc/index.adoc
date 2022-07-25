@@ -9,6 +9,8 @@ https://orbital22-wemeet-staging.herokuapp.com/
 Nightly:
 https://orbital22-wemeet-dev.herokuapp.com/
 
+xref:poster.adoc[Poster]
+
 .Sections
 * xref:getting-started.adoc[Getting Started]
 * xref:developer-guide.adoc[Developer Guide]

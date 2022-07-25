@@ -1,0 +1,3 @@
+= WeMeet 0.3.0 Poster
+
+image::poster.png[]

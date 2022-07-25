@@ -90,7 +90,7 @@ Check `package.json` for frontend libraries and `pom.xml` for backend libraries.
 === Frontend
 
 ==== React
-We chose React since it helps with component reuse.And we both only know React for UI.
+We chose React since it helps with component reuse.
 
 ==== React Router
 For routing.

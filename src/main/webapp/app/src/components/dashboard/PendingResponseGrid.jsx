@@ -35,7 +35,7 @@ const PendingResponseGrid = () => {
     })
   })
 
-  return <PendingResponseGridInner dataManager={dataManager} selfUserId={context.user.id} />
+  return <PendingResponseGridInner dataSource={dataManager} selfUserId={context.user.id} />
 }
 
 export const PendingResponseGridInner = ({ dataSource, selfUserId }) => {
