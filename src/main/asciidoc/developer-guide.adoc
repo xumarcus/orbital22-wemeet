@@ -2,10 +2,10 @@
 Marcus Xu;
 :toc:
 
-== Overview
-Scheduling is a NP-hard problem. Essentially, our project provides a simple interface to CRUD a meeting (FE) / roster plan (BE) with some scheduling constraints, push it into the AI solver's task queue, and display them to the user for manual adjustments.
+Scheduling is a NP-hard problem. Essentially, our project provides a simple interface to CRUD a meeting (FE) / roster plan (BE) with some scheduling constraints, push it into the AI solver's task queue, and display them to the user to refine.
 
-We chose Java, as our AI solver is JVM based. This means we stick to Java’s most common Spring Boot web framework. Throughout the project we aim to automate our development process as much as possible to reduce mistakes. at the cost of a higher learning curve than more beginner friendly tech stacks such as MEAN. For instance, for a typical CRUD operation,
+== Workflow
+Throughout the project we aim to automate our development process as much as possible to reduce mistakes. at the cost of a higher learning curve than more beginner-friendly tech stacks such as MEAN. For instance, for a typical CRUD operation,
 
 * Most validation constraints are specified and automatically handled
 * ACL checks are specified with `@PreAuthorize` and `@PostAuthorize`. Behind the scenes, Spring Security checks users permission with high performance cache. This is to be refined in later versions.
@@ -24,9 +24,24 @@ Standard monolith model.
 . Service sends queries to repositories
 . Controller formats response
 
+== Design choices
+See xref:_tech_stack[] for a more exhaustive list of libraries we have picked.
+
+=== Programming language
+We choose Java, as our AI solver is JVM based. This means we stick to Java’s most common Spring Boot web framework.
+
+=== UI framework
+We choose Material UI because it has excellent React integration, it has many components, and it is free. We choose Syncfusion (even though it has poor React integration) because it has commercial-grade Data Grid and Scheduler components that are free under community license.
+
+=== Database
+We choose PostgresSQL because it comes with Heroku. That being said, another major factor is that relational databases are easier to iterate since data duplication is avoided. Especially at our scale NoSQL databases are just premature optimization. See http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/[why you should never use MongoDB] for more justification.
+
+=== ORM
+Spring Boot comes with Hibernate. Hibernate ORM enables developers to more easily write applications whose data outlives the application process.
+
 == UI
 .Pages
-* Dashboard: Display the meetings that the current user manages and that invite current user. (Pending response is a misnomer)
+* Dashboard: Display the meetings that the current user manages and that invite current user.
 * Home: Main page
 * MeetingEdit: Edit the meeting that the current user manages. Use `Generate Roster` button to generate solution.
 * MeetingRank: Provide rank preferences to time slots in meeting that invites current user
@@ -38,9 +53,7 @@ Standard monolith model.
 * `pages`: Routed by React Router. Assembled from components.
 * `test`: Jest unit tests
 
-== Repository
-
-=== Schema design
+== Database schema design
 Standard relational 3NF normalized schema. Schema changes (migrations) are managed by Liquibase.
 
 .Database schema
@@ -58,23 +71,26 @@ Note that `password` in the `users` table are `bcrypt` hashes. Associations are 
 *** `false` if still in solver queue
 *** `true` if processed by solver
 ** `parent` from which this `RosterPlan` is generated
+** `minAllocationCount` the minimum number of time slots a user has to be allocated to
+** `maxAllocationCount` the maximum number of time slots a user has to be allocated to
 * `TimeSlot` (`time_slot` table)
+** `startDateTime`
+** `endDateTime`
+** `capacity`
 * `RosterPlanUserInfo` (`roster_plan_user_info` table): association between `User` and `RosterPlan`
+** `locked` if the user has locked in their preferences
 * `TimeSlotUserInfo` (`time_slot_user_info` table): association between `User` and `TimeSlot`
+** `rank` the rank a user assigns to a time slot
+** `available` if the user is available for the time slot
 
-=== Choice of database
-We chose PostgresSQL because it comes with Heroku. That being said, another major factor is that relational databases are easier to iterate since data duplication is avoided. Especially at our scale NoSQL databases are just premature optimization. See http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/[why you should never use MongoDB] for more justification.
-
-=== Choice of ORM
-Spring Boot comes with Hibernate. Hibernate ORM enables developers to more easily write applications whose data outlives the application process.
-
+[#_tech_stack]
 == Tech stack
 Check `package.json` for frontend libraries and `pom.xml` for backend libraries.
 
 === Frontend
 
 ==== React
-We chose React since it helps with component reuse. And we both only know React for UI.
+We chose React since it helps with component reuse.And we both only know React for UI.
 
 ==== React Router
 For routing.
@@ -83,7 +99,7 @@ For routing.
 Provides most of the UI components.
 
 ==== Syncfusion
-Provides scheduler and data grid component that send requests to backend whenever user manipulates them. Requires community license.
+Provides scheduler and data grid component. Requires community license.
 
 === Backend
 
@@ -113,6 +129,8 @@ Generates the requests and responses from integration tests for API reference.
 
 ==== Miscellaneous
 * Lombok: Generates boilerplate code like getters and setters.
+* MapStruct: Generates mappers between POJOs.
+* Vavr: Functional programming
 
 == Client implementation
 This is a high level view of how we implement our UI. This means we won't include details like
@@ -190,7 +208,7 @@ There are three views: `Edit`, `Rank`, and `ViewSolution`. Each uses Syncfusion 
 
 Under the hood, the scheduler fully integrates with our API (as described above). Custom editor UI for time slots are also provided and integrated (as described above).
 
-=== Server implementation
+== Server implementation
 
 === Security
 Handled by Spring Security. Session is persisted through cookies. CSRF protection is enabled, so the token is refreshed per request. Validation is for now only done server side.
@@ -210,3 +228,89 @@ Handled by Spring Security.
 To be implemented.
 
 === Scheduling
+Handled by OptaPlanner.
+
+==== Process
+Essentially a persistent queue design.
+
+. Once server receives `POST` request to `/api/rosterPlan` route with a valid `parent`, it will deep clone `parent` and persist the copy.
+. The copy will be labeled unsolved.
+. Then it will push the copy into a task queue.
+. Eventually a solution will be found in another thread.
+. Once it is solved, the AI allocations are persisted in the copy which will be labeled solved.
+. User can view the result in `ViewSolution` mode.
+. User can publish the result which overwrites the source with allocations from the result.
+
+.Advantages
+* Correctness. If any user modify their preferences or meeting configurations, the server will not overwrite these changes after the solver task is completed.
+* Durability. If the task is still being solved, when the server fails, it will still be marked unsolved and can be handled later without data loss.
+* Scalability. It may take a long time for the solver to solve meeting schedules with many users and rank preferences.
+
+.Disadvantages
+* Persistence is expensive.
+
+==== Constraint programming
+We need to specify constraints such that the AI knows how to optimize allocations. In OptaPlanner, constraints are given hard and soft penalties. The solver optimizes towards a solution that has minimum soft penalties and no hard penalties. However, we have only implemented four constraints and have yet to adjust their weights, and handle the case where solver cannot find a solution with no hard penalties.
+
+The solver looks into all the (`User`, `TimeSlot`) pairs where the user is available for that time slot. Then it will consider
+
+.List of constraints implemented
+* `assignmentUserLockedConstraint`: If the user locked in the time slot, removing the user from the time slot will be hard-penalized.
+* `assignmentRankConstraint`: If the user rank `n` for that time slot, assigning the user to the time slot will be soft-penalized by `n`.
+* `userSizeConstraint`: If the user cannot be assigned a number of time slots within the limits specified in the configuration, the schedule will be hard-penalized.
+* `timeSlotCapacityConstraint`: If assignments to the time slot exceeds its capacity, the schedule will be hard-penalized.
+
+In the future, we plan to refine these weights and constraints to make it more fair.
+
+== Documentation
+Documentation is written in `.adoc` format, a Markdown dialect. We choose this because it integrates well with Spring Rest Docs.
+
+In this example, we specified an integration test and a path where the input and output should be documented.
+```java
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureTestDatabase
+@AutoConfigureRestDocs
+@Import(H2Util.class)
+class UserCreateIntegrationTest {
+  @Autowired ObjectMapper objectMapper;
+  @Autowired MockMvc mockMvc;
+
+  @AfterEach
+  public void tearDown(@Autowired H2Util h2Util, @Autowired CacheManager cacheManager) {
+    // ...
+  }
+
+  @Test
+  public void givenRequestWithInvalidEmail_whenRegister_thenBadRequest() throws Exception {
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", "not-email");
+    map.put("rawPassword", "password");
+
+    this.mockMvc
+        .perform(
+            post("/api/users")
+                .content(objectMapper.writeValueAsString(map))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andDo(document("post-users-registered-email-error"));
+  }
+
+  // ...
+}
+```
+
+This is included in xref:api-reference.adoc[API Reference] as follows
+```
+Counterexamples
+// include::{snippets}/post-users-registered-password-error/http-request.adoc[]
+// include::{snippets}/post-users-registered-password-error/http-response.adoc[]
+```
+
+which generates developer-friendly, human-readable output like
+
+Counterexamples
+include::{snippets}/post-users-registered-password-error/http-request.adoc[]
+include::{snippets}/post-users-registered-password-error/http-response.adoc[]
+
+Moreover, if the tests failed the output is not generated. This ensures that the API is always in a correctly described state.
