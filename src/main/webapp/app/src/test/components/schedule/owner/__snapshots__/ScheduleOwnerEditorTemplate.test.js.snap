@@ -1,0 +1,601 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduleOwnerEditorTemplate should render correctly with solver allocations 1`] = `
+<DocumentFragment>
+  <table
+    class="custom-event-editor"
+    style="width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="e-textlabel"
+        />
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            data-testid="timeSlotId"
+            disabled=""
+            hidden=""
+            id="timeSlotId"
+            name="timeSlotId"
+            style="width: 100%;"
+            type="number"
+            value="1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Capacity
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            data-testid="capacity"
+            id="capacity"
+            name="capacity"
+            style="width: 100%;"
+            type="number"
+            value="1337"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          From
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="false"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="startDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-keyboard"
+              data-name="startDateTime"
+              id="startDateTime"
+              name="startDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="0"
+              value="09/06/19 02:20 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          To
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="false"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="endDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-keyboard"
+              data-name="endDateTime"
+              id="endDateTime"
+              name="endDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="0"
+              value="09/06/19 10:00 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+          style="padding-top: 16px; padding-bottom: 16px;"
+        >
+          Picked
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
+          >
+            No records to display
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+          style="padding-top: 16px; padding-bottom: 16px;"
+        >
+          Allocated
+        </td>
+        <td
+          colspan="4"
+        >
+          <ul
+            class="MuiList-root MuiList-padding MuiList-dense css-h4y409-MuiList-root"
+          >
+            <li
+              class="MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-padding css-6lnq02-MuiListItem-root"
+            >
+              <div
+                class="MuiListItemAvatar-root css-1e9lk82-MuiListItemAvatar-root"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular css-1azxqog-MuiAvatar-root"
+                >
+                  <img
+                    class="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+                    src="/avatar-does-not-exist"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
+                >
+                  test@test.com
+                </span>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`ScheduleOwnerEditorTemplate should render correctly with user picks 1`] = `
+<DocumentFragment>
+  <table
+    class="custom-event-editor"
+    style="width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="e-textlabel"
+        />
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            data-testid="timeSlotId"
+            disabled=""
+            hidden=""
+            id="timeSlotId"
+            name="timeSlotId"
+            style="width: 100%;"
+            type="number"
+            value="1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Capacity
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            data-testid="capacity"
+            id="capacity"
+            name="capacity"
+            style="width: 100%;"
+            type="number"
+            value="1337"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          From
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="false"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="startDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-keyboard"
+              data-name="startDateTime"
+              id="startDateTime"
+              name="startDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="0"
+              value="09/06/19 02:20 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          To
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="false"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="endDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-keyboard"
+              data-name="endDateTime"
+              id="endDateTime"
+              name="endDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="0"
+              value="09/06/19 10:00 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+          style="padding-top: 16px; padding-bottom: 16px;"
+        >
+          Picked
+        </td>
+        <td
+          colspan="4"
+        >
+          <ul
+            class="MuiList-root MuiList-padding MuiList-dense css-h4y409-MuiList-root"
+          >
+            <li
+              class="MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-padding css-6lnq02-MuiListItem-root"
+            >
+              <div
+                class="MuiListItemAvatar-root css-1e9lk82-MuiListItemAvatar-root"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular css-1azxqog-MuiAvatar-root"
+                >
+                  <img
+                    class="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+                    src="/avatar-does-not-exist"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
+                >
+                  test@test.com
+                </span>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+          style="padding-top: 16px; padding-bottom: 16px;"
+        >
+          Allocated
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
+          >
+            No records to display
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`ScheduleOwnerEditorTemplate should render correctly without data 1`] = `
+<DocumentFragment>
+  <table
+    class="custom-event-editor"
+    style="width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="e-textlabel"
+        />
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            data-testid="timeSlotId"
+            disabled=""
+            hidden=""
+            id="timeSlotId"
+            name="timeSlotId"
+            style="width: 100%;"
+            type="number"
+            value="1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          Capacity
+        </td>
+        <td
+          colspan="4"
+        >
+          <input
+            class="e-field e-input"
+            data-testid="capacity"
+            id="capacity"
+            name="capacity"
+            style="width: 100%;"
+            type="number"
+            value="1337"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          From
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="false"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="startDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-keyboard"
+              data-name="startDateTime"
+              id="startDateTime"
+              name="startDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="0"
+              value="09/06/19 02:20 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+        >
+          To
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="e-input-group e-control-wrapper e-valid-input e-datetime-wrapper"
+            style="width: 100%;"
+          >
+            <input
+              aria-activedescendant="null"
+              aria-atomic="true"
+              aria-disabled="false"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-invalid="false"
+              aria-live="assertive"
+              aria-owns="endDateTime_options"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="e-field e-control e-datetimepicker e-lib e-input e-keyboard"
+              data-name="endDateTime"
+              id="endDateTime"
+              name="endDateTime"
+              role="combobox"
+              spellcheck="false"
+              tabindex="0"
+              value="09/06/19 10:00 PM"
+            />
+            <span
+              aria-label="close"
+              class="e-clear-icon e-clear-icon-hide"
+              role="button"
+            />
+            <span
+              aria-label="select"
+              class="e-input-group-icon e-date-icon e-icons"
+            />
+            <span
+              class="e-input-group-icon e-time-icon e-icons"
+            />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+          style="padding-top: 16px; padding-bottom: 16px;"
+        >
+          Picked
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
+          >
+            No records to display
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="e-textlabel"
+          style="padding-top: 16px; padding-bottom: 16px;"
+        >
+          Allocated
+        </td>
+        <td
+          colspan="4"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body css-37jdci-MuiTypography-root"
+          >
+            No records to display
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;

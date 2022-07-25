@@ -6,10 +6,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: user
+                tableName: users
       changes:
         - createTable:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: id
@@ -84,7 +84,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_user_authority_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: authority_id
                   type: int
@@ -99,11 +99,11 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - columnExists:
-                tableName: user
+                tableName: users
                 columnName: registered
       changes:
         - addColumn:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: registered
@@ -136,7 +136,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_roster_plan_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: title
                   type: varchar(255)
@@ -174,7 +174,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_roster_plan_user_info_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: has_responded
                   type: boolean
@@ -253,9 +253,165 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_time_slot_user_info_user
-                    references: user(id)
+                    references: users(id)
               - column:
                   name: rank
                   type: int
+                  constraints:
+                    nullable: false
+
+  # From Spring Security documentation
+  - changeSet:
+      id: spring-acl-schema
+      author: xumarcus
+      changes:
+        - sqlFile:
+            dbms: all
+            path: db/changelog/spring-acl-schema.sql
+
+  - changeSet:
+      id: spring-acl-schema-add-class-id-type
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: acl_class
+                columnName: class_id_type
+      changes:
+        - addColumn:
+            tableName: acl_class
+            columns:
+              - column:
+                  name: class_id_type
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: roster_plan_add_solved
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: solved
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: solved
+                  type: boolean
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: roster_plan_add_parent_id
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: parent_id
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: parent_id
+                  type: int
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: time_slot_user_info_add_picked
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: time_slot_user_info
+                columnName: picked
+      changes:
+        - addColumn:
+            tableName: time_slot_user_info
+            columns:
+              - column:
+                  name: picked
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: roster_plan_add_min_allocation_count
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: min_allocation_count
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: min_allocation_count
+                  type: int
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: roster_plan_add_max_allocation_count
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: roster_plan
+                columnName: max_allocation_count
+      changes:
+        - addColumn:
+            tableName: roster_plan
+            columns:
+              - column:
+                  name: max_allocation_count
+                  type: int
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: time_slot_user_info_alter_rank_nullable
+      author: xumarcus
+      preConditions:
+        - onFail: HALT  # How to add check for null?
+        - columnExists:
+            tableName: time_slot_user_info
+            columnName: rank
+      changes:
+        - dropNotNullConstraint:
+            tableName: time_slot_user_info
+            columnName: rank
+
+  - changeSet:
+      id: time_slot_user_info_add_available
+      author: xumarcus
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: time_slot_user_info
+                columnName: available
+      changes:
+        - addColumn:
+            tableName: time_slot_user_info
+            columns:
+              - column:
+                  name: available
+                  type: boolean
+                  defaultValueBoolean: true
                   constraints:
                     nullable: false

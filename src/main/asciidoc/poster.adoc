@@ -1,0 +1,4 @@
+= WeMeet 0.3.0 Poster
+Tan Jun Wei;
+
+image::images/poster.png[]

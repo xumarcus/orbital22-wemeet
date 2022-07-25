@@ -1,11 +1,14 @@
 package com.orbital22.wemeet.model;
 
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @ToString
@@ -14,32 +17,39 @@ import java.util.Objects;
 @Entity
 @Table(name = "time_slot_user_info")
 public class TimeSlotUserInfo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
+  private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "time_slot_id")
-    private TimeSlot timeSlot;
+  @Column @PositiveOrZero @Nullable
+  private Integer rank;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+  @Builder.Default @Column private boolean picked = false;
 
-    @Column
-    private int rank;
+  @Builder.Default @Column private boolean available = true;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TimeSlotUserInfo that = (TimeSlotUserInfo) o;
-        return id == that.id;
-    }
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  // Nullable before aspect injects
+  private User user;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+  @ToString.Exclude
+  @ManyToOne
+  @JoinColumn(name = "time_slot_id")
+  @NotNull
+  private TimeSlot timeSlot;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TimeSlotUserInfo that = (TimeSlotUserInfo) o;
+    return id == that.id;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }
