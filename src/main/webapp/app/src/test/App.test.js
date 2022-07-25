@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import App from '../App'
+import { describe, expect, it } from '@jest/globals'
 
 /*
   There is not much point of unit testing when there is not much
