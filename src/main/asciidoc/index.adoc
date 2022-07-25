@@ -14,5 +14,6 @@ xref:poster.adoc[Poster]
 .Sections
 * xref:getting-started.adoc[Getting Started]
 * xref:developer-guide.adoc[Developer Guide]
+* xref:user-guide.adoc[User Guide]
 * xref:testing-guide.adoc[Testing Guide]
 * xref:api-reference.adoc[API Reference]
