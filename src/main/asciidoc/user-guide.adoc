@@ -30,7 +30,44 @@ To start using the scheduler, navigate to the dashboard page. You have to be log
 image::images/dashboard.png[]
 
 === Creating a Meeting
+From the dashboard, click on the "add" button to create a meeting.
+Enter the meeting title in the text field and click into the meeting once it is created.
+
+image::images/create-meeting-1.png[]
+image::images/create-meeting-2.png[]
+image::images/create-meeting-3.png[]
+
+In the meeting's page, you can click on time slots to add a capacity.
+
+image::images/add-cap.png[]
+
+On the right of the page is the Invitations and Generate Roster button.
+Enter the emails of the respondents in the invitations menu and they will be able to respond
+with their availability. When the respondents have responded, click on "Generate Roster" to view the results.
+
+image::images/invitations-solutions.png[]
 
 === Responding to a Meeting
 
+After being invited to a meeting, you will find it in your dashboard under "Pending Response".
+Click on the meeting to view the details.
+
+image::images/pending-response.png[]
+
+Select as many or as few time slots and indicate your preference.
+
+image::images/response.png[]
+
+All results are saved automatically.
+
 === Generating a Roster
+
+Once your respondents are done, click on the "Generate Roster" button and a roster will be generated.
+The participant allocated to each time slot will be shown.
+
+image::images/results.png[]
+
+You may re-generate in the future and the new roster will be based on the updated responses (if any).
+Old rosters will still be available for reference.
+
+image::images/results-2.png[]
